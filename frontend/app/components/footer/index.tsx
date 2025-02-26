@@ -6,41 +6,30 @@ export default function Footer() {
     <footer className={styles.footer}>
       <div className={styles.content}>
         <div className={styles.section}>
-          <h4>About Us</h4>
+          <h4>Acerca de nosotros</h4>
           <p>
-            Discover the latest fashion trends with ShopStyle. We bring you carefully curated collections from the best
-            brands.
+            Busca y compra productos directamente de los fabricantes y proveedores de México, con pagos seguros.
           </p>
         </div>
 
         <div className={styles.section}>
-          <h4>Quick Links</h4>
-          <Link to="/about">About</Link>
-          <Link to="/contact">Contact</Link>
-          <Link to="/shipping">Shipping</Link>
-          <Link to="/returns">Returns</Link>
+          <h4>Links</h4>
+          <Link to="/about">Acerca</Link>
+          <Link to="/contact">Contacto</Link>
+          <Link to="/shipping">Envíos</Link>
+          <Link to="/returns">Devoluciones</Link>
         </div>
 
         <div className={styles.section}>
-          <h4>Customer Service</h4>
-          <Link to="/faq">FAQ</Link>
+          <h4>Servicio al cliente</h4>
+          <Link to="/faq">Preguntas frecuentes</Link>
           <Link to="/size-guide">Size Guide</Link>
           <Link to="/track-order">Track Order</Link>
-          <Link to="/support">Support</Link>
-        </div>
-
-        <div className={styles.section}>
-          <h4>Newsletter</h4>
-          <p>Subscribe to receive updates, access to exclusive deals, and more.</p>
-          <div className={styles.newsletter}>
-            <input type="email" placeholder="Enter your email" />
-            <button className={`${styles.button} ${styles.buttonPrimary}`}>Subscribe</button>
-          </div>
+          <Link to="/support">Soporte</Link>
         </div>
       </div>
-
       <div className={styles.bottom}>
-        <p>&copy; {new Date().getFullYear()} ShopStyle. All rights reserved.</p>
+        <p>&copy; {new Date().getFullYear()} Tradenal.</p>
       </div>
     </footer>
   )

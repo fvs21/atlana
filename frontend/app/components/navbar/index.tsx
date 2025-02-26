@@ -1,6 +1,7 @@
 import { Link } from "@remix-run/react"
-import { ShoppingCart, Search, Menu } from "lucide-react"
+import { ShoppingCart, Menu } from "lucide-react"
 import styles from "./navbar.module.scss"
+import Searchbar from "~/features/searchbar/components/searchbar"
 
 export default function Navbar() {
   return (
@@ -11,24 +12,16 @@ export default function Navbar() {
             <h1>tradenal.com</h1>
           </Link>
         </div>
-
         <div className={styles.menu}>
-          <Link to="/">Home</Link>
-          <Link to="/products">Products</Link>
-          <Link to="/collections">Collections</Link>
-          <Link to="/about">About</Link>
+          <Searchbar />
         </div>
-
         <div className={styles.actions}>
-          <button className={styles.iconButton} aria-label="Search">
-            <Search />
-          </button>
-          <button className={styles.iconButton} aria-label="Cart">
-            <ShoppingCart />
-          </button>
-          <button className={`${styles.iconButton} ${styles.mobileMenu}`} aria-label="Menu">
-            <Menu />
-          </button>
+            <button className={styles.iconButton} aria-label="Cart">
+                <ShoppingCart />
+            </button>
+            <button className={`${styles.iconButton} ${styles.mobileMenu}`} aria-label="Menu">
+                <Menu />
+            </button>
         </div>
       </div>
     </nav>
