@@ -1,0 +1,85 @@
+@import '~/styles/variables';
+
+.footer {
+  background-color: $background-dark;
+  color: white;
+  padding: $spacing-3xl 0 $spacing-xl;
+}
+
+.content {
+  @include container;
+  display: grid;
+  gap: $spacing-xl;
+
+  @include responsive($breakpoint-md) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+.section {
+  h4 {
+    font-size: $font-size-lg;
+    margin-bottom: $spacing-lg;
+  }
+
+  p {
+    color: rgba(white, 0.7);
+    margin-bottom: $spacing-md;
+  }
+
+  a {
+    display: block;
+    color: rgba(white, 0.7);
+    margin-bottom: $spacing-sm;
+    transition: color 0.2s ease;
+
+    &:hover {
+      color: white;
+    }
+  }
+}
+
+.newsletter {
+  input {
+    width: 100%;
+    padding: $spacing-md;
+    background-color: rgba(white, 0.1);
+    border: 1px solid rgba(white, 0.2);
+    border-radius: 6px;
+    color: white;
+    margin-bottom: $spacing-md;
+
+    &::placeholder {
+      color: rgba(white, 0.5);
+    }
+  }
+}
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  padding: $spacing-md $spacing-xl;
+  border-radius: 6px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+  gap: $spacing-sm;
+
+  &Primary {
+    background-color: $primary-color;
+    color: white;
+
+    &:hover {
+      background-color: $secondary-color;
+    }
+  }
+}
+
+.bottom {
+  @include container;
+  text-align: center;
+  padding-top: $spacing-xl;
+  border-top: 1px solid rgba(white, 0.1);
+  margin-top: $spacing-3xl;
+  color: rgba(white, 0.7);
+}
+
