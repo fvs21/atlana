@@ -2,9 +2,9 @@
 
 .searchbarContainer {
     border: 1px solid $border-color;
-    width: 600px;
     border-radius: 20px;
     display: flex;
+    width: 100%;
 }
 
 .searchbarContainer:focus-within {

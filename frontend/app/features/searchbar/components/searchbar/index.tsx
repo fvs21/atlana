@@ -6,7 +6,7 @@ export default function Searchbar() {
         <div className={styles.searchbarContainer}>
             <input className={styles.searchbar} placeholder="Busca productos"/>
             <div className={styles.searchIcon}>
-                <Search color="white" />
+                <Search color="white" size={20}/>
             </div>
         </div>
     )

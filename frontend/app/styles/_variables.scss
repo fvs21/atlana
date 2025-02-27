@@ -1,14 +1,15 @@
-$primary-color: #001642;
-$secondary-color: #00246b;
+$primary-color: #00246b;
+$secondary-color: #e6c82c;
 $text-primary: #1f2937;
 $text-secondary: #4b5563;
 $background-light: #ffffff;
 $background-dark: #111827;
 $border-color: #e5e7eb;
-$logo-color: #ffd700;
+$logo-color: #00246b;
+$error-color: #ef4444;
 
 // Typography
-$font-family: 'Rubik', sans-serif;
+$font-family: "Montserrat", serif;
 $font-size-base: 16px;
 $font-size-sm: 14px;
 $font-size-lg: 18px;
@@ -44,3 +45,16 @@ $breakpoint-xl: 1280px;
   }
 }
 
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin responsive-padding {
+  padding: 2rem;
+  
+  @media (min-width: 768px) {
+    padding: 3rem;
+  }
+}

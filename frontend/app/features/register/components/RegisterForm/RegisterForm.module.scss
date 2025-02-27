@@ -1,0 +1,177 @@
+@import "~/styles/variables";
+
+$transition: all 0.3s ease;
+
+@mixin flex-column {
+    display: flex;
+    flex-direction: column;
+}
+
+
+.formWrapper {
+    flex: 1;
+    @include flex-center;
+    background-color: "white";
+
+    @media (max-width: 1023px) {
+        min-height: 70vh;
+    }
+}
+
+.formContent {
+    width: 100%;
+    max-width: 480px;
+    @include responsive-padding;
+
+    h2 {
+        font-size: 1.875rem;
+        font-weight: 700;
+        color: $text-primary;
+        margin-bottom: 0.75rem;
+        margin-top: 2rem;
+    }
+
+    .subtitle {
+        color: $text-secondary;
+        margin-bottom: 2rem;
+    }
+}
+
+.logoContainer {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+
+    h1 {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: $primary-color;
+    }
+
+    .logo {
+        color: $primary-color;
+        width: 2rem;
+        height: 2rem;
+    }
+}
+
+.form {
+    @include flex-column;
+    gap: 1.5rem;
+}
+
+.nameFields {
+    display: flex;
+    gap: 1rem;
+
+    @media (max-width: 640px) {
+        flex-direction: column;
+    }
+
+    .formGroup {
+        flex: 1;
+    }
+}
+
+.formGroup {
+    @include flex-column;
+    gap: 0.5rem;
+
+    label {
+        font-weight: 500;
+        color: $text-primary;
+    }
+
+    input {
+        transition: $transition;
+
+        &:focus {
+            border-color: $primary-color;
+            box-shadow: 0 0 0 2px rgba($primary-color, 0.2);
+        }
+    }
+}
+
+.inputError {
+    border-color: $error-color !important;
+
+    &:focus {
+        box-shadow: 0 0 0 2px rgba($error-color, 0.2) !important;
+    }
+}
+
+.errorMessage {
+    color: $error-color;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+}
+
+.checkboxGroup {
+    @include flex-column;
+    gap: 0.5rem;
+}
+
+.checkboxWrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.checkboxLabel {
+    font-size: 0.875rem;
+    color: $text-secondary;
+    line-height: 1.5;
+}
+
+.radioGroup {
+    display: flex;
+    gap: 1.5rem;
+    margin-top: 0.5rem;
+
+    @media (max-width: 640px) {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+}
+
+.radioOption {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.radioLabel {
+    font-size: 0.95rem;
+    color: $text-primary;
+    cursor: pointer;
+}
+
+.submitButton {
+    background-color: $primary-color;
+    transition: $transition;
+    height: 3rem;
+    font-weight: 600;
+    margin-top: 0.5rem;
+
+    &:hover {
+        background-color: $secondary-color;
+    }
+}
+
+.loginLink {
+    text-align: center;
+    margin-top: 2rem;
+    color: $text-secondary;
+    font-size: 0.875rem;
+}
+
+.link {
+    color: $primary-color;
+    text-decoration: none;
+    font-weight: 500;
+    transition: $transition;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}

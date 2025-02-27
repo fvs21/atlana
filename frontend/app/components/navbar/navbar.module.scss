@@ -16,6 +16,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: $spacing-md;
 }
 
 .logo {
@@ -34,15 +35,7 @@
     gap: $spacing-xl;
   }
 
-  a {
-    color: $text-secondary;
-    font-size: $font-size-sm;
-    transition: color 0.2s ease;
-
-    &:hover {
-      color: $primary-color;
-    }
-  }
+  width: 550px;
 }
 
 .actions {
@@ -70,4 +63,26 @@
   @include responsive($breakpoint-md) {
     display: none;
   }
+}
+
+.dissapearingActionButtons {
+  display: none;
+
+  @include responsive($breakpoint-lg) {
+    display: block;
+  }
+}
+
+
+.loginButton {
+  word-break:keep-all;
+  white-space: nowrap;
+}
+
+.registerButton {
+  background-color: $primary-color;
+}
+
+.registerButton:hover {
+  background-color: $secondary-color;
 }

@@ -7,7 +7,7 @@ import { Link } from "@remix-run/react";
 
 export const meta: MetaFunction = () => {
   return [
-    { title: "Tradenal: Manufacturas y proveedores" },
+    { title: "Poopy: Manufacturas y proveedores" },
   ];
 };
 
@@ -19,10 +19,10 @@ export default function Index() {
         <section className={styles.hero}>
           <div className={styles.heroContainer}>
             <div className={styles.heroContent}>
-              <h1>Discover Your Style</h1>
-              <p>Shop the latest trends in fashion with our curated collection</p>
+              <h1>Busca proovedores y fabricantes</h1>
+              <p>En la plataforma B2B más grande de México.</p>
               <button className={`${styles.button} ${styles.buttonPrimary}`}>
-                Shop Now
+                Buscar
                 <ArrowRight />
               </button>
             </div>
@@ -36,7 +36,6 @@ export default function Index() {
             </div>
           </div>
         </section>
-
         <section className={styles.features}>
           <div className={styles.featureGrid}>
             <div className={styles.featureItem}>
@@ -51,8 +50,8 @@ export default function Index() {
             </div>
             <div className={styles.featureItem}>
               <div className={styles.icon}>🔒</div>
-              <h3>Secure Payment</h3>
-              <p>100% secure checkout</p>
+              <h3>Pagos seguros</h3>
+              <p>100% segura sesión de pago con Stripe</p>
             </div>
             <div className={styles.featureItem}>
               <div className={styles.icon}>💎</div>

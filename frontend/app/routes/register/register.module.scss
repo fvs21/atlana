@@ -1,0 +1,53 @@
+@import "~/styles/variables";
+
+.container {
+    display: flex;
+    min-height: 100vh;
+    width: 100%;
+
+    @media (max-width: 1023px) {
+        flex-direction: column-reverse;
+    }
+}
+
+.imageContainer {
+    flex: 1;
+    position: relative;
+    background-image: url('/placeholder.svg?height=1080&width=1920');
+    background-size: cover;
+    background-position: center;
+
+    @media (max-width: 1023px) {
+        display: none;
+    }
+}
+
+.imageOverlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to right, rgba($primary-color, 0.8), rgba($primary-color, 0.6));
+}
+
+.welcomeText {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: "white";
+    width: 80%;
+
+    h2 {
+        font-size: 2.25rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+    }
+
+    p {
+        font-size: 1.125rem;
+        opacity: 0.9;
+    }
+}
