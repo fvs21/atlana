@@ -1,0 +1,52 @@
+from django.db import models
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+
+# Create your models here.
+class UserManager(BaseUserManager):
+    def create_user(self, username, email, full_name, date_of_birth, password=None, **extra_fields):
+        if not email:
+            raise ValueError('The Email field must be set')
+        
+        email = self.normalize_email(email)
+        user = self.model(username=username, email=email, full_name=full_name, date_of_birth=date_of_birth, **extra_fields)
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+
+    def create_superuser(self, username, email, full_name, date_of_birth, password=None, **extra_fields):
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_superuser', True)
+
+        if extra_fields.get('is_staff') is not True:
+            raise ValueError('Superuser must have is_staff=True.')
+        if extra_fields.get('is_superuser') is not True:
+            raise ValueError('Superuser must have is_superuser=True.')
+
+        return self.create_user(username, email, full_name, date_of_birth, password, **extra_fields)
+    
+class User(AbstractBaseUser):
+    email = models.EmailField(max_length=255, unique=True)
+    first_name = models.CharField(max_length=35)
+    last_name = models.CharField(max_length=35)
+
+
+    user_type = models.CharField(choices=[('buyer', 'Buyer'), ('seller', 'Seller'), ('both', 'Both')], max_length=10, default='buyer')
+    company_name = models.CharField(max_length=100, null=True, blank=True)
+
+    #profile_picture = models.OneToOneField(Image, on_delete=models.CASCADE, null=True, blank=True)
+
+    objects = UserManager()
+
+    password_reset_token = models.CharField(max_length=128, null=True, blank=True)
+    password_reset_token_created_at = models.DateTimeField(null=True, blank=True)
+    password_updated_at = models.DateTimeField(null=True, blank=True)
+
+
+    USERNAME_FIELD = "email"
+    REQUIRED_FIELDS = ["password", "first_name", "last_name", "company_name"]
+
+    def profile_picture_url(self):
+        base = "http://192.168.68.100:8000"
+        if self.profile_picture:
+            return base + self.profile_picture.url
+        return base + "/api/image/default-pfp.png"

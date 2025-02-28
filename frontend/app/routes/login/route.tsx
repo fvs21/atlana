@@ -39,7 +39,7 @@ export async function action({request}: ActionFunctionArgs) {
     }
 
     if(!password.length) {
-        errors.password = "Password is required";
+        errors.password = "Ingresa tu contraseña";
     }
 
     return data({errors});
@@ -68,7 +68,6 @@ export default function LoginForm() {
                                 name="email"
                                 type="email"
                                 label="Correo electrónico"
-                                placeholder="nombre@empresa.com"
                                 className={styles.formInput}
                                 error={actionData?.errors.email}
                             />
@@ -79,6 +78,11 @@ export default function LoginForm() {
                                 error={actionData?.errors.password}
                                 className={styles.formInput}
                             />
+                            <div className={styles.forgotPassword}>
+                                <Link to="/forgot-password" className={styles.link}>
+                                    ¿Olvidaste tu contraseña?
+                                </Link>
+                            </div>
                             <Button type="submit" className={styles.submitButton}>
                                 Iniciar sesión
                             </Button>

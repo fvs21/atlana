@@ -40,10 +40,7 @@ export async function action({request}: ActionFunctionArgs) {
         companyName,
         password,
         confirmPassword,
-    }
-
-    console.log(body);
-    
+    }    
 
     const errors = validateRegisterBody(body);
 
@@ -63,7 +60,6 @@ export default function RegisterPage() {
     const actionData = useActionData<typeof action>();
 
     const errors = (actionData as any)?.errors;
-
 
     return (
         <div className={styles.container}>
@@ -140,7 +136,7 @@ export default function RegisterPage() {
                             error={errors?.password}
                             className={styles.formInput}
                         />
-                        <ValidatedInput
+                        <PasswordInput
                             id="confirmPassword"
                             name="confirmPassword"
                             type="password"
