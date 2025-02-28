@@ -1,0 +1,20 @@
+@import "~/styles/variables.scss";
+
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    label {
+        font-weight: 500;
+        color: $text-primary;
+    }
+}
+
+.inputError {
+    border-color: $error-color !important;
+
+    &:focus {
+        box-shadow: 0 0 0 2px rgba($error-color, 0.2) !important;
+    }
+}
