@@ -5,11 +5,11 @@ export default function FooterSmall() {
     return (
         <footer className={styles.footer}>
             <div className={styles.footerContent}>
-                <p>&copy; {new Date().getFullYear()} Poopy. All rights reserved.</p>
+                <p>&copy; {new Date().getFullYear()} Poopy.</p>
                 <div className={styles.footerLinks}>
-                    <Link to="/terms">Terms</Link>
-                    <Link to="/privacy">Privacy</Link>
-                    <Link to="/contact">Contact</Link>
+                    <Link to="/terms">Términos</Link>
+                    <Link to="/privacy">Privacidad</Link>
+                    <Link to="/contact">Contacto</Link>
                 </div>
             </div>
         </footer>

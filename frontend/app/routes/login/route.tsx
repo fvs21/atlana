@@ -12,6 +12,8 @@ import FooterSmall from "~/components/footerSmall"
 import { ActionFunctionArgs, MetaFunction } from "@remix-run/node"
 import { data } from "@remix-run/react"
 import Logo from "~/components/logo"
+import ValidatedInput from "~/components/validated-input"
+import PasswordInput from "~/components/password-input"
 
 export const meta: MetaFunction = () => {
     return [
@@ -32,11 +34,11 @@ export async function action({request}: ActionFunctionArgs) {
         password?: string;
     } = {};
 
-    if(email.length < 7) {
-        errors.email = "Email is required";
+    if(!email.length) {
+        errors.email = "Ingresa tu correo";
     }
 
-    if(password.length < 4) {
+    if(!password.length) {
         errors.password = "Password is required";
     }
 
@@ -49,40 +51,34 @@ export default function LoginForm() {
     return (
         <>
             <div className={styles.container}>
-                <Logo width={45} />
+                <div className={styles.loginBackground}>
+                    <div className={styles.meshGradient}></div>
+                </div>
+                <div style={{zIndex: 1}}>
+                    <Logo width={45} />
+                </div>
                 <div className={styles.formWrapper}>
                     <div className={styles.formContent}>
                         <div className={styles.welcomeSection}>
                             <h2>Inicia sesión</h2>
                         </div>
                         <Form method="post" className={styles.form}>
-                            <div className={styles.formGroup}>
-                                <Label htmlFor="email">Email</Label>
-                                <Input
-                                    id="email"
-                                    name="email"
-                                    type="email"
-                                    placeholder="nombre@ejemplo.com"
-                                    className={actionData?.errors.email ? styles.inputError : ""}
-                                />
-                                {actionData?.errors.email && <span className={styles.errorMessage}>{actionData.errors.email}</span>}
-                            </div>
-
-                            <div className={styles.formGroup}>
-                                <div className={styles.passwordHeader}>
-                                    <Label htmlFor="password">Password</Label>
-                                    <Link to="/forgot-password" className={styles.forgotPassword}>
-                                        ¿Olvidaste tu contraseña?
-                                    </Link>
-                                </div>
-                                <Input
-                                    id="password"
-                                    name="password"
-                                    type="password"
-                                    className={actionData?.errors.password ? styles.inputError : ""}
-                                />
-                                {actionData?.errors.password && <span className={styles.errorMessage}>{actionData.errors.password}</span>}
-                            </div>
+                            <ValidatedInput
+                                id="email"
+                                name="email"
+                                type="email"
+                                label="Correo electrónico"
+                                placeholder="nombre@empresa.com"
+                                className={styles.formInput}
+                                error={actionData?.errors.email}
+                            />
+                            <PasswordInput
+                                id="password"
+                                name="password"
+                                label="Contraseña"
+                                error={actionData?.errors.password}
+                                className={styles.formInput}
+                            />
                             <Button type="submit" className={styles.submitButton}>
                                 Iniciar sesión
                             </Button>

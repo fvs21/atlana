@@ -44,7 +44,7 @@ $transition: all 0.3s ease;
     left: 50%;
     transform: translate(-50%, -50%);
     text-align: center;
-    color: "white";
+    color: white;
     width: 80%;
 
     h2 {
@@ -62,7 +62,7 @@ $transition: all 0.3s ease;
 .formWrapper {
     flex: 1;
     @include flex-center;
-    background-color: "white";
+    background-color: white;
 
     @media (max-width: 1023px) {
         min-height: 70vh;

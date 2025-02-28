@@ -20,11 +20,11 @@
 }
 
 .logo {
-    h1 {
-        font-size: $font-size-xl;
-        font-weight: 700;
-        color: $logo-color;
-    }
+  h1 {
+    font-size: $font-size-xl;
+    font-weight: 700;
+    color: $logo-color;
+  }
 }
 
 .menu {
@@ -75,7 +75,7 @@
 
 
 .loginButton {
-  word-break:keep-all;
+  word-break: keep-all;
   white-space: nowrap;
 }
 
