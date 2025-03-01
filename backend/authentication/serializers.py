@@ -48,3 +48,6 @@ class ResetPasswordSerializer(serializers.Serializer):
 
 class ForgotPasswordRequestSerializer(serializers.Serializer):
     credential = serializers.CharField(required=True, error_messages={'required': 'Credential missing'})
+
+class VerifyEmailRequestSerializer(serializers.Serializer):
+    code = serializers.CharField(required=True, error_messages={'required': 'Code missing'})
