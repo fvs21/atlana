@@ -1,5 +1,7 @@
+from datetime import timedelta
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from django.utils import timezone
 
 # Create your models here.
 class UserManager(BaseUserManager):
@@ -50,3 +52,18 @@ class User(AbstractBaseUser):
         if self.profile_picture:
             return base + self.profile_picture.url
         return base + "/api/image/default-pfp.png"
+
+class VerificationData(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE) # add primary key later
+    field = models.CharField(choices=[("email", "email"), ("phone", "phone")], max_length=5)
+    code = models.CharField(max_length=128) # hashed code
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self) -> str:
+        return f"{self.user.username} for {self.field}: {self.code}"
+    
+    def can_request_new_code(self) -> bool:
+        return self.created_at + timedelta(seconds=45) < timezone.now()
+    
+    def is_code_expired(self) -> bool:
+        return self.created_at + timedelta(minutes=5) < timezone.now()

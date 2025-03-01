@@ -1,0 +1,32 @@
+from backend.exceptions import DefaultException
+
+
+class UserDoesNotExistException(DefaultException):
+    code = "user_does_not_exist"
+
+    def __init__(self):
+        super().__init__("El usuario que buscas no existe", 404, self.code)
+
+class RefreshTokenBlacklistedException(DefaultException):
+    code = "refresh_token_blacklisted"
+
+    def __init__(self):
+        super().__init__("Refresh token has been blacklisted", 409, self.code)
+
+class RefreshTokenMissingException(DefaultException):
+    code = "refresh_token_missing"
+
+    def __init__(self):
+        super().__init__("No refresh token found", 400, self.code)
+
+class VerificationCodeExpiredException(DefaultException):
+    code = "verification_code_expired"
+
+    def __init__(self):
+        super().__init__("Verification code expired", 400, self.code)
+
+class VerificationConflictException(DefaultException):
+    code = "verification_conflict"
+
+    def __init__(self, field: str):
+        super().__init__(f"User has already verified {field}", 409, self.code)

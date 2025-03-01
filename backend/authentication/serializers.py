@@ -1,5 +1,6 @@
 from rest_framework import serializers
 
+from authentication.utils import AuthenticationUtils
 import user
 from user.models import User
 
@@ -19,3 +20,31 @@ class RegistrationSerializer(serializers.ModelSerializer):
         user.set_password(validated_data['password'])
 
         user.save()
+
+class LoginSerializer(serializers.Serializer):
+    email = serializers.EmailField()
+    password = serializers.CharField()
+
+class ResetPasswordSerializer(serializers.Serializer):
+    credential = serializers.CharField(required=True, error_messages={'required': 'Credential missing'})
+    password_reset_token = serializers.CharField(max_length=128)
+    new_password = serializers.CharField(max_length = 20)
+    confirm_password = serializers.CharField(max_length = 20)
+
+    def validate_credential(self, value):
+        if AuthenticationUtils.determine_credential_type(value) == "username":
+            raise serializers.ValidationError("User not found")
+        return value
+
+    def validate_new_password(self, value):
+        if not 8 <= len(value) <= 20:
+            raise serializers.ValidationError('You must choose a more secure password')
+        return value
+    
+    def validate_confirm_password(self, value):
+        if value != self.new_password:
+            raise serializers.ValidationError('Password don\' match')
+        return value
+
+class ForgotPasswordRequestSerializer(serializers.Serializer):
+    credential = serializers.CharField(required=True, error_messages={'required': 'Credential missing'})
