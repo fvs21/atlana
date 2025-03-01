@@ -31,7 +31,7 @@ SECRET_KEY = 'django-insecure-g-5rkjfuh3zjvdaymahvoefn08385&i#-oz!u^b3334pc-=wr(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['http://localhost:5173']
 
 ACCESS_TOKEN_DURATION = 60*60
 REFRESH_TOKEN_DURATION = 60*60*24*30
@@ -101,7 +101,7 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'venn',
+        'NAME': 'tradenal',
         'USER': os.environ.get('PSQL_USER'),
         'PASSWORD': os.environ.get('PSQL_PASSWORD'),
     }
