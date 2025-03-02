@@ -2,9 +2,7 @@ import styles from "./register.module.scss"
 import { data, Form, MetaFunction, useActionData } from "@remix-run/react"
 import { Button } from "~/components/ui/button"
 import { Checkbox } from "~/components/ui/checkbox"
-import { Input } from "~/components/ui/input"
 import { Label } from "~/components/ui/label"
-import { ShoppingBag } from "lucide-react"
 import { RadioGroup, RadioGroupItem } from "~/components/ui/radio-group"
 import { ActionFunctionArgs } from "@remix-run/node"
 import { RegisterBody } from "~/features/register/types"
@@ -30,7 +28,6 @@ export async function action({request}: ActionFunctionArgs) {
     const confirmPassword = formData.get("confirmPassword") as string;
     const userType = formData.get("userType") as string;
     const agreeTerms = formData.get("agreeTerms") as string;
-    
 
     const body: RegisterBody = {
         firstName,
@@ -44,14 +41,11 @@ export async function action({request}: ActionFunctionArgs) {
 
     const errors = validateRegisterBody(body);
 
-    if(agreeTerms != "on") {
+    if(agreeTerms != "on")
         errors.agreeToTerms = "Debes aceptar los términos y condiciones";
-    }
-    
 
-    if (Object.keys(errors).length) {
+    if (Object.keys(errors).length)
         return data({errors});
-    }
 
     return data({});
 }

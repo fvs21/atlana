@@ -31,7 +31,7 @@ SECRET_KEY = 'django-insecure-g-5rkjfuh3zjvdaymahvoefn08385&i#-oz!u^b3334pc-=wr(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['http://localhost:5173']
+ALLOWED_HOSTS = ['localhost']
 
 ACCESS_TOKEN_DURATION = 60*60
 REFRESH_TOKEN_DURATION = 60*60*24*30

@@ -1,25 +1,27 @@
 from rest_framework import serializers
 
 from authentication.utils import AuthenticationUtils
-import user
 from user.models import User
 
 class RegistrationSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['email', 'password', 'first_name', 'last_name', 'company_name']
+        fields = ['email', 'password', 'first_name', 'last_name', 'user_type', 'company_name']
 
     def create(self, validated_data):
         user = User.objects.create_user(
             email=validated_data['email'],
             first_name=validated_data['first_name'],
             last_name=validated_data['last_name'],
-            company_name=validated_data['company_name']
+            company_name=validated_data['company_name'],
+            user_type=validated_data['user_type']
         )
 
         user.set_password(validated_data['password'])
 
         user.save()
+
+        return user
 
 class LoginSerializer(serializers.Serializer):
     email = serializers.EmailField()

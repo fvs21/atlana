@@ -1,12 +1,5 @@
-import type React from "react"
-
-import { useState } from "react"
 import { Form, Link, useActionData } from "@remix-run/react"
 import { Button } from "~/components/ui/button"
-import { Checkbox } from "~/components/ui/checkbox"
-import { Input } from "~/components/ui/input"
-import { Label } from "~/components/ui/label"
-import { ShoppingBag, Mail } from "lucide-react"
 import styles from "./login.module.scss"
 import FooterSmall from "~/components/footerSmall"
 import { ActionFunctionArgs, MetaFunction } from "@remix-run/node"
@@ -14,6 +7,7 @@ import { data } from "@remix-run/react"
 import Logo from "~/components/logo"
 import ValidatedInput from "~/components/validated-input"
 import PasswordInput from "~/components/password-input"
+import { validateLoginForm } from "~/features/login/utils"
 
 export const meta: MetaFunction = () => {
     return [
@@ -29,20 +23,11 @@ export async function action({request}: ActionFunctionArgs) {
     const email = formData.get("email") as string;
     const password = formData.get("password") as string;
 
-    const errors: {
-        email?: string;
-        password?: string;
-    } = {};
+    const errors = validateLoginForm({email, password});
 
-    if(!email.length) {
-        errors.email = "Ingresa tu correo";
-    }
 
-    if(!password.length) {
-        errors.password = "Ingresa tu contraseña";
-    }
-
-    return data({errors});
+    if (Object.keys(errors).length !== 0)
+        return data({errors});
 }
 
 export default function LoginForm() {

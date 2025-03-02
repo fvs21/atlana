@@ -27,9 +27,7 @@ class AuthenticationViewSet(viewsets.ViewSet):
 
         service.generate_and_send_verification_email(user)
 
-        return JsonResponse({
-            'user': UserSerializer(user).data,
-        }, status=201)
+        return service.generate_authentication_response(user)
     
     @action(methods=['post'], detail=False)
     def login(self, request: HttpRequest):
