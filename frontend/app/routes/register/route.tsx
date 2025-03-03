@@ -52,8 +52,7 @@ export default function RegisterPage() {
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
-        const form = event.currentTarget;
-        const formData = new FormData(form);
+        const formData = new FormData(event.currentTarget);
 
         const first_name = formData.get("firstName") as string;
         const last_name = formData.get("lastName") as string;
@@ -81,7 +80,6 @@ export default function RegisterPage() {
             navigate("/dashboard");
         } catch(error) {
             console.log(error);
-            
         }
     }
 

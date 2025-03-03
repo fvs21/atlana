@@ -7,7 +7,7 @@ import { Link } from "@remix-run/react";
 
 export const meta: MetaFunction = () => {
   return [
-    { title: "Poopy: Manufacturas y proveedores" },
+    { title: "Tradenal: Manufacturas y proveedores" },
   ];
 };
 

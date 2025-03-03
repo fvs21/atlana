@@ -52,7 +52,11 @@ def generate_and_send_verification_email(user: User) -> None:
 
 def get_session(request: HttpRequest) -> JsonResponse:
     user: User = get_user_by_id(request.user.id)
-    return JsonResponse(UserSerializer(user).data, status=200)
+    return JsonResponse({
+        "data": {
+            "user": UserSerializer(user).data
+        }
+    }, status=200)
 
 def get_user_by_id(id: int) -> User:
     try:

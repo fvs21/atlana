@@ -41,16 +41,21 @@
 .actions {
   display: flex;
   align-items: center;
-  gap: $spacing-md;
+  gap: $spacing-lg;
+  width: inherit;
 }
 
 .iconButton {
   padding: $spacing-sm;
   border-radius: 50%;
   transition: background-color 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 
   &:hover {
-    background-color: rgba($text-primary, 0.1);
+    color: $secondary-color;
+    transition: $transition;
   }
 
   svg {
@@ -69,7 +74,7 @@
   display: none;
 
   @include responsive($breakpoint-lg) {
-    display: block;
+    display: flex;
   }
 }
 
@@ -85,4 +90,10 @@
 
 .registerButton:hover {
   background-color: $secondary-color;
+}
+
+.iconText {
+  font-size: 13px;
+  word-break: keep-all;
+  white-space: nowrap;
 }

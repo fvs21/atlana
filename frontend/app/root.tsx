@@ -1,9 +1,11 @@
 import {
+  data,
   Links,
   Meta,
   Outlet,
   Scripts,
   ScrollRestoration,
+  useLoaderData,
 } from "@remix-run/react";
 import type { LinksFunction } from "@remix-run/node";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
@@ -12,6 +14,8 @@ import { useState } from "react";
 import "./tailwind.css";
 
 import "./styles/globals.scss";
+import { authTokenExists, refreshToken } from "./api/server.auth";
+import AuthProvider from "./providers/AuthProvider";
 
 export const links: LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -44,6 +48,22 @@ export function Layout({ children }: { children: React.ReactNode }) {
   );
 }
 
+export async function loader({ request }: { request: Request }) {
+  if(!authTokenExists({request})) {
+    return new Response();
+  }
+
+  const response = await refreshToken({ request });
+
+  if(!response) {
+    return new Response();
+  }
+
+  return data({
+    access_token: response?.data?.access_token
+  });
+}
+
 export default function App() {
   const [queryClient, setQueryClient] = useState(() => new QueryClient({
     defaultOptions: {
@@ -52,10 +72,14 @@ export default function App() {
       }
     }
   }));
+
+  const data = useLoaderData<typeof loader>();
   
   return (
     <QueryClientProvider client={queryClient}>
-      <Outlet />
+      <AuthProvider access_token={data.access_token}>
+        <Outlet />
+      </AuthProvider>
     </QueryClientProvider>
   );
 }

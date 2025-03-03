@@ -131,4 +131,8 @@ def refresh(request: HttpRequest) -> JsonResponse:
     if token is None:
         return JsonResponse({"details": "Invalid refresh token"}, status=400)
     
-    return service.generate_authentication_response(token.user)
+    return JsonResponse({
+        "data": {
+            "access_token": str(token.access_token)
+        }
+    }, status=200)
