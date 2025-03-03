@@ -1,15 +1,16 @@
-import styles from "./register.module.scss"
-import { data, Form, MetaFunction, useActionData } from "@remix-run/react"
-import { Button } from "~/components/ui/button"
-import { Checkbox } from "~/components/ui/checkbox"
-import { Label } from "~/components/ui/label"
-import { RadioGroup, RadioGroupItem } from "~/components/ui/radio-group"
-import { ActionFunctionArgs } from "@remix-run/node"
-import { RegisterBody } from "~/features/register/types"
-import { validateRegisterBody } from "~/features/register/utils"
-import Logo from "~/components/logo"
-import ValidatedInput from "~/components/validated-input"
-import PasswordInput from "~/components/password-input"
+import styles from "./register.module.scss";
+import { MetaFunction, useNavigate } from "@remix-run/react";
+import { Button } from "~/components/ui/button";
+import { Checkbox } from "~/components/ui/checkbox";
+import { Label } from "~/components/ui/label";
+import { RadioGroup, RadioGroupItem } from "~/components/ui/radio-group";
+import { RegisterBody, RegisterErrors } from "~/features/register/types";
+import { validateRegisterBody } from "~/features/register/utils";
+import Logo from "~/components/logo";
+import ValidatedInput from "~/components/validated-input";
+import PasswordInput from "~/components/password-input";
+import { useState } from "react";
+import { useRegister } from "~/features/register/api";
 
 export const meta: MetaFunction = () => {
     return [
@@ -17,43 +18,72 @@ export const meta: MetaFunction = () => {
     ]
 }
 
-export async function action({request}: ActionFunctionArgs) {
-    const formData = await request.formData();
+export default function RegisterPage() {  
+    const [errors, setErrors] = useState<RegisterErrors>({
+        first_name: "",
+        last_name: "",
+        email: "",
+        company_name: "",
+        password: "",
+        confirm_password: "",
+        agree_to_terms: "",
+    });
 
-    const firstName = formData.get("firstName") as string;
-    const lastName = formData.get("lastName") as string;
-    const email = formData.get("email") as string;
-    const companyName = formData.get("companyName") as string;
-    const password = formData.get("password") as string;
-    const confirmPassword = formData.get("confirmPassword") as string;
-    const userType = formData.get("userType") as string;
-    const agreeTerms = formData.get("agreeTerms") as string;
+    const { register, isPending, registerDisabled } = useRegister();
+    const navigate = useNavigate();
 
-    const body: RegisterBody = {
-        firstName,
-        lastName,
-        userType,
-        email,
-        companyName,
-        password,
-        confirmPassword,
-    }    
+    const validate = (body: RegisterBody, confirm_password: string, agree_terms: string): boolean => {
+        const errors = validateRegisterBody(body);
 
-    const errors = validateRegisterBody(body);
+        if(agree_terms != "on")
+            errors.agree_to_terms = "Debes aceptar los términos y condiciones";
 
-    if(agreeTerms != "on")
-        errors.agreeToTerms = "Debes aceptar los términos y condiciones";
+        if(body.password !== confirm_password)
+            errors.confirm_password = "Las contraseñas no coinciden";  
 
-    if (Object.keys(errors).length)
-        return data({errors});
+        if(Object.keys(errors).length > 0) {
+            setErrors(errors);
+            return false;
+        }
 
-    return data({});
-}
+        return true;
+    }
 
-export default function RegisterPage() {
-    const actionData = useActionData<typeof action>();
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
 
-    const errors = (actionData as any)?.errors;
+        const form = event.currentTarget;
+        const formData = new FormData(form);
+
+        const first_name = formData.get("firstName") as string;
+        const last_name = formData.get("lastName") as string;
+        const user_type = formData.get("userType") as string;
+        const email = formData.get("email") as string;
+        const company_name = formData.get("companyName") as string;
+        const password = formData.get("password") as string;
+        const confirm_password = formData.get("confirmPassword") as string;
+        const agree_terms = formData.get("agreeTerms") as string;
+
+        const body: RegisterBody = {
+            first_name,
+            last_name,
+            user_type,
+            email,
+            company_name,
+            password
+        } 
+        
+        if(!validate(body, confirm_password, agree_terms))
+            return;
+
+        try {
+            await register(body);
+            navigate("/dashboard");
+        } catch(error) {
+            console.log(error);
+            
+        }
+    }
 
     return (
         <div className={styles.container}>
@@ -61,7 +91,7 @@ export default function RegisterPage() {
                 <div className={styles.formContent}>
                     <Logo width={35} />
                     <h2>Crea tu cuenta</h2>
-                    <Form className={styles.form} method="post">
+                    <form className={styles.form} onSubmit={handleSubmit}>
                         <div className={styles.formGroup}>
                             <Label>Selecciona tu rol:</Label>
                             <RadioGroup
@@ -95,7 +125,7 @@ export default function RegisterPage() {
                                 name="firstName"
                                 type="text"
                                 label="Nombre(s)"
-                                error={errors?.firstName}
+                                error={errors?.first_name}
                                 className={styles.formInput}
                             />
                             <ValidatedInput
@@ -103,7 +133,7 @@ export default function RegisterPage() {
                                 name="lastName"
                                 type="text"
                                 label="Apellido(s)"
-                                error={errors?.lastName}
+                                error={errors?.last_name}
                                 className={styles.formInput}
                             />
                         </div>
@@ -120,7 +150,7 @@ export default function RegisterPage() {
                             name="companyName" 
                             type="text" 
                             label="Nombre de tu empresa" 
-                            error={errors?.companyName} 
+                            error={errors?.company_name} 
                             className={styles.formInput}
                         />
                         <PasswordInput
@@ -135,7 +165,7 @@ export default function RegisterPage() {
                             name="confirmPassword"
                             type="password"
                             label="Confirma tu contraseña"
-                            error={errors?.confirmPassword}
+                            error={errors?.confirm_password}
                             className={styles.formInput}
                         />
                         <div className={styles.checkboxGroup}>
@@ -155,13 +185,12 @@ export default function RegisterPage() {
                                     </a>
                                 </Label>
                             </div>
-                            {errors?.agreeTerms && <span className={styles.errorMessage}>{errors.agreeTerms}</span>}
+                            {errors?.agree_to_terms && <span className={styles.errorMessage}>{errors.agree_to_terms}</span>}
                         </div>
                         <Button type="submit" className={styles.submitButton}>
                             Crea tu cuenta
                         </Button>
-                    </Form>
-
+                    </form>
                     <div className={styles.loginLink}>
                         ¿Ya tienes una cuenta?{" "}
                         <a href="/login" className={styles.link}>

@@ -5,3 +5,9 @@ export type User = {
     company_name: string;
     user_type: 'buyer' | 'seller' | 'both';
 }
+
+export type ResponseBody<T> = {
+    data?: T;
+    code?: string;
+    details?: string;
+}

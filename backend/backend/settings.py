@@ -31,7 +31,13 @@ SECRET_KEY = 'django-insecure-g-5rkjfuh3zjvdaymahvoefn08385&i#-oz!u^b3334pc-=wr(
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['localhost']
+ALLOWED_HOSTS = ['192.168.68.101', 'localhost', '127.0.0.1']
+CORS_ALLOWED_ORIGINS = [
+    'http://192.168.68.101:5173', 
+    'http://localhost:5173', 
+    'http://127.0.0.1:5173'
+]
+CORS_ALLOW_CREDENTIALS = True
 
 ACCESS_TOKEN_DURATION = 60*60
 REFRESH_TOKEN_DURATION = 60*60*24*30
@@ -57,6 +63,7 @@ INSTALLED_APPS = [
     'user.apps.UserConfig',
     'image.apps.ImageConfig',
     'rest_framework_simplejwt.token_blacklist',
+    'corsheaders',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -73,6 +80,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'backend.urls'

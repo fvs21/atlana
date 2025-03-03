@@ -24,8 +24,10 @@ def generate_authentication_response(user: User) -> JsonResponse:
 
     response = JsonResponse(
         {
-            "user": UserSerializer(user).data,
-            "access_token": tokens["access_token"]
+            "data": {
+                "user": UserSerializer(user).data,
+                "access_token": tokens["access_token"]
+            }
         }, 
         status=201
     )
