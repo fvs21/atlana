@@ -7,7 +7,6 @@ class Listing(models.Model):
     about = models.CharField(max_length=500)
     customizable = models.BooleanField(default=False)
     ready_to_ship = models.BooleanField(default=False)
-    made_to_order = models.BooleanField(default=False)
 
 class ListingPrice(models.Model):
     listing = models.ForeignKey(Listing, on_delete=models.CASCADE)
