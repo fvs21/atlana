@@ -1,4 +1,5 @@
 $primary-color: #00246b;
+$primary-color-rgb: rgb(0, 36, 107);
 $secondary-color: #e6c82c;
 $text-primary: #1f2937;
 $text-secondary: #4b5563;
@@ -9,6 +10,24 @@ $logo-color: #00246b;
 $error-color: #ef4444;
 $transition: all 0.3s ease;
 $button-hover: #e0e0e0;
+$card-bg: #ffffff;
+$background: #f9fafb;
+
+// Sidebar variables (converted from HSL to hex)
+$sidebar-background: #fafafa;
+$sidebar-foreground: #424249;
+$sidebar-primary: #18181b;
+$sidebar-primary-foreground: #fafafa;
+$sidebar-accent: #f4f4f5;
+$sidebar-accent-foreground: #18181b;
+$sidebar-border: #e8e8ec;
+$sidebar-ring: #3b82f6;
+
+$success-color: #10b981;
+$warning-color: #f59e0b;
+$danger-color: #ef4444;
+$info-color: #3b82f6;
+$pending-color: #a855f7;
 
 // Typography
 $font-family: "Montserrat", serif;

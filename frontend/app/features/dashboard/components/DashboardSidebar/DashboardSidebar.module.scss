@@ -1,0 +1,62 @@
+@import '~/styles/variables';
+
+.headerContent {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+}
+
+.headerIcon {
+  height: 1.5rem;
+  width: 1.5rem;
+  color: $primary-color;
+}
+
+.headerTitle {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 0;
+}
+
+.menuIcon {
+  height: 1rem;
+  width: 1rem;
+}
+
+.userInfo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.userAvatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 1.5rem;
+  width: 1.5rem;
+  border-radius: 9999px;
+  background-color: $primary-color;
+  color: white;
+}
+
+.userIcon {
+  height: 0.75rem;
+  width: 0.75rem;
+}
+
+.userDetails {
+  display: flex;
+  flex-direction: column;
+}
+
+.userName {
+  font-size: 0.875rem;
+  font-weight: 500;
+}
+
+.userRole {
+  font-size: 0.75rem;
+  color: $text-secondary;
+}

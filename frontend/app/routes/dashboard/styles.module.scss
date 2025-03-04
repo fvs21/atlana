@@ -1,0 +1,14 @@
+@import '~/styles/variables';
+
+.dashboardLayout {
+    display: flex;
+    min-height: 100vh;
+    background-color: $background;
+    width: 100%;
+}
+
+.dashboardContent {
+    flex: 1;
+    padding: 1.5rem;
+    overflow-y: auto;
+}

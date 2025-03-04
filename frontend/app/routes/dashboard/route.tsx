@@ -1,26 +1,24 @@
-import { data, LoaderFunctionArgs } from "@remix-run/node";
-import { MetaFunction } from "@remix-run/react"
-import { useUser } from "~/api/client.auth"
-import { onlyAuthenticated } from "~/api/server.auth";
+import { MetaFunction, Outlet } from "@remix-run/react"
+import type { LinksFunction } from "@remix-run/node"
+import { SidebarProvider } from "~/components/ui/sidebar"
+import { DashboardSidebar } from "~/features/dashboard/components/DashboardSidebar"
+import styles from "./styles.module.scss";
 
 export const meta: MetaFunction = () => {
     return [
-        { title: "Tradenal: Mi panel" },
+        { title: "Tradenal: Mi panel"}
     ]
 }
 
-export async function loader({request}: LoaderFunctionArgs) {
-    onlyAuthenticated({request});
-
-    return data({});
-}
-
-export default function Page() { 
-    const { user, isLoading } = useUser();
-
-    return (
-        <div>
-            {user?.first_name}
-        </div>
-    )
+export default function DashboardLayout() {
+  return (
+    <SidebarProvider>
+      <div className={styles.dashboardLayout}>
+        <DashboardSidebar />
+        <main className={styles.dashboardContent}>
+          <Outlet />
+        </main>
+      </div>
+    </SidebarProvider>
+  )
 }
