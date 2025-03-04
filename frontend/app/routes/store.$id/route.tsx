@@ -1,5 +1,7 @@
 import { data, LoaderFunctionArgs } from "@remix-run/node"
-import { MetaFunction } from "@remix-run/react"
+import { MetaFunction, Outlet } from "@remix-run/react"
+import React from "react";
+import NavbarSmall from "~/components/navbar-small";
 
 export async function loader({ params }: LoaderFunctionArgs) {
     return data({
@@ -15,8 +17,9 @@ export const meta: MetaFunction<typeof loader> = ({data}) => {
 
 export default function Page() {
     return (
-        <div>
-            Setup store
-        </div>
+        <React.Fragment>
+            <NavbarSmall />
+            <Outlet />
+        </React.Fragment>
     )
 }

@@ -53,6 +53,8 @@ $breakpoint-md: 768px;
 $breakpoint-lg: 1024px;
 $breakpoint-xl: 1280px;
 
+$max-width: 1200px;
+
 // Mixins
 @mixin container {
   max-width: 1200px;

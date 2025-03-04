@@ -1,0 +1,95 @@
+@import '~/styles/variables';
+
+.nav {
+    background-color: $background-light;
+    border-bottom: 1px solid $border-color;
+    z-index: 1000;
+}
+
+.container {
+    @include container;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: $spacing-md;
+}
+
+.logo {
+    h1 {
+        font-size: $font-size-xl;
+        font-weight: 700;
+        color: $logo-color;
+    }
+}
+
+.menu {
+    display: none;
+
+    @include responsive($breakpoint-md) {
+        display: flex;
+        gap: $spacing-xl;
+    }
+
+    width: 550px;
+}
+
+.actions {
+    display: flex;
+    align-items: center;
+    gap: $spacing-lg;
+    width: inherit;
+}
+
+.iconButton {
+    padding: $spacing-sm;
+    border-radius: 50%;
+    transition: background-color 0.2s ease;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    &:hover {
+        color: $secondary-color;
+        transition: $transition;
+    }
+
+    svg {
+        width: 20px;
+        height: 20px;
+    }
+}
+
+.mobileMenu {
+    @include responsive($breakpoint-md) {
+        display: none;
+    }
+}
+
+.dissapearingActionButtons {
+    display: none;
+
+    @include responsive($breakpoint-lg) {
+        display: flex;
+    }
+}
+
+
+.loginButton {
+    word-break: keep-all;
+    white-space: nowrap;
+}
+
+.registerButton {
+    background-color: $primary-color;
+}
+
+.registerButton:hover {
+    background-color: $secondary-color;
+}
+
+.iconText {
+    font-size: 13px;
+    word-break: keep-all;
+    white-space: nowrap;
+}
