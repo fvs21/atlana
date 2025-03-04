@@ -1,14 +1,17 @@
-import { Form, Link, useActionData } from "@remix-run/react"
+import { Link, useNavigate } from "@remix-run/react"
 import { Button } from "~/components/ui/button"
 import styles from "./login.module.scss"
 import FooterSmall from "~/components/footerSmall"
-import { ActionFunctionArgs, LoaderFunctionArgs, MetaFunction } from "@remix-run/node"
+import { LoaderFunctionArgs, MetaFunction } from "@remix-run/node"
 import { data } from "@remix-run/react"
 import Logo from "~/components/logo"
 import ValidatedInput from "~/components/validated-input"
 import PasswordInput from "~/components/password-input"
 import { validateLoginForm } from "~/features/login/utils"
 import { onlyGuests } from "~/api/server.auth"
+import { useState } from "react"
+import { LoginErrors } from "~/features/login/types"
+import { useLogin } from "~/features/login/api"
 
 export const meta: MetaFunction = () => {
     return [
@@ -24,21 +27,41 @@ export async function loader({request}: LoaderFunctionArgs) {
     return data({});
 }
 
-export async function action({request}: ActionFunctionArgs) {
-    const formData = await request.formData();
-
-    const email = formData.get("email") as string;
-    const password = formData.get("password") as string;
-
-    const errors = validateLoginForm({email, password});
-
-
-    if (Object.keys(errors).length !== 0)
-        return data({errors});
-}
-
 export default function LoginForm() {
-    const actionData = useActionData<typeof action>();
+    const [errors, setErrors] = useState<LoginErrors>({
+        email: "",
+        password: "",
+    });
+    
+    const navigate = useNavigate();
+
+    const { login, isPending, loginDisabled } = useLogin();
+
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+
+        const formData = new FormData(event.currentTarget);
+
+        const email = formData.get("email") as string;
+        const password = formData.get("password") as string;
+
+        const validationErrors = validateLoginForm({email, password});
+
+        if (Object.keys(validationErrors).length > 0) {
+            setErrors(validationErrors);
+            return;
+        }
+
+        try {
+            await login({email, password});
+            navigate("/dashboard");
+        } catch {
+            setErrors({
+                email: "",
+                password: "Correo electrónico o contraseña incorrectos",
+            });
+        }
+    }
 
     return (
         <>
@@ -54,20 +77,20 @@ export default function LoginForm() {
                         <div className={styles.welcomeSection}>
                             <h2>Inicia sesión</h2>
                         </div>
-                        <Form method="post" className={styles.form}>
+                        <form onSubmit={handleSubmit} className={styles.form}>
                             <ValidatedInput
                                 id="email"
                                 name="email"
                                 type="email"
                                 label="Correo electrónico"
                                 className={styles.formInput}
-                                error={actionData?.errors.email}
+                                error={errors.email}
                             />
                             <PasswordInput
                                 id="password"
                                 name="password"
                                 label="Contraseña"
-                                error={actionData?.errors.password}
+                                error={errors.password}
                                 className={styles.formInput}
                             />
                             <div className={styles.forgotPassword}>
@@ -75,11 +98,10 @@ export default function LoginForm() {
                                     ¿Olvidaste tu contraseña?
                                 </Link>
                             </div>
-                            <Button type="submit" className={styles.submitButton}>
+                            <Button type="submit" className={styles.submitButton} disabled={loginDisabled}>
                                 Iniciar sesión
                             </Button>
-                        </Form>
-
+                        </form>
                         <div className={styles.signupLink}>
                             ¿No tienes una cuenta?{" "}
                             <Link to="/register" className={styles.link}>

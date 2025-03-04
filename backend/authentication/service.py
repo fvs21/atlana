@@ -85,6 +85,11 @@ def logout_session(request: HttpRequest) -> None:
     newToken = RefreshToken(refresh_token)
     newToken.blacklist()
 
+def generate_logout_cookie() -> JsonResponse:
+    response = JsonResponse({"details": "Logged out"}, status=200)
+    response.delete_cookie("user_r")
+    return response
+
 def check_email_verification(user: User, verification_code: str) -> bool:
     verification_data = VerificationData.objects.filter(user=user, field="email").first()
 

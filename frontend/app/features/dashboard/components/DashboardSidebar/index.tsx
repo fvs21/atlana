@@ -1,5 +1,5 @@
 import { NavLink, useLocation } from "@remix-run/react"
-import { Home, MessageSquare, ShoppingBag, CreditCard, User } from "lucide-react"
+import { Home, MessageSquare, ShoppingBag, CreditCard } from "lucide-react"
 import styles from "./DashboardSidebar.module.scss"
 
 import {
@@ -15,6 +15,8 @@ import {
   SidebarMenuItem,
   SidebarRail,
 } from "~/components/ui/sidebar"
+import Logo from "~/components/logo";
+import UserDropdown from "./UserDropdown";
 
 export function DashboardSidebar() {
   const location = useLocation();
@@ -23,20 +25,19 @@ export function DashboardSidebar() {
     <Sidebar>
       <SidebarHeader>
         <div className={styles.headerContent}>
-          <ShoppingBag className={styles.headerIcon} />
-          <h1 className={styles.headerTitle}>ShopDash</h1>
+          <Logo width={20} />
         </div>
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Navigation</SidebarGroupLabel>
+          <SidebarGroupLabel>Navegación</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               <SidebarMenuItem>
                 <SidebarMenuButton asChild isActive={location.pathname === "/dashboard"}>
                   <NavLink to="/dashboard">
                     <Home className={styles.menuIcon} />
-                    <span>Home</span>
+                    <span>Principal</span>
                   </NavLink>
                 </SidebarMenuButton>
               </SidebarMenuItem>
@@ -44,7 +45,7 @@ export function DashboardSidebar() {
                 <SidebarMenuButton asChild isActive={location.pathname.includes("/dashboard/messages")}>
                   <NavLink to="/dashboard/messages">
                     <MessageSquare className={styles.menuIcon} />
-                    <span>Messages</span>
+                    <span>Mensajes</span>
                   </NavLink>
                 </SidebarMenuButton>
               </SidebarMenuItem>
@@ -52,16 +53,15 @@ export function DashboardSidebar() {
                 <SidebarMenuButton asChild isActive={location.pathname.includes("/dashboard/orders")}>
                   <NavLink to="/dashboard/orders">
                     <ShoppingBag className={styles.menuIcon} />
-                    <span>Orders</span>
+                    <span>Ordenes</span>
                   </NavLink>
                 </SidebarMenuButton>
               </SidebarMenuItem>
-
               <SidebarMenuItem>
                 <SidebarMenuButton asChild isActive={location.pathname.includes("/dashboard/transactions")}>
                   <NavLink to="/dashboard/transactions">
                     <CreditCard className={styles.menuIcon} />
-                    <span>Transactions</span>
+                    <span>Transacciones</span>
                   </NavLink>
                 </SidebarMenuButton>
               </SidebarMenuItem>
@@ -72,17 +72,7 @@ export function DashboardSidebar() {
       <SidebarFooter>
         <SidebarMenu>
           <SidebarMenuItem>
-            <SidebarMenuButton>
-              <div className={styles.userInfo}>
-                <div className={styles.userAvatar}>
-                  <User className={styles.userIcon} />
-                </div>
-                <div className={styles.userDetails}>
-                  <span className={styles.userName}>John Doe</span>
-                  <span className={styles.userRole}>Admin</span>
-                </div>
-              </div>
-            </SidebarMenuButton>
+            <UserDropdown />
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarFooter>

@@ -4,6 +4,7 @@ export type User = {
     email: string;
     company_name: string;
     user_type: 'buyer' | 'seller' | 'both';
+    profile_picture_url: string;
 }
 
 export type ResponseBody<T> = {

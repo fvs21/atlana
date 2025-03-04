@@ -90,7 +90,8 @@ class AuthenticatedAuthViewSet(viewsets.ViewSet):
     @action(methods=['post'], detail=False)
     def logout(self, request: HttpRequest):
         service.logout_session(request)
-        return JsonResponse({"details": "Logged out"}, status=200)
+        
+        return service.generate_logout_cookie()
     
     @action(methods=['post'], detail=False)
     def verify_email(self, request: HttpRequest):

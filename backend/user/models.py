@@ -3,6 +3,8 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.utils import timezone
 
+from image.models import Image
+
 # Create your models here.
 class UserManager(BaseUserManager):
     def create_user(self, email, first_name, last_name, user_type, company_name, password=None, **extra_fields):
@@ -34,7 +36,7 @@ class User(AbstractBaseUser):
     user_type = models.CharField(choices=[('buyer', 'Buyer'), ('seller', 'Seller'), ('both', 'Both')], max_length=10, default='buyer')
     company_name = models.CharField(max_length=100, null=True, blank=True)
 
-    #profile_picture = models.OneToOneField(Image, on_delete=models.CASCADE, null=True, blank=True)
+    profile_picture = models.OneToOneField(Image, on_delete=models.CASCADE, null=True, blank=True)
 
     objects = UserManager()
 
@@ -47,9 +49,11 @@ class User(AbstractBaseUser):
     REQUIRED_FIELDS = ["password", "first_name", "last_name", "company_name"]
 
     def profile_picture_url(self):
-        base = "http://192.168.68.100:8000"
+        base = "http://localhost:8000"
+        
         if self.profile_picture:
             return base + self.profile_picture.url
+        
         return base + "/api/image/default-pfp.png"
 
 class VerificationData(models.Model):

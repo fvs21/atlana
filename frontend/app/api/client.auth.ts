@@ -1,6 +1,6 @@
 import { ResponseBody, User } from "~/types/globals";
 import { apiGuest, api } from "."
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export const refreshToken = async (): Promise<string | null> => {
     try {
@@ -41,5 +41,24 @@ export const useUser = () => {
         user,
         isLoading,
         isError
+    }
+}
+
+export const useLogout = () => {
+    const queryClient = useQueryClient();
+
+    const { mutateAsync: logout, isPending } = useMutation({
+        mutationFn: async () => {
+            await api.post<ResponseBody<null>>("/auth/logout");
+        },
+        onSuccess: () => {
+            queryClient.setQueryData(["access-token"], null);
+            queryClient.setQueryData(["user"], null);
+        }
+    });
+
+    return {
+        logout,
+        isPending
     }
 }

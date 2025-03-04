@@ -302,3 +302,15 @@ export async function getAllMessages(): Promise<Message[]> {
   return messages
 }
 
+export const translateUserType = (type: 'buyer' | 'seller' | 'both' | undefined): string => {
+  if (!type) return '';
+
+  switch (type) {
+    case 'buyer':
+      return 'Comprador'
+    case 'seller':
+      return 'Vendedor'
+    case 'both':
+      return 'Comprador y Vendedor'
+  }
+}

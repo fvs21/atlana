@@ -45,17 +45,17 @@ export default function Index() {
             </div>
             <div className={styles.featureItem}>
               <div className={styles.icon}>↩️</div>
-              <h3>Easy Returns</h3>
+              <h3>Devoluciones sencillas</h3>
               <p>30-day return policy</p>
             </div>
             <div className={styles.featureItem}>
               <div className={styles.icon}>🔒</div>
               <h3>Pagos seguros</h3>
-              <p>100% segura sesión de pago con Stripe</p>
+              <p>Sesión de pago 100% segura con Stripe</p>
             </div>
             <div className={styles.featureItem}>
               <div className={styles.icon}>💎</div>
-              <h3>Quality Products</h3>
+              <h3>Productos de calidad</h3>
               <p>Curated selection</p>
             </div>
           </div>

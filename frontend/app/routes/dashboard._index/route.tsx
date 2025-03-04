@@ -5,6 +5,8 @@ import StatCard from "~/features/dashboard/components/StatCard"
 import { getRecentOrders, getRecentTransactions } from "~/features/dashboard/utils"
 import styles from "./styles.module.scss"
 import OrderSummary from "~/features/dashboard/components/OrderSummary"
+import { useUser } from "~/api/client.auth"
+import { SidebarTrigger } from "~/components/ui/sidebar"
 
 export async function loader() {
   const recentOrders = await getRecentOrders(5)
@@ -24,18 +26,18 @@ export async function loader() {
 
 export default function Dashboard() {
   const { recentOrders, recentTransactions, stats } = useLoaderData<typeof loader>()
+  const { user, isLoading } = useUser();
 
   return (
     <div className={styles.dashboardHome}>
-      <h1>My Dashboard</h1>
-
-      <div className={styles.statsGrid}>
-        <StatCard title="Total Spent" value={stats.totalSpent} trend="up" percentage="5.2%" />
-        <StatCard title="Orders Placed" value={stats.totalOrders} trend="up" percentage="8.2%" />
-        <StatCard title="Pending Deliveries" value={stats.pendingDeliveries} trend="down" percentage="3.1%" />
-        <StatCard title="Saved Items" value={stats.savedItems} trend="up" percentage="12.4%" />
+      <div className={styles.welcomeBanner}>
+        <SidebarTrigger />
+        <h1 className={styles.welcome}>Bienvenido, {user?.first_name}</h1>
       </div>
-
+      <div className={styles.statsGrid}>
+        <StatCard title="Total de ordenes" value={stats.totalOrders} trend="up" percentage="8.2%" />
+        <StatCard title="Entregas pendientes" value={stats.pendingDeliveries} trend="down" percentage="3.1%" />
+      </div>
       <div className={styles.summaryGrid}>
         <OrderSummary orders={recentOrders} />
         <TransactionSummary transactions={recentTransactions} />
