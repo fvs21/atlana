@@ -1,5 +1,6 @@
 import { ResponseBody } from "~/types/globals";
 import { BASE_URL } from ".";
+import { redirect } from "@remix-run/node";
 
 export const authTokenExists = ({ request }: { request: Request }): boolean => {
     const cookies = request.headers.get("Cookie");
@@ -24,4 +25,16 @@ export const refreshToken = async ({ request }: { request: Request }) => {
     }
 
     return null;
+}
+
+export const onlyGuests = ({ request }: { request: Request }) => {
+    if(authTokenExists({ request })) {
+        throw redirect("/dashboard");
+    }
+}
+
+export const onlyAuthenticated = ({ request }: { request: Request }) => {
+    if(!authTokenExists({ request })) {
+        throw redirect("/login");
+    }
 }

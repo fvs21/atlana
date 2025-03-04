@@ -2,12 +2,13 @@ import { Form, Link, useActionData } from "@remix-run/react"
 import { Button } from "~/components/ui/button"
 import styles from "./login.module.scss"
 import FooterSmall from "~/components/footerSmall"
-import { ActionFunctionArgs, MetaFunction } from "@remix-run/node"
+import { ActionFunctionArgs, LoaderFunctionArgs, MetaFunction } from "@remix-run/node"
 import { data } from "@remix-run/react"
 import Logo from "~/components/logo"
 import ValidatedInput from "~/components/validated-input"
 import PasswordInput from "~/components/password-input"
 import { validateLoginForm } from "~/features/login/utils"
+import { onlyGuests } from "~/api/server.auth"
 
 export const meta: MetaFunction = () => {
     return [
@@ -15,6 +16,12 @@ export const meta: MetaFunction = () => {
             title: 'Poopy: Inicia sesión'
         }
     ]
+}
+
+export async function loader({request}: LoaderFunctionArgs) {
+    onlyGuests({request});
+
+    return data({});
 }
 
 export async function action({request}: ActionFunctionArgs) {

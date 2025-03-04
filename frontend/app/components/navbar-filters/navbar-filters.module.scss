@@ -52,3 +52,23 @@
 .selected {
    @include categorySelected;
 }
+
+.categories {
+   width: 400px;
+}
+
+.category {
+   white-space: nowrap;
+   font-size: 14px;
+   padding: 12px;
+   border-radius: 6px;
+   width: 100%;
+   text-align: left;
+   display: flex;
+   gap: 10px;
+   align-items: center;
+}
+
+.category:hover {
+   @include categorySelected;
+}

@@ -62,6 +62,8 @@ INSTALLED_APPS = [
     'authentication.apps.AuthenticationConfig',
     'user.apps.UserConfig',
     'image.apps.ImageConfig',
+    'store.apps.StoreConfig',
+    'listing.apps.ListingConfig',
     'rest_framework_simplejwt.token_blacklist',
     'corsheaders',
     'django.contrib.admin',

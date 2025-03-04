@@ -11,11 +11,19 @@ import ValidatedInput from "~/components/validated-input";
 import PasswordInput from "~/components/password-input";
 import { useState } from "react";
 import { useRegister } from "~/features/register/api";
+import { LoaderFunctionArgs } from "@remix-run/node";
+import { onlyGuests } from "~/api/server.auth";
 
 export const meta: MetaFunction = () => {
     return [
         { title: "Tradenal: Regístrate" },
     ]
+}
+
+export async function loader({ request }: LoaderFunctionArgs) {
+    onlyGuests({request});
+
+    return new Response();
 }
 
 export default function RegisterPage() {  
