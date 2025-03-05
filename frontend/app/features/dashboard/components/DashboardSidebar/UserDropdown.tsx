@@ -44,6 +44,9 @@ export default function UserDropdown() {
                 <DropdownMenuItem className={styles.userDropdownOption}>
                     <span>Configuración</span>
                 </DropdownMenuItem>
+                <DropdownMenuItem className={styles.userDropdownOption} onClick={() => navigate("/my-store")}>
+                    <span>Vender</span>
+                </DropdownMenuItem>
                 <DropdownMenuItem className={styles.userDropdownOption} onClick={handleLogout}>
                     <span>Cerrar sesión</span>
                 </DropdownMenuItem>

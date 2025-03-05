@@ -2,6 +2,7 @@ import Header from "~/features/store/components/Header";
 import styles from "./store.module.scss";
 import Menubar from "~/features/store/components/MenuBar";
 import About from "~/features/store/components/About";
+import Footer from "~/components/footer";
 
 export default function Page() {
     return (
@@ -12,9 +13,7 @@ export default function Page() {
             <main>
                 <About />
             </main>
-            <footer>
-                <p>© {new Date().getFullYear()} Precision Manufacturing Co. All rights reserved.</p>
-            </footer>
+            <Footer />
         </div>
     )
 }

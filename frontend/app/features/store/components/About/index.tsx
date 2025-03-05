@@ -5,7 +5,7 @@ export default function About() {
         <section className={styles.aboutSection}>
             <div className={styles.aboutContainer}>
                 <div className={styles.aboutContent}>
-                    <h2>About Precision Manufacturing Co.</h2>
+                    <h2>Acerca de Precision Manufacturing Co.</h2>
                     <p>
                         For over 25 years, Precision Manufacturing Co. has been at the forefront of industrial manufacturing
                         excellence. We specialize in creating high-quality, precision-engineered components and systems for a wide
