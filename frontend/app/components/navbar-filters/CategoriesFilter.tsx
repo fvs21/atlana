@@ -24,9 +24,9 @@ export default function CategoriesFilter() {
                         select={() => setSelectedParentCategory('industrial')}
                     />
                     <ParentCategory 
-                        name="Moda"
-                        selected={selectedParentCategory == 'fashion'}
-                        select={() => setSelectedParentCategory('fashion')}
+                        name="Textiles"
+                        selected={selectedParentCategory == 'textile'}
+                        select={() => setSelectedParentCategory('textile')}
                     />
                     <ParentCategory 
                         name="Autopartes" 

@@ -1,6 +1,6 @@
 import { Car, Dumbbell, House, Shirt, Tablet } from "lucide-react";
 
-export type ParentCategory = 'top' | 'home' | 'industrial' | 'fashion' | 'auto';
+export type ParentCategory = 'top' | 'home' | 'industrial' | 'textile' | 'auto';
 
 type Categories = {
     [key in ParentCategory]: {
@@ -38,7 +38,7 @@ const categories: Categories = {
     'industrial': [
 
     ],
-    'fashion': [],
+    'textile': [],
     'auto': []
 };
 
