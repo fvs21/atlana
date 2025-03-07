@@ -8,3 +8,4 @@ class Store(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     banner = models.ForeignKey('image.Image', on_delete=models.SET_NULL, blank=True, null=True)
+    store_location = models.ForeignKey('location.Location', on_delete=models.SET_NULL, blank=True, null=True)

@@ -6,8 +6,9 @@ import { useLogout, useUser } from "~/api/client.auth";
 import { Skeleton } from "~/components/ui/skeleton";
 import { useNavigate } from "@remix-run/react";
 import { translateUserType } from "../../utils";
+import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
 
-export default function UserDropdown() {
+export default function UserDropdown({ dashboard }: { dashboard: 'buyer' | 'seller' }) {
     const { user, isLoading } = useUser();
 
     const navigate = useNavigate();
@@ -25,13 +26,14 @@ export default function UserDropdown() {
     return (
         <DropdownMenu>
             <DropdownMenuTrigger asChild>
-                <SidebarMenuButton>
+                <SidebarMenuButton size="lg">
                     <div className={styles.userInfo}>
-                        {isLoading ? (
-                            <Skeleton className={styles.userAvatar} />
-                        ) : (
-                            <img className={styles.userAvatar} src={user?.profile_picture_url} />
-                        )}
+                        <Avatar className={styles.userAvatar}>
+                            <AvatarImage src={user?.profile_picture_url} alt={'pfp'} />
+                            <AvatarFallback>
+                                <Skeleton />
+                            </AvatarFallback>
+                        </Avatar>
                         <div className={styles.userDetails}>
                             <span className={styles.userName}>{user?.first_name}</span>
                             <span className={styles.userRole}>{translateUserType(user?.user_type)}</span>
@@ -44,9 +46,15 @@ export default function UserDropdown() {
                 <DropdownMenuItem className={styles.userDropdownOption}>
                     <span>Configuración</span>
                 </DropdownMenuItem>
-                <DropdownMenuItem className={styles.userDropdownOption} onClick={() => navigate("/my-store")}>
-                    <span>Vender</span>
-                </DropdownMenuItem>
+                {dashboard === "buyer" ? (
+                    <DropdownMenuItem className={styles.userDropdownOption} onClick={() => navigate("/seller")}>
+                        <span>Vender</span>
+                    </DropdownMenuItem>
+                ) : (
+                    <DropdownMenuItem className={styles.userDropdownOption} onClick={() => navigate("/dashboard")}>
+                        <span>Comprador</span>
+                    </DropdownMenuItem>
+                )}
                 <DropdownMenuItem className={styles.userDropdownOption} onClick={handleLogout}>
                     <span>Cerrar sesión</span>
                 </DropdownMenuItem>

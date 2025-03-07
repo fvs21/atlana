@@ -12,7 +12,6 @@ def random_file_name(container, filename) -> str:
 
 def download_image(image_name: str) -> Optional[Image]:
     try:
-        print(image_name)
         image = Image.objects.get(image_name=image_name)
         return image
     except Image.DoesNotExist:

@@ -3,6 +3,8 @@ import styles from "./NavbarSmall.module.scss";
 import { useUser } from "~/api/client.auth";
 import { Menu, ShoppingCart, User } from "lucide-react";
 import { Button } from "../ui/button";
+import React from "react";
+import NavbarActions from "../navbar-actions";
 
 export default function NavbarSmall() {
     const { user, isLoading } = useUser();
@@ -17,31 +19,7 @@ export default function NavbarSmall() {
                     </Link>
                 </div>
                 <div className={styles.actions}>
-                    {!isLoading && (
-                        <>
-                            <button className={`${styles.iconButton} ${styles.dissapearingActionButtons}`} aria-label="Cart">
-                                <ShoppingCart />
-                                {user && <div className={styles.iconText}>Carrito</div>}
-                            </button>
-                            {user ? (
-                                <>
-                                    <button className={`${styles.iconButton}`} onClick={() => navigate("/dashboard")}>
-                                        <User />
-                                        <div className={styles.iconText}>Mi cuenta</div>
-                                    </button>
-                                </>
-                            ) : (
-                                <>
-                                    <Link to="/login" className={styles.loginButton}>
-                                        Inicia sesión
-                                    </Link>
-                                    <Button onClick={() => navigate("/register")} className={`${styles.registerButton} ${styles.dissapearingActionButtons}`}>
-                                        Registrate
-                                    </Button>
-                                </>
-                            )}
-                        </>
-                    )}
+                    <NavbarActions />
                     <button className={`${styles.iconButton} ${styles.mobileMenu}`} aria-label="Menu">
                         <Menu />
                     </button>

@@ -1,0 +1,73 @@
+@import "~/styles/variables";
+
+.actions {
+    display: flex;
+    align-items: center;
+    gap: $spacing-lg;
+    width: inherit;
+}
+
+.iconButton {
+    &:hover {
+        color: $secondary-color;
+        transition: $transition;
+        background-color: transparent !important;
+    }
+}
+
+.mobileMenu {
+    @include responsive($breakpoint-md) {
+        display: none;
+    }
+}
+
+.dissapearingActionButtons {
+    display: none;
+
+    @include responsive($breakpoint-lg) {
+        display: flex;
+    }
+}
+
+
+.loginButton {
+    word-break: keep-all;
+    white-space: nowrap;
+}
+
+.registerButton {
+    background-color: $primary-color;
+}
+
+.registerButton:hover {
+    background-color: $secondary-color;
+}
+
+.iconText {
+    font-size: 13px;
+    word-break: keep-all;
+    white-space: nowrap;
+}
+
+.userDropdown {
+    width: 200px;
+}
+
+.dropdownItem {
+    width: 100%;
+    border-bottom: 1px solid $border-color;
+
+    &:hover {
+        background-color: $button-hover;
+    }
+
+    &:last-child {
+        border-bottom: none;
+    }
+}
+
+.dropdownLink {
+    font-size: 14px;
+    padding: 10px;
+    cursor: pointer;
+}

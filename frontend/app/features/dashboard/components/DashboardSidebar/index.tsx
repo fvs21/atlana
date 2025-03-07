@@ -14,18 +14,20 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
   SidebarRail,
+  useSidebar,
 } from "~/components/ui/sidebar"
 import Logo from "~/components/logo";
 import UserDropdown from "./UserDropdown";
 
 export function DashboardSidebar() {
   const location = useLocation();
+  const sidebar = useSidebar();
   
   return (
-    <Sidebar>
+    <Sidebar collapsible="icon">
       <SidebarHeader>
         <div className={styles.headerContent}>
-          <Logo width={20} />
+          {(sidebar.open || sidebar.openMobile) && <Logo width={20} />}
         </div>
       </SidebarHeader>
       <SidebarContent>
@@ -72,7 +74,7 @@ export function DashboardSidebar() {
       <SidebarFooter>
         <SidebarMenu>
           <SidebarMenuItem>
-            <UserDropdown />
+            <UserDropdown dashboard="buyer"/>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarFooter>

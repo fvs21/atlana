@@ -12,7 +12,7 @@ export default function NavbarFilters() {
                         <Logs size={20} />
                         Categorías
                     </NavigationMenuTrigger>
-                    <NavigationMenuContent className={styles.categoriesContent}>
+                    <NavigationMenuContent>
                         <CategoriesFilter />
                     </NavigationMenuContent>
                 </NavigationMenuItem>
