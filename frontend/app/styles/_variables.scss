@@ -81,3 +81,11 @@ $max-width: 1200px;
     padding: 3rem;
   }
 }
+
+@mixin primary-button {
+  background-color: $primary-color;
+
+  &:hover {
+    background-color: $secondary-color;
+  }
+}

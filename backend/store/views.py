@@ -1,3 +1,29 @@
-from django.shortcuts import render
+from django.http import HttpRequest, JsonResponse
+from rest_framework import viewsets
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.decorators import action
+from authentication.service import get_user_by_id
+from store.serializers import CreateStoreSerializer, StoreSerializer
 
-# Create your views here.
+class StoreViewset(viewsets.ViewSet):
+    permission_classes = [IsAuthenticated]
+
+    @action(detail=False, methods=['post'])
+    def create(self, request: HttpRequest) -> JsonResponse:
+        user = get_user_by_id(request.user.id)
+
+        serializer = CreateStoreSerializer(data={**request.data, 'creator': user.id})
+
+        if not serializer.is_valid():
+            return JsonResponse({
+                'details': serializer.errors,
+                'code': 'invalid_data'
+            }, status=400)
+        
+        store = serializer.save()
+
+        return JsonResponse({
+            'data': {
+                'store': StoreSerializer(store).data
+            }
+        }, status=201)

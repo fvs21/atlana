@@ -18,7 +18,6 @@ export default function Page() {
         <SidebarProvider>
             <SellerDashboardSidebar />
             <main className="w-full">
-                <SidebarTrigger />
                 <Outlet />
             </main>
         </SidebarProvider>

@@ -4,6 +4,7 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.utils import timezone
 
 from image.models import Image
+from location.models import Location
 
 # Create your models here.
 class UserManager(BaseUserManager):
@@ -33,17 +34,21 @@ class User(AbstractBaseUser):
     first_name = models.CharField(max_length=35)
     last_name = models.CharField(max_length=35)
 
+    country_code = models.CharField(max_length=3, null=True, blank=True)
+    phone_number = models.CharField(max_length=15, null=True, blank=True)
+
     user_type = models.CharField(choices=[('buyer', 'Buyer'), ('seller', 'Seller'), ('both', 'Both')], max_length=10, default='buyer')
     company_name = models.CharField(max_length=100, null=True, blank=True)
 
     profile_picture = models.OneToOneField(Image, on_delete=models.CASCADE, null=True, blank=True)
+
+    location = models.ForeignKey(Location, on_delete=models.CASCADE, null=True, blank=True)
 
     objects = UserManager()
 
     password_reset_token = models.CharField(max_length=128, null=True, blank=True)
     password_reset_token_created_at = models.DateTimeField(null=True, blank=True)
     password_updated_at = models.DateTimeField(null=True, blank=True)
-
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["password", "first_name", "last_name", "company_name"]
