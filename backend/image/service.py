@@ -2,7 +2,6 @@ from typing import Optional
 from image.exceptions import ImageUploadException
 from .models import Image
 from django.core.files.uploadedfile import UploadedFile
-from django.utils.deconstruct import deconstructible
 import uuid
 import os
 

@@ -3,6 +3,7 @@ from rest_framework import serializers
 
 from location.serializers import CreateLocationSerializer
 from .models import Store
+from image.service import upload_image
 
 class CreateStoreSerializer(serializers.ModelSerializer):
     store_location = serializers.JSONField()
@@ -13,6 +14,8 @@ class CreateStoreSerializer(serializers.ModelSerializer):
 
     def validate_store_location(self, value):
         serializer = CreateLocationSerializer(data=value)
+
+        serializer.is_valid(raise_exception=True)
 
         return serializer.save()
     
@@ -27,3 +30,23 @@ class StoreSerializer(serializers.ModelSerializer):
     class Meta:
         model = Store
         fields = ['name', 'store_location', 'creator', 'about', 'banner']
+
+class EditStoreSerializer(serializers.ModelSerializer):
+    banner = serializers.ImageField()
+    class Meta:
+        model = Store
+        fields = ['name', 'about', 'banner']
+
+    def validate_banner(self, value):
+        image_file = upload_image(value, 'banner')
+
+        return image_file
+
+    def update(self, instance, validated_data: dict):
+        instance.name = validated_data.get('name', instance.name)
+        instance.about = validated_data.get('about', instance.about)
+        instance.banner = validated_data.get('banner', instance.banner)
+
+        instance.save()
+
+        return instance
