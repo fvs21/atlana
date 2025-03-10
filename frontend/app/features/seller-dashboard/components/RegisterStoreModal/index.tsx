@@ -2,8 +2,10 @@ import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "~/components/
 import styles from "./styles.module.scss";
 import { Button } from "~/components/ui/button";
 import ValidatedInput from "~/components/validated-input";
-import TextArea from "~/components/text-area";
 import { useState } from "react";
+import { cn } from "~/lib/utils";
+import LabeledSelect from "~/components/labeled-select";
+import { Label } from "~/components/ui/label";
 
 export default function RegisterStoreModal() {
     const [name, setName] = useState("");
@@ -19,26 +21,70 @@ export default function RegisterStoreModal() {
             <DialogContent className={styles.modalContainer}>
                 <div className={styles.formContainer}>
                     <DialogTitle>
-                        Registra tu empresa
+                        Registra tu empresa y comienza a vender
                     </DialogTitle>
                     <div className={styles.form}>
                         <div className={styles.formInputContainer}>
-                            <ValidatedInput 
+                            <ValidatedInput
                                 id="storeName"
                                 name="storeName"
                                 type="text"
                                 className={styles.formInput}
-                                placeholder="Nombre de la empresa"
+                                label="Nombre de la empresa"
                             />
                         </div>
                         <div className={styles.formInputContainer}>
-                            <TextArea 
-                                id="storeDescription"
-                                name="storeDescription"
+                            <Label>Ubicación de tu empresa</Label>
+                            <div className={styles.countryInputsContainer}>
+                                <LabeledSelect
+                                    className={styles.countryInput}
+                                    placeholder="País"
+                                    options={["México"]}
+                                    value=""
+                                    name="country"
+                                    onChange={() => { }}
+                                />
+                                <LabeledSelect
+                                    className={styles.countryInput}
+                                    placeholder="Estado"
+                                    options={["Yucatán", "Quintana Roo", "Campeche"]}
+                                    value=""
+                                    name="state"
+                                    onChange={() => { }}
+                                />
+                                <LabeledSelect
+                                    className={styles.countryInput}
+                                    placeholder="Ciudad"
+                                    options={["Mérida", "Cancún", "Campeche"]}
+                                    value=""
+                                    name="city"
+                                    onChange={() => { }}
+                                />
+                            </div>
+                        </div>
+                        <div className={styles.formInputContainer}>
+                            <ValidatedInput
+                                id="street"
+                                name="street"
+                                type="text"
                                 className={styles.formInput}
-                                placeholder="Descripción de la empresa"
-                                value={description}
-                                onChange={setDescription}
+                                placeholder="Dirección"
+                            />
+                        </div>
+                        <div className={cn(styles.formInputContainer, styles.numberAndPostalCodeContainer)}>
+                            <ValidatedInput
+                                id="number"
+                                name="number"
+                                type="text"
+                                className={cn(styles.formInput, styles.numberInput)}
+                                placeholder="Número"
+                            />
+                            <ValidatedInput
+                                id="postalCode"
+                                name="postalCode"
+                                type="text"
+                                className={cn(styles.formInput, styles.numberInput)}
+                                placeholder="Código postal"
                             />
                         </div>
                     </div>

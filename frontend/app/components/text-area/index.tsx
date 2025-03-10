@@ -1,3 +1,4 @@
+import { Label } from "../ui/label";
 import { Textarea } from "../ui/textarea";
 import styles from "./styles.module.scss";
 
@@ -14,7 +15,7 @@ type TextAreaProps = {
 export default function TextArea({ id, name, className, placeholder, value, onChange, label }: TextAreaProps) {
     return (
         <div className={styles.container}>
-            {label && <label htmlFor={name}>{label}</label>}
+            {label && <Label htmlFor={name}>{label}</Label>}
             <Textarea
                 id={id}
                 name={name}

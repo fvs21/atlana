@@ -6,7 +6,7 @@
 }
 
 .modalContainer {
-    max-width: 900px;
+    max-width: 1200px;
     padding: 0;
     display: flex;
     border: none;
@@ -23,7 +23,7 @@
 }
 
 .formInputContainer {
-    margin-bottom: $spacing-sm;
+    margin-bottom: $spacing-md;
 }
 
 .imageContainer {
@@ -36,4 +36,22 @@
     border-top-right-radius: 8px;
     border-bottom-right-radius: 8px;
     object-fit: cover;
+}
+
+.countryInputsContainer {
+    display: flex;   
+    gap: 10px;
+}
+
+.countryInput {
+    width: 33%;
+}
+
+.numberAndPostalCodeContainer {
+    display: flex;
+    gap: 10px;
+}
+
+.numberInput {
+    width: 100%;
 }
