@@ -1,0 +1,12 @@
+@import "~/styles/variables.scss";
+
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+
+    label {
+        font-weight: 500;
+        color: $text-primary;
+    }
+}

@@ -1,6 +1,5 @@
-import { Button } from "~/components/ui/button";
 import styles from "./NoStoreCreated.module.scss";
-import { Dialog, DialogContent, DialogTrigger } from "~/components/ui/dialog";
+import RegisterStoreModal from "../RegisterStoreModal";
 
 export default function NoStoreCreated() {
     return (
@@ -9,16 +8,7 @@ export default function NoStoreCreated() {
                 <h1 className={styles.title}>
                     Registra tu empresa en Poopy y comienza a vender
                 </h1>
-                <Dialog>
-                    <DialogTrigger>
-                        <Button className={styles.startButton}>
-                            Comienza
-                        </Button>
-                    </DialogTrigger>
-                    <DialogContent>
-                        njdksan
-                    </DialogContent>
-                </Dialog>
+                <RegisterStoreModal />
             </div>
         </div>
     )

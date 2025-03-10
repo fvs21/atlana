@@ -1,0 +1,39 @@
+@import "~/styles/variables";
+
+.startButton {
+    width: 100px;
+    @include primary-button;
+}
+
+.modalContainer {
+    max-width: 900px;
+    padding: 0;
+    display: flex;
+    border: none;
+}
+
+.formContainer {
+    margin-top: $spacing-2xl;
+    width: 50%;
+    padding: 20px;
+}
+
+.form {
+    padding-top: $spacing-md;
+}
+
+.formInputContainer {
+    margin-bottom: $spacing-sm;
+}
+
+.imageContainer {
+    width: 50%;
+}
+
+.image {
+    width: 100%;
+    height: 100%;
+    border-top-right-radius: 8px;
+    border-bottom-right-radius: 8px;
+    object-fit: cover;
+}

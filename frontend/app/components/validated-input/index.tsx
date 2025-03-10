@@ -7,7 +7,7 @@ type ValidatedInputProps = {
     name: string;
     type: string;
     className?: string;
-    label: string;
+    label?: string;
     error?: string;
     placeholder?: string;
     value?: string;

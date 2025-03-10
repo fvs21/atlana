@@ -1,7 +1,7 @@
 import { Link, useNavigate } from "@remix-run/react"
 import { Button } from "~/components/ui/button"
 import styles from "./login.module.scss"
-import FooterSmall from "~/components/footerSmall"
+import FooterSmall from "~/components/footer-small"
 import { LoaderFunctionArgs, MetaFunction } from "@remix-run/node"
 import { data } from "@remix-run/react"
 import Logo from "~/components/logo"
