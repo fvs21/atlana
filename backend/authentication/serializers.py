@@ -53,3 +53,17 @@ class ForgotPasswordRequestSerializer(serializers.Serializer):
 
 class VerifyEmailRequestSerializer(serializers.Serializer):
     code = serializers.CharField(required=True, error_messages={'required': 'Code missing'})
+
+class UpdatePhoneNumberRequestSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['country_code', 'phone_number']
+
+    def update(self, instance, validated_data):
+        country_code = validated_data.get('country_code', instance.country_code)
+        instance.country_code = country_code
+        instance.phone_number = country_code + validated_data.get('phone_number', instance.phone_number)
+
+        instance.save()
+
+        return instance

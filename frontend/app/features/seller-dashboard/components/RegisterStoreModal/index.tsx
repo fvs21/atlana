@@ -1,15 +1,12 @@
 import { Dialog, DialogContent, DialogTitle, DialogTrigger } from "~/components/ui/dialog";
 import styles from "./styles.module.scss";
 import { Button } from "~/components/ui/button";
-import ValidatedInput from "~/components/validated-input";
 import { useState } from "react";
-import { cn } from "~/lib/utils";
-import LabeledSelect from "~/components/labeled-select";
-import { Label } from "~/components/ui/label";
+import PhoneInput from "~/components/phone-input";
 
 export default function RegisterStoreModal() {
-    const [name, setName] = useState("");
-    const [description, setDescription] = useState("");
+    const [countryCode, setCountryCode] = useState("+52");
+    const [phoneNumber, setPhoneNumber] = useState("");
 
     return (
         <Dialog modal>
@@ -20,73 +17,22 @@ export default function RegisterStoreModal() {
             </DialogTrigger>
             <DialogContent className={styles.modalContainer}>
                 <div className={styles.formContainer}>
-                    <DialogTitle>
-                        Registra tu empresa y comienza a vender
+                    <DialogTitle className={styles.formTitle}>
+                        Agrega tu número de teléfono para comenzar
                     </DialogTitle>
                     <div className={styles.form}>
-                        <div className={styles.formInputContainer}>
-                            <ValidatedInput
-                                id="storeName"
-                                name="storeName"
-                                type="text"
-                                className={styles.formInput}
-                                label="Nombre de la empresa"
-                            />
-                        </div>
-                        <div className={styles.formInputContainer}>
-                            <Label>Ubicación de tu empresa</Label>
-                            <div className={styles.countryInputsContainer}>
-                                <LabeledSelect
-                                    className={styles.countryInput}
-                                    placeholder="País"
-                                    options={["México"]}
-                                    value=""
-                                    name="country"
-                                    onChange={() => { }}
-                                />
-                                <LabeledSelect
-                                    className={styles.countryInput}
-                                    placeholder="Estado"
-                                    options={["Yucatán", "Quintana Roo", "Campeche"]}
-                                    value=""
-                                    name="state"
-                                    onChange={() => { }}
-                                />
-                                <LabeledSelect
-                                    className={styles.countryInput}
-                                    placeholder="Ciudad"
-                                    options={["Mérida", "Cancún", "Campeche"]}
-                                    value=""
-                                    name="city"
-                                    onChange={() => { }}
-                                />
-                            </div>
-                        </div>
-                        <div className={styles.formInputContainer}>
-                            <ValidatedInput
-                                id="street"
-                                name="street"
-                                type="text"
-                                className={styles.formInput}
-                                placeholder="Dirección"
-                            />
-                        </div>
-                        <div className={cn(styles.formInputContainer, styles.numberAndPostalCodeContainer)}>
-                            <ValidatedInput
-                                id="number"
-                                name="number"
-                                type="text"
-                                className={cn(styles.formInput, styles.numberInput)}
-                                placeholder="Número"
-                            />
-                            <ValidatedInput
-                                id="postalCode"
-                                name="postalCode"
-                                type="text"
-                                className={cn(styles.formInput, styles.numberInput)}
-                                placeholder="Código postal"
-                            />
-                        </div>
+                        <PhoneInput 
+                            countryCode={countryCode}
+                            phoneNumber={phoneNumber}
+                            setCountryCode={setCountryCode}
+                            setPhoneNumber={setPhoneNumber}
+                            label="Número de teléfono"
+                        />
+                    </div>
+                    <div className={styles.buttonContainer}>
+                        <Button className={styles.continueButton}>
+                            Continuar
+                        </Button>
                     </div>
                 </div>
                 <div className={styles.imageContainer}>

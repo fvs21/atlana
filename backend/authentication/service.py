@@ -168,3 +168,13 @@ def reset_password(credential: str, password_reset_token: str, new_password: str
     user.reset_password(new_password)
 
     return True
+
+def generate_and_send_phone_verification_sms(user: User) -> None:
+    verification_code = AuthenticationUtils.generate_verification_code()
+    verification_data = VerificationData(user=user, field="phone", code=make_password(verification_code))
+    verification_data.save()
+
+    #TODO
+    #send phone number verification code
+
+    logging.info(f"Verification code for {user.phone}: {verification_code}")

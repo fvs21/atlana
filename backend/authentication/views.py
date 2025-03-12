@@ -120,6 +120,29 @@ class AuthenticatedAuthViewSet(viewsets.ViewSet):
         
         return JsonResponse({"details": "You need to wait 5 minutes to request a new verification code"}, status=429)
     
+    @action(methods=['patch'], detail=False)
+    def update_phone_number(self, request: HttpRequest) -> JsonResponse:
+        user = service.get_user_by_id(request.user.id)
+
+        serializer = UpdatePhoneNumberRequestSerializer(user, data=request.data)
+
+        if not serializer.is_valid():
+            return JsonResponse({
+                "details": serializer.errors,
+                "code": "invalid_data"
+            }, status=400)
+        
+        saved_user = serializer.save()
+        
+        service.generate_and_send_verification_sms(saved_user)
+
+        return JsonResponse({
+            "data": {
+                "user": UserSerializer(saved_user).data
+            },
+            "details": "Verification code sent"
+        }, status=200)
+    
 @api_view(['POST'])
 def refresh(request: HttpRequest) -> JsonResponse:
     refresh_token = request.COOKIES.get("user_r")

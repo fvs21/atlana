@@ -1,0 +1,35 @@
+@import "~/styles/variables";
+
+.container {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 100%;
+
+    label {
+        font-weight: 500;
+        color: $text-primary;
+    }
+}
+
+.phoneInput {
+    display: flex;
+    gap: 10px;
+}
+
+.countryCode {
+    width: 30%;
+    font-size: 14px;
+}
+
+.phoneNumber::-webkit-outer-spin-button,
+.phoneNumber::-webkit-inner-spin-button {
+    /* display: none; <- Crashes Chrome on hover */
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
+}
+
+.phoneNumber {
+    -moz-appearance:textfield;
+}
+    
