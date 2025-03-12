@@ -11,16 +11,18 @@ type PhoneInputProps = {
     setPhoneNumber: (value: string) => void;
     className?: string;
     label?: string;
+    error?: string;
+    name?: string;
 }
 
-export default function PhoneInput({ countryCode, phoneNumber, setCountryCode, setPhoneNumber, className, label }: PhoneInputProps) {
+export default function PhoneInput({ countryCode, phoneNumber, setCountryCode, setPhoneNumber, className, label, error, name }: PhoneInputProps) {
     return (
         <div className={cn(styles.container, className)}>
             {label && <Label>{label}</Label>}
             <div className={styles.phoneInput}>
                 <Select>
-                    <SelectTrigger className={styles.countryCode}>
-                        <SelectValue placeholder="País"/>
+                    <SelectTrigger className={cn(styles.countryCode, error ? "errorBorder" : "")}>
+                        <SelectValue placeholder="País" />
                     </SelectTrigger>
                     <SelectContent defaultValue={countryCode} onChange={(e: any) => setCountryCode(e.target.value)}>
                         <SelectItem value="52">+52</SelectItem>
@@ -30,10 +32,12 @@ export default function PhoneInput({ countryCode, phoneNumber, setCountryCode, s
                     type="number"
                     value={phoneNumber}
                     onChange={(e) => setPhoneNumber(e.target.value)}
-                    className={styles.phoneNumber}
+                    className={cn(styles.phoneNumber, error ? "errorBorder" : "")}
                     placeholder="Número de teléfono"
+                    name={name}
                 />
             </div>
+            {error && <p className="errorMessage">{error}</p>}
         </div>
     )
 }

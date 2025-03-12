@@ -3,6 +3,7 @@ import styles from "./page.module.scss";
 import { SidebarTrigger } from "~/components/ui/sidebar";
 import { onlyAuthenticated } from "~/api/server.auth";
 import { LoaderFunctionArgs } from "@remix-run/node";
+import { toast } from "sonner";
 
 export async function loader({request}: LoaderFunctionArgs) {
     onlyAuthenticated({request});

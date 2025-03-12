@@ -1,5 +1,6 @@
 import styles from "./NoStoreCreated.module.scss";
 import RegisterStoreModal from "../RegisterStoreModal";
+import { toast } from "sonner";
 
 export default function NoStoreCreated() {
     return (

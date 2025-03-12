@@ -7,6 +7,7 @@ import styles from "./styles.module.scss"
 import OrderSummary from "~/features/dashboard/components/OrderSummary"
 import { useUser } from "~/api/client.auth"
 import { SidebarTrigger } from "~/components/ui/sidebar"
+import { toast } from "sonner"
 
 export async function loader() {
   const recentOrders = await getRecentOrders(5)

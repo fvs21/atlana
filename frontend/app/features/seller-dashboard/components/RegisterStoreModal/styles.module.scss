@@ -7,6 +7,7 @@
 
 .modalContainer {
     max-width: 900px;
+    min-height: 450px;
     padding: 0;
     display: flex;
     border: none;
@@ -16,6 +17,9 @@
     margin-top: $spacing-3xl;
     width: 50%;
     padding: 20px;
+
+    display: flex;
+    flex-direction: column;
 
     @media (max-width: 768px) {
         width: 100%;
@@ -52,10 +56,17 @@
 }
 
 .buttonContainer {
-    margin-top: 130px;
-    text-align: right;
+    flex-grow: 1;
+    align-items: flex-end;
+    display: flex;
+    justify-content: right
 }
 
 .continueButton {
     @include primary-button;
+}
+
+.otpInputContainer {
+    margin-top: $spacing-md;
+    width: 100%;
 }

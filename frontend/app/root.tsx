@@ -16,6 +16,7 @@ import "./tailwind.css";
 import "./styles/globals.scss";
 import { authTokenExists, refreshToken } from "./api/server.auth";
 import AuthProvider from "./providers/AuthProvider";
+import { Toaster } from "./components/ui/sonner";
 
 export const links: LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -79,6 +80,7 @@ export default function App() {
     <QueryClientProvider client={queryClient}>
       <AuthProvider access_token={data.access_token}>
         <Outlet />
+        <Toaster richColors />
       </AuthProvider>
     </QueryClientProvider>
   );

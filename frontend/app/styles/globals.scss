@@ -15,3 +15,11 @@ html, body {
      font-size: 0.875rem;
      margin-top: 0.25rem;
 }
+
+.errorBorder {
+     border: 1px solid $error-color;
+
+     &:focus {
+          outline: none !important;
+     }
+}
