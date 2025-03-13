@@ -8,8 +8,8 @@ export type User = {
     country_code: string;
     phone_number: string;
 
-    phone_verified: boolean;
-    email_verified: boolean;
+    has_phone_verified: boolean;
+    has_email_verified: boolean;
 }
 
 export type ResponseBody<T> = {

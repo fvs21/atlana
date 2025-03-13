@@ -6,8 +6,8 @@ import PhoneInput from "~/components/phone-input";
 import { toast } from "sonner";
 import { useUpdatePhoneNumber } from "../../api";
 
-export default function RegisterStoreModalOne({ setStep }: { setStep: (step: number) => void }) {
-    const [countryCode, setCountryCode] = useState("+52");
+export default function RegisterStoreModalOne({ next }: { next: () => void }) {
+    const [countryCode, setCountryCode] = useState("52");
     const [phoneNumber, setPhoneNumber] = useState("");
 
     const [error, setError] = useState("");
@@ -24,8 +24,16 @@ export default function RegisterStoreModalOne({ setStep }: { setStep: (step: num
             return;
         }
 
-        toast.success("El código de verificación ha sido enviado a tu número de teléfono.");
-        setStep(1);
+        try {
+            await update({
+                phone_number: phoneNumber,
+                country_code: countryCode
+            });
+            toast.success("El código de verificación ha sido enviado a tu número de teléfono.");
+            next();
+        } catch(error) {
+            setError("Error");
+        } 
     }
 
     return (

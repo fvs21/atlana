@@ -4,8 +4,9 @@ import { InputOTP, InputOTPGroup, InputOTPSeparator, InputOTPSlot } from "~/comp
 import { useState } from "react";
 import { Label } from "~/components/ui/label";
 import { useUser } from "~/api/client.auth";
+import { Button } from "~/components/ui/button";
 
-export default function RegisterStoreModalTwo({ setStep }: { setStep: (step: number) => void }) {
+export default function RegisterStoreModalTwo({ close }: { close: () => void }) {
     const [otp, setOtp] = useState("");
     const { user } = useUser();
 
@@ -33,6 +34,11 @@ export default function RegisterStoreModalTwo({ setStep }: { setStep: (step: num
                         </InputOTPGroup>
                     </InputOTP>
                 </div>
+            </div>
+            <div className={styles.buttonContainer}>
+                <Button className={styles.continueButton} onClick={close}>
+                    Enviar
+                </Button>
             </div>
         </div>
     )

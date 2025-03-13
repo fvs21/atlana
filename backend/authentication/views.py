@@ -134,7 +134,7 @@ class AuthenticatedAuthViewSet(viewsets.ViewSet):
         
         saved_user = serializer.save()
         
-        service.generate_and_send_verification_sms(saved_user)
+        service.generate_and_send_phone_verification_sms(saved_user)
 
         return JsonResponse({
             "data": {
@@ -142,7 +142,50 @@ class AuthenticatedAuthViewSet(viewsets.ViewSet):
             },
             "details": "Verification code sent"
         }, status=200)
+
+    @action(methods=['post'], detail=False)
+    def verify_phone_number(self, request: HttpRequest) -> JsonResponse:
+        serializer = VerifyEmailRequestSerializer(data=request.data)
+
+        if not serializer.is_valid():
+            return JsonResponse({
+                "details": serializer.errors,
+                "code": "invalid_data"
+            }, status=400)
     
+        user = service.get_user_by_id(request.user.id)
+
+        result = service.check_phone_verification(user, serializer.data['verification_code'])
+
+        if result:
+            return JsonResponse({
+                "details": "Phone number verified",
+                "data": {
+                    "user": UserSerializer(user).data
+                }
+            }, status=200)
+        
+        return JsonResponse({
+            "details": "Invalid verification code",
+            "code": "invalid_verification_code"
+        }, status=400)
+    
+    @action(methods=['post'], detail=False)
+    def request_phone_verification(self, request: HttpRequest) -> JsonResponse:
+        user = service.get_user_by_id(request.user.id)
+
+        result = service.resend_phone_verification_code(user)
+
+        if result:
+            return JsonResponse({
+                "details": "Verification code sent"
+            }, status=200)
+        
+        return JsonResponse({
+            "details": "You need to wait 5 minutes to request a new verification code"
+        }, status=429)
+    
+
 @api_view(['POST'])
 def refresh(request: HttpRequest) -> JsonResponse:
     refresh_token = request.COOKIES.get("user_r")

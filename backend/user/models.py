@@ -37,6 +37,9 @@ class User(AbstractBaseUser):
     country_code = models.CharField(max_length=3, null=True, blank=True)
     phone_number = models.CharField(max_length=15, null=True, blank=True)
 
+    email_verified_at = models.DateTimeField(null=True, blank=True)
+    phone_verified_at = models.DateTimeField(null=True, blank=True)
+
     user_type = models.CharField(choices=[('buyer', 'Buyer'), ('seller', 'Seller'), ('both', 'Both')], max_length=10, default='buyer')
     company_name = models.CharField(max_length=100, null=True, blank=True)
 
@@ -60,15 +63,23 @@ class User(AbstractBaseUser):
             return base + self.profile_picture.url
         
         return base + "/api/image/default-pfp.png"
+    
+    def has_email_verified(self) -> bool:
+        return self.email_verified_at is not None
+    
+    def has_phone_verified(self) -> bool:
+        return self.phone_verified_at is not None
 
 class VerificationData(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE) # add primary key later
+    db_table = "verification_data"
+
+    user = models.ForeignKey(User, on_delete=models.CASCADE) # add primary key later
     field = models.CharField(choices=[("email", "email"), ("phone", "phone")], max_length=5)
     code = models.CharField(max_length=128) # hashed code
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self) -> str:
-        return f"{self.user.username} for {self.field}: {self.code}"
+        return f"{self.user.first_name} for {self.field}: {self.code}"
     
     def can_request_new_code(self) -> bool:
         return self.created_at + timedelta(seconds=45) < timezone.now()

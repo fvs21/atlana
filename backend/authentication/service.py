@@ -91,13 +91,13 @@ def generate_logout_cookie() -> JsonResponse:
     return response
 
 def check_email_verification(user: User, verification_code: str) -> bool:
-    verification_data = VerificationData.objects.filter(user=user, field="email").first()
+    if user.email_verified_at is not None:
+        raise UserAlreadyVerifiedException(field="email")
+
+    verification_data = user.verification_data.filter(field="email").first()
 
     if verification_data is None:
-        raise VerificationConflictException("email")
-
-    if verification_code is None:
-        raise VerificationException("No verification code provided", 400)
+        raise VerificationConflictException(detail="User has not changed email.", field="email")
     
     if not check_password(verification_code, verification_data.code):
         return False
@@ -112,10 +112,10 @@ def check_email_verification(user: User, verification_code: str) -> bool:
     return True
 
 def resend_email_verification_code(user: User) -> bool:
-    verification_data = VerificationData.objects.filter(user=user, field="email").first()
+    verification_data = user.verification_data.filter(field="email").first()
 
     if verification_data is None:
-        raise VerificationConflictException("email")
+        raise VerificationConflictException(field="email")
     
     if not verification_data.can_request_new_code():
         return False
@@ -177,4 +177,45 @@ def generate_and_send_phone_verification_sms(user: User) -> None:
     #TODO
     #send phone number verification code
 
-    logging.info(f"Verification code for {user.phone}: {verification_code}")
+    logging.info(f"Verification code for {user.phone_number}: {verification_code}")
+
+def check_phone_verification(user: User, code: str) -> bool:
+    if user.phone_verified_at is not None:
+        raise UserAlreadyVerifiedException(field="phone")
+
+    verification_data = user.verification_data.filter(field="phone").first()
+
+    if verification_data is None:
+        raise VerificationConflictException(detail="User has not changed phone number.", field="phone")
+    
+    if not check_password(code, verification_data.code):
+        return False
+    
+    if verification_data.is_code_expired():
+        raise VerificationCodeExpiredException()
+    
+    user.phone_verified_at = timezone.now()
+    user.save()
+
+    verification_data.delete()
+
+    return True
+    
+def resend_phone_verification_code(user: User) -> bool:
+    verification_data = user.verification_data.filter(field="phone").first()
+
+    if verification_data is None:
+        raise VerificationConflictException(field="phone")
+    
+    if not verification_data.can_request_new_code():
+        return False
+    
+    verification_code = AuthenticationUtils.generate_verification_code()
+    verification_data.code = make_password(verification_code)
+    verification_data.save()
+
+    #TODO
+
+    logging.info(f"Verification code for {user.phone_number}: {verification_code}")
+
+    return True

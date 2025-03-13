@@ -4,6 +4,7 @@ import { SidebarTrigger } from "~/components/ui/sidebar";
 import { onlyAuthenticated } from "~/api/server.auth";
 import { LoaderFunctionArgs } from "@remix-run/node";
 import { toast } from "sonner";
+import { useUser } from "~/api/client.auth";
 
 export async function loader({request}: LoaderFunctionArgs) {
     onlyAuthenticated({request});
@@ -12,12 +13,14 @@ export async function loader({request}: LoaderFunctionArgs) {
 }
 
 export default function Page() {
+    const { user, isLoading } = useUser();
+
     return (
         <div className={styles.container}>
             <div className={styles.trigger}>
                 <SidebarTrigger />
             </div>
-            <NoStoreCreated />
+            {!isLoading && <NoStoreCreated />}
         </div>
     )
 }

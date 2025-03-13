@@ -25,8 +25,14 @@ class VerificationCodeExpiredException(DefaultException):
     def __init__(self):
         super().__init__("Verification code expired", 400, self.code)
 
+class UserAlreadyVerifiedException(DefaultException):
+    code = "user_already_verified"
+
+    def __init__(self, field: str):
+        super().__init__(field, 400, self.code)
+
 class VerificationConflictException(DefaultException):
     code = "verification_conflict"
 
-    def __init__(self, field: str):
-        super().__init__(f"User has already verified {field}", 409, self.code)
+    def __init__(self, field: str, detail="User has already verified"):
+        super().__init__(f"{detail} {field}", 409, self.code)

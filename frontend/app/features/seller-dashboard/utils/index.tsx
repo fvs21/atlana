@@ -1,11 +1,11 @@
 import RegisterStoreModalOne from "../components/RegisterStoreModal/RegisterStoreModalOne";
 import RegisterStoreModalTwo from "../components/RegisterStoreModal/RegisterStoreModalTwo";
 
-export function determineStep(step: number, setStep: (step: number) => void) {
+export function determineStep(step: number, next: () => void, close: () => void) {
     switch(step) {
         case 0:
-            return <RegisterStoreModalOne setStep={setStep} />;
+            return <RegisterStoreModalOne next={next} />;
         case 1:
-            return <RegisterStoreModalTwo setStep={setStep} />;
+            return <RegisterStoreModalTwo close={close} />;
     }
 }

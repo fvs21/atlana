@@ -11,5 +11,9 @@ class UserSerializer(serializers.ModelSerializer):
             'last_name', 
             'company_name', 
             'user_type', 
-            'profile_picture_url'
+            'profile_picture_url',
+            'country_code',
+            'phone_number',
+            'has_email_verified',
+            'has_phone_verified',
         ]
