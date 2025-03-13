@@ -19,3 +19,8 @@
     font-weight: 600;
     text-align: center;
 }
+
+.createStoreButton {
+    width: 100px;
+    @include primary-button;
+}

@@ -70,3 +70,17 @@
     margin-top: $spacing-md;
     width: 100%;
 }
+
+.resendContainer {
+    margin-top: $spacing-md;
+}
+
+.resendButton {
+    font-size: 14px;
+    color: $primary-color;
+    font-weight: 500;
+}
+
+.resendButton:hover {
+    text-decoration: underline;
+}

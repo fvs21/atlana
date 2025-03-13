@@ -36,3 +36,9 @@ class VerificationConflictException(DefaultException):
 
     def __init__(self, field: str, detail="User has already verified"):
         super().__init__(f"{detail} {field}", 409, self.code)
+
+class PhoneNumberAlreadyUsedException(DefaultException):
+    code = "phone_number_used"
+
+    def __init__(self):
+        super().__init__("Phone number already in use", 409, self.code)

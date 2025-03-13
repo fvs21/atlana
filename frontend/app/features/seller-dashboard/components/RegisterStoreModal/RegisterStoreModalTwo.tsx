@@ -5,10 +5,44 @@ import { useState } from "react";
 import { Label } from "~/components/ui/label";
 import { useUser } from "~/api/client.auth";
 import { Button } from "~/components/ui/button";
+import { useResendPhoneCode, useVerifyPhone } from "../../api";
+import { toast } from "sonner";
 
 export default function RegisterStoreModalTwo({ close }: { close: () => void }) {
     const [otp, setOtp] = useState("");
     const { user } = useUser();
+
+    const { verify, isPending, verifyDisabled } = useVerifyPhone();
+
+    const { resend, resendDisabled, isPending: resendCodePending } = useResendPhoneCode();
+
+    const handleVerify = async () => {
+        if(verifyDisabled)
+            return;
+
+        if (otp.length < 6)
+            return;
+
+        try {
+            await verify({code: otp});
+            toast.success("Número de teléfono verificado.");
+            close();
+        } catch(error) {
+            console.log(error);
+        }
+    }
+
+    const handleResend = async () => {
+        if(resendDisabled)
+            return;
+
+        try {
+            await resend();
+            toast.success("Código reenviado.");
+        } catch(error) {
+            toast.error("Error al reenviar código.");
+        }
+    }
 
     return (
         <div className={styles.formContainer}>
@@ -34,9 +68,14 @@ export default function RegisterStoreModalTwo({ close }: { close: () => void }) 
                         </InputOTPGroup>
                     </InputOTP>
                 </div>
+                <div className={styles.resendContainer}>
+                    <button className={styles.resendButton} onClick={handleResend} disabled={resendDisabled}>
+                        Reenviar código
+                    </button>
+                </div>
             </div>
             <div className={styles.buttonContainer}>
-                <Button className={styles.continueButton} onClick={close}>
+                <Button className={styles.continueButton} onClick={handleVerify} disabled={otp.length < 6 || verifyDisabled}>
                     Enviar
                 </Button>
             </div>

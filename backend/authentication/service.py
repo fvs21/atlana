@@ -121,8 +121,7 @@ def resend_email_verification_code(user: User) -> bool:
         return False
     
     verification_code = AuthenticationUtils.generate_verification_code()
-    verification_data.code = make_password(verification_code)
-    verification_data.save()
+    verification_data.set_new_code(make_password(verification_code))
 
     logging.info(f"Verification code for {user.email}: {verification_code}")
 
@@ -169,6 +168,27 @@ def reset_password(credential: str, password_reset_token: str, new_password: str
 
     return True
 
+def update_phone_number(user: User, data: dict) -> bool:
+    country_code = data.get("country_code")
+    phone_number = data.get("phone_number")
+
+    full_phone_number = f"{country_code}{phone_number}"
+
+    if user.phone == full_phone_number:
+        return False
+
+    if User.objects.filter(phone=full_phone_number).exists():
+        raise PhoneNumberAlreadyUsedException()
+    
+    user.phone = full_phone_number
+    user.country_code = country_code
+
+    user.save()
+
+    generate_and_send_phone_verification_sms(user)
+
+    return True
+
 def generate_and_send_phone_verification_sms(user: User) -> None:
     verification_code = AuthenticationUtils.generate_verification_code()
     verification_data = VerificationData(user=user, field="phone", code=make_password(verification_code))
@@ -211,7 +231,7 @@ def resend_phone_verification_code(user: User) -> bool:
         return False
     
     verification_code = AuthenticationUtils.generate_verification_code()
-    verification_data.code = make_password(verification_code)
+    verification_data.set_new_code(make_password(verification_code))
     verification_data.save()
 
     #TODO

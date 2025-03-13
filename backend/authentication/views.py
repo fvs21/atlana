@@ -118,13 +118,19 @@ class AuthenticatedAuthViewSet(viewsets.ViewSet):
         if result:
             return JsonResponse({"details": "Verification email sent"}, status=200)
         
-        return JsonResponse({"details": "You need to wait 5 minutes to request a new verification code"}, status=429)
+        return JsonResponse(
+            {
+                "details": "You need to wait 5 minutes to request a new verification code",
+                "code": "code_request_limit"
+            }, 
+            status=429
+        )
     
     @action(methods=['patch'], detail=False)
     def update_phone_number(self, request: HttpRequest) -> JsonResponse:
         user = service.get_user_by_id(request.user.id)
 
-        serializer = UpdatePhoneNumberRequestSerializer(user, data=request.data)
+        serializer = UpdatePhoneNumberRequestSerializer(data=request.data)
 
         if not serializer.is_valid():
             return JsonResponse({
@@ -132,15 +138,18 @@ class AuthenticatedAuthViewSet(viewsets.ViewSet):
                 "code": "invalid_data"
             }, status=400)
         
-        saved_user = serializer.save()
-        
-        service.generate_and_send_phone_verification_sms(saved_user)
+        result = service.update_phone_number(user, serializer.validated_data['phone_number'])
 
+        if result:
+            return JsonResponse({
+                "data": {
+                    "user": UserSerializer(user).data
+                },
+                "details": "Verification code sent"
+            }, status=200)
+        
         return JsonResponse({
-            "data": {
-                "user": UserSerializer(saved_user).data
-            },
-            "details": "Verification code sent"
+            "details": "No changes made",
         }, status=200)
 
     @action(methods=['post'], detail=False)
@@ -155,7 +164,7 @@ class AuthenticatedAuthViewSet(viewsets.ViewSet):
     
         user = service.get_user_by_id(request.user.id)
 
-        result = service.check_phone_verification(user, serializer.data['verification_code'])
+        result = service.check_phone_verification(user, serializer.data['code'])
 
         if result:
             return JsonResponse({
@@ -182,6 +191,7 @@ class AuthenticatedAuthViewSet(viewsets.ViewSet):
             }, status=200)
         
         return JsonResponse({
+            "code": "code_request_limit",
             "details": "You need to wait 5 minutes to request a new verification code"
         }, status=429)
     

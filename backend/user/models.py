@@ -73,16 +73,22 @@ class User(AbstractBaseUser):
 class VerificationData(models.Model):
     db_table = "verification_data"
 
-    user = models.ForeignKey(User, on_delete=models.CASCADE) # add primary key later
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="verification_data") # add primary key later
     field = models.CharField(choices=[("email", "email"), ("phone", "phone")], max_length=5)
     code = models.CharField(max_length=128) # hashed code
     created_at = models.DateTimeField(auto_now_add=True)
+
+    def set_new_code(self, code: str) -> None:
+        self.code = code
+        self.created_at = timezone.now()
+
+        self.save()
 
     def __str__(self) -> str:
         return f"{self.user.first_name} for {self.field}: {self.code}"
     
     def can_request_new_code(self) -> bool:
-        return self.created_at + timedelta(seconds=45) < timezone.now()
+        return self.created_at + timedelta(seconds=45) <= timezone.now()
     
     def is_code_expired(self) -> bool:
         return self.created_at + timedelta(minutes=5) < timezone.now()

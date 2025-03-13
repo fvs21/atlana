@@ -5,6 +5,7 @@ import React from "react";
 import { Link, useNavigate } from "@remix-run/react";
 import styles from "./styles.module.scss";
 import { Button } from "../ui/button";
+import { cn } from "~/lib/utils";
 
 export default function NavbarActions() {
     const { user, isLoading } = useUser();
@@ -19,8 +20,9 @@ export default function NavbarActions() {
             <NavigationMenuList className={styles.actions}>
                 {user ? (
                     <NavigationMenuItem className={styles.dissapearingActionButtons}>
-                        <NavigationMenuTrigger className={styles.iconButton} onClick={() => navigate("/dashboard")}>
+                        <NavigationMenuTrigger className={cn(styles.iconButton, styles.userIconButton)} onClick={() => navigate("/dashboard")}>
                             <User />
+                            {user.first_name}
                         </NavigationMenuTrigger>
                         <NavigationMenuContent>
                             <ul className={styles.userDropdown}>

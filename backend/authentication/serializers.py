@@ -54,16 +54,14 @@ class ForgotPasswordRequestSerializer(serializers.Serializer):
 class VerifyEmailRequestSerializer(serializers.Serializer):
     code = serializers.CharField(required=True, error_messages={'required': 'Code missing'})
 
-class UpdatePhoneNumberRequestSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = User
-        fields = ['country_code', 'phone_number']
+class UpdatePhoneNumberRequestSerializer(serializers.Serializer):
+    country_code = serializers.CharField(required=True)
+    phone_number = serializers.CharField(required=True)
 
-    def update(self, instance, validated_data):
-        country_code = validated_data.get('country_code', instance.country_code)
-        instance.country_code = country_code
-        instance.phone_number = country_code + validated_data.get('phone_number', instance.phone_number)
-
-        instance.save()
-
-        return instance
+    def validate_country_code(self, value):
+        if not value.isdigit():
+            raise serializers.ValidationError('Invalid country code')
+        if not value in ["52"]:
+            raise serializers.ValidationError('Country code not supported')
+        
+        return value

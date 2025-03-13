@@ -15,6 +15,10 @@
     }
 }
 
+.userIconButton {
+    gap: 4px;
+}
+
 .mobileMenu {
     @include responsive($breakpoint-md) {
         display: none;
