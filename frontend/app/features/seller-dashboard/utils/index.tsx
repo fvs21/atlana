@@ -1,11 +1,12 @@
-import RegisterStoreModalOne from "../components/RegisterStoreModal/RegisterStoreModalOne";
-import RegisterStoreModalTwo from "../components/RegisterStoreModal/RegisterStoreModalTwo";
+import AddPhoneModalOne from "../components/AddPhoneModal/AddPhoneModalOne";
+import AddPhoneModalTwo from "../components/AddPhoneModal/AddPhoneModalTwo";
+
 
 export function determineStep(step: number, next: () => void, close: () => void) {
     switch(step) {
         case 0:
-            return <RegisterStoreModalOne next={next} />;
+            return <AddPhoneModalOne next={next} />;
         case 1:
-            return <RegisterStoreModalTwo close={close} />;
+            return <AddPhoneModalTwo close={close} />;
     }
 }

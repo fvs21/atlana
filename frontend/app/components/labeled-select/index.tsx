@@ -17,13 +17,13 @@ export default function LabeledSelect({ name, label, options, value, onChange, c
     return (
         <div className={cn(styles.container, className)}>
             {label && <Label>{label}</Label>}
-            <Select name={name}>
+            <Select name={name} onValueChange={onChange} value={value}>
                 <SelectTrigger>
                     <SelectValue placeholder={placeholder}/>
                 </SelectTrigger>
                 <SelectContent>
                     {options.map((option) => (
-                        <SelectItem value={option} onChange={(e: React.ChangeEvent<HTMLInputElement>) => onChange(e.target.value)}>{option}</SelectItem>
+                        <SelectItem value={option} key={option}>{option}</SelectItem>
                     ))}
                 </SelectContent>
             </Select>

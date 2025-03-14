@@ -174,13 +174,13 @@ def update_phone_number(user: User, data: dict) -> bool:
 
     full_phone_number = f"{country_code}{phone_number}"
 
-    if user.phone == full_phone_number:
+    if user.phone_number == full_phone_number:
         return False
 
-    if User.objects.filter(phone=full_phone_number).exists():
+    if User.objects.filter(phone_number=full_phone_number).exists():
         raise PhoneNumberAlreadyUsedException()
     
-    user.phone = full_phone_number
+    user.phone_number = full_phone_number
     user.country_code = country_code
 
     user.save()

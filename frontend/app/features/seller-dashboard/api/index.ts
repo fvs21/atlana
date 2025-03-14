@@ -3,17 +3,21 @@ import { UpdatePhoneNumber } from "../types"
 import { api } from "~/api"
 import { ResponseBody, User } from "~/types/globals";
 
+type UpdatePhoneNumberResponse = {
+    user: User;
+}
+
 export function useUpdatePhoneNumber() {
     const queryClient = useQueryClient();
 
     const { mutateAsync: update, isPending, isError } = useMutation({
         mutationFn: async (body: UpdatePhoneNumber) => {
-            const request = await api.patch<ResponseBody<User>>("/auth/phone/update", body);
+            const request = await api.patch<ResponseBody<UpdatePhoneNumberResponse>>("/auth/phone/update", body);
             
             return request.data;
         },
         onSuccess: (data) => {
-            queryClient.setQueryData(["user"], data.data);
+            queryClient.setQueryData(["user"], data.data?.user);
         }
     });
 
@@ -29,12 +33,12 @@ export function useVerifyPhone() {
 
     const { mutateAsync: verify, isPending, isError } = useMutation({
         mutationFn: async (body: { code: string }) => {
-            const request = await api.post<ResponseBody<User>>("/auth/verify-phone", body);
+            const request = await api.post<ResponseBody<UpdatePhoneNumberResponse>>("/auth/verify-phone", body);
 
             return request.data;
         },
         onSuccess: (data) => {
-            queryClient.setQueryData(["user"], data.data);
+            queryClient.setQueryData(["user"], data.data?.user);
         }
     });
 

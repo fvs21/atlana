@@ -23,3 +23,7 @@ html, body {
           outline: none !important;
      }
 }
+
+.primaryButton {
+     @include primary-button;
+}

@@ -5,22 +5,21 @@ import { useState } from "react";
 import { determineStep } from "../../utils";
 import { useUser } from "~/api/client.auth";
 
-export default function RegisterStoreModal() {
+type AddPhoneModalProps = {
+    open: boolean;
+    setOpen: (open: boolean) => void;
+}
+
+export default function AddPhoneModal({ open, setOpen }: AddPhoneModalProps) {
     const { user } = useUser();    
 
     const [step, setStep] = useState(user?.phone_number ? 1 : 0);
-    const [open, setOpen] = useState(false);
 
     const next = () => setStep(1);
     const close = () => setOpen(false);
 
     return (
         <Dialog modal open={open} onOpenChange={setOpen}>
-            <DialogTrigger asChild>
-                <Button className={styles.startButton}>
-                    Comenzar
-                </Button>
-            </DialogTrigger>
             <DialogContent className={styles.modalContainer} aria-describedby="register-store-modal">
                 {determineStep(step, next, close)}
                 <div className={styles.imageContainer}>

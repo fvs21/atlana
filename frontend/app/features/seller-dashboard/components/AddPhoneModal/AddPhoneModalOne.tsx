@@ -6,7 +6,7 @@ import PhoneInput from "~/components/phone-input";
 import { toast } from "sonner";
 import { useUpdatePhoneNumber } from "../../api";
 
-export default function RegisterStoreModalOne({ next }: { next: () => void }) {
+export default function AddPhoneModalOne({ next }: { next: () => void }) {
     const [countryCode, setCountryCode] = useState("52");
     const [phoneNumber, setPhoneNumber] = useState("");
 
@@ -31,8 +31,12 @@ export default function RegisterStoreModalOne({ next }: { next: () => void }) {
             });
             toast.success("El código de verificación ha sido enviado a tu número de teléfono.");
             next();
-        } catch(error) {
-            setError("Error");
+        } catch(error: any) {
+            switch(error.response?.data?.code) {
+                case "phone_number_used":
+                    setError("Este número de teléfono ya está en uso.");
+                    break;
+            }
         } 
     }
 

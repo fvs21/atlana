@@ -8,7 +8,7 @@ import { Button } from "~/components/ui/button";
 import { useResendPhoneCode, useVerifyPhone } from "../../api";
 import { toast } from "sonner";
 
-export default function RegisterStoreModalTwo({ close }: { close: () => void }) {
+export default function AddPhoneModalTwo({ close }: { close: () => void }) {
     const [otp, setOtp] = useState("");
     const { user } = useUser();
 

@@ -138,7 +138,7 @@ class AuthenticatedAuthViewSet(viewsets.ViewSet):
                 "code": "invalid_data"
             }, status=400)
         
-        result = service.update_phone_number(user, serializer.validated_data['phone_number'])
+        result = service.update_phone_number(user, serializer.validated_data)
 
         if result:
             return JsonResponse({

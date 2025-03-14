@@ -1,0 +1,25 @@
+@import "~/styles/variables";
+
+.container {
+    display: flex;
+    justify-content: center;
+    padding-top: $spacing-lg;
+}
+
+.form {
+    width: 700px;
+}
+
+.title {
+    font-size: 30px;
+    font-weight: 600;
+}
+
+.inputContainer {
+    padding: $spacing-md 0;
+}
+
+.buttonContainer {
+    padding-top: $spacing-sm;
+    width: 100%;
+}
