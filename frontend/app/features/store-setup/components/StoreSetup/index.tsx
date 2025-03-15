@@ -1,23 +1,89 @@
+import { cn } from "~/lib/utils";
 import AboutSetup from "../AboutSetup";
 import BannerSetup from "../BannerSetup";
 import CategoriesSetup from "../CategoriesSetup";
 import styles from "./styles.module.scss";
+import { useState } from "react";
+import { Link } from "@remix-run/react";
+import { Dot } from "lucide-react";
+import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "~/components/ui/breadcrumb";
+
+type NowEditing = 'banner' | 'about' | 'categories' | 'none';
 
 export default function StoreSetup() {
+    const [nowEditing, setNowEditing] = useState<NowEditing>('none');
+
     return (
         <main className={styles.main}>
-            <h1 className={styles.title}>Configuración de tienda</h1>
-            <div className={styles.setupSection}>
-                <BannerSetup />
+            <Header />
+            <div className={styles.title}>
+                <div>Configuración de tienda</div>
+                <Dot />
+                <Link to={'/store/1'} className={styles.visitStoreLink}>
+                    Visita tu tienda
+                </Link>
             </div>
             <div className={styles.setupSection}>
-                <h2 className={styles.setupSectionTitle}>Acerca</h2>
+                <div className={cn(styles.setupSectionTitleContainer, !['banner', 'none'].includes(nowEditing) ? styles.notEditable : '')}>
+                    <h2 className={styles.setupSectionTitle}>Banner</h2>
+                    <button className={styles.editButton} onClick={() => {
+                        if(nowEditing == 'banner') {
+                            setNowEditing('none');
+                        } else {
+                            setNowEditing('banner');
+                        }
+                    }}>
+                        Editar
+                    </button>
+                </div>
+                <BannerSetup edit={nowEditing == 'banner'} />
+            </div>
+            <div className={cn(styles.setupSection, !['about', 'none'].includes(nowEditing) ? styles.notEditable : '')}>
+                <div className={styles.setupSectionTitleContainer}>
+                    <h2 className={styles.setupSectionTitle}>Acerca</h2>
+                    <button className={styles.editButton} onClick={() => {
+                        if(nowEditing == 'about') {
+                            setNowEditing('none');
+                        } else {
+                            setNowEditing('about');
+                        }
+                    }}>
+                        Editar
+                    </button>
+                </div>
                 <AboutSetup />
             </div>
-            <div className={styles.setupSection}>
-                <h2 className={styles.setupSectionTitle}>Product Categories</h2>
+            <div className={cn(styles.setupSection, !['categories', 'none'].includes(nowEditing) ? styles.notEditable : '')}>
+                <div className={styles.setupSectionTitleContainer}>
+                    <h2 className={styles.setupSectionTitle}>Información de productos principales</h2>
+                    <button className={styles.editButton} onClick={() => {
+                        if(nowEditing == 'categories') {
+                            setNowEditing('none');
+                        } else {
+                            setNowEditing('categories');
+                        }
+                    }}>
+                        Editar
+                    </button>
+                </div>
                 <CategoriesSetup />
             </div>
         </main>
     );
 } 
+
+function Header() {
+    return (
+        <Breadcrumb>
+            <BreadcrumbList>
+                <BreadcrumbItem>
+                    <BreadcrumbLink href="/seller">Panel de vendedor</BreadcrumbLink>
+                </BreadcrumbItem>
+                <BreadcrumbSeparator />
+                <BreadcrumbItem>
+                    <BreadcrumbPage>Configuración de tienda</BreadcrumbPage>
+                </BreadcrumbItem>
+            </BreadcrumbList>
+        </Breadcrumb>
+    )
+}

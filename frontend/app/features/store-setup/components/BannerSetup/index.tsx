@@ -10,9 +10,8 @@ import { Upload } from "lucide-react"
 import styles from "./styles.module.scss"
 
 
-export default function BannerSetup() {
+export default function BannerSetup({ edit }: { edit: boolean }) {
     const [imageUrl, setImageUrl] = useState<string>("https://static.vecteezy.com/system/resources/previews/003/566/561/non_2x/abstract-banner-design-web-templates-horizontal-header-web-banner-modern-abstract-cover-header-background-for-website-design-social-media-cover-advertising-banner-flyer-invitation-card-free-vector.jpg")
-    const [edit, setEdit] = useState<boolean>(false);
 
     const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0]
@@ -26,10 +25,6 @@ export default function BannerSetup() {
 
     return (
         <div className={styles.bannerSetup}>
-            <div className={styles.setupSectionTitleContainer}>
-                <h2 className={styles.setupSectionTitle}>Banner</h2>
-                <button className={styles.editButton} onClick={() => setEdit(!edit)}>Editar</button>
-            </div>
             <Card className={styles.previewCard}>
                 <img className={styles.bannerPreview} src={imageUrl} />
             </Card>
