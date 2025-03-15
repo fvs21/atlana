@@ -36,8 +36,7 @@ export default function CreateStoreForm() {
     const handleSubmit = async () => {
         if (registerDisabled) return;
 
-        if (locationInvalid || !storeName) 
-            return;
+        if (locationInvalid || !storeName) return;
 
         try {
             await register({

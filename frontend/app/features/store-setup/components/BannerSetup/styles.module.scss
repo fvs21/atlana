@@ -1,0 +1,79 @@
+.setupSectionTitleContainer {
+    margin-bottom: 1.5rem;
+    color: #374151;
+    border-bottom: 1px solid #e5e7eb;
+    padding-bottom: 0.75rem;
+    display: flex;
+    justify-content: space-between;
+}
+
+.setupSectionTitle {
+    font-size: 1.5rem;
+    font-weight: 500;
+}
+
+.editButton {
+    font-size: 15px;
+    font-weight: 500;
+    text-decoration: underline;
+}
+
+.bannerSetup {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.previewCard {
+    overflow: hidden;
+    border-radius: 0;
+}
+
+.bannerPreview {
+    height: 240px;
+    width: 100%;
+    object-fit: cover;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.formGroup {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.label {
+    font-weight: 500;
+}
+
+.fileUpload {
+    position: relative;
+}
+
+.fileInput {
+    position: absolute;
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    z-index: -1;
+}
+
+.uploadButton {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.75rem;
+}
+
+.helpText {
+    font-size: 0.875rem;
+    color: #6b7280;
+    margin-top: 0.5rem;
+}

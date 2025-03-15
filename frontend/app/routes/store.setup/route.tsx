@@ -6,11 +6,12 @@ import styles from "./styles.module.scss";
 import { LoaderFunctionArgs } from "@remix-run/node";
 import { onlyAuthenticated } from "~/api/server.auth";
 import { useUser } from "~/api/client.auth";
+import StoreSetup from "~/features/store-setup/components/StoreSetup";
 
 export const meta: MetaFunction = () => {
     return [
         {
-            title: "Tradenal: Crea tu tienda",
+            title: "Tradenal: Tu tienda",
         },
     ]
 }
@@ -25,18 +26,18 @@ export default function Page() {
     const { user, isLoading } = useUser();
 
     return (
-        <main className={styles.container}>
+        <div className={styles.container}>
             <NavbarSmall />
             <div className={styles.content}>
                 {!isLoading && (
                     user?.has_store_created ? (
-                        <></>
+                        <StoreSetup />
                     ) : (
                         <CreateStoreForm />
                     )
                 )}
             </div>
             <FooterSmall />
-        </main>
+        </div>
     )
 }
