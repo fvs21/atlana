@@ -33,7 +33,7 @@ export default function StoreSetup() {
                             setNowEditing('banner');
                         }
                     }}>
-                        Editar
+                        {nowEditing == 'banner' ? 'Cancelar' : 'Editar'}
                     </button>
                 </div>
                 <BannerSetup edit={nowEditing == 'banner'} />
@@ -48,7 +48,7 @@ export default function StoreSetup() {
                             setNowEditing('about');
                         }
                     }}>
-                        Editar
+                        {nowEditing == 'about' ? 'Cancelar' : 'Editar'}
                     </button>
                 </div>
                 <AboutSetup />
@@ -63,7 +63,7 @@ export default function StoreSetup() {
                             setNowEditing('categories');
                         }
                     }}>
-                        Editar
+                        {nowEditing == 'categories' ? 'Cancelar' : 'Editar'}
                     </button>
                 </div>
                 <CategoriesSetup />
