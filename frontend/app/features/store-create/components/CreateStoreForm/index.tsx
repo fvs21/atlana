@@ -20,7 +20,7 @@ export default function CreateStoreForm() {
         zip_code: "",
         street: "",
         number: "",
-    });  
+    });
 
     const locationInvalid = (Object.keys(location) as (keyof Location)[]).some((key) => {
         if(key === 'number')
@@ -28,14 +28,10 @@ export default function CreateStoreForm() {
 
         return location[key].length === 0;
     });
-
-    console.log(locationInvalid);
-    console.log(location);
-    
     
 
     if (isLoading) {
-        return <></>
+        return <div className={styles.container}></div>
     }
 
     return (

@@ -29,7 +29,7 @@ class CreateStoreSerializer(serializers.ModelSerializer):
 class StoreSerializer(serializers.ModelSerializer):
     class Meta:
         model = Store
-        fields = ['name', 'store_location', 'creator', 'about', 'banner']
+        fields = ['id', 'name', 'store_location', 'creator', 'about', 'banner']
 
 class EditStoreSerializer(serializers.ModelSerializer):
     banner = serializers.ImageField()

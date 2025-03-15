@@ -1,5 +1,12 @@
 @import '~/styles/variables';
 
+.title {
+  font-size: 1.4rem;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
 .headerContent {
   display: flex;
   align-items: center;

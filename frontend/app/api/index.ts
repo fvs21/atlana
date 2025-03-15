@@ -1,4 +1,3 @@
-import { createCookieSessionStorage } from '@remix-run/node';
 import axios, { AxiosInstance } from 'axios';
 
 export const BASE_URL = 'http://localhost:8000/api';

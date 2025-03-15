@@ -27,7 +27,7 @@ export function DashboardSidebar() {
     <Sidebar collapsible="icon">
       <SidebarHeader>
         <div className={styles.headerContent}>
-          {(sidebar.open || sidebar.openMobile) && <Logo width={20} />}
+          {(sidebar.open || sidebar.openMobile) && <Logo width={28} />}
         </div>
       </SidebarHeader>
       <SidebarContent>
