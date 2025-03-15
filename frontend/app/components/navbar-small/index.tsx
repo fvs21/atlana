@@ -1,6 +1,6 @@
 import { Link, useNavigate } from "@remix-run/react";
 import styles from "./NavbarSmall.module.scss";
-import { Menu, ShoppingCart, User } from "lucide-react";
+import { Menu } from "lucide-react";
 import NavbarActions from "../navbar-actions";
 
 export default function NavbarSmall() {

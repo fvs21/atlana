@@ -10,6 +10,7 @@ export type User = {
 
     has_phone_verified: boolean;
     has_email_verified: boolean;
+    has_store_created: boolean;
 }
 
 export type ResponseBody<T> = {

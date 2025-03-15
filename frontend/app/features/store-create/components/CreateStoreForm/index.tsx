@@ -7,10 +7,14 @@ import { useState } from "react";
 import { Location } from "~/types/location";
 import LocationInput from "~/components/location-input";
 import { Button } from "~/components/ui/button";
+import { useRegisterStore } from "../../api";
+import { toast } from "sonner";
 
 export default function CreateStoreForm() {
-    const { user, isLoading } = useUser();
+    const { user } = useUser();
     const navigate = useNavigate();
+
+    const { register, isPending, registerDisabled } = useRegisterStore();
 
     const [storeName, setStoreName] = useState<string>("");
     const [location, setLocation] = useState<Location>({
@@ -28,10 +32,22 @@ export default function CreateStoreForm() {
 
         return location[key].length === 0;
     });
-    
 
-    if (isLoading) {
-        return <div className={styles.container}></div>
+    const handleSubmit = async () => {
+        if (registerDisabled) return;
+
+        if (locationInvalid || !storeName) 
+            return;
+
+        try {
+            await register({
+                name: storeName,
+                store_location: location,
+            });
+            toast.success("Tienda registrada correctamente.");
+        } catch(error) {
+            console.error(error);
+        }
     }
 
     return (
@@ -56,7 +72,7 @@ export default function CreateStoreForm() {
                     />
                 </div>
                 <div className={styles.buttonContainer}>
-                    <Button className="primaryButton" disabled={locationInvalid || !storeName}>
+                    <Button className="primaryButton" disabled={locationInvalid || !storeName} onClick={handleSubmit}>
                         Continuar
                     </Button>
                 </div>

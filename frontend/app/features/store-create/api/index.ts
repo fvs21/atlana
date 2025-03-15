@@ -1,7 +1,7 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { RegisterStoreBody, RegisterStoreResponse } from "../types";
 import { api } from "~/api";
-import { ResponseBody } from "~/types/globals";
+import { ResponseBody, User } from "~/types/globals";
 
 export function useRegisterStore() {
     const queryClient = useQueryClient();
@@ -13,6 +13,10 @@ export function useRegisterStore() {
         },
         onSuccess: (body) => {
             queryClient.setQueryData(['store', body.data?.store.id], body.data?.store);
+            queryClient.setQueryData(['user'], (old: User) => ({
+                ...old, 
+                has_store_created: true
+            }));
         }
     });
 
