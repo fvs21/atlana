@@ -12,7 +12,7 @@ export function useRegisterStore() {
             return request.data;
         },
         onSuccess: (body) => {
-            queryClient.setQueryData(['store', body.data?.store.id], body.data?.store);
+            queryClient.setQueryData(['store'], body.data?.store);
             queryClient.setQueryData(['user'], (old: User) => ({
                 ...old, 
                 has_store_created: true

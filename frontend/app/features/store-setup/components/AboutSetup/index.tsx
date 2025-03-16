@@ -5,13 +5,29 @@ import type React from "react"
 import { useState } from "react"
 import { Textarea } from "~/components/ui/textarea"
 import styles from "./styles.module.scss"
+import { Button } from "~/components/ui/button"
+import { useStore, useUpdateAbout } from "../../api"
 
 
 export default function AboutSetup({ edit }: { edit: boolean }) {
-    const [content, setContent] = useState<string>("njdksa");
+    const { data } = useStore();
+
+    const [content, setContent] = useState<string>(data?.about as string);
+
+    const { update, isPending, updateDisabled } = useUpdateAbout();
 
     const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
         setContent(e.target.value)
+    }
+
+    const handleSubmit = async () => {
+        if(!content || updateDisabled) return;
+
+        try {
+            await update({ about: content });   
+        } catch (error) {
+            console.error(error);
+        }
     }
 
     return (
@@ -33,6 +49,11 @@ export default function AboutSetup({ edit }: { edit: boolean }) {
                             className={styles.textarea}
                             rows={8}
                         />
+                    </div>
+                    <div className={styles.saveButtonContainer}>
+                        <Button className={styles.saveButton} onClick={handleSubmit} disabled={updateDisabled}>
+                            Guardar
+                        </Button>
                     </div>
                 </div>
             )}

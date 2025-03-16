@@ -6,6 +6,9 @@ from .models import Store
 from image.service import upload_image
 
 class CreateStoreSerializer(serializers.ModelSerializer):
+    '''
+    serializer used to create a store
+    '''
     store_location = serializers.JSONField()
 
     class Meta:
@@ -27,6 +30,9 @@ class CreateStoreSerializer(serializers.ModelSerializer):
         return store
 
 class StoreSerializer(serializers.ModelSerializer):
+    '''
+    serializer used to map and display store details
+    '''
     class Meta:
         model = Store
         fields = [
@@ -53,6 +59,18 @@ class EditStoreSerializer(serializers.ModelSerializer):
         instance.name = validated_data.get('name', instance.name)
         instance.about = validated_data.get('about', instance.about)
         instance.banner = validated_data.get('banner', instance.banner)
+
+        instance.save()
+
+        return instance
+    
+class EditAboutSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Store
+        fields = ['about']
+
+    def update(self, instance, validated_data: dict):
+        instance.about = validated_data.get('about', instance.about)
 
         instance.save()
 

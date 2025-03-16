@@ -7,11 +7,24 @@ import { useState } from "react";
 import { Link } from "@remix-run/react";
 import { Dot } from "lucide-react";
 import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList, BreadcrumbPage, BreadcrumbSeparator } from "~/components/ui/breadcrumb";
+import { useStore } from "../../api";
 
 type NowEditing = 'banner' | 'about' | 'categories' | 'none';
 
 export default function StoreSetup() {
     const [nowEditing, setNowEditing] = useState<NowEditing>('none');
+    const { data, isLoading } = useStore();
+
+    if (isLoading) {
+        return (
+            <main className={styles.main}>
+                <Header />
+                <div className={styles.title}>
+                    <div>Configuración de tienda</div>
+                </div>
+            </main>
+        )
+    }
 
     return (
         <main className={styles.main}>
@@ -19,7 +32,7 @@ export default function StoreSetup() {
             <div className={styles.title}>
                 <div>Configuración de tienda</div>
                 <Dot />
-                <Link to={'/store/1'} className={styles.visitStoreLink}>
+                <Link to={`/store/${data?.id}`} className={styles.visitStoreLink}>
                     Visita tu tienda
                 </Link>
             </div>
@@ -39,7 +52,7 @@ export default function StoreSetup() {
                     </h2>
                     <EditButton section="about" setNowEditing={setNowEditing} nowEditing={nowEditing} />
                 </div>
-                <AboutSetup edit={nowEditing == 'about'}/>
+                <AboutSetup edit={nowEditing == 'about'} />
             </div>
             <div className={cn(styles.setupSection, !['categories', 'none'].includes(nowEditing) ? styles.notEditable : '')}>
                 <div className={styles.setupSectionTitleContainer}>
@@ -52,7 +65,7 @@ export default function StoreSetup() {
             </div>
         </main>
     );
-} 
+}
 
 function Header() {
     return (
@@ -73,7 +86,7 @@ function Header() {
 function EditButton({ section, setNowEditing, nowEditing }: { section: NowEditing, setNowEditing: (section: NowEditing) => void, nowEditing: NowEditing }) {
     return (
         <button className={styles.editButton} onClick={() => {
-            if(section == nowEditing) {
+            if (section == nowEditing) {
                 setNowEditing('none');
             } else {
                 setNowEditing(section);
