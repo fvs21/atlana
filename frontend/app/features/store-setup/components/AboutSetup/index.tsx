@@ -9,7 +9,7 @@ import { Button } from "~/components/ui/button"
 import { useStore, useUpdateAbout } from "../../api"
 
 
-export default function AboutSetup({ edit }: { edit: boolean }) {
+export default function AboutSetup({ edit, save }: { edit: boolean, save: () => void }) {
     const { data } = useStore();
 
     const [content, setContent] = useState<string>(data?.about as string);
@@ -25,6 +25,7 @@ export default function AboutSetup({ edit }: { edit: boolean }) {
 
         try {
             await update({ about: content });   
+            save();
         } catch (error) {
             console.error(error);
         }
@@ -34,7 +35,11 @@ export default function AboutSetup({ edit }: { edit: boolean }) {
         <div className={styles.aboutSetup}>
             {!edit ? (
                 <div className={styles.aboutPreview}>
-                    {content ? content : <span className={styles.noAbout}>No has agregado ninguna descripción.</span>}
+                    {content ? (
+                        <div className={styles.about}>
+                            {content}
+                        </div>
+                    ) : <span className={styles.noAbout}>No has agregado ninguna descripción.</span>}
                 </div>
             ): (
                 <div className={styles.form}>

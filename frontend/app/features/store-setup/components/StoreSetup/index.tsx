@@ -43,7 +43,10 @@ export default function StoreSetup() {
                     </h2>
                     <EditButton section="banner" setNowEditing={setNowEditing} nowEditing={nowEditing} />
                 </div>
-                <BannerSetup edit={nowEditing == 'banner'} />
+                <BannerSetup 
+                    edit={nowEditing == 'banner'} 
+                    save={() => setNowEditing('none')}
+                />
             </div>
             <div className={cn(styles.setupSection, !['about', 'none'].includes(nowEditing) ? styles.notEditable : '')}>
                 <div className={styles.setupSectionTitleContainer}>
@@ -52,7 +55,10 @@ export default function StoreSetup() {
                     </h2>
                     <EditButton section="about" setNowEditing={setNowEditing} nowEditing={nowEditing} />
                 </div>
-                <AboutSetup edit={nowEditing == 'about'} />
+                <AboutSetup 
+                    edit={nowEditing == 'about'} 
+                    save={() => setNowEditing('none')}
+                />
             </div>
             <div className={cn(styles.setupSection, !['categories', 'none'].includes(nowEditing) ? styles.notEditable : '')}>
                 <div className={styles.setupSectionTitleContainer}>
@@ -61,7 +67,10 @@ export default function StoreSetup() {
                     </h2>
                     <EditButton section="categories" setNowEditing={setNowEditing} nowEditing={nowEditing} />
                 </div>
-                <CategoriesSetup />
+                <CategoriesSetup 
+                    edit={nowEditing == 'categories'}
+                    save={() => setNowEditing('none')}
+                />
             </div>
         </main>
     );

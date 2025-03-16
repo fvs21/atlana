@@ -39,7 +39,6 @@ class StoreSerializer(serializers.ModelSerializer):
             'id', 
             'name', 
             'store_location', 
-            'creator', 
             'about', 
             'banner'
         ]

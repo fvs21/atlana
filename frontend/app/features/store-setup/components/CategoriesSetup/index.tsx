@@ -8,7 +8,7 @@ type Category = {
 }
 
 
-export default function CategoriesSetup() {
+export default function CategoriesSetup({ edit, save }: { edit: boolean; save: () => void }) {
     const [categories, setCategories] = useState<Category[]>([]);
     const [newCategoryName, setNewCategoryName] = useState("");
 

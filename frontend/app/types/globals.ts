@@ -23,7 +23,6 @@ export type Store = {
     id: number;
     name: string;
     store_location: Location;
-    creator: number;
     about: string;
     banner: string; //url
 }

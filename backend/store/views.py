@@ -3,6 +3,7 @@ from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import action
 from authentication.service import get_user_by_id
+from store.models import Store
 from store.serializers import CreateStoreSerializer, EditAboutSerializer, StoreSerializer
 
 class StoreViewset(viewsets.ViewSet):
@@ -29,7 +30,7 @@ class StoreViewset(viewsets.ViewSet):
         }, status=201)
     
     @action(detail=False, methods=['get'])
-    def get_store(self, request: HttpRequest) -> JsonResponse:
+    def get_user_store(self, request: HttpRequest) -> JsonResponse:
         user = get_user_by_id(request.user.id)
 
         try:
@@ -71,5 +72,22 @@ class StoreViewset(viewsets.ViewSet):
         return JsonResponse({
             'data': {
                 'store': StoreSerializer(saved_store).data
+            }
+        }, status=200)
+
+class PublicStoreViewset(viewsets.ViewSet):
+    @action(detail=False, methods=['get'])
+    def get_store(self, request: HttpRequest, store_id: int) -> JsonResponse:
+        store = Store.objects.filter(id=store_id).first()
+
+        if not store:
+            return JsonResponse({
+                'details': 'Store does not exist',
+                'code': 'store_not_found'
+            }, status=404)
+
+        return JsonResponse({
+            'data': {
+                'store': StoreSerializer(store).data
             }
         }, status=200)

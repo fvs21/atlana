@@ -11,7 +11,8 @@ export default function Header({ companyName }: HeaderProps) {
         <h1 className={styles.companyName}>
           {companyName}
         </h1>
-        <div className={styles.contactInfo}>
+        {/**
+         * <div className={styles.contactInfo}>
           <div className={styles.contactItem}>
             <span className={styles.icon}>📞</span>
             <span>(555) 123-4567</span>
@@ -20,7 +21,8 @@ export default function Header({ companyName }: HeaderProps) {
             <span className={styles.icon}>✉️</span>
             <span>info@precisionmfg.com</span>
           </div>
-        </div>
+          </div>
+         */}
       </div>
     </header>
   )

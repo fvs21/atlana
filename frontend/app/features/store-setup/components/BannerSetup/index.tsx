@@ -1,5 +1,3 @@
-"use client"
-
 import type React from "react"
 
 import { useState } from "react"
@@ -8,13 +6,17 @@ import { Button } from "~/components/ui/button"
 import { Card } from "~/components/ui/card"
 import { Upload } from "lucide-react"
 import styles from "./styles.module.scss"
+import { useStore } from "../../api"
 
 
-export default function BannerSetup({ edit }: { edit: boolean }) {
-    const [imageUrl, setImageUrl] = useState<string>("https://static.vecteezy.com/system/resources/previews/003/566/561/non_2x/abstract-banner-design-web-templates-horizontal-header-web-banner-modern-abstract-cover-header-background-for-website-design-social-media-cover-advertising-banner-flyer-invitation-card-free-vector.jpg")
+export default function BannerSetup({ edit, save }: { edit: boolean, save: () => void }) {
+    const { data } = useStore();    
+
+    const mockUrl = "https://static.vecteezy.com/system/resources/previews/003/566/561/non_2x/abstract-banner-design-web-templates-horizontal-header-web-banner-modern-abstract-cover-header-background-for-website-design-social-media-cover-advertising-banner-flyer-invitation-card-free-vector.jpg"
+    const [imageUrl, setImageUrl] = useState<string>(data?.banner || mockUrl);
 
     const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0]
+        const file = e.target.files?.[0];
         if (file) {
             // In a real app, you would upload this file to your server or a storage service
             // For now, we'll just create a local URL

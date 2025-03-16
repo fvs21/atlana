@@ -53,14 +53,14 @@ export default function NavbarActions() {
                 ) : (
                     <React.Fragment>
                         <NavigationMenuItem className={styles.dissapearingActionButtons}>
-                            <NavigationMenuLink>
+                            <NavigationMenuLink asChild>
                                 <Link to="/login" className={styles.loginButton}>
                                     Inicia sesión
                                 </Link>
                             </NavigationMenuLink>
                         </NavigationMenuItem>
                         <NavigationMenuItem className={styles.dissapearingActionButtons}>
-                            <NavigationMenuLink>
+                            <NavigationMenuLink asChild>
                                 <Button className={styles.registerButton} onClick={() => navigate("/register")}>
                                     Registrate
                                 </Button>
@@ -69,7 +69,7 @@ export default function NavbarActions() {
                     </React.Fragment>
                 )}
                 <NavigationMenuItem className={styles.dissapearingActionButtons}>
-                    <NavigationMenuLink className={styles.iconButton}>
+                    <NavigationMenuLink asChild className={styles.iconButton}>
                         <Link to="/cart">
                             <ShoppingCart />
                         </Link>
