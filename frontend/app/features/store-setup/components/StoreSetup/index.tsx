@@ -25,46 +25,28 @@ export default function StoreSetup() {
             </div>
             <div className={styles.setupSection}>
                 <div className={cn(styles.setupSectionTitleContainer, !['banner', 'none'].includes(nowEditing) ? styles.notEditable : '')}>
-                    <h2 className={styles.setupSectionTitle}>Banner</h2>
-                    <button className={styles.editButton} onClick={() => {
-                        if(nowEditing == 'banner') {
-                            setNowEditing('none');
-                        } else {
-                            setNowEditing('banner');
-                        }
-                    }}>
-                        {nowEditing == 'banner' ? 'Cancelar' : 'Editar'}
-                    </button>
+                    <h2 className={styles.setupSectionTitle}>
+                        Banner
+                    </h2>
+                    <EditButton section="banner" setNowEditing={setNowEditing} nowEditing={nowEditing} />
                 </div>
                 <BannerSetup edit={nowEditing == 'banner'} />
             </div>
             <div className={cn(styles.setupSection, !['about', 'none'].includes(nowEditing) ? styles.notEditable : '')}>
                 <div className={styles.setupSectionTitleContainer}>
-                    <h2 className={styles.setupSectionTitle}>Acerca</h2>
-                    <button className={styles.editButton} onClick={() => {
-                        if(nowEditing == 'about') {
-                            setNowEditing('none');
-                        } else {
-                            setNowEditing('about');
-                        }
-                    }}>
-                        {nowEditing == 'about' ? 'Cancelar' : 'Editar'}
-                    </button>
+                    <h2 className={styles.setupSectionTitle}>
+                        Acerca de tu tienda
+                    </h2>
+                    <EditButton section="about" setNowEditing={setNowEditing} nowEditing={nowEditing} />
                 </div>
-                <AboutSetup />
+                <AboutSetup edit={nowEditing == 'about'}/>
             </div>
             <div className={cn(styles.setupSection, !['categories', 'none'].includes(nowEditing) ? styles.notEditable : '')}>
                 <div className={styles.setupSectionTitleContainer}>
-                    <h2 className={styles.setupSectionTitle}>Información de productos principales</h2>
-                    <button className={styles.editButton} onClick={() => {
-                        if(nowEditing == 'categories') {
-                            setNowEditing('none');
-                        } else {
-                            setNowEditing('categories');
-                        }
-                    }}>
-                        {nowEditing == 'categories' ? 'Cancelar' : 'Editar'}
-                    </button>
+                    <h2 className={styles.setupSectionTitle}>
+                        Información de productos principales
+                    </h2>
+                    <EditButton section="categories" setNowEditing={setNowEditing} nowEditing={nowEditing} />
                 </div>
                 <CategoriesSetup />
             </div>
@@ -86,4 +68,19 @@ function Header() {
             </BreadcrumbList>
         </Breadcrumb>
     )
+}
+
+function EditButton({ section, setNowEditing, nowEditing }: { section: NowEditing, setNowEditing: (section: NowEditing) => void, nowEditing: NowEditing }) {
+    return (
+        <button className={styles.editButton} onClick={() => {
+            if(section == nowEditing) {
+                setNowEditing('none');
+            } else {
+                setNowEditing(section);
+            }
+        }}>
+            {nowEditing == section ? 'Cancelar' : 'Editar'}
+        </button>
+    )
+
 }
