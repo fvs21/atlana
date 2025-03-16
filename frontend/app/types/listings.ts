@@ -1,4 +1,4 @@
-export type ListingCard = {
+export type Listing = {
     id: number;
     store: number;
     title: string;
@@ -8,6 +8,13 @@ export type ListingCard = {
     images: string[];
     prices: ListingPrice[];
     created_at: string;
+}
+
+export type ListingCard = {
+    id: number;
+    title: string;
+    prices: ListingPrice[];
+    images: string[];
 }
 
 export type ListingPrice = {

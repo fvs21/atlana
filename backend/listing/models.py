@@ -14,6 +14,9 @@ class ListingImage(models.Model):
     listing = models.ForeignKey(Listing, on_delete=models.CASCADE, related_name='images')
     image = models.ForeignKey('image.Image', on_delete=models.CASCADE)
 
+    def get_image_url(self):
+        return "http://localhost:8000" + self.image.url
+
 class ListingPrice(models.Model):
     listing = models.ForeignKey(Listing, on_delete=models.CASCADE)
     min_units = models.SmallIntegerField()
