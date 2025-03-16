@@ -1,5 +1,5 @@
-import { data, LoaderFunctionArgs } from "@remix-run/node"
-import { MetaFunction, Outlet, useLoaderData } from "@remix-run/react"
+import { data, LoaderFunctionArgs } from "@remix-run/node";
+import { MetaFunction, Outlet, useLoaderData } from "@remix-run/react";
 import axios from "axios";
 import React from "react";
 import { BASE_URL } from "~/api";
