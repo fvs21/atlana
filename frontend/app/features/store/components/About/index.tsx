@@ -10,7 +10,9 @@ export default function About() {
         <section className={styles.aboutSection}>
             <div className={styles.aboutContainer}>
                 <div className={styles.aboutContent}>
-                    <h2>Acerca de {data.name}</h2>
+                    <h2>
+                        Acerca de {data.name}
+                    </h2>
                     <p className="whitespace-pre-line">
                         {data.about}
                     </p>

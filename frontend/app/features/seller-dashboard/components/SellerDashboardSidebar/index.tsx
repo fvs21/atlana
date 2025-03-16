@@ -1,7 +1,7 @@
 import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem, useSidebar } from "~/components/ui/sidebar";
 import styles from "./styles.module.scss";
 import { Link, NavLink, useLocation } from "@remix-run/react";
-import { Box, CreditCard, ReceiptText, Store } from "lucide-react";
+import { Box, CreditCard, Edit, ReceiptText, Store } from "lucide-react";
 import UserDropdown from "~/features/dashboard/components/DashboardSidebar/UserDropdown";
 
 export default function SellerDashboardSidebar() {
@@ -55,6 +55,14 @@ export default function SellerDashboardSidebar() {
                                     <NavLink to="/seller/transactions">
                                         <CreditCard />
                                         <span>Transacciones</span>
+                                    </NavLink>
+                                </SidebarMenuButton>
+                            </SidebarMenuItem>
+                            <SidebarMenuItem>
+                                <SidebarMenuButton asChild>
+                                    <NavLink to="/store/setup">
+                                        <Edit />
+                                        <span>Configuración</span>
                                     </NavLink>
                                 </SidebarMenuButton>
                             </SidebarMenuItem>

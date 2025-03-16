@@ -23,10 +23,7 @@
     padding: 0;
     gap: 2rem;
 
-    @media (max-width: $breakpoint-sm) {
-        justify-content: space-between;
-        gap: 0;
-    }
+   
 }
 
 .navItem {
