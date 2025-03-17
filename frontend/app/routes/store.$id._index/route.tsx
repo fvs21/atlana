@@ -24,7 +24,9 @@ export default function Page() {
                         name: "Grupo Solis Inc."
                     }}
                     images={[
-                        "https://m.media-amazon.com/images/I/61owdlDd7wL._AC_SL1500_.jpg"
+                        "https://m.media-amazon.com/images/I/61owdlDd7wL._AC_SL1500_.jpg",
+                        "https://m.media-amazon.com/images/I/61owdlDd7wL._AC_SL1500_.jpg",
+                        "https://m.media-amazon.com/images/I/61owdlDd7wL._AC_SL1500_.jpg",
                     ]}
                     ready_to_ship
                     customizable={true}
