@@ -21,6 +21,7 @@ export type ListingCard = {
     }
     ready_to_ship: boolean;
     customizable: boolean;
+    units_sold: number;
 }
 
 export type ListingPrice = {

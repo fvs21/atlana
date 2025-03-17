@@ -7,7 +7,7 @@ export default function Page() {
         <div className={styles.container}>
             <About />
             <div className={styles.popularListingsContainer}>
-                <h1 className={styles.popularListingsTitle}>Productos populares de la tienda</h1>
+                <h1 className={styles.popularListingsTitle}>Productos populares</h1>
                 <ListingCard 
                     id={1}
                     title="Camisas negras de lino y algodón para hombre"
@@ -30,6 +30,7 @@ export default function Page() {
                     ]}
                     ready_to_ship
                     customizable={true}
+                    units_sold={1000}
                 />
             </div>
         </div>

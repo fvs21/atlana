@@ -10,6 +10,9 @@ class Listing(models.Model):
     ready_to_ship = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
 
+    def image_urls(self) -> list[str]:
+        return [image.get_image_url() for image in self.images.all()]
+
 class ListingImage(models.Model):
     listing = models.ForeignKey(Listing, on_delete=models.CASCADE, related_name='images')
     image = models.ForeignKey('image.Image', on_delete=models.CASCADE)
@@ -18,7 +21,7 @@ class ListingImage(models.Model):
         return "http://localhost:8000" + self.image.url
 
 class ListingPrice(models.Model):
-    listing = models.ForeignKey(Listing, on_delete=models.CASCADE)
+    listing = models.ForeignKey(Listing, on_delete=models.CASCADE, related_name='prices')
     min_units = models.SmallIntegerField()
     max_units = models.SmallIntegerField(blank=True, null=True)
     price = models.DecimalField(max_digits=10, decimal_places=2)

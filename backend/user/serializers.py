@@ -7,8 +7,8 @@ from .models import User
 class UserSerializer(serializers.ModelSerializer):
     has_store_created = serializers.SerializerMethodField()
 
-    def get_has_store_created(self, obj):
-        return Store.objects.filter(creator=obj).exists()
+    def get_has_store_created(self, obj: User) -> bool:
+        return obj.has_store()
 
     class Meta:
         model = User

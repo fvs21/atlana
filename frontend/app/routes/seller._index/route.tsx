@@ -1,4 +1,3 @@
-import NoStoreCreated from "~/features/seller-dashboard/components/NoStoreCreated";
 import styles from "./page.module.scss";
 import { SidebarTrigger } from "~/components/ui/sidebar";
 import { onlyAuthenticated } from "~/api/server.auth";
@@ -11,7 +10,7 @@ export async function loader({request}: LoaderFunctionArgs) {
 }
 
 export default function Page() {
-    const { user, isLoading } = useUser();
+    const { isLoading } = useUser();
 
     return (
         <div className={styles.container}>
@@ -19,11 +18,7 @@ export default function Page() {
                 <SidebarTrigger />
             </div>
             {!isLoading && (
-                user?.has_store_created ? (
-                    <></>
-                ) : (
-                    <NoStoreCreated />
-                )
+                <></>
             )}
         </div>
     )

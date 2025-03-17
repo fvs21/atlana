@@ -5,7 +5,7 @@ import { Button } from "../ui/button";
 import { Link } from "@remix-run/react";
 import ListingCardImages from "./ListingCardImages";
 
-export default function ListingCard({ id, title, prices, images, creator, ready_to_ship }: ListingCardProps) {
+export default function ListingCard({ id, title, prices, images, creator, ready_to_ship, units_sold }: ListingCardProps) {
 
     const addToCart = (e: React.MouseEvent) => {
         e.preventDefault();
@@ -29,10 +29,10 @@ export default function ListingCard({ id, title, prices, images, creator, ready_
                         ${prices[0].price}-440
                     </div>
                     <div className={styles.minOrder}>
-                        Orden mínima: 5 piezas
+                        Orden mínima: {prices[0].min_units} piezas
                     </div>
                     <div className={styles.unitsSold}>
-                        1000 vendidos
+                        {units_sold} vendidos
                     </div>
                     <Link to={"/store/" + creator.id} className={styles.creator}>
                         {creator.name}

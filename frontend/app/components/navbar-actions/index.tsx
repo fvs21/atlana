@@ -33,6 +33,15 @@ export default function NavbarActions() {
                                         </div>
                                     </Link>
                                 </li>
+                                {user.has_store_created && (
+                                    <li className={styles.dropdownItem}>
+                                        <Link to="/seller">
+                                            <div className={styles.dropdownLink}>
+                                                Panel de vendedor
+                                            </div>
+                                        </Link>
+                                    </li>
+                                )}
                                 <li className={styles.dropdownItem}>
                                     <Link to="/account">
                                         <div className={styles.dropdownLink}>

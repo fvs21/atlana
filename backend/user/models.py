@@ -5,6 +5,7 @@ from django.utils import timezone
 
 from image.models import Image
 from location.models import Location
+from store.models import Store
 
 # Create your models here.
 class UserManager(BaseUserManager):
@@ -69,6 +70,9 @@ class User(AbstractBaseUser):
     
     def has_phone_verified(self) -> bool:
         return self.phone_verified_at is not None
+    
+    def has_store(self) -> bool:
+        return Store.objects.filter(creator=self).exists()
 
 class VerificationData(models.Model):
     db_table = "verification_data"
