@@ -15,6 +15,12 @@ export type ListingCard = {
     title: string;
     prices: ListingPrice[];
     images: string[];
+    creator: {
+        id: number;
+        name: string;
+    }
+    ready_to_ship: boolean;
+    customizable: boolean;
 }
 
 export type ListingPrice = {

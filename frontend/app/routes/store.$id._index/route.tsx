@@ -19,9 +19,15 @@ export default function Page() {
                             max_units: 20
                         }
                     ]}
+                    creator={{
+                        id: 1,
+                        name: "Grupo Solis Inc."
+                    }}
                     images={[
                         "https://m.media-amazon.com/images/I/61owdlDd7wL._AC_SL1500_.jpg"
                     ]}
+                    ready_to_ship
+                    customizable={true}
                 />
             </div>
         </div>

@@ -30,3 +30,42 @@
 .listingContent {
     padding: 0 $spacing-md;
 }
+
+.price {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.minOrder {
+    font-size: 14px;
+}
+
+.unitsSold {
+    font-size: 13px;
+    color: gray;
+}
+
+.creator {
+    padding-top: $spacing-sm;
+    font-size: 13px;
+    text-decoration: underline;
+}
+
+.listingFooter {
+    padding: $spacing-md;
+    display: flex;
+    gap: 10px;
+}
+
+.sendInquiryButton {
+    font-size: 14px;
+    background-color: white;
+    border: 1px solid black;
+    color: black;
+    border-radius: 20px;
+    width: 100%;
+
+    &:hover {
+        color: white;
+    }
+}
