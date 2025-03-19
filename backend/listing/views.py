@@ -2,21 +2,34 @@ from django.http import HttpResponse, JsonResponse
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from .serializers import *
+from . import service
+from authentication.service import get_user_by_id
+from rest_framework.permissions import IsAuthenticated
 
 # Create your views here.
 class ListingsViewset(viewsets.ViewSet):
+    permission_classes = [IsAuthenticated]
+
     @action(methods=['POST'], detail=False)
     def create_listing(self, request: HttpResponse) -> JsonResponse:
-        request_serializer = CreateListingRequestSerializer(data=request.data)
+        user = get_user_by_id(request.user.id)
 
-        if not request_serializer.is_valid():
-            return JsonResponse(request_serializer.errors, status=400)
-        
-        serializer = CreateListingBody(data=request_serializer.validated_data['data'])
+        if not user.has_store():
+            return JsonResponse({
+                "details": "No has registrado tu tienda",
+                "code": "no_store"
+            }, status=400)
+
+        serializer = CreateListingSerializer(data=request.data)
 
         if not serializer.is_valid():
             return JsonResponse(serializer.errors, status=400)
         
-        print(serializer.validated_data)
+        listing = service.create_listing(user.store, serializer.validated_data['data'], serializer.validated_data['images'])
 
-        return JsonResponse({"details": "Recieved"}, status=201)
+        return JsonResponse({
+            "data": {
+                "listing": ListingSerializer(listing).data
+            },
+            "details": "Listing created"
+        }, status=201)

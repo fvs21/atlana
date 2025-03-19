@@ -11,14 +11,17 @@ class Listing(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
 
     def image_urls(self) -> list[str]:
-        return [image.get_image_url() for image in self.images.all()]
+        return [
+            image.get_image_url() 
+            for image in self.images.all()
+        ]
 
 class ListingImage(models.Model):
     listing = models.ForeignKey(Listing, on_delete=models.CASCADE, related_name='images')
     image = models.ForeignKey('image.Image', on_delete=models.CASCADE)
 
     def get_image_url(self):
-        return "http://localhost:8000" + self.image.url
+        return "http://localhost:8000" + self.image.image_url
 
 class ListingPrice(models.Model):
     listing = models.ForeignKey(Listing, on_delete=models.CASCADE, related_name='prices')
