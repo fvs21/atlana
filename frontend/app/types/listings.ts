@@ -30,3 +30,17 @@ export type ListingPrice = {
     min_units: number;
     max_units: number;
 }
+
+export type SellerProductCard = {
+    id: number;
+    name: string;
+    image: string;
+    description: string;
+    price_min: number;
+    price_max: number;
+    inventory: number;
+    category: string;
+    status: 'published' | 'draft' | 'outOfStock';
+    customizable: boolean;
+    store_url: string;
+}

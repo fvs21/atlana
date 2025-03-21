@@ -10,6 +10,7 @@ import {
 import type { LinksFunction } from "@remix-run/node";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useState } from "react";
+import { Provider } from "jotai";
 
 import "./tailwind.css";
 
@@ -79,8 +80,10 @@ export default function App() {
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider access_token={data.access_token}>
-        <Outlet />
-        <Toaster richColors />
+        <Provider>
+          <Outlet />
+          <Toaster richColors />
+        </Provider>
       </AuthProvider>
     </QueryClientProvider>
   );

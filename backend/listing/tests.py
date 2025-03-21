@@ -1,6 +1,5 @@
 from django.test import TestCase
 from . import service
-from .models import Listing, ListingPrice
 
 # Create your tests here.
 class ListingTests(TestCase):

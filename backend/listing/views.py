@@ -6,7 +6,6 @@ from . import service
 from authentication.service import get_user_by_id
 from rest_framework.permissions import IsAuthenticated
 
-# Create your views here.
 class ListingsViewset(viewsets.ViewSet):
     permission_classes = [IsAuthenticated]
 
@@ -16,14 +15,17 @@ class ListingsViewset(viewsets.ViewSet):
 
         if not user.has_store():
             return JsonResponse({
-                "details": "No has registrado tu tienda",
+                "details": "No has registrado una tienda",
                 "code": "no_store"
-            }, status=400)
+            }, status=403)
 
         serializer = CreateListingSerializer(data=request.data)
 
         if not serializer.is_valid():
-            return JsonResponse(serializer.errors, status=400)
+            return JsonResponse({
+                'details': serializer.errors,
+                'code': 'invalid_data'
+            }, status=400)
         
         listing = service.create_listing(user.store, serializer.validated_data['data'], serializer.validated_data['images'])
 

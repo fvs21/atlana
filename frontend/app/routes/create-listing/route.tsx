@@ -1,0 +1,39 @@
+import { LoaderFunctionArgs } from "@remix-run/node";
+import { MetaFunction, useNavigate } from "@remix-run/react";
+import { useLayoutEffect } from "react";
+import { useUser } from "~/api/client.auth";
+import { onlyAuthenticated } from "~/api/server.auth";
+import NavbarSmall from "~/components/navbar-small";
+import styles from "./styles.module.scss";
+import CreateListing from "~/features/listing/components/CreateListing";
+
+export const meta: MetaFunction = () => {
+    return [
+        { title: "Tradenal: Crea una publicación" }
+    ]
+}
+
+export async function loader({ request }: LoaderFunctionArgs) {
+    onlyAuthenticated({ request });
+    return {};
+}
+
+export default function Page() {
+    const { user, isLoading } = useUser();
+    const navigate = useNavigate();
+
+    useLayoutEffect(() => {
+        if(!isLoading && !user?.has_store_created) {
+            navigate("/seller");
+        }
+    }, []);
+
+    return (
+        <div className={styles.container}>   
+            <NavbarSmall />
+            <div className={styles.content}>
+                <CreateListing />    
+            </div> 
+        </div>
+    )
+}

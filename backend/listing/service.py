@@ -1,4 +1,5 @@
 from django.core.files.uploadedfile import UploadedFile
+from listing.exceptions import ListingPricesException
 from listing.models import Listing, ListingImage, ListingPrice
 from image.service import upload_image
 from store.models import Store
@@ -13,7 +14,7 @@ def validate_prices(prices: list[dict]) -> bool:
         if prices[i]['price'] <= 0 or prices[i]['min_units'] <= 0:
             return False
         
-        if(i == len(prices)-1):
+        if(i == len(prices) - 1):
             if prices[i]['max_units'] is not None:
                 return False
             break
@@ -43,8 +44,7 @@ def create_listing_prices(listing: Listing, prices: list[dict]) -> list[ListingP
     prices.sort(key=lambda price: price['min_units'])
 
     if not validate_prices(prices):
-        #raise exception
-        pass
+        raise ListingPricesException()
 
     listing_prices = ListingPrice.objects.bulk_create([
         ListingPrice(
@@ -72,7 +72,8 @@ def create_listing(store: Store, body: dict, images: list[UploadedFile]) -> List
     uploaded_images = [upload_image(image, 'listing') for image in images]
 
     ListingImage.objects.bulk_create([
-        ListingImage(listing=listing, image=image) for image in uploaded_images
+        ListingImage(listing=listing, image=image) 
+        for image in uploaded_images
     ])
 
     create_listing_prices(listing, body['prices'])
