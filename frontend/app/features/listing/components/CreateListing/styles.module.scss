@@ -4,24 +4,37 @@
     width: 100%;
 }
 
-.createListingOne {
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.createListing {
     width: 100%;
     height: 100%;
+    margin: 0 auto;
+    padding-left: $spacing-md;
+    padding-right: $spacing-md;
+    max-width: 700px;
+}
+
+.createListingOne {
+    padding-top: $spacing-4xl;
+}
+
+.createListingOneTitle {
+    font-size: 30px;
+    font-weight: 600;
 }
 
 .optionsContainer {
+    margin-top: $spacing-xl;
     display: flex;
+    justify-content: center;
     gap: 4rem;
+    flex-wrap: wrap;
 }
 
 .option {
     border: 1px solid $border-color;
     padding: 20px;
-    border-radius: 6px;
-    max-width: 300px;
+    border-radius: 10px;
+    width: 300px;
     display: flex;
     flex-direction: column;
     gap: $spacing-sm;
@@ -41,4 +54,24 @@
 .description {
     font-size: 13px;
     color: gray;
+}
+
+.createListingTwo {
+    padding-top: $spacing-md;
+}
+
+.returnButtonContainer {
+    padding: 20px;
+}
+
+.createListingTwoForm {
+    margin-top: $spacing-md;
+}
+
+.formInput {
+    padding: $spacing-sm 0;
+}
+
+.formDescription {
+    height: 140px;
 }

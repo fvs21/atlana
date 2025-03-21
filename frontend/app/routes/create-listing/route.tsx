@@ -6,6 +6,7 @@ import { onlyAuthenticated } from "~/api/server.auth";
 import NavbarSmall from "~/components/navbar-small";
 import styles from "./styles.module.scss";
 import CreateListing from "~/features/listing/components/CreateListing";
+import FooterSmall from "~/components/footer-small";
 
 export const meta: MetaFunction = () => {
     return [
@@ -34,6 +35,7 @@ export default function Page() {
             <div className={styles.content}>
                 <CreateListing />    
             </div> 
+            <FooterSmall />
         </div>
     )
 }

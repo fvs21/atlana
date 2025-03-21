@@ -5,7 +5,7 @@ import styles from "./styles.module.scss";
 type TextAreaProps = {
     id: string;
     name: string;
-    className: string;
+    className?: string;
     placeholder?: string;
     value: string;
     onChange: (value: string) => void;

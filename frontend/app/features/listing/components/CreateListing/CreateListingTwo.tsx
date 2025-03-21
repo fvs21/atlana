@@ -1,0 +1,52 @@
+import { cn } from "~/lib/utils";
+import styles from "./styles.module.scss";
+import ValidatedInput from "~/components/validated-input";
+import { useAtom } from "jotai";
+import { listingDescriptionAtom, listingTitleAtom, stepAtom } from "../../store";
+import TextArea from "~/components/text-area";
+import { ChevronLeft } from "lucide-react";
+
+export default function CreateListingTwo() {
+    const [title, setTitle] = useAtom(listingTitleAtom);
+    const [description, setDescription] = useAtom(listingDescriptionAtom);
+    const [, setStep] = useAtom(stepAtom);
+
+    return (
+        <>
+            <div className={styles.returnButtonContainer}>
+                <button className={styles.returnButton} onClick={() => setStep(0)}>
+                    <ChevronLeft size={24} />
+                </button>
+            </div>
+            <div className={cn(styles.createListing, styles.createListingTwo)}>
+                <h1 className={styles.createListingOneTitle}>
+                    Crea tu publicación
+                </h1>
+                <div className={styles.createListingTwoForm}>
+                    <div className={styles.formInput}>
+                        <ValidatedInput
+                            id="title"
+                            name="title"
+                            label="Título"
+                            placeholder="Ej. Camisas de lino"
+                            value={title}
+                            onChange={(e) => setTitle(e.target.value)}
+                            type="text"
+                        />
+                    </div>
+                    <div className={styles.formInput}>
+                        <TextArea
+                            id="description"
+                            name="description"
+                            label="Descripción"
+                            placeholder="Ej. Camisas de lino 100% natural"
+                            value={description}
+                            onChange={setDescription}
+                            className={styles.formDescription}
+                        />
+                    </div>
+                </div>
+            </div>
+        </>
+    )
+}
