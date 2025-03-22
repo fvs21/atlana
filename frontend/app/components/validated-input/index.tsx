@@ -3,8 +3,8 @@ import { Label } from "../ui/label";
 import styles from "./ValidatedInput.module.scss";
 
 type ValidatedInputProps = {
-    id: string;
-    name: string;
+    id?: string;
+    name?: string;
     type: string;
     className?: string;
     label?: string;

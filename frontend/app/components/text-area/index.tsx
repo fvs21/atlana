@@ -10,9 +10,10 @@ type TextAreaProps = {
     value: string;
     onChange: (value: string) => void;
     label?: string;
+    error?: string;
 }
 
-export default function TextArea({ id, name, className, placeholder, value, onChange, label }: TextAreaProps) {
+export default function TextArea({ id, name, className, placeholder, value, onChange, label, error }: TextAreaProps) {
     return (
         <div className={styles.container}>
             {label && <Label htmlFor={name}>{label}</Label>}
@@ -24,6 +25,7 @@ export default function TextArea({ id, name, className, placeholder, value, onCh
                 value={value}
                 onChange={(event) => onChange(event.target.value)}
             />
+            {error && <span className="errorMessage">{error}</span>}
         </div>
     )
 }

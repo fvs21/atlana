@@ -2,13 +2,17 @@ import { cn } from "~/lib/utils";
 import styles from "./styles.module.scss";
 import ValidatedInput from "~/components/validated-input";
 import { useAtom } from "jotai";
-import { listingDescriptionAtom, listingTitleAtom, stepAtom } from "../../store";
+import { listingCategoryAtom, listingDescriptionAtom, listingTitleAtom, stepAtom } from "../../store";
 import TextArea from "~/components/text-area";
 import { ChevronLeft } from "lucide-react";
+import LabeledSelect from "~/components/labeled-select";
+import { Button } from "~/components/ui/button";
 
 export default function CreateListingTwo() {
     const [title, setTitle] = useAtom(listingTitleAtom);
     const [description, setDescription] = useAtom(listingDescriptionAtom);
+    const [category, setCategory] = useAtom(listingCategoryAtom);
+
     const [, setStep] = useAtom(stepAtom);
 
     return (
@@ -44,6 +48,21 @@ export default function CreateListingTwo() {
                             onChange={setDescription}
                             className={styles.formDescription}
                         />
+                    </div>
+                    <div className={styles.formInput}>
+                        <LabeledSelect
+                            name="category"
+                            placeholder="Selecciona la categoría de tu producto"
+                            label="Categoría"
+                            options={['Autopartes', 'Herramientas', 'Electrónicos', 'Hogar', 'Jardín', 'Deportes', 'Juguetes', 'Ropa', 'Calzado', 'Accesorios', 'Otros']}
+                            value={category}
+                            onChange={setCategory}
+                        />
+                    </div>
+                    <div className={cn(styles.formInput, styles.nextButtonContainer)}>
+                        <Button className="primaryButton" onClick={() => setStep(2)}>
+                            Siguiente
+                        </Button>
                     </div>
                 </div>
             </div>
