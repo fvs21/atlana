@@ -11,7 +11,7 @@ type ValidatedInputProps = {
     error?: string;
     placeholder?: string;
     value?: string;
-    onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+    onChange?: (value: string) => void;
     [key: string]: any;
 }
 
@@ -26,7 +26,7 @@ export default function ValidatedInput({id, name, type, className, error, placeh
                 className={`${className} ${error ? styles.inputError : ""}`}
                 placeholder={placeholder}
                 value={value}
-                onChange={onChange}
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => onChange && onChange(e.target.value)}
                 {...props}
             />
             {error && <span className="errorMessage">{error}</span>}

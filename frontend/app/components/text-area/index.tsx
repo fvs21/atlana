@@ -1,3 +1,4 @@
+import { cn } from "~/lib/utils";
 import { Label } from "../ui/label";
 import { Textarea } from "../ui/textarea";
 import styles from "./styles.module.scss";
@@ -20,7 +21,7 @@ export default function TextArea({ id, name, className, placeholder, value, onCh
             <Textarea
                 id={id}
                 name={name}
-                className={className}
+                className={cn(className, error ? styles.inputError : "")}
                 placeholder={placeholder}
                 value={value}
                 onChange={(event) => onChange(event.target.value)}

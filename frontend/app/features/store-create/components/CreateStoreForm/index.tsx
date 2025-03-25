@@ -56,7 +56,7 @@ export default function CreateStoreForm() {
                 <div className={styles.inputContainer}>
                     <ValidatedInput
                         value={storeName}
-                        onChange={(e) => setStoreName(e.target.value)}
+                        onChange={setStoreName}
                         label="Nombre registrado de la empresa"
                         id="store-name"
                         name="store-name"

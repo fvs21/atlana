@@ -7,11 +7,31 @@ import TextArea from "~/components/text-area";
 import { ChevronLeft } from "lucide-react";
 import LabeledSelect from "~/components/labeled-select";
 import { Button } from "~/components/ui/button";
+import { useState } from "react";
+import { validateStepOne } from "../../utils/validators";
 
 export default function CreateListingTwo() {
     const [title, setTitle] = useAtom(listingTitleAtom);
     const [description, setDescription] = useAtom(listingDescriptionAtom);
     const [category, setCategory] = useAtom(listingCategoryAtom);
+
+    const [errors, setErrors] = useState({
+        title: "",
+        description: "",
+        category: "",
+    });
+
+    const nextButton = () => {
+        setStep(2);
+        return;
+
+        const errors_ = validateStepOne(title, description, category);
+
+        if (Object.keys(errors).length > 0) {
+            setErrors(errors_ as typeof errors);
+            return;
+        }
+    }
 
     const [, setStep] = useAtom(stepAtom);
 
@@ -34,8 +54,9 @@ export default function CreateListingTwo() {
                             label="Título"
                             placeholder="Ej. Camisas de lino"
                             value={title}
-                            onChange={(e) => setTitle(e.target.value)}
+                            onChange={setTitle}
                             type="text"
+                            error={errors.title}
                         />
                     </div>
                     <div className={styles.formInput}>
@@ -47,6 +68,7 @@ export default function CreateListingTwo() {
                             value={description}
                             onChange={setDescription}
                             className={styles.formDescription}
+                            error={errors.description}
                         />
                     </div>
                     <div className={styles.formInput}>
@@ -60,7 +82,7 @@ export default function CreateListingTwo() {
                         />
                     </div>
                     <div className={cn(styles.formInput, styles.nextButtonContainer)}>
-                        <Button className="primaryButton" onClick={() => setStep(2)}>
+                        <Button className="primaryButton" onClick={nextButton}>
                             Siguiente
                         </Button>
                     </div>
