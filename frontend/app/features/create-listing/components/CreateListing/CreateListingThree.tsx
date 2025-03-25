@@ -6,8 +6,6 @@ import { cn } from "~/lib/utils";
 import LabeledCheckbox from "~/components/labeled-checkbox";
 import { Button } from "~/components/ui/button";
 import { Label } from "~/components/ui/label";
-import ColorInput from "../ColorsInput";
-import AddColorModal from "../AddColorModal";
 import ColorsInput from "../ColorsInput";
 
 export default function CreateListingThree() {

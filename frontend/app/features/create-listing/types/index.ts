@@ -12,7 +12,7 @@ export type CustomOptions = {
 
 export type ColorOption = {
     name: string;
-    local_uri?: string;
+    file?: File;
     color_code?: string;
 }
 
