@@ -46,7 +46,7 @@ export default function AddColorModal({ open, close }: { open: boolean, close: (
     }
 
     const save = () => {
-        if(!color.color_code && !color.file && !color.name) {
+        if(!color.color_code && !color.file || !color.name) {
             return;
         }
 

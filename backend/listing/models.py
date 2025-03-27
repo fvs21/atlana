@@ -28,3 +28,23 @@ class ListingPrice(models.Model):
     min_units = models.SmallIntegerField()
     max_units = models.SmallIntegerField(blank=True, null=True)
     price = models.DecimalField(max_digits=10, decimal_places=2)
+
+class ListingColor(models.Model):
+    listing = models.ForeignKey(Listing, on_delete=models.CASCADE, related_name='colors')
+    image = models.ForeignKey('image.Image', on_delete=models.CASCADE, blank=True, null=True)
+    color_code = models.CharField(max_length=7, blank=True, null=True)
+    color_name = models.CharField(max_length=50)
+
+class ListingSize(models.Model):
+    listing = models.ForeignKey(Listing, on_delete=models.CASCADE, related_name='sizes')
+    size = models.CharField(max_length=5) 
+    specification = models.ForeignKey('ListingSizeSpecification', on_delete=models.CASCADE, blank=True, null=True)
+
+class ListingSizeSpecification(models.Model):
+    shoulders = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
+    chest = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
+    waist = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
+    hip = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
+    length = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
+    sleeve_length = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
+    insteam = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
