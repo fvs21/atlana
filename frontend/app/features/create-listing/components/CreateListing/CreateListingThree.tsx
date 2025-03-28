@@ -7,6 +7,7 @@ import LabeledCheckbox from "~/components/labeled-checkbox";
 import { Button } from "~/components/ui/button";
 import { Label } from "~/components/ui/label";
 import ColorsInput from "../ColorsInput";
+import SizeInput from "../SizeInput";
 
 export default function CreateListingThree() {
     const [customizable, setCustomizable] = useAtom(listingCustomizableAtom);
@@ -80,9 +81,7 @@ export default function CreateListingThree() {
                             </div>
                             <div className={styles.formInput}>
                                 <OptionLabel option="Talla" click={addSize} add={!!!options.size} />
-                                {options.size && (
-                                    <>BRO</>
-                                )}
+                                <SizeInput />
                             </div>
                             <div className={styles.formInput}>
                                 <OptionLabel option="Modelo" click={addModel} add={!!!options.model} />

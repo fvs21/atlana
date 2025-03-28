@@ -1,6 +1,4 @@
 from django.db import models
-from django.utils import timezone
-
 # Create your models here.
 class Listing(models.Model):
     store = models.ForeignKey('store.Store', on_delete=models.CASCADE, related_name='listings')
