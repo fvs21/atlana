@@ -5,7 +5,7 @@ export default function FooterSmall() {
     return (
         <footer className={styles.footer}>
             <div className={styles.footerContent}>
-                <p>&copy; {new Date().getFullYear()} Poopy.</p>
+                <p>&copy; {new Date().getFullYear()} Tradenal.</p>
                 <div className={styles.footerLinks}>
                     <Link to="/terms">Términos</Link>
                     <Link to="/privacy">Privacidad</Link>

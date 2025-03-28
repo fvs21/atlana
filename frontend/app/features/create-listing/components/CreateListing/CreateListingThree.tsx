@@ -9,6 +9,10 @@ import { Label } from "~/components/ui/label";
 import ColorsInput from "../ColorsInput";
 import SizeInput from "../SizeInput";
 
+
+/**
+ * Component for adding any customization options to the listing like color, size and model.
+*/
 export default function CreateListingThree() {
     const [customizable, setCustomizable] = useAtom(listingCustomizableAtom);
     const [options, setOptions] = useAtom(listingCustomOptionsAtom);
