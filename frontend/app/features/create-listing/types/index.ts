@@ -18,15 +18,17 @@ export type ColorOption = {
 
 export type SizeOption = {
     name: string;
-    specifications?: {
-        shoulders?: number;
-        chest?: number;
-        waist?: number;
-        hip?: number;
-        length?: number;
-        sleeve_length?: number;
-        insteam?: number;
-    }
+    specifications?: SizeSpecs;
+}
+
+export type SizeSpecs = {
+    shoulders?: number;
+    chest?: number;
+    waist?: number;
+    hip?: number;
+    length?: number;
+    sleeve_length?: number;
+    insteam?: number;
 }
 
 export type ModelOption = {

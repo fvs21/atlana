@@ -8,6 +8,7 @@ import LabeledSelect from "~/components/labeled-select";
 import { useState } from "react";
 import { Button } from "~/components/ui/button";
 import { Plus } from "lucide-react";
+import { SizeSpecs } from "../../types";
 
 type AddSizeModalProps = {
     open: boolean;
@@ -17,11 +18,60 @@ type AddSizeModalProps = {
 export default function AddSizeModal({ open, close }: AddSizeModalProps) {
     const [listingOptions, setListingOptions] = useAtom(listingCustomOptionsAtom);
 
-    const [addSpec, setAddSpec] = useState<boolean>(false);
-    const [spec, setSpec] = useState<string>("");
+    const [sizeName, setSizeName] = useState<string>("");
+
+    const [showAddSpec, setShowAddSpec] = useState<boolean>(false);
+    const [spec, setSpec] = useState<keyof SizeSpecs | null>();
+    const [value, setValue] = useState<string>("");
+
+    const [specs, setSpecs] = useState<SizeSpecs>({});
+
+    const availableSpecs = Object.keys(sizeSpecs)
+        .filter(spec => !Object.keys(specs).includes(spec))
+        .map(spec => sizeSpecs[spec as keyof SizeSpecs]);
+
+    const addSpec = () => {
+        if (!spec || !value) return;
+
+        const originalSpecName = Object.keys(sizeSpecs).find(key => sizeSpecs[key as keyof SizeSpecs] === spec) as string;
+
+        setSpecs({
+            ...specs,
+            [originalSpecName]: parseInt(value)
+        });
+
+        setSpec(null);
+        setValue("");
+    };
+
+    const closeModal = () => {
+        setSizeName("");
+        setSpecs({});
+        setShowAddSpec(false);
+        close();
+    }
+
+    const saveSize = () => {
+        if (!sizeName || !Object.keys(specs).length) return;
+
+        const newSize = {
+            name: sizeName,
+            specifications: specs
+        };
+
+        setListingOptions({
+            ...listingOptions,
+            size: [
+                ...listingOptions.size!,
+                newSize
+            ]
+        });
+
+        closeModal();
+    }
 
     return (
-        <Dialog open={open} onOpenChange={close}>
+        <Dialog open={open} onOpenChange={closeModal}>
             <DialogContent>
                 <DialogHeader>
                     <DialogTitle>Agrega talla</DialogTitle>
@@ -35,40 +85,53 @@ export default function AddSizeModal({ open, close }: AddSizeModalProps) {
                             label="Talla"
                             placeholder="Ej. S, M, L, XL"
                             type="text"
+                            value={sizeName}
+                            onChange={setSizeName}
                         />
                     </div>
-                    {addSpec && (
+                    {specs && (
+                        <div className={styles.addedSpecs}>
+                            {Object.keys(specs).map((spec) => (
+                                <div key={spec} className={styles.addedSpec}>
+                                    <b>{sizeSpecs[spec as keyof SizeSpecs]}</b>: {specs[spec as keyof SizeSpecs]}cm
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                    {showAddSpec && (
                         <div className={styles.addSpecContainer}>
                             <LabeledSelect
                                 name="specification"
                                 label="Medida"
-                                options={sizeSpecs.map(spec => spec[1])}
-                                value={spec}
-                                onChange={(value) => setSpec(value)}
+                                options={availableSpecs}
+                                value={spec || ""}
+                                onChange={(value) => setSpec(value as keyof SizeSpecs)}
                                 className={styles.addSpecInput}
                             />
                             <ValidatedInput
-                                label="Valor" 
+                                label="Valor"
                                 placeholder="cm"
                                 type="number"
                                 className={styles.addSpecInput}
+                                value={value}
+                                onChange={setValue}
                             />
-                            <Button className="primaryButton">
+                            <Button className="primaryButton" onClick={addSpec}>
                                 <Plus />
                             </Button>
                         </div>
                     )}
-                    {!addSpec ? (
-                        <button className={styles.addSpecButton} onClick={() => setAddSpec(true)}>
+                    {!showAddSpec ? (
+                        <button className={styles.addSpecButton} onClick={() => setShowAddSpec(true)}>
                             + Agregar medida
                         </button>
                     ) : (
-                        <button className={styles.addSpecButton} onClick={() => setAddSpec(false)}>
+                        <button className={styles.addSpecButton} onClick={() => setShowAddSpec(false)}>
                             - Deshacer
                         </button>
                     )}
                     <div className={styles.addSizeModalSave}>
-                        <Button className="primaryButton">
+                        <Button className="primaryButton" onClick={saveSize}>
                             Guardar
                         </Button>
                     </div>

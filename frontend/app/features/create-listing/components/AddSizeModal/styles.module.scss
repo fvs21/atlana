@@ -24,3 +24,14 @@
 .addSpecInput {
     width: 42%;
 }
+
+.addedSpecs {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-xs;
+    padding-bottom: $spacing-md;
+}
+
+.addedSpec {
+    font-size: 14px;
+}
