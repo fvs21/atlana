@@ -1,2 +1,26 @@
 @import "~/styles/variables";
 
+.addSpecButton {
+    font-weight: bold;
+    font-size: 13px;
+}
+
+.addSpecContainer {
+    padding-bottom: $spacing-sm;
+}
+
+.addSizeModalSave {
+    margin-top: $spacing-md;
+    text-align: right;
+}
+
+.addSpecContainer {
+    width: 100%;
+    display: flex;
+    align-items: flex-end;
+    gap: $spacing-md;
+}
+
+.addSpecInput {
+    width: 42%;
+}

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import styles from "./styles.module.scss";
-import { defaultColors } from "../../utils/colors";
+import { defaultColors } from "../../utils/variables";
 import { Plus } from "lucide-react";
 
 type ColorPaletteProps = {

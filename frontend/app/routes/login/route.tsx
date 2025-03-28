@@ -91,7 +91,7 @@ export default function LoginForm() {
                                 name="password"
                                 label="Contraseña"
                                 error={errors.password}
-                                className={styles.formInput}
+                                className={styles.formPassword}
                             />
                             <div className={styles.forgotPassword}>
                                 <Link to="/forgot-password" className={styles.link}>

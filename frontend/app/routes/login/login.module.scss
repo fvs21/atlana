@@ -209,6 +209,12 @@ $transition: all 0.3s ease;
 }
 
 .formInput {
+    input {
+        padding: 22px 12px;
+    }
+}
+
+.formPassword {
     padding: 22px 12px;
 }
 
