@@ -8,6 +8,7 @@ const listingCategoryAtom = atom<string>("");
 const listingCustomizableAtom = atom<boolean>(false);
 const listingPricesAtom = atom<CreateListingPrice[]>([{}]);
 const listingCustomOptionsAtom = atom<CustomOptions>({});
+const listingImagesAtom = atom<File[]>([]);
 
 export {
     stepAtom,
@@ -16,5 +17,6 @@ export {
     listingPricesAtom,
     listingCategoryAtom,
     listingCustomizableAtom,
-    listingCustomOptionsAtom
+    listingCustomOptionsAtom,
+    listingImagesAtom
 }

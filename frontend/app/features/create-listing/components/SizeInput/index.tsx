@@ -24,13 +24,13 @@ export default function SizeInput() {
                             <TableHeader>
                                 <TableRow>
                                     <TableHead>Medida</TableHead>
-                                    {Object.values(sizeSpecs).map((spec, index) => (
+                                    {Object.values(sizeSpecs).map((spec) => (
                                         <TableHead key={spec}>{spec}</TableHead>
                                     ))}
                                 </TableRow>
                             </TableHeader>
                             <TableBody>
-                                {options.size.map((size, index) => (
+                                {options.size.map((size) => (
                                     <TableRow key={size.name}>
                                         <TableCell>{size.name}</TableCell>
                                         {!!size.specifications && (
