@@ -22,6 +22,9 @@ export default function CreateListingFour() {
                 <h1 className={styles.createListingOneTitle}>
                     Agrega tus imagenes
                 </h1>
+                <div className={styles.description}>
+                    Estas son las imagenes que se mostraran en el apartado principal de tu anuncio. Puedes agregar hasta 10 imagenes.
+                </div>
                 <div className="mt-4">
                     <ListingImagesInput />
                 </div>

@@ -1,0 +1,55 @@
+@import "~/styles/variables";
+
+.addImageContainer {
+    color: gray;
+    width: 100%;
+    height: 200px;
+    background-color: rgb(213, 213, 213);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 0.25rem;
+    font-size: 14px;
+    border-radius: 6px;
+}
+
+.inputHover {
+    background-color: rgb(186, 186, 186);
+}
+
+.preview {
+    margin-bottom: $spacing-md;
+    display: flex;
+    gap: $spacing-md;
+    width: 100%;
+    padding: 12px;
+}
+
+.imagePreview {
+    width: 100px;
+    object-fit: contain;
+}
+
+.imageName {
+    font-size: 15px;
+    color: black;
+    font-weight: 500;
+}
+
+.imageInfo {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.deleteButton {
+    padding-top: 4px;
+    padding-bottom: 4px;
+    font-size: 13px;
+    background-color: $danger-color;
+}
+
+.deleteButton:hover {
+    background-color: red;
+}
