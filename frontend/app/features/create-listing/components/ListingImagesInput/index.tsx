@@ -1,14 +1,15 @@
 import { useState } from "react";
 import styles from "./styles.module.scss";
 import { cn } from "~/lib/utils";
-import { Plus } from "lucide-react";
+import { ArrowBigDown, ArrowBigUp, Ellipsis, Plus, Trash2 } from "lucide-react";
 import { useAtom } from "jotai";
 import { listingImagesAtom } from "../../store";
 import AddImageModal from "../AddImageModal";
 import ListingImageCarousel from "~/components/listing-images/ListingImageCarousel";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "~/components/ui/dropdown-menu";
 
 export default function ListingImagesInput() {
-    const [images, setImages] = useAtom(listingImagesAtom);
+    const [images] = useAtom(listingImagesAtom);
     const [selectedImage, setSelectedImage] = useState<number>(0);
 
     const [addImageModal, setAddImageModal] = useState<boolean>(false);
@@ -20,8 +21,9 @@ export default function ListingImagesInput() {
                     {images.map((image, index) => (
                         <ImagePreview
                             key={index}
+                            index={index}
                             selected={index === selectedImage}
-                            image={URL.createObjectURL(image)}
+                            image={image}
                             click={() => setSelectedImage(index)}
                         />
                     ))}
@@ -49,10 +51,80 @@ export default function ListingImagesInput() {
     )
 }
 
-function ImagePreview({ image, click, selected }: { image: string, click: () => void, selected: boolean }) {
+function LeftImageScroller({ images, selected, setSelected }: { images: string[], selected: number, setSelected: (index: number) => void }) {
+
+}
+
+function ImagePreview(
+    { image, click, selected, index }: { image: File, click: () => void, selected: boolean, index: number }
+) {
+    const [images, setImages] = useAtom(listingImagesAtom);
+
+    const up = () => {
+        const newImages = [...images];
+        const temp = newImages[index - 1];
+
+        newImages[index - 1] = newImages[index];
+        newImages[index] = temp;
+
+        setImages(newImages);
+    }
+
+    const down = () => {
+        const newImages = [...images];
+        const temp = newImages[index + 1];
+
+        newImages[index + 1] = newImages[index];
+        newImages[index] = temp;
+
+        setImages(newImages);
+    }
+
+    const remove = () => {
+        const newImages = [...images];
+        newImages.splice(index, 1);
+        setImages(newImages);
+    }
+
     return (
-        <button className={cn(styles.imagePreviewContainer, selected ? styles.selectedImage : "")} onClick={click}>
-            <img src={image} alt="Imagen del producto" className={styles.imagePreview} />
+        <button
+            className={cn(styles.imagePreviewContainer, selected ? styles.selectedImage : "")}
+            onClick={click}
+        >
+            <img src={URL.createObjectURL(image)} alt="Imagen del producto" className={styles.imagePreview} />
+            <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                    <button className={styles.imagePreviewMore} onClick={(e) => { e.preventDefault(); e.stopPropagation() }}>
+                        <Ellipsis size={15} />
+                    </button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                    <DropdownMenuGroup>
+                        {index > 0 && (
+                            <>
+                                <DropdownMenuItem className={styles.imagePreviewMoreItem} onClick={up}>
+                                    Subir
+                                    <ArrowBigUp size={20} />
+                                </DropdownMenuItem>
+                                <DropdownMenuSeparator />
+                            </>
+                        )}
+                        {index < images.length - 1 && (
+                            <>
+                                <DropdownMenuItem className={styles.imagePreviewMoreItem} onClick={down}>
+                                    Bajar
+                                    <ArrowBigDown size={20} />
+                                </DropdownMenuItem>
+                                <DropdownMenuSeparator />
+                            </>
+                        )}
+                        <DropdownMenuItem className={styles.imagePreviewMoreItem} onClick={remove}>
+                            Eliminar
+                            <Trash2 size={18} />
+                        </DropdownMenuItem>
+                    </DropdownMenuGroup>
+                </DropdownMenuContent>
+            </DropdownMenu>
         </button>
     )
 }

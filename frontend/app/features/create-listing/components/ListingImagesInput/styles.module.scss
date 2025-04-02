@@ -25,6 +25,21 @@
     display: flex;
     justify-content: center;
     border-radius: 6px;
+    position: relative;
+}
+
+.imagePreviewMore {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background-color: rgba(231, 231, 231, 0.7);
+    border-radius: 4px;
+    padding: 4px;
+}
+
+.imagePreviewMoreItem {
+    justify-content: space-between;
+    cursor: pointer;
 }
 
 .imagePreview {
