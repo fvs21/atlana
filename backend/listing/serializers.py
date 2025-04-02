@@ -2,7 +2,6 @@ from rest_framework import serializers
 
 from listing.models import Listing, ListingPrice
 
-
 class ListingPricesSerializer(serializers.ModelSerializer):
     class Meta:
         model = ListingPrice
@@ -48,6 +47,7 @@ class ListingSerializer(serializers.ModelSerializer):
             'store',
             'title',
             'description',
+            'category',
             'customizable',
             'ready_to_ship',
             'created_at',

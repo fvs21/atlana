@@ -4,6 +4,8 @@ import styles from "./styles.module.scss";
 import { ChevronLeft } from "lucide-react";
 import ListingImagesInput from "../ListingImagesInput";
 import { cn } from "~/lib/utils";
+import { Button } from "~/components/ui/button";
+import { toast } from "sonner";
 
 /**
  * Component for adding images to the listing
@@ -11,6 +13,15 @@ import { cn } from "~/lib/utils";
 export default function CreateListingFour() {
     const [, setStep] = useAtom(stepAtom);
     const [images, setImages] = useAtom(listingImagesAtom);
+
+    const next = () => {
+        if(images.length < 4) {
+            toast.error("Debes agregar al menos 4 imágenes");
+            return;
+        }
+
+        setStep(5);
+    }
 
     return (
         <>
@@ -20,11 +31,18 @@ export default function CreateListingFour() {
                 </button>
             </div>
             <div className={cn(styles.createListing, styles.createListingFour)}>
-                <h1 className={styles.createListingOneTitle}>
-                    Agrega tus imagenes
-                </h1>
-                <div className={styles.description}>
-                    Estas son las imagenes que se mostraran en el apartado principal de tu anuncio. Puedes agregar hasta 10 imagenes.
+                <div className={styles.createListingFourTitleContainer}>
+                    <div>
+                        <h1 className={styles.createListingOneTitle}>
+                            Agrega tus imagenes
+                        </h1>
+                        <div className={styles.description}>
+                            Estas son las imagenes que se mostraran en el apartado principal de tu anuncio. Puedes agregar hasta 10 imagenes.
+                        </div>
+                    </div>
+                    <Button className="primaryButton" onClick={next}>
+                        Continuar
+                    </Button>
                 </div>
                 <div className="mt-4">
                     <ListingImagesInput />

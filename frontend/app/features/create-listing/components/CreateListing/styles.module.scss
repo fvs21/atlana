@@ -94,3 +94,11 @@
 .createListingFour {
     max-width: 1000px !important;
 }
+
+.createListingFourTitleContainer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: $spacing-sm;
+}

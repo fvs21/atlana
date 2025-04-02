@@ -7,6 +7,7 @@ class Listing(models.Model):
     customizable = models.BooleanField(default=False)
     ready_to_ship = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
+    category = models.CharField(max_length=50)
 
     def image_urls(self) -> list[str]:
         return [
