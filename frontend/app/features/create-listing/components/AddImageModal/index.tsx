@@ -117,7 +117,7 @@ export default function AddImageModal({ open, close }: { open: boolean, close: (
                                 className={styles.imagePreview}
                             />
                             <div className={styles.imageInfo}>
-                                <p className={styles.imageName}>{image.name}</p>
+                                <span className={styles.imageName}>{image.name}</span>
                                 <Button className={styles.deleteButton} onClick={() => setImage(null)}>
                                     Eliminar 
                                     <Trash size={15} />

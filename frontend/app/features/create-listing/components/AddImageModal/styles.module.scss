@@ -31,16 +31,20 @@
     object-fit: contain;
 }
 
-.imageName {
-    font-size: 15px;
-    color: black;
-    font-weight: 500;
-}
-
 .imageInfo {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    flex-grow: 1;
+    width: 50%;
+}
+
+.imageName {
+    font-size: 13px;
+    color: black;
+    font-weight: 500;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 .deleteButton {
