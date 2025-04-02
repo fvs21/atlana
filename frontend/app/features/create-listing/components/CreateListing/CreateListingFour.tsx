@@ -3,6 +3,7 @@ import { listingImagesAtom, stepAtom } from "../../store";
 import styles from "./styles.module.scss";
 import { ChevronLeft } from "lucide-react";
 import ListingImagesInput from "../ListingImagesInput";
+import { cn } from "~/lib/utils";
 
 /**
  * Component for adding images to the listing
@@ -18,7 +19,7 @@ export default function CreateListingFour() {
                     <ChevronLeft size={24} />
                 </button>
             </div>
-            <div className={styles.createListing}>
+            <div className={cn(styles.createListing, styles.createListingFour)}>
                 <h1 className={styles.createListingOneTitle}>
                     Agrega tus imagenes
                 </h1>

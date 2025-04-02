@@ -5,6 +5,7 @@ import { Plus } from "lucide-react";
 import { useAtom } from "jotai";
 import { listingImagesAtom } from "../../store";
 import AddImageModal from "../AddImageModal";
+import ListingImageCarousel from "~/components/listing-images/ListingImageCarousel";
 
 export default function ListingImagesInput() {
     const [images, setImages] = useAtom(listingImagesAtom);
@@ -19,35 +20,38 @@ export default function ListingImagesInput() {
                     {images.map((image, index) => (
                         <ImagePreview
                             key={index}
+                            selected={index === selectedImage}
                             image={URL.createObjectURL(image)}
                             click={() => setSelectedImage(index)}
                         />
                     ))}
-                    <button 
-                        className={cn(styles.imagePreviewContainer, styles.addImageButton)} 
+                    <button
+                        className={cn(styles.imagePreviewContainer, styles.addImageButton)}
                         onClick={() => setAddImageModal(true)}
                     >
                         <Plus color="gray" />
                     </button>
                 </div>
-                <div className={styles.rightImageDisplayer}>
-                    {images.length > 0 ? (
-                        <img src={URL.createObjectURL(images[selectedImage])} alt="Imagen del producto" className={styles.rightImage} />
-                    ) : (
-                        <div className={cn(styles.rightImage, styles.addImageSign)}>
-                            Comienza agregando imágenes
-                        </div>
-                    )}
-                </div>
+                {images.length > 0 ? (
+                    <ListingImageCarousel
+                        images={images.map((image) => URL.createObjectURL(image))}
+                        selected={selectedImage}
+                        setSelected={setSelectedImage}
+                    />
+                ) : (
+                    <div className={styles.addImageSign}>
+                        Comienza agregando imágenes
+                    </div>
+                )}
             </div>
             {addImageModal && <AddImageModal open={addImageModal} close={() => setAddImageModal(false)} />}
         </>
     )
 }
 
-function ImagePreview({ image, click }: { image: string, click: () => void }) {
+function ImagePreview({ image, click, selected }: { image: string, click: () => void, selected: boolean }) {
     return (
-        <button className={styles.imagePreviewContainer} onClick={click}>
+        <button className={cn(styles.imagePreviewContainer, selected ? styles.selectedImage : "")} onClick={click}>
             <img src={image} alt="Imagen del producto" className={styles.imagePreview} />
         </button>
     )
