@@ -1,8 +1,9 @@
 from django.core.files.uploadedfile import UploadedFile
-from listing.exceptions import ListingPricesException
-from listing.models import Listing, ListingImage, ListingPrice
+from listing.exceptions import ListingOptionsException, ListingPricesException
+from listing.models import Listing, ListingColor, ListingImage, ListingOptions, ListingPrice, ListingSize, ListingSizeSpecification
 from image.service import upload_image
 from store.models import Store
+import pprint
 
 def validate_prices(prices: list[dict]) -> bool:
     """
@@ -15,7 +16,7 @@ def validate_prices(prices: list[dict]) -> bool:
             return False
         
         if(i == len(prices) - 1):
-            if prices[i]['max_units'] is not None:
+            if 'max_units' in prices[i]:
                 return False
             break
         
@@ -51,11 +52,70 @@ def create_listing_prices(listing: Listing, prices: list[dict]) -> list[ListingP
             listing=listing,
             price=price['price'],
             min_units=price['min_units'],
-            max_units=price['max_units']
+            max_units=price.get('max_units', None)
         ) for price in prices
     ])
 
     return listing_prices
+
+def create_listing_options(listing: Listing, options: dict) -> ListingOptions:
+    created_options = {}
+
+    if 'colors' in options:
+        colors = options['colors']
+
+        created_colors = []
+
+        for color in colors:
+            if not color.get('color_code') and not color.get('image'):
+                raise ListingOptionsException()
+
+            if 'image' in color:
+                image = upload_image(color['image'], 'listing-options')
+
+                created_color = ListingColor.objects.create(
+                    image=image,
+                    color_name=color['color_name']
+                )
+
+                created_colors.append(created_color)
+            else:
+                created_color = ListingColor.objects.create(
+                    color_code=color['color_code'],
+                    color_name=color['color_name']
+                )
+
+                created_colors.append(created_color)
+
+        created_options['colors'] = created_colors
+
+    if 'sizes' in options:
+        sizes = options['sizes']
+
+        created_sizes = []
+
+        for size in sizes:
+            created_size = ListingSize.objects.create(
+                size=size['size']
+            )
+
+            if 'specifications' in size:
+                specifications = size['specifications']
+
+                created_specifications = ListingSizeSpecification.objects.create(**specifications)
+
+                created_size.specifications = created_specifications
+                created_size.save()
+
+            created_sizes.append(created_size)
+
+        created_options['sizes'] = created_sizes
+
+    listing_options = ListingOptions.objects.create(listing=listing)
+    listing_options.colors.set(created_options.get('colors', []))
+    listing_options.sizes.set(created_options.get('sizes', []))
+
+    return listing_options
 
 def create_listing(store: Store, body: dict, images: list[UploadedFile]) -> Listing:
     """
@@ -68,14 +128,21 @@ def create_listing(store: Store, body: dict, images: list[UploadedFile]) -> List
         description=body['description'],
         customizable=body['customizable'],
         ready_to_ship=body['ready_to_ship'],
+        category=body['category']
     )
-    uploaded_images = [upload_image(image, 'listing') for image in images]
-
-    ListingImage.objects.bulk_create([
-        ListingImage(listing=listing, image=image) 
-        for image in uploaded_images
-    ])
 
     create_listing_prices(listing, body['prices'])
+
+    if body['customizable']:
+        create_listing_options(listing, body['custom_options'])
+
+    images = [upload_image(image, 'listing') for image in images]
+
+    ListingImage.objects.bulk_create([
+        ListingImage(
+            listing=listing,
+            image=image
+        ) for image in images
+    ])
 
     return listing

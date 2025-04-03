@@ -28,16 +28,26 @@ class ListingPrice(models.Model):
     max_units = models.SmallIntegerField(blank=True, null=True)
     price = models.DecimalField(max_digits=10, decimal_places=2)
 
+class ListingOptions(models.Model):
+    listing = models.ForeignKey(Listing, on_delete=models.CASCADE, related_name='options')
+    colors = models.ManyToManyField('ListingColor')
+    sizes = models.ManyToManyField('ListingSize')
+    models = models.CharField(max_length=50, blank=True, null=True)
+
+    def __str__(self):
+        return f"ListingOptions(listing={self.listing.id}, colors={self.colors.all()}, sizes={self.sizes.all()}, models={self.models})"
+
 class ListingColor(models.Model):
-    listing = models.ForeignKey(Listing, on_delete=models.CASCADE, related_name='colors')
     image = models.ForeignKey('image.Image', on_delete=models.CASCADE, blank=True, null=True)
     color_code = models.CharField(max_length=7, blank=True, null=True)
     color_name = models.CharField(max_length=50)
 
+    def image_url(self) -> str:
+        return "http://localhost:8000" + self.image.image_url if self.image else None
+
 class ListingSize(models.Model):
-    listing = models.ForeignKey(Listing, on_delete=models.CASCADE, related_name='sizes')
     size = models.CharField(max_length=5) 
-    specification = models.ForeignKey('ListingSizeSpecification', on_delete=models.CASCADE, blank=True, null=True)
+    specifications = models.ForeignKey('ListingSizeSpecification', on_delete=models.CASCADE, blank=True, null=True)
 
 class ListingSizeSpecification(models.Model):
     shoulders = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)

@@ -3,7 +3,7 @@ from . import service
 
 # Create your tests here.
 class ListingTests(TestCase):
-    def test_listing_prices_validation(self):
+    def test_listing_prices_validation(self) -> None:
         '''
         Test the listing prices validation algorithm
         '''
@@ -29,6 +29,10 @@ class ListingTests(TestCase):
                 {'price': 20.0, 'min_units': 1, 'max_units': 10},
                 {'price': 15.0, 'min_units': 11, 'max_units': 20},
                 {'price': 10.0, 'min_units': 21, 'max_units': None}
+            ],
+            [
+                {'price': 100.0, 'min_units': 5, 'max_units': 50},
+                {'price': 80.0, 'min_units': 51, 'max_units': 200},
             ]
         ]
         

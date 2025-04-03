@@ -12,12 +12,12 @@ export type CustomOptions = {
 
 export type ColorOption = {
     name: string;
-    file?: File;
+    image?: File;
     color_code?: string;
 }
 
 export type SizeOption = {
-    name: string;
+    size: string;
     specifications?: SizeSpecs;
 }
 

@@ -55,7 +55,7 @@ export default function AddSizeModal({ open, close }: AddSizeModalProps) {
         if (!sizeName || !Object.keys(specs).length) return;
 
         const newSize = {
-            name: sizeName,
+            size: sizeName,
             specifications: specs
         };
 

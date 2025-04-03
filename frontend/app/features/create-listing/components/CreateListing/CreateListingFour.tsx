@@ -12,7 +12,7 @@ import { toast } from "sonner";
 */
 export default function CreateListingFour() {
     const [, setStep] = useAtom(stepAtom);
-    const [images, setImages] = useAtom(listingImagesAtom);
+    const [images] = useAtom(listingImagesAtom);
 
     const next = () => {
         if(images.length < 4) {
