@@ -8,6 +8,7 @@ import { Button } from "~/components/ui/button";
 import { Label } from "~/components/ui/label";
 import ColorsInput from "../ColorsInput";
 import SizeInput from "../SizeInput";
+import { toast } from "sonner";
 
 
 /**
@@ -55,6 +56,24 @@ export default function CreateListingThree() {
                 model: []
             });
         }
+    }
+
+    const next = () => {
+        if(!customizable) {
+            setOptions({
+                color: [],
+                size: [],
+                model: []
+            });
+
+            setStep(3);
+        }
+
+        if(options?.color?.length === 0 || options?.size?.length === 0 && options?.model?.length === 0) {
+            setOptions({});
+        }
+
+        setStep(3);
     }
 
     return (

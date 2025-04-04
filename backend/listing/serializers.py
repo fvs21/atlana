@@ -2,6 +2,9 @@ from rest_framework import serializers
 
 from listing.models import Listing, ListingColor, ListingOptions, ListingPrice, ListingSize, ListingSizeSpecification
 
+'''
+    Serializer for creating and modeling the prices of a listing
+'''
 class ListingPricesSerializer(serializers.ModelSerializer):
     class Meta:
         model = ListingPrice
@@ -11,6 +14,9 @@ class ListingPricesSerializer(serializers.ModelSerializer):
             'price'
         ]
 
+''''
+    Serializer for creating listing color options
+'''
 class CreateListingColorOptionSerializer(serializers.ModelSerializer):
     image = serializers.ImageField(required=False)
     class Meta:

@@ -24,13 +24,15 @@ export default function CreateListingTwo() {
     const nextButton = () => {
         setStep(2);
         return;
-
+        
         const errors_ = validateStepOne(title, description, category);
 
-        if (Object.keys(errors).length > 0) {
+        if (Object.keys(errors_).length > 0) {
             setErrors(errors_ as typeof errors);
             return;
         }
+
+        setStep(2);
     }
 
     const [, setStep] = useAtom(stepAtom);
@@ -80,6 +82,11 @@ export default function CreateListingTwo() {
                             value={category}
                             onChange={setCategory}
                         />
+                        {errors.category && (
+                            <div className="pt-2">
+                                <span className="errorMessage">{errors.category}</span>
+                            </div>
+                        )}
                     </div>
                     <div className={cn(styles.formInput, styles.nextButtonContainer)}>
                         <Button className="primaryButton" onClick={nextButton}>

@@ -1,3 +1,4 @@
+import CreateListingFive from "../components/CreateListing/CreateListingFive";
 import CreateListingFour from "../components/CreateListing/CreateListingFour";
 import CreateListingOne from "../components/CreateListing/CreateListingOne";
 import CreateListingThree from "../components/CreateListing/CreateListingThree";
@@ -12,6 +13,8 @@ export function determineCreateListingStep(step: number) {
         case 2: 
             return <CreateListingThree />;
         case 3:
-            return <CreateListingFour />; 
+            return <CreateListingFour />;
+        case 4:
+            return <CreateListingFive />;
     }
 }

@@ -31,8 +31,8 @@ export default function SizeInput() {
                             </TableHeader>
                             <TableBody>
                                 {options.size.map((size) => (
-                                    <TableRow key={size.name}>
-                                        <TableCell>{size.name}</TableCell>
+                                    <TableRow key={size.size}>
+                                        <TableCell>{size.size}</TableCell>
                                         {!!size.specifications && (
                                             Object.keys(sizeSpecs).map((spec, index) => {
                                                 if (!size.specifications?.[spec as keyof SizeSpecs])
