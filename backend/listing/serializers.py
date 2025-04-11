@@ -122,7 +122,7 @@ class ListingSerializer(serializers.ModelSerializer):
             'customizable',
             'ready_to_ship',
             'created_at',
-            'image_urls',
+            'images_urls',
             'prices',
             'options'
         ]

@@ -1,20 +1,24 @@
+import { CustomOptions } from "~/features/create-listing/types";
+
 export type Listing = {
     id: number;
     store: number;
     title: string;
     description: string;
+    category: string;
     customizable: boolean;
     ready_to_ship: boolean;
-    images: string[];
+    images_urls: string[];
     prices: ListingPrice[];
     created_at: string;
+    options: CustomOptions;
 }
 
 export type ListingCard = {
     id: number;
     title: string;
     prices: ListingPrice[];
-    images: string[];
+    images_urls: string[];
     creator: {
         id: number;
         name: string;
@@ -28,7 +32,7 @@ export type ListingPrice = {
     listing_id: number;
     price: number;
     min_units: number;
-    max_units: number;
+    max_units?: number;
 }
 
 export type SellerProductCard = {

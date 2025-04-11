@@ -22,9 +22,6 @@ export default function CreateListingTwo() {
     });
 
     const nextButton = () => {
-        setStep(2);
-        return;
-        
         const errors_ = validateStepOne(title, description, category);
 
         if (Object.keys(errors_).length > 0) {

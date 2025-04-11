@@ -113,7 +113,7 @@ export default function CreateListingThree() {
                     )}
                 </div>
                 <div className={cn(styles.formInput, styles.nextButtonContainer)}>
-                    <Button className="primaryButton" onClick={() => setStep(3)}>
+                    <Button className="primaryButton" onClick={next}>
                         Siguiente
                     </Button>
                 </div>

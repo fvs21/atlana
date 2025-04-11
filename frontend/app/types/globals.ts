@@ -26,4 +26,3 @@ export type Store = {
     about: string;
     banner: string; //url
 }
-

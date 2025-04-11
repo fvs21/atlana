@@ -9,7 +9,7 @@ class Listing(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     category = models.CharField(max_length=50)
 
-    def image_urls(self) -> list[str]:
+    def images_urls(self) -> list[str]:
         return [
             image.get_image_url() 
             for image in self.images.all()
