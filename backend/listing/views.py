@@ -27,7 +27,14 @@ class ListingsViewset(viewsets.ViewSet):
                 'code': 'invalid_data'
             }, status=400)
         
-        listing = service.create_listing(user.store, serializer.validated_data['data'], serializer.validated_data['images'])
+        listing = service.create_listing(
+            user.store, 
+            {
+                **serializer.validated_data['data'], 
+                'color_images': serializer.validated_data['color_images']
+            }, 
+            serializer.validated_data['images']
+        )
 
         return JsonResponse({
             "data": {

@@ -25,7 +25,7 @@ export default function ColorPalette({ color, setColor }: ColorPaletteProps) {
                 <div className={styles.customColorContainer}>
                     <input
                         type="color"
-                        value={color}
+                        value={color || "#ffffff"}
                         onChange={(e) => setColor(e.target.value)}
                         className={styles.customColorInput}
                     />

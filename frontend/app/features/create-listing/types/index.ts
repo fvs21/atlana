@@ -12,8 +12,8 @@ export type CustomOptions = {
 
 export type ColorOption = {
     name: string;
-    image?: File;
     color_code?: string;
+    image_index?: number;
 }
 
 export type SizeOption = {

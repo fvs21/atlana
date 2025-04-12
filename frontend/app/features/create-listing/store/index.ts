@@ -8,6 +8,7 @@ const listingCategoryAtom = atom<string>("");
 const listingCustomizableAtom = atom<boolean>(false);
 const listingPricesAtom = atom<CreateListingPrice[]>([{}]);
 const listingCustomOptionsAtom = atom<CustomOptions>({});
+const listingColorOptionsImagesAtom = atom<File[]>([]);
 const listingImagesAtom = atom<File[]>([]);
 
 const useBody = () => {
@@ -16,8 +17,9 @@ const useBody = () => {
     const [category] = useAtom(listingCategoryAtom);
     const [customizable] = useAtom(listingCustomizableAtom);
     const [prices] = useAtom(listingPricesAtom);
-    const [customOptions] = useAtom(listingCustomOptionsAtom);
+    const [custom_options] = useAtom(listingCustomOptionsAtom);
     const [images] = useAtom(listingImagesAtom);
+    const [color_images] = useAtom(listingColorOptionsImagesAtom);
 
     return {
         title,
@@ -25,8 +27,9 @@ const useBody = () => {
         category,
         customizable,
         prices,
-        customOptions,
-        images
+        custom_options,
+        images,
+        color_images,
     }
 }
 
@@ -38,6 +41,7 @@ export {
     listingCategoryAtom,
     listingCustomizableAtom,
     listingCustomOptionsAtom,
+    listingColorOptionsImagesAtom,
     listingImagesAtom,
     useBody
 }

@@ -1,11 +1,11 @@
+from typing import Dict, List, Optional
 from django.core.files.uploadedfile import UploadedFile
 from listing.exceptions import ListingOptionsException, ListingPricesException
 from listing.models import Listing, ListingColor, ListingImage, ListingOptions, ListingPrice, ListingSize, ListingSizeSpecification
 from image.service import upload_image
 from store.models import Store
-import pprint
 
-def validate_prices(prices: list[dict]) -> bool:
+def validate_prices(prices: List[Dict]) -> bool:
     """
     Validate that the prices are in the correct order and that the min_units are less than the max_units.
     Ensure that the last price has a max_units of None.
@@ -40,7 +40,7 @@ def validate_prices(prices: list[dict]) -> bool:
 
     return True
 
-def create_listing_prices(listing: Listing, prices: list[dict]) -> list[ListingPrice]:
+def create_listing_prices(listing: Listing, prices: List[dict]) -> List[ListingPrice]:
     #sort the prices by minimum number of units to validate and ensure that the prices are created in the correct order
     prices.sort(key=lambda price: price['min_units'])
 
@@ -58,7 +58,7 @@ def create_listing_prices(listing: Listing, prices: list[dict]) -> list[ListingP
 
     return listing_prices
 
-def create_listing_options(listing: Listing, options: dict) -> ListingOptions:
+def create_listing_options(listing: Listing, options: dict, color_images: Optional[List[UploadedFile]]) -> ListingOptions:
     created_options = {}
 
     if 'colors' in options:
@@ -67,11 +67,14 @@ def create_listing_options(listing: Listing, options: dict) -> ListingOptions:
         created_colors = []
 
         for color in colors:
-            if not color.get('color_code') and not color.get('image'):
+            if not color.get('color_code') and not color.get('image_index'):
                 raise ListingOptionsException()
 
-            if 'image' in color:
-                image = upload_image(color['image'], 'listing-options')
+            if 'image_index' in color:
+                if not color_images or color['image_index'] >= len(color_images):
+                    raise ListingOptionsException()
+                
+                image = upload_image(color_images[color['index']], 'listing-options')
 
                 created_color = ListingColor.objects.create(
                     image=image,
@@ -117,7 +120,7 @@ def create_listing_options(listing: Listing, options: dict) -> ListingOptions:
 
     return listing_options
 
-def create_listing(store: Store, body: dict, images: list[UploadedFile]) -> Listing:
+def create_listing(store: Store, body: dict, images: List[UploadedFile]) -> Listing:
     """
     Create a listing with the given body and images.
     """
@@ -134,7 +137,7 @@ def create_listing(store: Store, body: dict, images: list[UploadedFile]) -> List
     create_listing_prices(listing, body['prices'])
 
     if body['customizable']:
-        create_listing_options(listing, body['custom_options'])
+        create_listing_options(listing, body['custom_options'], body['color_images'])
 
     images = [upload_image(image, 'listing') for image in images]
 

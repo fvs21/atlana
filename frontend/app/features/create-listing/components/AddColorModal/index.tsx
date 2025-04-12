@@ -1,4 +1,4 @@
-import { Dialog, DialogTrigger, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "~/components/ui/dialog";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "~/components/ui/dialog";
 import styles from "./styles.module.scss";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "~/components/ui/tabs";
 import ColorImageInput from "./ColorImageInput";
@@ -9,28 +9,34 @@ import ColorPalette from "./ColorPalette";
 import { Label } from "~/components/ui/label";
 import { ColorOption } from "../../types";
 import { useAtom } from "jotai";
-import { listingCustomOptionsAtom } from "../../store";
+import { listingColorOptionsImagesAtom, listingCustomOptionsAtom } from "../../store";
 
 export default function AddColorModal({ open, close }: { open: boolean, close: () => void }) {
     const [listingOptions, setListingOptions] = useAtom(listingCustomOptionsAtom);
+    const [colors, setColors] = useAtom(listingColorOptionsImagesAtom);
 
     const [color, setColor] = useState<ColorOption>({
         name: "",
     });
 
+    const [file, setFile] = useState<File | null>(null);
+
     const changeImage = (image: File) => {
         const newColor = { ...color };
         delete newColor.color_code;
 
+        setFile(image);
+
         setColor({
             ...newColor,
-            file: image,
+            image_index: colors.length
         });
     }
 
     const changeColor = (color_code: string) => {
         const newColor = { ...color };
-        delete newColor.file;
+        delete newColor.image_index;
+        setFile(null);
 
         setColor({
             ...newColor,
@@ -46,7 +52,7 @@ export default function AddColorModal({ open, close }: { open: boolean, close: (
     }
 
     const save = () => {
-        if(!color.color_code && !color.file || !color.name) {
+        if((!color.color_code && !file) || !color.name) {
             return;
         }
 
@@ -58,9 +64,17 @@ export default function AddColorModal({ open, close }: { open: boolean, close: (
             ]
         });
 
+        if(file) {
+            setColors([
+                ...colors,
+                file
+            ]);
+        }
+
         setColor({
             name: ""
         });
+        setFile(null);
 
         close();
     }
@@ -85,7 +99,7 @@ export default function AddColorModal({ open, close }: { open: boolean, close: (
                         <TabsContent value="image">
                             <div className="mt-4">
                                 <ColorImageInput
-                                    image={color.file}
+                                    image={file}
                                     setImage={changeImage}
                                 />
                             </div>
@@ -100,7 +114,7 @@ export default function AddColorModal({ open, close }: { open: boolean, close: (
                         </TabsContent>
                     </Tabs>
                     <div className="pt-4">
-                        {(color.color_code || color.file) && (
+                        {(color.color_code || file) && (
                             <div className="pb-4 flex flex-col gap-2">
                                 <Label>
                                     Vista Previa
@@ -109,8 +123,8 @@ export default function AddColorModal({ open, close }: { open: boolean, close: (
                                     {color.color_code && (
                                         <div style={{ backgroundColor: color.color_code }} className={styles.colorPreview} />
                                     )}
-                                    {color.file && (
-                                        <img src={URL.createObjectURL(color.file)} alt="Color preview" className={styles.colorPreview} />
+                                    {file && (
+                                        <img src={URL.createObjectURL(file)} alt="Color preview" className={styles.colorPreview} />
                                     )}
                                 </div>
                             </div>

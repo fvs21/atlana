@@ -3,7 +3,7 @@ import styles from "./styles.module.scss";
 import { useRef } from "react";
 import { toast } from "sonner";
 
-export default function ColorImageInput({ image, setImage }: { image: File | undefined, setImage: (image: File) => void }) {
+export default function ColorImageInput({ image, setImage }: { image: File | null, setImage: (image: File) => void }) {
     const inputContainerRef = useRef<HTMLInputElement>(null);
     const inputRef = useRef<HTMLInputElement>(null);
 

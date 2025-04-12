@@ -1,3 +1,4 @@
+from typing import List
 from rest_framework import serializers
 
 from listing.models import Listing, ListingColor, ListingOptions, ListingPrice, ListingSize, ListingSizeSpecification
@@ -18,11 +19,11 @@ class ListingPricesSerializer(serializers.ModelSerializer):
     Serializer for creating listing color options
 '''
 class CreateListingColorOptionSerializer(serializers.ModelSerializer):
-    image = serializers.ImageField(required=False)
+    image_index = serializers.IntegerField(required=False)
+
     class Meta:
         model = ListingColor
         fields = [
-            'image',
             'color_code',
             'color_name'
         ]
@@ -49,6 +50,34 @@ class CreateListingCustomizationOptionsSerializer(serializers.Serializer):
     sizes = CreateListingSizeOptionSerializer(many=True, required=False)
     models = CreateListingModelOptionSerializer(many=True, required=False)
 
+    def validate_colors(self, value: List[CreateListingColorOptionSerializer]):
+        if not value:
+            raise serializers.ValidationError("At least one color option is required.")
+        
+        unique = set()
+        indexes = set()
+    
+        for color in value:
+            if not color.get('color_code') and not color.get('image_index'):
+                raise serializers.ValidationError("Either color_code or image_index must be provided.")
+            
+            if color['color_name'] in unique:
+                raise serializers.ValidationError("Duplicate color code found.")
+            
+            if color.get('image_index') is not None:
+                if color['image_index'] in indexes:
+                    raise serializers.ValidationError("Duplicate image index found.")
+                
+                if color['image_index'] < 0 or color['image_index'] >= len(value):
+                    raise serializers.ValidationError("Image index out of range.")
+                
+                indexes.add(color['image_index'])
+                
+            unique.add(color['color_name'])
+
+        return value
+        
+
 class CreateListingBodySerializer(serializers.Serializer):
     title = serializers.CharField(max_length=150)
     description = serializers.CharField(max_length=500)
@@ -61,6 +90,7 @@ class CreateListingBodySerializer(serializers.Serializer):
 class CreateListingSerializer(serializers.Serializer):
     data = serializers.JSONField()
     images = serializers.ListField(child=serializers.ImageField(), max_length=10)
+    color_images = serializers.ListField(child=serializers.ImageField(), required=False, max_length=10)
 
     def validate_data(self, data):
         body_serializer = CreateListingBodySerializer(data=data)

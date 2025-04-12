@@ -15,16 +15,42 @@ export default function CreateListingFive() {
     const [, setStep] = useAtom(stepAtom);
     const [images] = useAtom(listingImagesAtom);
     const { create, isPending, createDisabled } = useCreateListing();
-    
+
     const body = useBody();
 
-    const next = () => {
+    const next = async () => {
         if(images.length < 4) {
             toast.error("Debes agregar al menos 4 imágenes");
             return;
-        }
+        }        
 
-        console.log(body);
+        const formData = new FormData();
+
+        body.images.forEach((image) => {
+            formData.append("images", image);
+        });
+
+        body.custom_options.color?.forEach((color) => {
+            if(color.image_index) {
+                formData.append("color_images", body.color_images[color.image_index]);
+            }
+        })
+
+        formData.append("data", JSON.stringify({
+            title: body.title,
+            description: body.description,
+            category: body.category,
+            options: body.custom_options,
+            price: body.prices,
+            customizable: body.customizable,
+        }));
+
+        try {
+            await create(formData);
+        } catch(error) {
+            console.log(error);
+            
+        }
         
     }
 
@@ -45,7 +71,7 @@ export default function CreateListingFive() {
                             Estas son las imagenes que se mostraran en el apartado principal de tu anuncio. Puedes agregar hasta 10 imagenes.
                         </div>
                     </div>
-                    <Button className="primaryButton" onClick={next}>
+                    <Button className="primaryButton" onClick={next} disabled={createDisabled}>
                         Crear
                     </Button>
                 </div>
