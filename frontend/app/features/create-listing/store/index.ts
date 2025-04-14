@@ -25,7 +25,6 @@ const useBody = () => {
         title,
         description,
         category,
-        customizable,
         prices,
         custom_options,
         images,

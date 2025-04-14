@@ -3,8 +3,10 @@ from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import action
 from authentication.service import get_user_by_id
+from listing.serializers import ListingSerializer
 from store.models import Store
 from store.serializers import CreateStoreSerializer, EditAboutSerializer, StoreSerializer
+import listing.service as listing_service
 
 class StoreViewset(viewsets.ViewSet):
     permission_classes = [IsAuthenticated]
@@ -73,6 +75,25 @@ class StoreViewset(viewsets.ViewSet):
             'data': {
                 'store': StoreSerializer(saved_store).data
             }
+        }, status=200)
+    
+    @action(detail=False, methods=['get'])
+    def get_listings(self, request: HttpRequest) -> JsonResponse:
+        user = get_user_by_id(request.user.id)
+
+        if not user.has_store():
+            return JsonResponse({
+                "details": "No has registrado una tienda",
+                "code": "no_store"
+            }, status=403)
+
+        listings = listing_service.get_created_listings(user.store)
+
+        return JsonResponse({
+            "data": {
+                "listings": ListingSerializer(listings, many=True).data
+            },
+            "details": "Listings retrieved"
         }, status=200)
 
 class PublicStoreViewset(viewsets.ViewSet):

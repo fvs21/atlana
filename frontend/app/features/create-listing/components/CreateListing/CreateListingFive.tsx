@@ -7,6 +7,7 @@ import { cn } from "~/lib/utils";
 import { Button } from "~/components/ui/button";
 import { toast } from "sonner";
 import { useCreateListing } from "../../api";
+import { useNavigate } from "@remix-run/react";
 
 /**
  * Component for adding images to the listing
@@ -17,6 +18,8 @@ export default function CreateListingFive() {
     const { create, isPending, createDisabled } = useCreateListing();
 
     const body = useBody();
+
+    const navigate = useNavigate();
 
     const next = async () => {
         if(images.length < 4) {
@@ -42,14 +45,13 @@ export default function CreateListingFive() {
             category: body.category,
             options: body.custom_options,
             price: body.prices,
-            customizable: body.customizable,
         }));
 
         try {
             await create(formData);
+            navigate("/seller/listings");
         } catch(error) {
-            console.log(error);
-            
+            console.log(error);     
         }
         
     }

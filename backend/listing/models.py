@@ -8,6 +8,7 @@ class Listing(models.Model):
     ready_to_ship = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     category = models.CharField(max_length=50)
+    stock = models.IntegerField(default=0, blank=True, null=True)
 
     def images_urls(self) -> list[str]:
         return [

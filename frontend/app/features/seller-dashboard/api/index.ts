@@ -1,7 +1,8 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { UpdatePhoneNumber } from "../types"
 import { api } from "~/api"
 import { ResponseBody, User } from "~/types/globals";
+import { Listing } from "~/types/listings";
 
 type UpdatePhoneNumberResponse = {
     user: User;
@@ -61,5 +62,20 @@ export function useResendPhoneCode() {
         resend,
         isPending,
         resendDisabled: isPending && !isError
+    }
+}
+
+export function useFetchCreatedListings() {
+    const { data, isLoading } = useQuery({
+        queryKey: ["created-listings"],
+        queryFn: async () => {
+            const request = await api.get<ResponseBody<Listing[]>>("/seller/listings");
+            return request.data;
+        }
+    });
+
+    return {
+        data,
+        isLoading
     }
 }

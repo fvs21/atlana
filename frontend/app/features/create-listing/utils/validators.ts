@@ -1,3 +1,5 @@
+import { ListingPrice } from "~/types/listings";
+
 export function validateStepOne(title: string, description: string, category: string) {
     const errors: { [key: string]: string } = {};
 
@@ -14,4 +16,8 @@ export function validateStepOne(title: string, description: string, category: st
     }
 
     return errors;
+}
+
+export const validatePrices = (prices: ListingPrice[]) => {
+    
 }

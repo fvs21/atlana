@@ -82,10 +82,31 @@ class CreateListingBodySerializer(serializers.Serializer):
     title = serializers.CharField(max_length=150)
     description = serializers.CharField(max_length=500)
     category = serializers.CharField(max_length=50)
-    customizable = serializers.BooleanField(default=False)
+    customizable = serializers.SerializerMethodField()
     custom_options = CreateListingCustomizationOptionsSerializer(required=False)
     ready_to_ship = serializers.BooleanField(default=False)
     prices = serializers.ListField(child=ListingPricesSerializer())
+    stock = serializers.IntegerField(required=False)
+
+    def validate(self, data):
+        if data['customizable'] and not data.get('custom_options'):
+            raise serializers.ValidationError("Custom options are required for customizable listings.")
+        
+        if data.get('ready_to_ship', False) and not data.get('stock'):
+            raise serializers.ValidationError("Stock is required for non-customizable listings.")
+        
+        return data
+
+    def get_customizable(self, obj):
+        options = obj.get('custom_options', None)
+
+        if any([
+            options.get('colors', None),
+            options.get('sizes', None),
+            options.get('models', None)
+        ]):
+            return True
+        return False
 
 class CreateListingSerializer(serializers.Serializer):
     data = serializers.JSONField()

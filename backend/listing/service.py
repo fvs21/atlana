@@ -138,6 +138,8 @@ def create_listing(store: Store, body: dict, images: List[UploadedFile]) -> List
 
     if body['customizable']:
         create_listing_options(listing, body['custom_options'], body['color_images'])
+    else:
+        listing.stock = body['stock']
 
     images = [upload_image(image, 'listing') for image in images]
 
@@ -149,3 +151,10 @@ def create_listing(store: Store, body: dict, images: List[UploadedFile]) -> List
     ])
 
     return listing
+
+def get_created_listings(store: Store) -> List[Listing]:
+    """
+    Get all listings created by the store.
+    """
+
+    return Listing.objects.filter(store=store)
