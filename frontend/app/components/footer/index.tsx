@@ -8,7 +8,7 @@ export default function Footer() {
         <div className={styles.section}>
           <h4>Acerca de nosotros</h4>
           <p>
-            Busca y compra productos directamente de los fabricantes y proveedores de México, con pagos seguros.
+            Unete a nuestro marketplace para buscar y vender productos de segunda mano en tu comunidad universitaria.
           </p>
         </div>
 
@@ -29,7 +29,7 @@ export default function Footer() {
         </div>
       </div>
       <div className={styles.bottom}>
-        <p>&copy; {new Date().getFullYear()} Tradenal.</p>
+        <p>&copy; {new Date().getFullYear()} Marketplace.</p>
       </div>
     </footer>
   )

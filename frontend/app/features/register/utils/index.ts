@@ -5,14 +5,25 @@ export function validatePassword(password: string): boolean {
 }
 
 export function validateEmail(email: string): boolean {
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        return false;
+    }
+
+    const domain = email.split("@")[1];
+    
+
+    if (domain !== "anahuacmayab.edu.mx") {
+        return false;
+    }
+
+    return true;
 }
 
 export function validateRegisterBody(body: RegisterBody): RegisterErrors {
     let errors: RegisterErrors = {}
 
     if (!validateEmail(body.email)) {
-        errors.email = "Correo electrónico invalido";
+        errors.email = "Correo electrónico invalido. Asegúrate de usar tu correo institucional";
     }
 
     if (!validatePassword(body.password)) {
@@ -25,10 +36,6 @@ export function validateRegisterBody(body: RegisterBody): RegisterErrors {
 
     if (body.last_name.length < 3) {
         errors.last_name = "Escribe tu apellido";
-    }
-
-    if (body.company_name.length == 0) {
-        errors.company_name = "Escribe el nombre de tu empresa";
     }
 
     return errors;

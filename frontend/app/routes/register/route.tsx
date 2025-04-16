@@ -31,7 +31,6 @@ export default function RegisterPage() {
         first_name: "",
         last_name: "",
         email: "",
-        company_name: "",
         password: "",
         confirm_password: "",
         agree_to_terms: "",
@@ -74,9 +73,7 @@ export default function RegisterPage() {
         const body: RegisterBody = {
             first_name,
             last_name,
-            user_type,
             email,
-            company_name,
             password
         } 
         
@@ -98,39 +95,13 @@ export default function RegisterPage() {
                     <Logo width={35} />
                     <h2>Crea tu cuenta</h2>
                     <form className={styles.form} onSubmit={handleSubmit}>
-                        <div className={styles.formGroup}>
-                            <Label>Selecciona tu rol:</Label>
-                            <RadioGroup
-                                name="userType"
-                                defaultValue={'buyer'}
-                                className={styles.radioGroup}
-                            >
-                                <div className={styles.radioOption}>
-                                    <RadioGroupItem value="buyer" id="buyer" color="red" />
-                                    <Label htmlFor="buyer" className={styles.radioLabel}>
-                                        Comprador
-                                    </Label>
-                                </div>
-                                <div className={styles.radioOption}>
-                                    <RadioGroupItem value="seller" id="seller" />
-                                    <Label htmlFor="seller" className={styles.radioLabel}>
-                                        Vendedor
-                                    </Label>
-                                </div>
-                                <div className={styles.radioOption}>
-                                    <RadioGroupItem value="both" id="both" />
-                                    <Label htmlFor="both" className={styles.radioLabel}>
-                                        Ambos
-                                    </Label>
-                                </div>
-                            </RadioGroup>
-                        </div>
                         <div className={styles.nameFields}>
                             <ValidatedInput
                                 id="firstName"
                                 name="firstName"
                                 type="text"
                                 label="Nombre(s)"
+                                placeholder="Juan"
                                 error={errors?.first_name}
                                 className={styles.formInput}
                             />
@@ -139,6 +110,7 @@ export default function RegisterPage() {
                                 name="lastName"
                                 type="text"
                                 label="Apellido(s)"
+                                placeholder="Pérez"
                                 error={errors?.last_name}
                                 className={styles.formInput}
                             />
@@ -148,16 +120,9 @@ export default function RegisterPage() {
                             name="email" 
                             type="email" 
                             label="Correo electrónico" 
+                            placeholder="juan.perez@anahuacmayab.edu.mx"
                             error={errors?.email} 
                             className={styles.formInput} 
-                        />
-                        <ValidatedInput 
-                            id="companyName"
-                            name="companyName" 
-                            type="text" 
-                            label="Nombre de tu empresa" 
-                            error={errors?.company_name} 
-                            className={styles.formInput}
                         />
                         <PasswordInput
                             id="password"
@@ -165,6 +130,7 @@ export default function RegisterPage() {
                             label="Contraseña"
                             error={errors?.password}
                             className={styles.formInput}
+                            placeholder="•••••••••"
                         />
                         <PasswordInput
                             id="confirmPassword"
@@ -173,6 +139,7 @@ export default function RegisterPage() {
                             label="Confirma tu contraseña"
                             error={errors?.confirm_password}
                             className={styles.formInput}
+                            placeholder="•••••••••"
                         />
                         <div className={styles.checkboxGroup}>
                             <div className={styles.checkboxWrapper}>

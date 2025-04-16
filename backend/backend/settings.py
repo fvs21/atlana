@@ -62,7 +62,6 @@ INSTALLED_APPS = [
     'authentication.apps.AuthenticationConfig',
     'user.apps.UserConfig',
     'image.apps.ImageConfig',
-    'store.apps.StoreConfig',
     'listing.apps.ListingConfig',
     'location.apps.LocationConfig',
     'rest_framework_simplejwt.token_blacklist',
@@ -113,7 +112,7 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'tradenal',
+        'NAME': 'marketplace',
         'USER': os.environ.get('PSQL_USER'),
         'PASSWORD': os.environ.get('PSQL_PASSWORD'),
     }

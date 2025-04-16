@@ -1,13 +1,12 @@
 from django.db import models
 # Create your models here.
 class Listing(models.Model):
-    store = models.ForeignKey('store.Store', on_delete=models.CASCADE, related_name='listings')
+    creator = models.ForeignKey('user.User', on_delete=models.CASCADE, related_name='listings')
     title = models.CharField(max_length=150)
     description = models.CharField(max_length=500)
-    customizable = models.BooleanField(default=False)
-    ready_to_ship = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     category = models.CharField(max_length=50)
+    price = models.DecimalField(max_digits=10, decimal_places=2)
     stock = models.IntegerField(default=0, blank=True, null=True)
 
     def images_urls(self) -> list[str]:
@@ -22,39 +21,3 @@ class ListingImage(models.Model):
 
     def get_image_url(self):
         return "http://localhost:8000" + self.image.image_url
-
-class ListingPrice(models.Model):
-    listing = models.ForeignKey(Listing, on_delete=models.CASCADE, related_name='prices')
-    min_units = models.SmallIntegerField()
-    max_units = models.SmallIntegerField(blank=True, null=True)
-    price = models.DecimalField(max_digits=10, decimal_places=2)
-
-class ListingOptions(models.Model):
-    listing = models.ForeignKey(Listing, on_delete=models.CASCADE, related_name='options')
-    colors = models.ManyToManyField('ListingColor')
-    sizes = models.ManyToManyField('ListingSize')
-    models = models.CharField(max_length=50, blank=True, null=True)
-
-    def __str__(self):
-        return f"ListingOptions(listing={self.listing.id}, colors={self.colors.all()}, sizes={self.sizes.all()}, models={self.models})"
-
-class ListingColor(models.Model):
-    image = models.ForeignKey('image.Image', on_delete=models.CASCADE, blank=True, null=True)
-    color_code = models.CharField(max_length=7, blank=True, null=True)
-    color_name = models.CharField(max_length=50)
-
-    def image_url(self) -> str:
-        return "http://localhost:8000" + self.image.image_url if self.image else None
-
-class ListingSize(models.Model):
-    size = models.CharField(max_length=5) 
-    specifications = models.ForeignKey('ListingSizeSpecification', on_delete=models.CASCADE, blank=True, null=True)
-
-class ListingSizeSpecification(models.Model):
-    shoulders = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
-    chest = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
-    waist = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
-    hip = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
-    length = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
-    sleeve_length = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
-    insteam = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)

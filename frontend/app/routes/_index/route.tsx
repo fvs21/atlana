@@ -19,8 +19,8 @@ export default function Index() {
         <section className={styles.hero}>
           <div className={styles.heroContainer}>
             <div className={styles.heroContent}>
-              <h1>Busca proveedores y fabricantes</h1>
-              <p>En la plataforma B2B más grande de México.</p>
+              <h1>Vende y compra de segunda mano</h1>
+              <p>En tu comunidad universitaria</p>
               <button className={`${styles.button} ${styles.buttonPrimary}`}>
                 Buscar
                 <ArrowRight />

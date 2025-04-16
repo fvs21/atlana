@@ -5,7 +5,7 @@ export default function Logo({width}: {width: number}) {
     return (
         <div className={styles.logoContainer}>
             <Link to="/" style={{fontSize: width}} className={styles.logo}>
-                Tradenal
+                Marketplace
             </Link>
         </div>
     )

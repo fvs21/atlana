@@ -5,16 +5,15 @@ from django.utils import timezone
 
 from image.models import Image
 from location.models import Location
-from store.models import Store
 
 # Create your models here.
 class UserManager(BaseUserManager):
-    def create_user(self, email, first_name, last_name, user_type, company_name, password=None, **extra_fields):
+    def create_user(self, email, first_name, last_name, password=None, **extra_fields):
         if not email:
             raise ValueError('The Email field must be set')
         
         email = self.normalize_email(email)
-        user = self.model(email=email, first_name=first_name, last_name=last_name, user_type=user_type, company_name=company_name, **extra_fields)
+        user = self.model(email=email, first_name=first_name, last_name=last_name, **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
         return user
@@ -41,12 +40,7 @@ class User(AbstractBaseUser):
     email_verified_at = models.DateTimeField(null=True, blank=True)
     phone_verified_at = models.DateTimeField(null=True, blank=True)
 
-    user_type = models.CharField(choices=[('buyer', 'Buyer'), ('seller', 'Seller'), ('both', 'Both')], max_length=10, default='buyer')
-    company_name = models.CharField(max_length=100, null=True, blank=True)
-
     profile_picture = models.OneToOneField(Image, on_delete=models.CASCADE, null=True, blank=True)
-
-    location = models.ForeignKey(Location, on_delete=models.CASCADE, null=True, blank=True)
 
     objects = UserManager()
 
@@ -70,9 +64,6 @@ class User(AbstractBaseUser):
     
     def has_phone_verified(self) -> bool:
         return self.phone_verified_at is not None
-    
-    def has_store(self) -> bool:
-        return Store.objects.filter(creator=self).exists()
 
 class VerificationData(models.Model):
     db_table = "verification_data"

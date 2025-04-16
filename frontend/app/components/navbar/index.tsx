@@ -11,7 +11,7 @@ export default function Navbar() {
             <div className={styles.container}>
                 <div className={styles.logo}>
                     <Link to="/">
-                        <h1>Tradenal.com</h1>
+                        <h1>Marketplace.com</h1>
                     </Link>
                 </div>
                 <div className={styles.menu}>

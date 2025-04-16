@@ -16,7 +16,7 @@ import { useLogin } from "~/features/login/api"
 export const meta: MetaFunction = () => {
     return [
         {
-            title: 'Poopy: Inicia sesión'
+            title: 'Marketplace: Inicia sesión'
         }
     ]
 }
