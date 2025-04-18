@@ -1,79 +1,53 @@
-import { ChevronLeft, Minus, Plus } from "lucide-react";
-import styles from "./styles.module.scss";
 import { useAtom } from "jotai";
-import { listingCustomizableAtom, listingCustomOptionsAtom, stepAtom } from "../../store";
+import { listingImagesAtom, stepAtom, useBody } from "../../store";
+import styles from "./styles.module.scss";
+import { ChevronLeft } from "lucide-react";
+import ListingImagesInput from "../ListingImagesInput";
 import { cn } from "~/lib/utils";
-import LabeledCheckbox from "~/components/labeled-checkbox";
 import { Button } from "~/components/ui/button";
-import { Label } from "~/components/ui/label";
-import ColorsInput from "../ColorsInput";
-import SizeInput from "../SizeInput";
 import { toast } from "sonner";
-
+import { useCreateListing } from "../../api";
+import { useNavigate } from "@remix-run/react";
 
 /**
- * Component for adding any customization options to the listing like color, size and model.
+ * Component for adding images to the listing
 */
 export default function CreateListingThree() {
-    const [customizable, setCustomizable] = useAtom(listingCustomizableAtom);
-    const [options, setOptions] = useAtom(listingCustomOptionsAtom);
     const [, setStep] = useAtom(stepAtom);
+    const [images] = useAtom(listingImagesAtom);
+    const { create, isPending, createDisabled } = useCreateListing();
 
-    const addColor = () => {
-        if (options.color) {
-            let newOptions = { ...options };
-            delete newOptions.color;
-            setOptions(newOptions);
-        } else {
-            setOptions({
-                ...options,
-                color: []
-            });
+    const body = useBody();
+
+    const navigate = useNavigate();
+
+    const next = async () => {
+        if(images.length < 4) {
+            toast.error("Debes agregar al menos 4 imágenes");
+            return;
+        }        
+
+        const formData = new FormData();
+
+        body.images.forEach((image) => {
+            formData.append("images", image);
+        });
+
+
+        formData.append("data", JSON.stringify({
+            title: body.title,
+            description: body.description,
+            category: body.category,
+            price: body.price,
+        }));
+
+        try {
+            await create(formData);
+            navigate("/seller/listings");
+        } catch(error) {
+            console.log(error);     
         }
-    }
-
-    const addSize = () => {
-        if (options.size) {
-            let newOptions = { ...options };
-            delete newOptions.size;
-            setOptions(newOptions);
-        } else {
-            setOptions({
-                ...options,
-                size: []
-            });
-        }
-    }
-
-    const addModel = () => {
-        if (options.model) {
-            let newOptions = { ...options };
-            delete newOptions.model;
-            setOptions(newOptions);
-        } else {
-            setOptions({
-                ...options,
-                model: []
-            });
-        }
-    }
-
-    const next = () => {
-        if(!customizable) {
-            setOptions({
-                color: [],
-                size: [],
-                model: []
-            });
-
-            setStep(3);
-        }
-
-        if(options?.color?.length === 0 || options?.size?.length === 0 && options?.model?.length === 0) {
-            setOptions({});
-        }
-
-        setStep(3);
+        
     }
 
     return (
@@ -83,52 +57,24 @@ export default function CreateListingThree() {
                     <ChevronLeft size={24} />
                 </button>
             </div>
-            <div className={cn(styles.createListing, styles.createListingTwo)}>
-                <h1 className={styles.createListingOneTitle}>
-                    Elige las opciones para tu publicación
-                </h1>
-                <div>
-                    <div className={styles.formInput}>
-                        <LabeledCheckbox
-                            id="customizable"
-                            label="Tu producto es personalizable? (color, talla, modelo)"
-                            checked={customizable}
-                            onChange={setCustomizable}
-                        />
-                    </div>
-                    {!!customizable && (
-                        <div className={styles.customOptionsContainer}>
-                            <div className={styles.formInput}>
-                                <OptionLabel option="Color" click={addColor} add={!!!options.color} />
-                                <ColorsInput />
-                            </div>
-                            <div className={styles.formInput}>
-                                <OptionLabel option="Talla" click={addSize} add={!!!options.size} />
-                                <SizeInput />
-                            </div>
-                            <div className={styles.formInput}>
-                                <OptionLabel option="Modelo" click={addModel} add={!!!options.model} />
-                            </div>
+            <div className={cn(styles.createListing, styles.createListingFour)}>
+                <div className={styles.createListingFourTitleContainer}>
+                    <div>
+                        <h1 className={styles.createListingOneTitle}>
+                            Agrega tus imagenes
+                        </h1>
+                        <div className={styles.description}>
+                            Estas son las imagenes que se mostraran en el apartado principal de tu anuncio. Puedes agregar hasta 6 imagenes.
                         </div>
-                    )}
-                </div>
-                <div className={cn(styles.formInput, styles.nextButtonContainer)}>
-                    <Button className="primaryButton" onClick={next}>
-                        Siguiente
+                    </div>
+                    <Button className="primaryButton" onClick={next} disabled={createDisabled}>
+                        Crear
                     </Button>
                 </div>
-            </div>
+                <div className="mt-4">
+                    <ListingImagesInput />
+                </div>
+            </div>  
         </>
-    )
-}
-
-function OptionLabel({ option, click, add }: { option: string; click: () => void, add: boolean }) {
-    return (
-        <div className={styles.optionLabel}>
-            <Label>{option}</Label>
-            <button onClick={click}>
-                {add ? <Plus size={16} /> : <Minus size={16} />}
-            </button>
-        </div>
     )
 }

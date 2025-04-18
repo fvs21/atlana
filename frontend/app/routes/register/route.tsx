@@ -3,7 +3,6 @@ import { MetaFunction, useNavigate } from "@remix-run/react";
 import { Button } from "~/components/ui/button";
 import { Checkbox } from "~/components/ui/checkbox";
 import { Label } from "~/components/ui/label";
-import { RadioGroup, RadioGroupItem } from "~/components/ui/radio-group";
 import { RegisterBody, RegisterErrors } from "~/features/register/types";
 import { validateRegisterBody } from "~/features/register/utils";
 import Logo from "~/components/logo";
@@ -16,7 +15,7 @@ import { onlyGuests } from "~/api/server.auth";
 
 export const meta: MetaFunction = () => {
     return [
-        { title: "Tradenal: Regístrate" },
+        { title: "Marketplace: Regístrate" },
     ]
 }
 
@@ -63,9 +62,7 @@ export default function RegisterPage() {
 
         const first_name = formData.get("firstName") as string;
         const last_name = formData.get("lastName") as string;
-        const user_type = formData.get("userType") as string;
         const email = formData.get("email") as string;
-        const company_name = formData.get("companyName") as string;
         const password = formData.get("password") as string;
         const confirm_password = formData.get("confirmPassword") as string;
         const agree_terms = formData.get("agreeTerms") as string;
@@ -160,7 +157,7 @@ export default function RegisterPage() {
                             </div>
                             {errors?.agree_to_terms && <span className={styles.errorMessage}>{errors.agree_to_terms}</span>}
                         </div>
-                        <Button type="submit" className={styles.submitButton}>
+                        <Button type="submit" className={styles.submitButton} disabled={registerDisabled}>
                             Crea tu cuenta
                         </Button>
                     </form>
@@ -178,4 +175,3 @@ export default function RegisterPage() {
         </div>
     )
 }
-

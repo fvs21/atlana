@@ -20,15 +20,6 @@ export async function loader({ request }: LoaderFunctionArgs) {
 }
 
 export default function Page() {
-    const { user, isLoading } = useUser();
-    const navigate = useNavigate();
-
-    useLayoutEffect(() => {
-        if(!isLoading && !user?.has_store_created) {
-            navigate("/seller");
-        }
-    }, []);
-
     return (
         <div className={styles.container}>   
             <NavbarSmall />

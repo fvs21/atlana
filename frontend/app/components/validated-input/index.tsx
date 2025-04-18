@@ -11,7 +11,7 @@ type ValidatedInputProps = {
     label?: string;
     error?: string;
     placeholder?: string;
-    value?: string;
+    value?: string | number;
     onChange?: (value: string) => void;
     [key: string]: any;
 }

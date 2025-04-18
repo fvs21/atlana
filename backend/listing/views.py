@@ -19,7 +19,7 @@ class ListingsViewset(viewsets.ViewSet):
                 "code": "no_store"
             }, status=403)
 
-        serializer = CreateListingSerializer(data=request.data)
+        serializer = CreateListingRequestSerializer(data=request.data)
 
         if not serializer.is_valid():
             return JsonResponse({
@@ -28,11 +28,8 @@ class ListingsViewset(viewsets.ViewSet):
             }, status=400)
         
         listing = service.create_listing(
-            user.store, 
-            {
-                **serializer.validated_data['data'], 
-                'color_images': serializer.validated_data['color_images']
-            }, 
+            user, 
+            serializer.validated_data['data'],
             serializer.validated_data['images']
         )
 

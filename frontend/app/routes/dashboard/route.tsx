@@ -6,7 +6,7 @@ import { onlyAuthenticated } from "~/api/server.auth";
 
 export const meta: MetaFunction = () => {
     return [
-        { title: "Tradenal: Mi panel"}
+        { title: "Marketplace: Mi panel"}
     ]
 }
 

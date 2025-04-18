@@ -1,4 +1,4 @@
-import { ShoppingCart, User } from "lucide-react";
+import { Bookmark, ShoppingCart, User } from "lucide-react";
 import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger } from "../ui/navigation-menu";
 import { useUser } from "~/api/client.auth";
 import React from "react";
@@ -21,7 +21,7 @@ export default function NavbarActions() {
                 {user ? (
                     <NavigationMenuItem className={styles.dissapearingActionButtons}>
                         <NavigationMenuTrigger className={cn(styles.iconButton, styles.userIconButton)} onClick={() => navigate("/dashboard")}>
-                            <User />
+                            <img src={user.profile_picture_url} className={styles.profilePicture}/>
                             {user.first_name}
                         </NavigationMenuTrigger>
                         <NavigationMenuContent>
@@ -29,19 +29,10 @@ export default function NavbarActions() {
                                 <li className={styles.dropdownItem}>
                                     <Link to="/dashboard">
                                         <div className={styles.dropdownLink}>
-                                           Panel de comprador 
+                                           Panel
                                         </div>
                                     </Link>
                                 </li>
-                                {user.has_store_created && (
-                                    <li className={styles.dropdownItem}>
-                                        <Link to="/seller">
-                                            <div className={styles.dropdownLink}>
-                                                Panel de vendedor
-                                            </div>
-                                        </Link>
-                                    </li>
-                                )}
                                 <li className={styles.dropdownItem}>
                                     <Link to="/account">
                                         <div className={styles.dropdownLink}>

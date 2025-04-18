@@ -6,13 +6,16 @@
 
 .hero {
   padding: $spacing-3xl 0;
-  background-color: #f8fafc;
+  background-image: url("https://wp-media.petersons.com/blog/wp-content/uploads/2019/09/20145500/iStock-1136187224.jpg");
+  background-size: cover; 
+  background-position: center;
 }
 
 .heroContainer {
   @include container;
   display: grid;
   gap: $spacing-xl;
+  height: 500px;
 
   @include responsive($breakpoint-md) {
     grid-template-columns: 1fr 1fr;
@@ -22,6 +25,7 @@
 
 .heroContent {
   text-align: center;
+  color: white;
 
   @include responsive($breakpoint-md) {
     text-align: left;
@@ -36,7 +40,7 @@
 
   p {
     font-size: $font-size-lg;
-    color: $text-secondary;
+    color: rgb(255, 255, 255);
     margin-bottom: $spacing-xl;
   }
 }

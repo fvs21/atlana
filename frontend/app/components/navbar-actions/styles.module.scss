@@ -16,7 +16,7 @@
 }
 
 .userIconButton {
-    gap: 4px;
+    gap: 6px;
 }
 
 .mobileMenu {
@@ -74,4 +74,10 @@
     font-size: 14px;
     padding: 10px;
     cursor: pointer;
+}
+
+.profilePicture {
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
 }

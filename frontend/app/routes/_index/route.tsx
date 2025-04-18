@@ -7,7 +7,7 @@ import { Link } from "@remix-run/react";
 
 export const meta: MetaFunction = () => {
   return [
-    { title: "Tradenal: Manufacturas y proveedores" },
+    { title: "Marketplace: Compra y venta de segunda mano" },
   ];
 };
 
@@ -25,14 +25,6 @@ export default function Index() {
                 Buscar
                 <ArrowRight />
               </button>
-            </div>
-            <div className={styles.heroImage}>
-              <img
-                src="/placeholder.svg?height=600&width=600"
-                alt="Fashion Collection"
-                width={600}
-                height={600}
-              />
             </div>
           </div>
         </section>
@@ -60,7 +52,6 @@ export default function Index() {
             </div>
           </div>
         </section>
-
         <section className={styles.categories}>
           <div className={styles.categoryContainer}>
             <h2 className={styles.categoryTitle}>Shop by Category</h2>
