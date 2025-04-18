@@ -28,7 +28,7 @@ class CreateListingRequestSerializer(serializers.Serializer):
         if not serializer.is_valid():
             raise serializers.ValidationError(serializer.errors)
         
-        return serializer
+        return serializer.validated_data
     
     def validate_images(self, images: List[UploadedFile]) -> List[UploadedFile]:
         if len(images) > 6:
@@ -36,7 +36,15 @@ class CreateListingRequestSerializer(serializers.Serializer):
         
         return images
     
-class ListingSerializer(serializers.ModelField):
+class ListingSerializer(serializers.ModelSerializer):
+    creator = serializers.SerializerMethodField()
+
+    def get_creator(self, obj: Listing):
+        return {
+            'id': obj.creator.id,
+            'name': f"{obj.creator.first_name} {obj.creator.last_name}",
+        }
+    
     class Meta:
         model = Listing
         fields = [
@@ -46,5 +54,6 @@ class ListingSerializer(serializers.ModelField):
             'category',
             'price',
             'images_urls',
+            'created_at',
             'creator'
         ]

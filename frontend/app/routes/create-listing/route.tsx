@@ -10,7 +10,7 @@ import FooterSmall from "~/components/footer-small";
 
 export const meta: MetaFunction = () => {
     return [
-        { title: "Tradenal: Crea una publicación" }
+        { title: "Marketplace: Crea una publicación" }
     ]
 }
 

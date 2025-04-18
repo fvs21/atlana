@@ -22,8 +22,8 @@ export default function CreateListingThree() {
     const navigate = useNavigate();
 
     const next = async () => {
-        if(images.length < 4) {
-            toast.error("Debes agregar al menos 4 imágenes");
+        if(images.length < 1) {
+            toast.error("Debes agregar al menos 1 imágen");
             return;
         }        
 
@@ -42,8 +42,9 @@ export default function CreateListingThree() {
         }));
 
         try {
-            await create(formData);
-            navigate("/seller/listings");
+            const req = await create(formData);
+            console.log(req);
+            
         } catch(error) {
             console.log(error);     
         }

@@ -22,8 +22,6 @@ export default function CreateListingOne() {
     });
 
     const nextButton = () => {
-        setStep(1);
-        return;
         const errors_ = validateStepOne(title, description, category);
 
         if (Object.keys(errors_).length > 0) {
@@ -47,7 +45,7 @@ export default function CreateListingOne() {
                         id="title"
                         name="title"
                         label="Título"
-                        placeholder="Ej. Camisas de lino"
+                        placeholder="Ej. Macbook Pro 2020"
                         value={title}
                         onChange={setTitle}
                         type="text"
@@ -59,7 +57,7 @@ export default function CreateListingOne() {
                         id="description"
                         name="description"
                         label="Descripción"
-                        placeholder="Ej. Camisas de lino 100% natural"
+                        placeholder="Ej. Macbook Pro del año 2020, en perfecto estado, con cargador y caja original. Sin rayones ni golpes."
                         value={description}
                         onChange={setDescription}
                         className={styles.formDescription}

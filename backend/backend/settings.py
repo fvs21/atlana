@@ -64,6 +64,7 @@ INSTALLED_APPS = [
     'image.apps.ImageConfig',
     'listing.apps.ListingConfig',
     'location.apps.LocationConfig',
+    'marketplace.apps.MarketplaceConfig',
     'rest_framework_simplejwt.token_blacklist',
     'corsheaders',
     'django.contrib.admin',

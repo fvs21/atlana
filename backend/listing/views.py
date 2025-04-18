@@ -13,12 +13,6 @@ class ListingsViewset(viewsets.ViewSet):
     def create_listing(self, request: HttpResponse) -> JsonResponse:
         user = get_user_by_id(request.user.id)
 
-        if not user.has_store():
-            return JsonResponse({
-                "details": "No has registrado una tienda",
-                "code": "no_store"
-            }, status=403)
-
         serializer = CreateListingRequestSerializer(data=request.data)
 
         if not serializer.is_valid():
@@ -32,6 +26,8 @@ class ListingsViewset(viewsets.ViewSet):
             serializer.validated_data['data'],
             serializer.validated_data['images']
         )
+
+        print(listing)
 
         return JsonResponse({
             "data": {

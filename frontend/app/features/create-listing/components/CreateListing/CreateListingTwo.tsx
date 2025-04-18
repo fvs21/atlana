@@ -40,7 +40,7 @@ export default function CreateListingTwo() {
                         label="Precio"
                         placeholder="$MXN"
                         value={price}
-                        onChange={(val) => parseFloat(val)}
+                        onChange={(val) => setPrice(parseFloat(val))}
                         type="number"
                         error=""
                     />

@@ -1,7 +1,7 @@
 from typing import List
 from django.core.files.uploadedfile import UploadedFile
 from image.service import upload_image
-from listing.models import Listing
+from listing.models import Listing, ListingImage
 from user.models import User
 
 def create_listing(user: User, body: dict, images: List[UploadedFile]) -> Listing:
@@ -18,7 +18,12 @@ def create_listing(user: User, body: dict, images: List[UploadedFile]) -> Listin
 
     uploaded_images = [upload_image(image, "listing") for image in images]
 
-    listing.images.set(uploaded_images)
+    listing_images = ListingImage.objects.bulk_create([
+        ListingImage(listing=listing, image=image)
+        for image in uploaded_images
+    ])
+
+    listing.images.set(listing_images)
     listing.save()
 
     return listing

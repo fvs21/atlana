@@ -13,6 +13,8 @@ const useBody = () => {
     const [category] = useAtom(listingCategoryAtom);
     const [price] = useAtom(listingPriceAtom);
     const [images] = useAtom(listingImagesAtom);
+    console.log(price);
+    
 
     return {
         title,

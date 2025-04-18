@@ -1,4 +1,3 @@
-import { CustomOptions } from "~/features/create-listing/types";
 
 export type Listing = {
     id: number;
