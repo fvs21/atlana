@@ -4,6 +4,7 @@ import Navbar from "~/components/navbar";
 import styles from "./index.module.scss"
 import Footer from "~/components/footer";
 import { Link } from "@remix-run/react";
+import { useUser } from "~/api/client.auth";
 
 export const meta: MetaFunction = () => {
   return [
@@ -12,6 +13,9 @@ export const meta: MetaFunction = () => {
 };
 
 export default function Index() {
+  const { user, isLoading } = useUser();
+
+
   return (
     <>
       <Navbar />
@@ -19,12 +23,12 @@ export default function Index() {
         <section className={styles.hero}>
           <div className={styles.heroContainer}>
             <div className={styles.heroContent}>
-              <h1>Vende y compra de segunda mano</h1>
-              <p>En tu comunidad universitaria</p>
-              <button className={`${styles.button} ${styles.buttonPrimary}`}>
+              <h1>Vende y compra de segunda mano en tu comunidad</h1>
+              <p>Disponible ahora para estudiantes de la Anáhuac Mayab</p>
+              <Link to={!!user ? "/marketplace" : "login"} className={`${styles.button} ${styles.buttonPrimary}`}>
                 Buscar
                 <ArrowRight />
-              </button>
+              </Link>
             </div>
           </div>
         </section>

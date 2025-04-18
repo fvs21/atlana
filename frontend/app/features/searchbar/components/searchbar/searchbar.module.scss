@@ -5,6 +5,10 @@
     border-radius: 20px;
     display: flex;
     width: 100%;
+
+    &:focus-within {
+        border: 1px solid black;
+    }
 }
 
 .searchbar {
@@ -14,10 +18,6 @@
     outline: none;
     padding: $spacing-sm $spacing-md;
     font-size: 14px;
-
-    &:focus-within {
-        border: 1px solid black;
-    }
 }
 
 .searchIcon {

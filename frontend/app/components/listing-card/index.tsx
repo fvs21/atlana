@@ -2,16 +2,13 @@ import { ListingCard as ListingCardProps } from "~/types/listings";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "../ui/card";
 import styles from "./styles.module.scss";
 import { Button } from "../ui/button";
-import { Link } from "@remix-run/react";
+import { Link, useNavigate } from "@remix-run/react";
 import ListingCardImages from "./ListingCardImages";
 
-export default function ListingCard({ id, title, prices, images, creator, ready_to_ship, units_sold }: ListingCardProps) {
+export default function ListingCard({ id, title, price, images_urls, creator }: ListingCardProps) {
+    const navigate = useNavigate();
 
     const addToCart = (e: React.MouseEvent) => {
-        e.preventDefault();
-    }
-
-    const sendInquiry = (e: React.MouseEvent) => {
         e.preventDefault();
     }
 
@@ -19,33 +16,22 @@ export default function ListingCard({ id, title, prices, images, creator, ready_
         <a href={`/listing/${id}`} target="_blank">
             <Card className={styles.listingCard}>
                 <div className={styles.listingImages}>
-                    <ListingCardImages images={images} />
+                    <ListingCardImages images={images_urls} />
                 </div>
                 <CardHeader className={styles.listingHeader}>
                     <CardTitle className={styles.listingTitle}>{title}</CardTitle>
                 </CardHeader>
                 <CardContent className={styles.listingContent}>
                     <div className={styles.price}>
-                        ${prices[0].price}-440
+                        ${price}
                     </div>
-                    <div className={styles.minOrder}>
-                        Orden mínima: {prices[0].min_units} piezas
-                    </div>
-                    <div className={styles.unitsSold}>
-                        {units_sold} vendidos
-                    </div>
-                    <Link to={"/store/" + creator.id} className={styles.creator}>
+                    <button className={styles.creator}>
                         {creator.name}
-                    </Link>
+                    </button>
                 </CardContent>
                 <CardFooter className={styles.listingFooter}>
-                    {ready_to_ship && (
-                        <Button className={styles.sendInquiryButton} onClick={addToCart}>
-                            Agregar al carrito
-                        </Button>
-                    )}
-                    <Button className={styles.sendInquiryButton} onClick={sendInquiry}>
-                        Cotiza
+                    <Button className={styles.sendInquiryButton} onClick={addToCart}>
+                        Comprar
                     </Button>
                 </CardFooter>
             </Card>
