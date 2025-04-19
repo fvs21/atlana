@@ -1,7 +1,5 @@
 import { LoaderFunctionArgs } from "@remix-run/node";
 import { MetaFunction, useNavigate } from "@remix-run/react";
-import { useLayoutEffect } from "react";
-import { useUser } from "~/api/client.auth";
 import { onlyAuthenticated } from "~/api/server.auth";
 import NavbarSmall from "~/components/navbar-small";
 import styles from "./styles.module.scss";

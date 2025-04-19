@@ -1,7 +1,10 @@
 import { MetaFunction } from "@remix-run/node";
 import ListingCard from "~/components/listing-card";
-import Navbar from "~/components/navbar";
+import NavbarSmall from "~/components/navbar-small";
+import { SidebarProvider } from "~/components/ui/sidebar";
 import { useFetchListings } from "~/features/marketplace/api";
+import MarketplaceSidebar from "~/features/marketplace/components/MarketplaceSidebar";
+import styles from "./styles.module.scss";
 
 export const meta: MetaFunction = () => {
     return [
@@ -14,22 +17,26 @@ export default function Page() {
 
     console.log(data?.data);
     
-
     return (
         <>
-            <Navbar />
-            <main style={{marginTop: "111px"}}>
-                {data?.data?.listings.map((listing) => (
-                    <ListingCard
-                        key={listing.id}
-                        id={listing.id}
-                        title={listing.title}
-                        price={listing.price}
-                        images_urls={listing.images_urls}
-                        creator={listing.creator}
-                    />
-                ))}
-            </main>
+            <NavbarSmall />
+            <SidebarProvider>
+                <main className={styles.marketplaceContainer}>
+                    <MarketplaceSidebar />
+                    <div className={styles.listingsContainer}>
+                        {data?.data?.listings.map((listing) => (
+                            <ListingCard
+                                key={listing.id}
+                                id={listing.id}
+                                title={listing.title}
+                                price={listing.price}
+                                images_urls={listing.images_urls}
+                                creator={listing.creator}
+                            />
+                        ))}
+                    </div>
+                </main>
+            </SidebarProvider>
         </>
     )
 }

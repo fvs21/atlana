@@ -9,7 +9,7 @@ export default function NavbarSmall() {
             <div className={styles.container}>
                 <div className={styles.logo}>
                     <Link to="/">
-                        <h1>Marketplace</h1>
+                        <h1>Tradenal</h1>
                     </Link>
                 </div>
                 <div className={styles.actions}>

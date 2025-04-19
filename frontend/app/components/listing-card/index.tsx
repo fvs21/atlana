@@ -23,7 +23,7 @@ export default function ListingCard({ id, title, price, images_urls, creator }: 
                 </CardHeader>
                 <CardContent className={styles.listingContent}>
                     <div className={styles.price}>
-                        ${price}
+                        ${Intl.NumberFormat("en-US", {minimumFractionDigits: 2, maximumFractionDigits: 2}).format(price)}
                     </div>
                     <button className={styles.creator}>
                         {creator.name}
