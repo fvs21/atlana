@@ -3,10 +3,15 @@ import { Label } from "../ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "../ui/select";
 import styles from "./styles.module.scss";
 
+type Option = {
+    name: string;
+    value: string;
+}
+
 type LabeledSelectProps = {
     name: string;
     label?: string;
-    options: string[];
+    options: Option[];
     value: string;
     onChange: (value: string) => void;
     className?: string;
@@ -23,7 +28,7 @@ export default function LabeledSelect({ name, label, options, value, onChange, c
                 </SelectTrigger>
                 <SelectContent>
                     {options.map((option) => (
-                        <SelectItem value={option} key={option}>{option}</SelectItem>
+                        <SelectItem value={option.value} key={option.value}>{option.name}</SelectItem>
                     ))}
                 </SelectContent>
             </Select>

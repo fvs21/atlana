@@ -4,11 +4,11 @@ import ValidatedInput from "~/components/validated-input";
 import { useAtom } from "jotai";
 import { listingCategoryAtom, listingDescriptionAtom, listingTitleAtom, stepAtom } from "../../store";
 import TextArea from "~/components/text-area";
-import { ChevronLeft } from "lucide-react";
 import LabeledSelect from "~/components/labeled-select";
 import { Button } from "~/components/ui/button";
 import { useState } from "react";
 import { validateStepOne } from "../../utils/validators";
+import categories from "~/constants/categories";
 
 export default function CreateListingOne() {
     const [title, setTitle] = useAtom(listingTitleAtom);
@@ -69,7 +69,7 @@ export default function CreateListingOne() {
                         name="category"
                         placeholder="Selecciona la categoría de tu producto"
                         label="Categoría"
-                        options={['Autopartes', 'Herramientas', 'Electrónicos', 'Hogar', 'Jardín', 'Deportes', 'Juguetes', 'Ropa', 'Calzado', 'Accesorios', 'Otros']}
+                        options={categories.map((category) => ({name: category.name, value: category.value}))}
                         value={category}
                         onChange={setCategory}
                     />

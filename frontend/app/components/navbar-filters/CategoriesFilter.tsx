@@ -1,9 +1,9 @@
 import styles from "./navbar-filters.module.scss";
 import { useState } from "react";
-import categories, { ParentCategory as PCType } from "~/constants/categories";
 
 export default function CategoriesFilter() {
-    const [selectedParentCategory, setSelectedParentCategory] = useState<PCType>('top');
+    const [selectedParentCategory, setSelectedParentCategory] = useState('top');
+
     return (
         <div className={styles.categoriesFilter}>
             <div className={styles.categoriesContainer}>
@@ -35,14 +35,7 @@ export default function CategoriesFilter() {
                     />
                 </div>
                 <div className={styles.categories}>
-                    {categories[selectedParentCategory].map((category, index) => (
-                        <Category 
-                            key={index}
-                            name={category.name}
-                            selected={false}
-                            icon={category.icon}
-                        />
-                    ))}
+                    
                 </div>
             </div>
         </div>

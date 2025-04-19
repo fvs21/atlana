@@ -2,7 +2,7 @@
 
 .sidebar {
     background-color: white;
-    margin-top: 70px;
+    padding-top: 70px;
 }
 
 .title {
@@ -37,6 +37,10 @@
     border-color: black;
 }
 
+.createListingGroup {
+    padding: 0 $spacing-md;
+}
+
 .createListingContainer {
     width: 100%;
     padding-top: $spacing-sm;
@@ -46,7 +50,7 @@
     width: 100%;
     background-color: $background-secondary;
     color: black;
-    font-size: 15px;
+    font-size: 14px;
 }
 
 .createListingButton:hover {
@@ -66,6 +70,11 @@
 
     &:hover {
         background-color: $background-secondary;
+    }
+
+    svg {
+        width: 22px;
+        height: 22px;
     }
 }
 

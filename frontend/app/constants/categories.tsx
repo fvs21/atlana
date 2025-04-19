@@ -1,45 +1,47 @@
-import { Car, Dumbbell, House, Shirt, Tablet } from "lucide-react";
+import { Armchair, Bike, Car, Dumbbell, GraduationCap, House, LucideProps, MapPinHouse, Shirt, Tablet, TabletSmartphone } from "lucide-react";
 
-export type ParentCategory = 'top' | 'home' | 'industrial' | 'textile' | 'auto';
-
-type Categories = {
-    [key in ParentCategory]: {
-        name: string,
-        icon: any
-    }[]
+type Category = {
+    name: string;
+    value: string;
+    icon: React.ForwardRefExoticComponent<Omit<LucideProps, "ref">>;
 };
 
-const categories: Categories = {
-    'top': [
-        {
-            'name': 'Electrónicos',
-            'icon': <Tablet size={18} />
-        },
-        {
-            'name': 'Hogar y Jardín',
-            'icon': <House size={18}/>
-        },
-        {
-            'name': 'Deportes',
-            'icon': <Dumbbell size={18}/>
-        },
-        {
-            'name': 'Moda y Belleza',
-            'icon': <Shirt size={18}/>
-        },
-        {
-            'name': 'Autopartes',
-            'icon': <Car size={18}/>
-        }
-    ],
-    'home': [
-
-    ],
-    'industrial': [
-
-    ],
-    'textile': [],
-    'auto': []
-};
+const categories: Category[] = [
+    {
+        name: 'Electrónicos',
+        value: 'electronics',
+        icon: TabletSmartphone
+    },
+    {
+        name: 'Ropa',
+        value: 'clothes',
+        icon: Shirt
+    },
+    {
+        name: 'Escolar',
+        value: 'scholar',
+        icon: GraduationCap
+    },
+    {
+        name: 'Deportes',
+        value: 'sports',
+        icon: Bike
+    },
+    {
+        name: 'Muebles',
+        value: 'furniture',
+        icon: Armchair
+    },
+    {
+        name: 'Vehículos',
+        value: 'vehicles',
+        icon: Car
+    },
+    {
+        name: 'Departamentos',
+        value: 'departments',
+        icon: MapPinHouse
+    }
+]
 
 export default categories;

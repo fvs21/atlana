@@ -1,13 +1,10 @@
 import { ListingCard as ListingCardProps } from "~/types/listings";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "../ui/card";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "../ui/card";
 import styles from "./styles.module.scss";
 import { Button } from "../ui/button";
-import { Link, useNavigate } from "@remix-run/react";
 import ListingCardImages from "./ListingCardImages";
 
-export default function ListingCard({ id, title, price, images_urls, creator }: ListingCardProps) {
-    const navigate = useNavigate();
-
+export default function ListingCard({ id, title, description, price, images_urls, creator }: ListingCardProps) {
     const addToCart = (e: React.MouseEvent) => {
         e.preventDefault();
     }
@@ -19,20 +16,19 @@ export default function ListingCard({ id, title, price, images_urls, creator }: 
                     <ListingCardImages images={images_urls} />
                 </div>
                 <CardHeader className={styles.listingHeader}>
-                    <CardTitle className={styles.listingTitle}>{title}</CardTitle>
+                    <CardTitle className={styles.listingPrice}>
+                        ${Intl.NumberFormat("en-US", {minimumFractionDigits: 2, maximumFractionDigits: 2}).format(price)}
+                    </CardTitle>
                 </CardHeader>
                 <CardContent className={styles.listingContent}>
-                    <div className={styles.price}>
-                        ${Intl.NumberFormat("en-US", {minimumFractionDigits: 2, maximumFractionDigits: 2}).format(price)}
+                    <div className={styles.listingTitle}>
+                        {title}
                     </div>
                     <button className={styles.creator}>
                         {creator.name}
                     </button>
                 </CardContent>
-                <CardFooter className={styles.listingFooter}>
-                    <Button className={styles.sendInquiryButton} onClick={addToCart}>
-                        Comprar
-                    </Button>
+                <CardFooter>
                 </CardFooter>
             </Card>
         </a>

@@ -14,13 +14,13 @@ export const meta: MetaFunction = () => {
 
 export default function Page() {
     const { data, isLoading } = useFetchListings();
-
-    console.log(data?.data);
     
     return (
-        <>
+        <div className={styles.container}>
             <NavbarSmall />
-            <SidebarProvider>
+            <SidebarProvider style={{
+                '--sidebar-width': "350px",
+            } as React.CSSProperties}>
                 <main className={styles.marketplaceContainer}>
                     <MarketplaceSidebar />
                     <div className={styles.listingsContainer}>
@@ -29,6 +29,7 @@ export default function Page() {
                                 key={listing.id}
                                 id={listing.id}
                                 title={listing.title}
+                                description={listing.description}
                                 price={listing.price}
                                 images_urls={listing.images_urls}
                                 creator={listing.creator}
@@ -37,6 +38,6 @@ export default function Page() {
                     </div>
                 </main>
             </SidebarProvider>
-        </>
+        </div>
     )
 }

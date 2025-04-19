@@ -42,9 +42,8 @@ export default function CreateListingThree() {
         }));
 
         try {
-            const req = await create(formData);
-            console.log(req);
-            
+            await create(formData);
+            navigate("/marketplace")
         } catch(error) {
             console.log(error);     
         }

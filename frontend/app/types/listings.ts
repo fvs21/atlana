@@ -16,6 +16,7 @@ export type Listing = {
 export type ListingCard = {
     id: number;
     title: string;
+    description: string;
     price: number;
     images_urls: string[];
     creator: {
