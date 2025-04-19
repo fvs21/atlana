@@ -17,3 +17,18 @@ export function useFetchListings() {
         isLoading
     }
 }
+
+export function useFetchListing(id: number) {
+    const { data, isLoading, isError } = useQuery({
+        queryKey: ["listing", id],
+        queryFn: async () => {
+            const request = await api.get<ResponseBody<Listing>>(`/listing/${id}`);
+            return request.data;
+        }
+    });
+
+    return {
+        data,
+        isLoading
+    }
+}

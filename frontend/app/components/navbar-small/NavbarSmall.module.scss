@@ -4,10 +4,8 @@
     background-color: $background-light;
     border-bottom: 1px solid $border-color;
     z-index: 1000;
-    position: fixed;
+    position: sticky;
     top: 0;
-    left: 0;
-    right: 0;
 }
 
 .container {

@@ -22,7 +22,7 @@ export default function ListingImageCarousel({ images, selected, setSelected }: 
             <CarouselPrevious className={styles.leftButton} />
             <CarouselContent className={styles.rightImageDisplayer}>
                 {images.map((image, i) => (
-                    <CarouselItem className={styles.rightImageContainer}>
+                    <CarouselItem className={styles.rightImageContainer} key={i}>
                         <img src={image} alt="Imagen del producto" className={styles.rightImage} />
                     </CarouselItem>
                 ))}

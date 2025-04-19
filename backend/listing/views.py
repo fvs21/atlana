@@ -27,11 +27,26 @@ class ListingsViewset(viewsets.ViewSet):
             serializer.validated_data['images']
         )
 
-        print(listing)
-
         return JsonResponse({
             "data": {
                 "listing": ListingSerializer(listing).data
             },
             "details": "Listing created"
         }, status=201)
+
+    @action(methods=['GET'], detail=False)
+    def get_listing(self, request: HttpResponse, id: int) -> JsonResponse:
+        listing = service.get_listing_by_id(id)
+
+        if not listing:
+            return JsonResponse({
+                'details': "Listing not found",
+                'code': 'listing_not_found'
+            }, status=404)
+        
+        return JsonResponse({
+            "data": {
+                "listing": ListingSerializer(listing).data
+            },
+            "details": "Listing retrieved"
+        }, status=200)

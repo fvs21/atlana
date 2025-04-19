@@ -27,3 +27,9 @@ def create_listing(user: User, body: dict, images: List[UploadedFile]) -> Listin
     listing.save()
 
     return listing
+
+def get_listing_by_id(id: int) -> Listing:
+    """
+        Get a listing by its id
+    """
+    return Listing.objects.filter(id=id).first()

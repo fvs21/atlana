@@ -1,0 +1,44 @@
+@import "~/styles/variables";
+
+.listingContainer {
+    max-width: 1500px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.topLinks {
+    margin-bottom: $spacing-md;
+}
+
+.listing {
+    width: 100%;
+    display: flex;
+    gap: $spacing-xl;
+}
+
+.imagesContainer {
+    width: 50%;
+}
+
+.title {
+    font-size: 36px;
+    font-weight: 600;
+}
+
+.priceContainer {
+    padding: $spacing-sm 0;
+}
+
+.price {
+    font-size: 20px;
+    color: gray;
+}
+
+.creatorContainer {
+    margin-top: $spacing-sm;
+}
+
+.datePublished {
+    font-size: 14px;
+    color: gray;
+}

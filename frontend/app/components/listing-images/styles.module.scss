@@ -67,3 +67,8 @@
     right: 10px;
     z-index: 1;
 }
+
+.selected {
+    outline: 1px solid black;
+    border-radius: 6px;
+}

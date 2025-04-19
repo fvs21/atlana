@@ -67,7 +67,7 @@ export async function loader({ request }: { request: Request }) {
 }
 
 export default function App() {
-  const [queryClient, setQueryClient] = useState(() => new QueryClient({
+  const [queryClient] = useState(() => new QueryClient({
     defaultOptions: {
       queries: {
         staleTime: 60 * 1000
