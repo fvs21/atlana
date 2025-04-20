@@ -43,6 +43,7 @@ class ListingSerializer(serializers.ModelSerializer):
         return {
             'id': obj.creator.id,
             'name': f"{obj.creator.first_name} {obj.creator.last_name}",
+            'profile_picture': obj.creator.profile_picture_url()
         }
     
     class Meta:

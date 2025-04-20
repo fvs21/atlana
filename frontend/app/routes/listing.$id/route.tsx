@@ -12,7 +12,7 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
     const id = params.id;
 
     if (isNaN(Number(id))) {
-        return new Response(null, {
+        throw new Response(null, {
             status: 404
         })
     }

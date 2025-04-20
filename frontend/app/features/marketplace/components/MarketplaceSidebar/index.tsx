@@ -43,7 +43,7 @@ export default function MarketplaceSidebar() {
                                     key={category.name}
                                     icon={category.icon}
                                     tag={category.name}
-                                    link={`/marketplace?category=${category.value}`}
+                                    link={`/marketplace/${category.value}`}
                                 />
                             ))}
                         </SidebarMenu>

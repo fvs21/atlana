@@ -1,10 +1,17 @@
-import { MetaFunction } from "@remix-run/node";
+import { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
 import ListingCard from "~/components/listing-card";
 import NavbarSmall from "~/components/navbar-small";
 import { SidebarProvider } from "~/components/ui/sidebar";
 import { useFetchListings } from "~/features/marketplace/api";
 import MarketplaceSidebar from "~/features/marketplace/components/MarketplaceSidebar";
 import styles from "./styles.module.scss";
+import { onlyAuthenticated } from "~/api/server.auth";
+
+export async function loader({ request }: LoaderFunctionArgs) {
+    onlyAuthenticated({ request });
+    
+    return null;
+}
 
 export const meta: MetaFunction = () => {
     return [

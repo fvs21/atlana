@@ -4,6 +4,7 @@ export type Listing = {
     creator: {
         id: number;
         name: string;
+        profile_picture: string;
     }
     title: string;
     description: string;
@@ -22,5 +23,6 @@ export type ListingCard = {
     creator: {
         id: number;
         name: string;
+        profile_picture: string;
     }
 }

@@ -3,6 +3,9 @@ import styles from "./styles.module.scss";
 import ListingImages from "~/components/listing-images";
 import { Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbLink, BreadcrumbSeparator } from "~/components/ui/breadcrumb";
 import { formatTimeSinceUploaded } from "../../utils/listing";
+import { Link } from "@remix-run/react";
+import { Button } from "~/components/ui/button";
+import { Bookmark, MessageCircle } from "lucide-react";
 
 export default function Listing({
     id,
@@ -44,16 +47,33 @@ export default function Listing({
                     <div className={styles.priceContainer}>
                         <span className={styles.price}>MXN ${price}</span>
                     </div>
-                    <div className={styles.description}>
-                        {description}
+                    <div className={styles.descriptionContainer}>
+                        <h2 className={styles.descriptionTitle}>Descripción</h2>
+                        <p className={styles.description}>{description}</p>
                     </div>
+                    <hr className="mt-4"/>
                     <div className={styles.creatorContainer}>
                         <div className={styles.datePublished}>
                             Publicado {formatTimeSinceUploaded(created_at)} por:
                         </div>
                         <div className={styles.creator}>
-                            
+                            <div className={styles.creatorPfpContainer}>
+                                <img className={styles.creatorPfp} src={creator.profile_picture} alt="Creator profile" />
+                            </div>
+                            <div className={styles.creatorNameContainer}>
+                                <Link to={"/profile/" + creator.id} className={styles.creatorName}>{creator.name}</Link>
+                            </div>
                         </div>
+                    </div>
+                    <div className={styles.actionsContainer}>
+                        <Button className="primaryButton">
+                            <MessageCircle />
+                            Enviar mensaje
+                        </Button>
+                        <Button className="primaryButton">
+                            <Bookmark />
+                            Guardar
+                        </Button>
                     </div>
                 </div>
             </div>
