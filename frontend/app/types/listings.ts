@@ -17,7 +17,6 @@ export type Listing = {
 export type ListingCard = {
     id: number;
     title: string;
-    description: string;
     price: number;
     images_urls: string[];
     creator: {
@@ -26,3 +25,5 @@ export type ListingCard = {
         profile_picture: string;
     }
 }
+
+export type Category = "electronics" | "clothes" | "scholar" | "sports" | "furniture" | "vehicles" | "departments";

@@ -1,13 +1,17 @@
 import { data, LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
+import { useParams } from "@remix-run/react";
 import { onlyAuthenticated } from "~/api/server.auth";
 import categories from "~/constants/categories";
+import { useFetchListingByCategory } from "~/features/marketplace/api";
+import ListingsDisplay from "~/features/marketplace/components/ListingsDisplay";
+import { Category } from "~/types/listings";
 
 export async function loader({ params, request }: LoaderFunctionArgs) {
     onlyAuthenticated({request});
     const category = params.category;    
 
 
-    if (!categories.map((cat) => cat.value).includes(category as string)) {
+    if (!categories.map((cat) => cat.value).includes(category as Category)) {
         throw new Response(null, {
             status: 404,
             statusText: "Category not found"
@@ -25,7 +29,12 @@ export const meta: MetaFunction = ({ params }) => {
 }
 
 export default function Page() {
+    const params = useParams();
+    const category = params.category;
+
+    const { data, isLoading } = useFetchListingByCategory(category as Category);
+
     return (
-        <div>njdsa</div>
+        <ListingsDisplay listings={data?.data?.listings || []} />
     )
 }

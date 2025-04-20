@@ -1,24 +1,22 @@
 import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "~/components/ui/sidebar";
 import styles from "./styles.module.scss";
-import { Armchair, Bike, Building, GraduationCap, House, LucideProps, MapPinHouse, Phone, School, Search, Shirt, TabletSmartphone } from "lucide-react";
-import { NavLink } from "@remix-run/react";
+import { LucideProps, Search } from "lucide-react";
+import { NavLink, useParams } from "@remix-run/react";
 import { Button } from "~/components/ui/button";
 import categories from "~/constants/categories";
+import { Category } from "~/types/listings";
+import MarkeplaceSearchbar from "./MarketplaceSearchbar";
 
 export default function MarketplaceSidebar() {
+    const params = useParams();
+
+    const categoryParam = params?.category;
+
     return (
         <Sidebar className={styles.sidebar}>
             <SidebarHeader className={styles.header}>
                 <h2 className={styles.title}>Marketplace</h2>
-                <form className={styles.searchBarContainer} action="/marketplace" method="get">
-                    <Search className={styles.searchIcon} size={15} />
-                    <input
-                        name="search"
-                        type="text"
-                        className={styles.searchBar}
-                        placeholder="Buscar..."
-                    />
-                </form>
+                <MarkeplaceSearchbar />
             </SidebarHeader>
             <SidebarContent>
                 <SidebarGroup className={styles.createListingGroup}>
@@ -44,6 +42,7 @@ export default function MarketplaceSidebar() {
                                     icon={category.icon}
                                     tag={category.name}
                                     link={`/marketplace/${category.value}`}
+                                    selected={category.value === (categoryParam as Category)}
                                 />
                             ))}
                         </SidebarMenu>
@@ -54,12 +53,12 @@ export default function MarketplaceSidebar() {
     )
 }
 
-function SidebarButton({ icon, tag, link }: { icon: React.ForwardRefExoticComponent<Omit<LucideProps, "ref">>, tag: string, link: string }) {
+function SidebarButton({ icon, tag, link, selected }: { icon: React.ForwardRefExoticComponent<Omit<LucideProps, "ref">>, tag: string, link: string, selected: boolean }) {
     const Icon = icon;
 
     return (
         <SidebarMenuItem>
-            <SidebarMenuButton asChild>
+            <SidebarMenuButton asChild isActive={selected}>
                 <NavLink to={link} className={styles.sidebarButton}>
                     <Icon />
                     <span className={styles.sidebarButtonTag}>{tag}</span>

@@ -1,7 +1,7 @@
 @import "~/styles/variables";
 
 .listingCard {
-    min-width: 200px;
+    min-width: 180px;
     padding: 0;
 }
 
@@ -83,4 +83,10 @@
     right: 5px;
     top: 50%;
     transform: translateY(-50%);
+}
+
+@media (max-width: 1030px) {
+    .listingImages {
+        padding: $spacing-sm $spacing-sm 0; 
+    }
 }

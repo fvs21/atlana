@@ -18,8 +18,8 @@ export default function Listing({
     category,
     created_at
 }: ListingType) {
-    const category_slug = categories.find((cat) => cat.value === category)?.value;
-
+    const category_name = categories.find((cat) => cat.value === category)?.name;
+    
     return (
         <div className={styles.listingContainer}>
             <div className={styles.topLinks}>
@@ -30,7 +30,7 @@ export default function Listing({
                         </BreadcrumbItem>
                         <BreadcrumbSeparator />
                         <BreadcrumbItem>
-                            <BreadcrumbLink href={"/marketplace/" + category_slug}>{category}</BreadcrumbLink>
+                            <BreadcrumbLink href={"/marketplace/" + category}>{category_name}</BreadcrumbLink>
                         </BreadcrumbItem>
                         <BreadcrumbSeparator />
                         <BreadcrumbItem>
@@ -48,7 +48,7 @@ export default function Listing({
                 <div className={styles.infoContainer}>
                     <h1 className={styles.title}>{title}</h1>
                     <div className={styles.priceContainer}>
-                        <span className={styles.price}>MXN ${price}</span>
+                        <span className={styles.price}>MXN ${Intl.NumberFormat("en-US", {minimumFractionDigits: 2, maximumFractionDigits: 2}).format(price)}</span>
                     </div>
                     <div className={styles.descriptionContainer}>
                         <h2 className={styles.descriptionTitle}>Descripción</h2>

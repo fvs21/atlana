@@ -1,5 +1,6 @@
 from rest_framework import viewsets
 
+from listing.models import CATEGORIES
 from listing.serializers import ListingSerializer
 from . import service
 from rest_framework.permissions import IsAuthenticated
@@ -16,6 +17,30 @@ class MarketplaceViewSet(viewsets.ViewSet):
         Get all listings
         """
         listings = service.get_all_listings()
+
+        return JsonResponse({
+            "data": {
+                "listings": ListingSerializer(listings, many=True).data
+            },
+        }, status=200)
+
+    @action(methods=['GET'], detail=False)
+    def get_listings_by_category(self, request: HttpRequest, cat: str) -> JsonResponse:
+        """
+        Get all listings by category
+        """
+
+        if not cat:
+            return JsonResponse({
+                "error": "category is required"
+            }, status=400)
+        
+        if not cat in CATEGORIES:
+            return JsonResponse({
+                "error": "category is not valid"
+            }, status=404)
+
+        listings = service.get_listings_by_category(cat)
 
         return JsonResponse({
             "data": {

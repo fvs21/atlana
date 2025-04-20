@@ -4,7 +4,7 @@ import styles from "./styles.module.scss";
 import { Button } from "../ui/button";
 import ListingCardImages from "./ListingCardImages";
 
-export default function ListingCard({ id, title, description, price, images_urls, creator }: ListingCardProps) {
+export default function ListingCard({ id, title, price, images_urls, creator }: ListingCardProps) {
     const addToCart = (e: React.MouseEvent) => {
         e.preventDefault();
     }

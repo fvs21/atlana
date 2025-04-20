@@ -1,12 +1,13 @@
 import { Armchair, Bike, Car, Dumbbell, GraduationCap, House, LucideProps, MapPinHouse, Shirt, Tablet, TabletSmartphone } from "lucide-react";
+import { Category } from "~/types/listings";
 
-type Category = {
+type CategoryObject = {
     name: string;
-    value: string;
+    value: Category;
     icon: React.ForwardRefExoticComponent<Omit<LucideProps, "ref">>;
 };
 
-const categories: Category[] = [
+const categories: CategoryObject[] = [
     {
         name: 'Electrónicos',
         value: 'electronics',
