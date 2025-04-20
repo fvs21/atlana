@@ -72,3 +72,9 @@
     outline: 1px solid black;
     border-radius: 6px;
 }
+
+@media (max-width: 470px) {
+    .leftScroller {
+        display: none;
+    }
+}

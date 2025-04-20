@@ -6,6 +6,7 @@ import { formatTimeSinceUploaded } from "../../utils/listing";
 import { Link } from "@remix-run/react";
 import { Button } from "~/components/ui/button";
 import { Bookmark, MessageCircle } from "lucide-react";
+import categories from "~/constants/categories";
 
 export default function Listing({
     id,
@@ -17,6 +18,8 @@ export default function Listing({
     category,
     created_at
 }: ListingType) {
+    const category_slug = categories.find((cat) => cat.value === category)?.value;
+
     return (
         <div className={styles.listingContainer}>
             <div className={styles.topLinks}>
@@ -27,7 +30,7 @@ export default function Listing({
                         </BreadcrumbItem>
                         <BreadcrumbSeparator />
                         <BreadcrumbItem>
-                            <BreadcrumbLink href={"/marketplace/" + category}>{category}</BreadcrumbLink>
+                            <BreadcrumbLink href={"/marketplace/" + category_slug}>{category}</BreadcrumbLink>
                         </BreadcrumbItem>
                         <BreadcrumbSeparator />
                         <BreadcrumbItem>
