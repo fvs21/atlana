@@ -8,7 +8,7 @@ CATEGORIES = [
     'sports',
     'scholar',
     'vehicles',
-    'departments'
+    'property_rentals'
 ]
 
 class Listing(models.Model):

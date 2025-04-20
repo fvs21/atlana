@@ -26,4 +26,4 @@ export type ListingCard = {
     }
 }
 
-export type Category = "electronics" | "clothes" | "scholar" | "sports" | "furniture" | "vehicles" | "departments";
+export type Category = "electronics" | "clothes" | "scholar" | "sports" | "furniture" | "vehicles" | "property_rentals";

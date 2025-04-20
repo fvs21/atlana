@@ -36,8 +36,8 @@ def generate_authentication_response(user: User) -> JsonResponse:
         "user_r", 
         tokens["refresh_token"], 
         httponly=True, 
-        secure=True, 
-        samesite="Strict",
+        secure=False,  # Set to True in production
+        samesite="Lax",
         expires=REFRESH_TOKEN_DURATION
     )
 

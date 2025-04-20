@@ -26,7 +26,7 @@ export default function Page() {
             <NavbarSmall />
             <SidebarProvider style={{
                 '--sidebar-width': "350px",
-            } as React.CSSProperties}>
+            } as React.CSSProperties} className={styles.sidebarProvider}>
                 <main className={styles.marketplaceContainer}>
                     <MarketplaceSidebar />
                     <div className="h-full">

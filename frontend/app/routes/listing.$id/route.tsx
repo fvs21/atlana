@@ -2,7 +2,6 @@ import { data, LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { onlyAuthenticated, refreshToken } from "~/api/server.auth";
 import Navbar from "~/components/navbar";
-import { Breadcrumb, BreadcrumbItem, BreadcrumbLink, BreadcrumbList } from "~/components/ui/breadcrumb";
 import { fetchListing } from "~/features/marketplace/api/server";
 import Listing from "~/features/marketplace/components/Listing";
 
@@ -35,7 +34,7 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
 
 export const meta: MetaFunction<typeof loader> = ({data}) => {
     return [
-        { title: "Marketplace: " + data.listing.title },
+        { title: data.listing.title },
     ];
 }
 

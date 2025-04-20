@@ -39,8 +39,8 @@ const categories: CategoryObject[] = [
         icon: Car
     },
     {
-        name: 'Departamentos',
-        value: 'departments',
+        name: 'Renta de propiedades',
+        value: 'property_rentals',
         icon: MapPinHouse
     }
 ]
