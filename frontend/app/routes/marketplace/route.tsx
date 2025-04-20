@@ -29,7 +29,7 @@ export default function Page() {
             } as React.CSSProperties} className={styles.sidebarProvider}>
                 <main className={styles.marketplaceContainer}>
                     <MarketplaceSidebar />
-                    <div className="h-full">
+                    <div className="h-full w-full">
                         <ClosedSidebarSection />
                         <Outlet />
                     </div>

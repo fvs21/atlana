@@ -1,7 +1,7 @@
 import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "~/components/ui/sidebar";
 import styles from "./styles.module.scss";
 import { LucideProps, Search } from "lucide-react";
-import { NavLink, useParams } from "@remix-run/react";
+import { NavLink, useLocation, useParams } from "@remix-run/react";
 import { Button } from "~/components/ui/button";
 import categories from "~/constants/categories";
 import { Category } from "~/types/listings";
@@ -10,7 +10,8 @@ import MarkeplaceSearchbar from "./MarketplaceSearchbar";
 export default function MarketplaceSidebar() {
     const params = useParams();
 
-    const categoryParam = params?.category;
+    const categoryParam = params?.category;    
+    
 
     return (
         <Sidebar className={styles.sidebar}>
@@ -56,9 +57,11 @@ export default function MarketplaceSidebar() {
 function SidebarButton({ icon, tag, link, selected }: { icon: React.ForwardRefExoticComponent<Omit<LucideProps, "ref">>, tag: string, link: string, selected: boolean }) {
     const Icon = icon;
 
+    const location = useLocation();
+
     return (
         <SidebarMenuItem>
-            <SidebarMenuButton asChild isActive={selected}>
+            <SidebarMenuButton asChild isActive={selected || location.pathname === link}>
                 <NavLink to={link} className={styles.sidebarButton}>
                     <Icon />
                     <span className={styles.sidebarButtonTag}>{tag}</span>
