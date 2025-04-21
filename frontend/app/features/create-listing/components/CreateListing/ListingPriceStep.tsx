@@ -7,7 +7,7 @@ import { Button } from "~/components/ui/button";
 import { toast } from "sonner";
 import ValidatedInput from "~/components/validated-input";
 
-export default function CreateListingTwo() {
+export default function ListingPriceStep() {
     const [, setStep] = useAtom(stepAtom);
 
     const [price, setPrice] = useAtom(listingPriceAtom);    

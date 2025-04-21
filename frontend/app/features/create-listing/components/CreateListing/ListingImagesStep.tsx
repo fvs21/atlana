@@ -12,7 +12,7 @@ import { useNavigate } from "@remix-run/react";
 /**
  * Component for adding images to the listing
 */
-export default function CreateListingThree() {
+export default function ListingImagesStep() {
     const [, setStep] = useAtom(stepAtom);
     const [images] = useAtom(listingImagesAtom);
     const { create, isPending, createDisabled } = useCreateListing();

@@ -9,8 +9,9 @@ import { Button } from "~/components/ui/button";
 import { useState } from "react";
 import { validateStepOne } from "../../utils/validators";
 import categories from "~/constants/categories";
+import { Category } from "~/types/listings";
 
-export default function CreateListingOne() {
+export default function MainListingInfoStep() {
     const [title, setTitle] = useAtom(listingTitleAtom);
     const [description, setDescription] = useAtom(listingDescriptionAtom);
     const [category, setCategory] = useAtom(listingCategoryAtom);
@@ -70,8 +71,10 @@ export default function CreateListingOne() {
                         placeholder="Selecciona la categoría de tu producto"
                         label="Categoría"
                         options={categories.map((category) => ({name: category.name, value: category.value}))}
-                        value={category}
-                        onChange={setCategory}
+                        value={category || ""}
+                        onChange={(val: string) => {
+                            setCategory(val as Category);
+                        }}
                     />
                     {errors.category && (
                         <div className="pt-2">

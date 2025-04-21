@@ -1,3 +1,4 @@
+import { Location } from "./location";
 
 export type Listing = {
     id: number;
@@ -11,6 +12,7 @@ export type Listing = {
     category: string;
     images_urls: string[];
     price: number;
+    used: boolean;
     created_at: string;
 }
 
@@ -26,4 +28,15 @@ export type ListingCard = {
     }
 }
 
-export type Category = "electronics" | "clothes" | "scholar" | "sports" | "furniture" | "vehicles" | "property_rentals";
+export type Category = "" | "electronics" | "clothes" | "scholar" | "sports" | "furniture" | "vehicles" | "property_rentals";
+
+export type PropertyType = "" | "apartment" | "house" | "townhouse" | "villa" | "studio" | "room_only";
+
+export type PropertyListing = Listing & {
+    sell: boolean;
+    aproximate_location: boolean;
+    location: Location;
+    propery_type: PropertyType;
+    bedrooms: number;
+    bathrooms: number;
+}

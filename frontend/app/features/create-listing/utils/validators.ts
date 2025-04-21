@@ -1,6 +1,6 @@
-import { ListingPrice } from "~/types/listings";
+import { Category } from "~/types/listings";
 
-export function validateStepOne(title: string, description: string, category: string) {
+export function validateStepOne(title: string, description: string, category: Category | undefined) {
     const errors: { [key: string]: string } = {};
 
     if (!title) {
@@ -16,8 +16,4 @@ export function validateStepOne(title: string, description: string, category: st
     }
 
     return errors;
-}
-
-export const validatePrices = (prices: ListingPrice[]) => {
-    
 }
