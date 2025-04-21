@@ -2,10 +2,5 @@ from django.db import models
 
 # Create your models here.
 class Location(models.Model):
-    name = models.CharField(max_length=50, blank=True, null=True)
-    country = models.CharField(max_length=150)
-    state = models.CharField(max_length=150)
-    city = models.CharField(max_length=150)
-    street = models.CharField(max_length=150)
-    zip_code = models.CharField(max_length=10)
-    number = models.CharField(max_length=5, blank=True, null=True)
+    latitude = models.DecimalField(max_digits=9, decimal_places=6, blank=True, null=True)
+    longitude = models.DecimalField(max_digits=9, decimal_places=6, blank=True, null=True)

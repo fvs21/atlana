@@ -1,4 +1,7 @@
+from typing import List
 from django.db import models
+
+from location.models import Location
 # Create your models here.
 
 CATEGORIES = [
@@ -23,9 +26,9 @@ class Listing(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     category = models.CharField(max_length=50, choices=CATEGORIES_CHOICES)
     price = models.DecimalField(max_digits=10, decimal_places=2)
-    stock = models.IntegerField(default=0, blank=True, null=True)
+    used = models.BooleanField(blank=True, null=True)
 
-    def images_urls(self) -> list[str]:
+    def images_urls(self) -> List[str]:
         return [
             image.get_image_url() 
             for image in self.images.all()
@@ -37,3 +40,22 @@ class ListingImage(models.Model):
 
     def get_image_url(self):
         return "http://localhost:8000" + self.image.image_url
+
+
+class PropertyListing(models.Model):
+    TYPES = [
+        ('Apartment', 'Apartment'),
+        ('House', 'House'),
+        ('Townhouse', 'Townhouse'),
+        ('Villa', 'Villa'),
+        ('Studio', 'Studio'),
+        ('Room Only', 'Room Only'),
+    ]
+
+    listing = models.OneToOneField(Listing, on_delete=models.CASCADE, related_name='property')
+    sell = models.BooleanField(default=False)
+    aproximate_location = models.BooleanField(default=True)
+    location = models.ForeignKey(Location, on_delete=models.CASCADE, related_name='property')
+    property_type = models.CharField(max_length=9, choices=TYPES)
+    bedrooms = models.SmallIntegerField(blank=True, null=True)
+    bathrooms = models.SmallIntegerField(blank=True, null=True)

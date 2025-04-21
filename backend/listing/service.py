@@ -1,8 +1,32 @@
 from typing import List
 from django.core.files.uploadedfile import UploadedFile
 from image.service import upload_image
-from listing.models import Listing, ListingImage
+from listing.models import Listing, ListingImage, PropertyListing
+from location.models import Location
 from user.models import User
+
+
+def create_property_listing(user: User, body: dict, images: List[UploadedFile]) -> Listing:
+    listing = create_listing(user, body, images)
+
+    property_listing = PropertyListing.objects.create(
+        listing=listing,
+        sell=body['sell'],
+        aproximate_location=body['aproximate_location'],
+        property_type=body['property_type'],
+        bedrooms=body.get('bedrooms', None),
+        bathrooms=body.get('bathrooms', None)
+    )
+
+    location = Location.objects.create(
+        latitude=body['location']['latitude'],
+        longitude=body['location']['longitude']
+    )
+
+    property_listing.location = location
+    property_listing.save()
+
+    
 
 def create_listing(user: User, body: dict, images: List[UploadedFile]) -> Listing:
     """
@@ -13,9 +37,9 @@ def create_listing(user: User, body: dict, images: List[UploadedFile]) -> Listin
         title=body['title'],
         description=body['description'],
         category=body['category'],
-        price=body['price']
+        price=body['price'],
+        used=body.get('used', None)
     )
-
     uploaded_images = [upload_image(image, "listing") for image in images]
 
     listing_images = ListingImage.objects.bulk_create([

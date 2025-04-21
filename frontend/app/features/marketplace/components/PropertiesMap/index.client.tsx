@@ -10,7 +10,7 @@ export default function PropertiesMap() {
             [21.110303, -89.611401], 14
         );
 
-        L.tileLayer('https://tile.openstreetmap.de/{z}/{x}/{y}.png', {
+        L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
             maxZoom: 19,
             attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
             tileSize: 256

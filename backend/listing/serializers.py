@@ -1,7 +1,7 @@
 from typing import List
 from rest_framework import serializers
 
-from listing.models import Listing
+from listing.models import Listing, PropertyListing
 from django.core.files.uploadedfile import UploadedFile
 
 '''
@@ -16,6 +16,7 @@ class CreateListingBodySerializer(serializers.ModelSerializer):
             'description',
             'category',
             'price',
+            'used'
         ]
 
 class CreateListingRequestSerializer(serializers.Serializer):
@@ -36,8 +37,55 @@ class CreateListingRequestSerializer(serializers.Serializer):
         
         return images
     
+class CreatePropertyListingBodySerializer(serializers.ModelSerializer):
+    class Location(serializers.Serializer):
+        latitude = serializers.FloatField()
+        longitude = serializers.FloatField()
+
+    property_type = serializers.ChoiceField(choices=PropertyListing.TYPES)
+    sell = serializers.BooleanField(default=False)
+    location = Location()
+    aproximate_location = serializers.BooleanField(default=True)
+    bedrooms = serializers.IntegerField(required=False)
+    bathrooms = serializers.IntegerField(required=False)
+
+    class Meta:
+        model = Listing
+        fields = [
+            'title',
+            'description',
+            'category',
+            'price',
+        ]
+
+class CreatePropertyListingRequestSerializer(serializers.Serializer):
+    data = serializers.JSONField()
+    images = serializers.ListField(child=serializers.ImageField())
+
+    def validate_data(self, data) -> CreateListingBodySerializer:
+        serializer = CreatePropertyListingBodySerializer(data=data)
+
+        if not serializer.is_valid():
+            raise serializers.ValidationError(serializer.errors)
+        
+        return serializer.validated_data
+    
+class PropertyListingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PropertyListing
+        fields = [
+            'listing',
+            'sell',
+            'aproximate_location',
+            'location',
+            'property_type',
+            'bedrooms',
+            'bathrooms'
+        ]
+    
 class ListingSerializer(serializers.ModelSerializer):
     creator = serializers.SerializerMethodField()
+    property = PropertyListingSerializer(required=False)
 
     def get_creator(self, obj: Listing):
         return {
@@ -56,5 +104,7 @@ class ListingSerializer(serializers.ModelSerializer):
             'price',
             'images_urls',
             'created_at',
-            'creator'
+            'creator',
+            'used',
+            'property'
         ]

@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import React, { useEffect, useLayoutEffect } from "react";
+import React, { useLayoutEffect } from "react";
 import { api, apiMultiPart } from "~/api";
 import { refreshToken, useToken } from "~/api/client.auth";
 
