@@ -1,12 +1,14 @@
 import { ChevronLeft } from "lucide-react";
 import styles from "./styles.module.scss";
 import { useAtom } from "jotai";
-import { stepAtom } from "../../store";
+import { locationAtom, stepAtom } from "../../store";
 import { ClientOnly } from "remix-utils/client-only";
 import ChooseLocationMap from "../ChooseLocationMap/index.client";
 
 export default function PropertyLocationStep() {
     const [, setStep] = useAtom(stepAtom);
+
+    const [location, setLocation] = useAtom(locationAtom);
 
     return (
         <>
@@ -19,9 +21,16 @@ export default function PropertyLocationStep() {
                 <h1 className={styles.createListingOneTitle}>
                     Ubicación de la propiedad
                 </h1>
+                <div className={styles.description}>
+                    Selecciona la ubicación de la propiedad en el mapa. Puedes
+                    buscar por dirección y/o seleccionar un punto en el mapa.
+                </div>
                 <div>
                     <ClientOnly>
-                        {() => <ChooseLocationMap />}
+                        {() => <ChooseLocationMap
+                            location={location}
+                            setLocation={setLocation}
+                        />} 
                     </ClientOnly>
                 </div> 
             </div>

@@ -5,12 +5,15 @@ import { useEffect, useRef, useState } from "react";
 import ValidatedInput from "~/components/validated-input";
 import { useQueryLocation } from "../../api";
 import { LocationQueryResult } from "../../types";
+import { Slider } from "~/components/ui/slider";
+import { Location } from "~/types/location";
 
-export default function ChooseLocationMap() {
+export default function ChooseLocationMap({ location, setLocation }: { location: Location, setLocation: (location: Location) => void }) {
     const mapRef = useRef<L.Map>();
     const markerRef = useRef<L.Marker>();
+    const circleRef = useRef<L.Circle>();
 
-    const { queryLocation, isPending } = useQueryLocation();
+    const { queryLocation } = useQueryLocation();
     const [searchQuery, setSearchQuery] = useState("");
     const [queryResults, setQueryResults] = useState<LocationQueryResult[]>([]);
     const [resultsFocused, setResultsFocused] = useState(false);
@@ -27,6 +30,7 @@ export default function ChooseLocationMap() {
         }).addTo(map);
 
         mapRef.current = map;
+        map.on('click', mapClick);
 
         return () => {
             map.remove();
@@ -45,19 +49,58 @@ export default function ChooseLocationMap() {
 
     const selectLocation = (location: LocationQueryResult) => {        
         if(!mapRef.current) return;
-        console.log(location);
-        
 
         const { lat, lon } = location;
         
-
-        if(markerRef.current) {
-            markerRef.current.setLatLng([lat, lon]);
-        } else {
-            markerRef.current = L.marker([lat, lon]).addTo(mapRef.current);
-        }
+        changeLocation(lat, lon);
 
         mapRef.current.setView([lat, lon], 14);
+    }
+
+    const mapClick = (e: L.LeafletMouseEvent) => {
+        if(!mapRef.current) return;
+
+        changeLocation(e.latlng.lat, e.latlng.lng);
+    }
+
+    const changeLocation = (lat: number, lon: number) => {
+        if(!markerRef.current) {
+            markerRef.current = L.marker([lat, lon]).addTo(mapRef.current as L.Map);
+        } else {
+            markerRef.current.setLatLng([lat, lon]);
+        } 
+
+        if(!circleRef.current) {
+            circleRef.current = L.circle([lat, lon], {
+                color: '#3b82f6',
+                weight: 2,
+                fillColor: '#00246b',
+                fillOpacity: 0.3,
+                radius: 100
+            }).addTo(mapRef.current as L.Map);
+            setLocation({
+                latitude: lat,
+                longitude: lon,
+                radius: 100
+            })
+        } else {
+            circleRef.current.setLatLng([lat, lon]);
+            setLocation({
+                ...location,
+                latitude: lat,
+                longitude: lon
+            })
+        }
+    }
+
+    const changeRadius = (value: number) => {
+        if(!circleRef.current || !mapRef.current) return;
+
+        circleRef.current.setRadius(value);
+        setLocation({
+            ...location,
+            radius: value
+        });
     }
 
     useEffect(() => {
@@ -92,7 +135,24 @@ export default function ChooseLocationMap() {
                     </div>
                 )}
             </div>
-            <div id="map" className={styles.selectLocationMap} />
+            <div className={styles.mapContainer}>
+                <div id="map" className={styles.selectLocationMap} />
+                {!!location.radius && (
+                    <div className={styles.radiusSlider}>
+                        <span>Radio:</span>
+                        <Slider 
+                            defaultValue={[100]}
+                            min={100}
+                            max={2000}
+                            step={1}
+                            onValueChange={(value) => changeRadius(value[0])}
+                        />
+                    </div>
+                )}
+            </div>
+            <div className="text-xs text-gray-500 mt-2">
+                Recomendación: Elige una ubicación aproximada de la propiedad.
+            </div>
         </div>
     )
 }

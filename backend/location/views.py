@@ -15,12 +15,6 @@ class LocationViewSet(viewsets.ViewSet):
 
         locations = service.find_location_by_street(query)
 
-        if not locations:
-            return JsonResponse({
-                'details': "No locations found",
-                'code': 'location_not_found'
-            }, status=404)
-        
         return JsonResponse({
             "data": {
                 "locations": LocationQuerySerializer(locations, many=True).data

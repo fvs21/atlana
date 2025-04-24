@@ -21,6 +21,7 @@ const bathroomsAtom = atom<number>();
 const locationAtom = atom<Location>({
     latitude: 0,
     longitude: 0,
+    radius: 0
 });
 
 

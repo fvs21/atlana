@@ -4,6 +4,8 @@ from rest_framework import serializers
 from listing.models import Listing, PropertyListing
 from django.core.files.uploadedfile import UploadedFile
 
+from location.models import Location
+
 '''
     Serializer for creating and modeling the prices of a listing
 '''
@@ -38,9 +40,10 @@ class CreateListingRequestSerializer(serializers.Serializer):
         return images
     
 class CreatePropertyListingBodySerializer(serializers.ModelSerializer):
-    class Location(serializers.Serializer):
-        latitude = serializers.FloatField()
-        longitude = serializers.FloatField()
+    class Location(serializers.ModelSerializer):
+        class Meta:
+            model = Location
+            fields = '__all__'
 
     property_type = serializers.ChoiceField(choices=PropertyListing.TYPES)
     sell = serializers.BooleanField(default=False)

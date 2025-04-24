@@ -29,3 +29,21 @@
         background-color: $button-hover;
     }
 }
+
+.mapContainer {
+    position: relative;
+}
+
+.radiusSlider {
+    position: absolute;
+    bottom: 10px;
+    left: 10px;
+    z-index: 3000;
+    width: 50%;
+    display: flex;
+    gap: $spacing-sm;
+
+    span {
+        font-size: 14px;
+    }
+}
