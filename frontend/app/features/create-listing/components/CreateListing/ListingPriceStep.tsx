@@ -13,7 +13,9 @@ export default function ListingPriceStep() {
     const [price, setPrice] = useAtom(listingPriceAtom);    
 
     const next = () => {
-
+        if(!price)
+            return;
+        
         setStep(2);
     }
 

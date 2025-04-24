@@ -7,6 +7,7 @@ import LabeledSelect from "~/components/labeled-select";
 import { PropertyType } from "~/types/listings";
 import { PropertyTypes } from "~/constants/property";
 import ValidatedInput from "~/components/validated-input";
+import { Button } from "~/components/ui/button";
 
 export default function PropertyInformationStep() {
     const [, setStep] = useAtom(stepAtom);
@@ -14,6 +15,19 @@ export default function PropertyInformationStep() {
     const [propertyType, setPropertyType] = useAtom(propertyTypeAtom);
     const [bedrooms, setBedrooms] = useAtom(bedroomsAtom);
     const [bathrooms, setBathrooms] = useAtom(bathroomsAtom);
+
+    const next = () => {
+        if(propertyType === "") 
+            return;
+
+        if(!bedrooms)
+            return;
+
+        if(!bathrooms)
+            return;
+
+        setStep(2);
+    }
 
     return (
         <>
@@ -48,6 +62,21 @@ export default function PropertyInformationStep() {
                         value={bedrooms}
                         onChange={(val) => setBedrooms(parseInt(val))}
                     />
+                </div>
+                <div className={styles.formInput}>
+                    <ValidatedInput
+                        label="Número de baños"
+                        placeholder="Número de baños"
+                        name="bathrooms"
+                        type="number"
+                        value={bathrooms}
+                        onChange={(val) => setBathrooms(parseInt(val))}
+                    />
+                </div>
+                <div className={cn(styles.formInput, styles.nextButtonContainer)}>
+                    <Button className="primaryButton" onClick={next}>
+                        Siguiente
+                    </Button>
                 </div>
             </div>
         </>
