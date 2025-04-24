@@ -24,3 +24,4 @@ class LocationQuerySerializer(serializers.Serializer):
     display_name = serializers.CharField(required=True)
     lat = serializers.FloatField(required=True)
     lon = serializers.FloatField(required=True)
+    place_id = serializers.CharField(required=True)

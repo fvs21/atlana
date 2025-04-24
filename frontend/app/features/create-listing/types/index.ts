@@ -20,3 +20,10 @@ export type CreatePropertyListingBody = CreateListingBody & {
     bedrooms: number;
     bathrooms: number;
 }
+
+export type LocationQueryResult = {
+    lat: number;
+    lon: number;
+    display_name: string;
+    place_id: string;
+}
