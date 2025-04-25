@@ -33,10 +33,11 @@ export type Category = "" | "electronics" | "clothes" | "scholar" | "sports" | "
 export type PropertyType = "" | "apartment" | "house" | "townhouse" | "villa" | "studio" | "room_only";
 
 export type PropertyListing = Listing & {
-    sell: boolean;
-    aproximate_location: boolean;
-    location: Location;
-    propery_type: PropertyType;
-    bedrooms: number;
-    bathrooms: number;
+    property: {
+        sell: boolean;
+        location: Location;
+        property_type: PropertyType;
+        bedrooms: number;
+        bathrooms: number;
+    }
 }

@@ -45,9 +45,7 @@ export default function Page() {
     return (
         <>
             <Navbar />
-            <Listing 
-                {...listing}
-            />
+            <Listing listing={listing} />
         </>
     )
     

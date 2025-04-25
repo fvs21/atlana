@@ -42,7 +42,11 @@ class CreateListingRequestSerializer(serializers.Serializer):
 class LocationSerializer(serializers.ModelSerializer):
     class Meta:
         model = Location
-        fields = '__all__'
+        fields = [
+            'latitude',
+            'longitude',
+            'radius'
+        ]
 
     def validate_radius(self, radius: float) -> float:
         if radius < 0:
@@ -87,10 +91,10 @@ class CreatePropertyListingRequestSerializer(serializers.Serializer):
         return serializer.validated_data
     
 class PropertyListingSerializer(serializers.ModelSerializer):
+    location = LocationSerializer()
     class Meta:
         model = PropertyListing
         fields = [
-            'listing',
             'sell',
             'location',
             'property_type',

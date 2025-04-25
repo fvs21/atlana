@@ -1,8 +1,8 @@
 import { BASE_URL } from "~/api";
 import { ResponseBody } from "~/types/globals";
-import { Listing } from "~/types/listings";
+import { Listing, PropertyListing } from "~/types/listings";
 
-export const fetchListing = async (id: number, token: string): Promise<ResponseBody<Listing>> => {
+export const fetchListing = async (id: number, token: string): Promise<ResponseBody<Listing | PropertyListing>> => {
     const response = await fetch(BASE_URL + `/listing/${id}`, {
         method: "GET",
         credentials: "include",
