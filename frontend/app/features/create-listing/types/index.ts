@@ -11,10 +11,10 @@ export type CreateListingBody = {
 
 export type CreatePropertyListingBody = CreateListingBody & {
     sell: boolean;
-    aproximate_location: boolean;
     location: {
         latitude: number;
         longitude: number;
+        radius: number;
     }
     property_type: string;
     bedrooms: number;

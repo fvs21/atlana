@@ -39,16 +39,24 @@ class CreateListingRequestSerializer(serializers.Serializer):
         
         return images
     
-class CreatePropertyListingBodySerializer(serializers.ModelSerializer):
-    class Location(serializers.ModelSerializer):
-        class Meta:
-            model = Location
-            fields = '__all__'
+class LocationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Location
+        fields = '__all__'
 
-    property_type = serializers.ChoiceField(choices=PropertyListing.TYPES)
+    def validate_radius(self, radius: float) -> float:
+        if radius < 0:
+            raise serializers.ValidationError("El radio no puede ser negativo")
+        
+        if radius < 100 or radius > 10000:
+            raise serializers.ValidationError("El radio debe estar entre 100 y 10,000 metros")
+        
+        return radius
+    
+class CreatePropertyListingBodySerializer(serializers.ModelSerializer):
     sell = serializers.BooleanField(default=False)
-    location = Location()
-    aproximate_location = serializers.BooleanField(default=True)
+    property_type = serializers.ChoiceField(choices=PropertyListing.TYPES)
+    location = LocationSerializer()
     bedrooms = serializers.IntegerField(required=False)
     bathrooms = serializers.IntegerField(required=False)
 
@@ -59,6 +67,11 @@ class CreatePropertyListingBodySerializer(serializers.ModelSerializer):
             'description',
             'category',
             'price',
+            'property_type',
+            'location',
+            'bedrooms',
+            'bathrooms',
+            'sell',
         ]
 
 class CreatePropertyListingRequestSerializer(serializers.Serializer):
@@ -79,7 +92,6 @@ class PropertyListingSerializer(serializers.ModelSerializer):
         fields = [
             'listing',
             'sell',
-            'aproximate_location',
             'location',
             'property_type',
             'bedrooms',

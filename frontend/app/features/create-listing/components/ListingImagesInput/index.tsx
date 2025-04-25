@@ -87,7 +87,7 @@ function ImagePreview(
     }
 
     return (
-        <button
+        <div
             className={cn(styles.imagePreviewContainer, selected ? styles.selectedImage : "")}
             onClick={click}
         >
@@ -125,6 +125,6 @@ function ImagePreview(
                     </DropdownMenuGroup>
                 </DropdownMenuContent>
             </DropdownMenu>
-        </button>
+        </div>
     )
 }

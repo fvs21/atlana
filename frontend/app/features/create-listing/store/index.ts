@@ -59,14 +59,14 @@ const useBody = (): CreateListingBody | CreatePropertyListingBody => {
         images,
         used,
         sell,
-        aproximate_location,
         location: {
             latitude: location.latitude,
-            longitude: location.longitude
+            longitude: location.longitude,
+            radius: location.radius
         },
         property_type,
-        bedrooms,
-        bathrooms
+        bedrooms: bedrooms as number,
+        bathrooms: bathrooms as number
     }
 }
 

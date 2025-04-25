@@ -1,7 +1,6 @@
 import { ListingCard as ListingCardProps } from "~/types/listings";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "../ui/card";
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "../ui/card";
 import styles from "./styles.module.scss";
-import { Button } from "../ui/button";
 import ListingCardImages from "./ListingCardImages";
 
 export default function ListingCard({ id, title, price, images_urls, creator }: ListingCardProps) {

@@ -8,7 +8,7 @@ import { toast } from "sonner";
 import ValidatedInput from "~/components/validated-input";
 
 export default function ListingPriceStep() {
-    const [, setStep] = useAtom(stepAtom);
+    const [step, setStep] = useAtom(stepAtom);
 
     const [price, setPrice] = useAtom(listingPriceAtom);    
 
@@ -16,13 +16,13 @@ export default function ListingPriceStep() {
         if(!price)
             return;
         
-        setStep(2);
+        setStep(step+1);
     }
 
     return (
         <>
             <div className={styles.returnButtonContainer}>
-                <button className={styles.returnButton} onClick={() => setStep(0)}>
+                <button className={styles.returnButton} onClick={() => setStep(step-1)}>
                     <ChevronLeft size={24} />
                 </button>
             </div>

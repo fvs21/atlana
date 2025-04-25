@@ -33,6 +33,31 @@ class ListingsViewset(viewsets.ViewSet):
             },
             "details": "Listing created"
         }, status=201)
+    
+    @action(methods=['POST'], detail=False)
+    def create_property_listing(self, request: HttpRequest) -> JsonResponse:
+        user = get_user_by_id(request.user.id)
+
+        serializer = CreatePropertyListingRequestSerializer(data=request.data)
+
+        if not serializer.is_valid():
+            return JsonResponse({
+                'details': serializer.errors,
+                'code': 'invalid_data'
+            }, status=400)
+        
+        listing = service.create_property_listing(
+            user, 
+            serializer.validated_data['data'], 
+            serializer.validated_data['images']
+        )
+
+        return JsonResponse({
+            "data": {
+                "listing": ListingSerializer(listing).data
+            },
+            "details": "Property listing created"
+        }, status=201)
 
     @action(methods=['GET'], detail=False)
     def get_listing(self, request: HttpResponse, id: int) -> JsonResponse:
@@ -50,24 +75,3 @@ class ListingsViewset(viewsets.ViewSet):
             },
             "details": "Listing retrieved"
         }, status=200)
-
-    @action(methods=['POST'], detail=False)
-    def create_propery_listing(self, request: HttpRequest) -> JsonResponse:
-        user = get_user_by_id(request.user.id)
-
-        serializer = CreatePropertyListingRequestSerializer(data=request.data)
-
-        if not serializer.is_valid():
-            return JsonResponse({
-                'details': serializer.errors,
-                'code': 'invalid_data'
-            }, status=400)
-        
-        listing = service.create_property_listing(user, serializer.validated_data['data'], serializer.validated_data['images'])
-
-        return JsonResponse({
-            "data": {
-                "listing": ListingSerializer(listing).data
-            },
-            "details": "Property listing created"
-        }, status=201)

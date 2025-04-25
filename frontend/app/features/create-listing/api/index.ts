@@ -24,6 +24,26 @@ export function useCreateListing() {
     };
 }
 
+export function useCreatePropertyListing() {
+    const queryClient = useQueryClient();
+
+    const { mutateAsync: create, isPending, isError } = useMutation({
+        mutationFn: async (body: FormData) => {
+            const request = await apiMultiPart.post<ResponseBody<Listing>>("/listing/create/property", body);
+            return request.data
+        },
+        onSuccess: (data) => {
+            queryClient.invalidateQueries({ queryKey: ["listings"] });
+        }
+    });
+
+    return {
+        create,
+        isPending,
+        createDisabled: isPending && !isError,
+    };
+}
+
 export function useQueryLocation() {
     const queryClient = useQueryClient();
 
@@ -39,8 +59,8 @@ export function useQueryLocation() {
         }
     });
 
-    return {
+   return {
         queryLocation,
         isPending,
-    };
+   } 
 }

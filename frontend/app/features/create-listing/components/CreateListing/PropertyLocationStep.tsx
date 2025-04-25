@@ -4,11 +4,20 @@ import { useAtom } from "jotai";
 import { locationAtom, stepAtom } from "../../store";
 import { ClientOnly } from "remix-utils/client-only";
 import ChooseLocationMap from "../ChooseLocationMap/index.client";
+import { cn } from "~/lib/utils";
+import { Button } from "~/components/ui/button";
 
 export default function PropertyLocationStep() {
     const [, setStep] = useAtom(stepAtom);
 
     const [location, setLocation] = useAtom(locationAtom);
+
+    const next = () => {
+        if(!location.latitude || !location.longitude || !location.radius)
+            return;
+
+        setStep(3);
+    }
 
     return (
         <>
@@ -33,6 +42,11 @@ export default function PropertyLocationStep() {
                         />} 
                     </ClientOnly>
                 </div> 
+                <div className={cn(styles.formInput, styles.nextButtonContainer)}>
+                    <Button className="primaryButton" onClick={next}>
+                        Siguiente
+                    </Button>
+                </div>
             </div>
         </>
     )

@@ -9,23 +9,22 @@ from user.models import User
 def create_property_listing(user: User, body: dict, images: List[UploadedFile]) -> Listing:
     listing = create_listing(user, body, images)
 
-    property_listing = PropertyListing.objects.create(
-        listing=listing,
-        sell=body['sell'],
-        aproximate_location=body['aproximate_location'],
-        property_type=body['property_type'],
-        bedrooms=body.get('bedrooms', None),
-        bathrooms=body.get('bathrooms', None)
-    )
-
     location = Location.objects.create(
         latitude=body['location']['latitude'],
-        longitude=body['location']['longitude']
+        longitude=body['location']['longitude'],
+        radius=body['location']['radius']
     )
 
-    property_listing.location = location
-    property_listing.save()
+    PropertyListing.objects.create(
+        listing=listing,
+        sell=body['sell'],
+        property_type=body['property_type'],
+        bedrooms=body.get('bedrooms', None),
+        bathrooms=body.get('bathrooms', None),
+        location=location,
+    )
 
+    return listing
     
 
 def create_listing(user: User, body: dict, images: List[UploadedFile]) -> Listing:

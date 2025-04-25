@@ -18,9 +18,10 @@ export default function ChooseLocationMap({ location, setLocation }: { location:
     const [queryResults, setQueryResults] = useState<LocationQueryResult[]>([]);
     const [resultsFocused, setResultsFocused] = useState(false);
 
+
     useEffect(() => {
         let map = L.map('map').setView(
-            [21.110303, -89.611401], 14
+            [location.latitude || 21.110303, location.longitude || -89.611401], 14
         );
 
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -31,6 +32,17 @@ export default function ChooseLocationMap({ location, setLocation }: { location:
 
         mapRef.current = map;
         map.on('click', mapClick);
+
+        if(location.latitude && location.longitude) {
+            markerRef.current = L.marker([location.latitude, location.longitude]).addTo(map);
+            circleRef.current = L.circle([location.latitude, location.longitude], {
+                color: '#3b82f6',
+                fillColor: '#00246b',
+                stroke: false,
+                fillOpacity: 0.3,
+                radius: 100
+            }).addTo(mapRef.current as L.Map); 
+        }
 
         return () => {
             map.remove();
@@ -73,22 +85,23 @@ export default function ChooseLocationMap({ location, setLocation }: { location:
         if(!circleRef.current) {
             circleRef.current = L.circle([lat, lon], {
                 color: '#3b82f6',
-                weight: 2,
                 fillColor: '#00246b',
+                stroke: false,
                 fillOpacity: 0.3,
                 radius: 100
             }).addTo(mapRef.current as L.Map);
+
             setLocation({
-                latitude: lat,
-                longitude: lon,
+                latitude: Number(lat.toFixed(6)),
+                longitude: Number(lon.toFixed(6)),
                 radius: 100
             })
         } else {
             circleRef.current.setLatLng([lat, lon]);
             setLocation({
                 ...location,
-                latitude: lat,
-                longitude: lon
+                latitude: Number(lat.toFixed(6)),
+                longitude: Number(lon.toFixed(6))
             })
         }
     }
@@ -137,7 +150,7 @@ export default function ChooseLocationMap({ location, setLocation }: { location:
             </div>
             <div className={styles.mapContainer}>
                 <div id="map" className={styles.selectLocationMap} />
-                {!!location.radius && (
+                {(location.latitude && location.longitude) && (
                     <div className={styles.radiusSlider}>
                         <span>Radio:</span>
                         <Slider 

@@ -34,6 +34,9 @@ class Listing(models.Model):
             for image in self.images.all()
         ]
 
+    def is_property(self) -> bool:
+        return hasattr(self, 'property')
+
 class ListingImage(models.Model):
     listing = models.ForeignKey(Listing, on_delete=models.CASCADE, related_name='images')
     image = models.ForeignKey('image.Image', on_delete=models.CASCADE)
@@ -44,17 +47,16 @@ class ListingImage(models.Model):
 
 class PropertyListing(models.Model):
     TYPES = [
-        ('Apartment', 'Apartment'),
-        ('House', 'House'),
-        ('Townhouse', 'Townhouse'),
-        ('Villa', 'Villa'),
-        ('Studio', 'Studio'),
-        ('Room Only', 'Room Only'),
+        ('apartment', 'Apartment'),
+        ('house', 'House'),
+        ('townhouse', 'Townhouse'),
+        ('villa', 'Villa'),
+        ('studio', 'Studio'),
+        ('room only', 'Room Only'),
     ]
 
     listing = models.OneToOneField(Listing, on_delete=models.CASCADE, related_name='property')
     sell = models.BooleanField(default=False)
-    aproximate_location = models.BooleanField(default=True)
     location = models.ForeignKey(Location, on_delete=models.CASCADE, related_name='property')
     property_type = models.CharField(max_length=9, choices=TYPES)
     bedrooms = models.SmallIntegerField(blank=True, null=True)
