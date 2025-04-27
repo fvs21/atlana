@@ -61,11 +61,11 @@ export default function Listing({ listing }: { listing: ListingType | PropertyLi
                                 </div>
                                 <div className={styles.propertyAttribute}>
                                     <Bed color="gray" />
-                                    {(listing as PropertyListing).property.bedrooms} habitaciones
+                                    {(listing as PropertyListing).property.bedrooms} {(listing as PropertyListing).property.bedrooms == 1 ? "habitación" : "habitaciones"}
                                 </div>
                                 <div className={styles.propertyAttribute}>
                                     <ShowerHead color="gray" />
-                                    {(listing as PropertyListing).property.bathrooms} baños
+                                    {(listing as PropertyListing).property.bathrooms} {(listing as PropertyListing).property.bathrooms == 1 ? "baño" : "baños"}
                                 </div>
                             </div>
                             <hr className="my-4" />

@@ -24,7 +24,7 @@ export default function PropertiesMap() {
     }, []);
 
     return (
-        <div id="map" className="w-full h-full">
+        <div id="map" className="w-full h-full z-10">
 
         </div>
     )

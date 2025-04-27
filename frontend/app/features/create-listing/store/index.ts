@@ -1,5 +1,5 @@
 import { atom, useAtom } from "jotai";
-import { Category, PropertyType } from "~/types/listings";
+import { Category, PropertyTimeUnit, PropertyType } from "~/types/listings";
 import { CreateListingBody, CreatePropertyListingBody } from "../types";
 import { Location } from "~/types/location";
 
@@ -12,12 +12,12 @@ const listingPriceAtom = atom<number>();
 const listingUsedAtom = atom<boolean>(false);
 
 //property listings
-
 const propertyTypeAtom = atom<PropertyType>("");
 const sellAtom = atom<boolean>(false);
 const aproximateLocationAtom = atom<boolean>(true);
 const bedroomsAtom = atom<number>();
 const bathroomsAtom = atom<number>();
+const timeUnitAtom = atom<PropertyTimeUnit>("day");
 const locationAtom = atom<Location>({
     latitude: 0,
     longitude: 0,
@@ -84,5 +84,6 @@ export {
     bedroomsAtom,
     bathroomsAtom,
     locationAtom,
+    timeUnitAtom,
     useBody
 }

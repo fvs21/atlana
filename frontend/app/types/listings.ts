@@ -41,3 +41,5 @@ export type PropertyListing = Listing & {
         bathrooms: number;
     }
 }
+
+export type PropertyTimeUnit = "day" | "week" | "month";

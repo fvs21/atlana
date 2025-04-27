@@ -1,18 +1,26 @@
 import { ChevronLeft } from "lucide-react";
 import styles from "./styles.module.scss";
 import { useAtom } from "jotai";
-import { listingPriceAtom, stepAtom } from "../../store";
+import { listingCategoryAtom, listingPriceAtom, stepAtom, timeUnitAtom } from "../../store";
 import { cn } from "~/lib/utils";
 import { Button } from "~/components/ui/button";
-import { toast } from "sonner";
 import ValidatedInput from "~/components/validated-input";
+import LabeledSelect from "~/components/labeled-select";
+import { PropertyTimeUnit } from "~/types/listings";
 
 export default function ListingPriceStep() {
     const [step, setStep] = useAtom(stepAtom);
 
     const [price, setPrice] = useAtom(listingPriceAtom);    
+    const [category] = useAtom(listingCategoryAtom);
+
+    const isProperty = category === "property_rentals";
+    const [propertyTimeUnit, setPropertyTimeUnit] = useAtom(timeUnitAtom);
 
     const next = () => {
+        if(isProperty && !propertyTimeUnit) 
+            return;
+            
         if(!price)
             return;
         
@@ -47,6 +55,22 @@ export default function ListingPriceStep() {
                         error=""
                     />
                 </div>
+                {isProperty && (
+                    <div className={styles.formInput}>
+                        <LabeledSelect 
+                            name="propertyTimeUnit"
+                            label="Al"
+                            placeholder=""
+                            value={propertyTimeUnit}
+                            onChange={(val) => setPropertyTimeUnit(val as PropertyTimeUnit)}
+                            options={[
+                                { value: "day", name: "Día" },
+                                { value: "week", name: "Semana" },
+                                { value: "month", name: "Mes" },
+                            ]}
+                        />
+                    </div>
+                )}
                 <div className={cn(styles.formInput, styles.nextButtonContainer)}>
                     <Button className="primaryButton" onClick={next}>
                         Siguiente

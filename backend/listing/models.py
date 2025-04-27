@@ -1,3 +1,4 @@
+from time import time_ns
 from typing import List
 from django.db import models
 
@@ -55,7 +56,14 @@ class PropertyListing(models.Model):
         ('room only', 'Room Only'),
     ]
 
+    TIME_UNITS = [
+        ('day', 'Day'),
+        ('week', 'Week'),
+        ('month', 'Month'),
+    ]
+
     listing = models.OneToOneField(Listing, on_delete=models.CASCADE, related_name='property')
+    time_unit = models.CharField(max_length=5, choices=TIME_UNITS)
     sell = models.BooleanField(default=False)
     location = models.ForeignKey(Location, on_delete=models.CASCADE, related_name='property')
     property_type = models.CharField(max_length=9, choices=TYPES)
