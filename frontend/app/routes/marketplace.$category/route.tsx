@@ -2,7 +2,7 @@ import { data, LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
 import { useParams } from "@remix-run/react";
 import { onlyAuthenticated } from "~/api/server.auth";
 import categories from "~/constants/categories";
-import { useFetchListingByCategory } from "~/features/marketplace/api";
+import { useFetchListingsByCategory } from "~/features/marketplace/api";
 import ListingsDisplay from "~/features/marketplace/components/ListingsDisplay";
 import { Category } from "~/types/listings";
 
@@ -32,7 +32,7 @@ export default function Page() {
     const params = useParams();
     const category = params.category;
 
-    const { data, isLoading } = useFetchListingByCategory(category as Category);
+    const { data } = useFetchListingsByCategory(category as Category);
 
     return (
         <ListingsDisplay listings={data?.data?.listings || []} />

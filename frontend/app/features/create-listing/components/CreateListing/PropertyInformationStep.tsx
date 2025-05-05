@@ -20,10 +20,10 @@ export default function PropertyInformationStep() {
         if(propertyType === "") 
             return;
 
-        if(!bedrooms)
+        if(bedrooms === undefined)
             return;
 
-        if(!bathrooms)
+        if(bathrooms === undefined)
             return;
 
         setStep(2);

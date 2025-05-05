@@ -2,7 +2,7 @@ import { Listing as ListingType, PropertyListing } from "~/types/listings";
 import styles from "./styles.module.scss";
 import ListingImages from "~/components/listing-images";
 import { Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbLink, BreadcrumbSeparator } from "~/components/ui/breadcrumb";
-import { formatTimeSinceUploaded } from "../../utils/listing";
+import { formatPropertyListingPriceTimeUnit, formatTimeSinceUploaded } from "../../utils/listing";
 import { Link } from "@remix-run/react";
 import { Button } from "~/components/ui/button";
 import { Bed, Bookmark, House, MessageCircle, ShowerHead } from "lucide-react";
@@ -45,7 +45,10 @@ export default function Listing({ listing }: { listing: ListingType | PropertyLi
                 <div className={styles.infoContainer}>
                     <h1 className={styles.title}>{listing.title}</h1>
                     <div className={styles.priceContainer}>
-                        <span className={styles.price}>MXN ${Intl.NumberFormat("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(listing.price)}</span>
+                        <span className={styles.price}>
+                            MXN ${Intl.NumberFormat("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(listing.price)}
+                            {isProperty && <span className={styles.priceUnit}> {formatPropertyListingPriceTimeUnit((listing as PropertyListing).property.time_unit)}</span>}
+                        </span>
                     </div>
                     <div className={styles.descriptionContainer}>
                         <h2 className={styles.descriptionTitle}>Descripción</h2>

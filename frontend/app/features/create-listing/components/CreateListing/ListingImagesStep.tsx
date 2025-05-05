@@ -78,6 +78,7 @@ export default function ListingImagesStep() {
             bedrooms: listingBody.bedrooms,
             bathrooms: listingBody.bathrooms,
             location: listingBody.location,
+            time_unit: listingBody.time_unit,
         }));
 
         try {

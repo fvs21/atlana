@@ -33,7 +33,7 @@ export function useFetchListing(id: number) {
     }
 }
 
-export function useFetchListingByCategory(category: Category) {
+export function useFetchListingsByCategory(category: Category) {
     const { data, isLoading } = useQuery({
         queryKey: ["listings", category],
         queryFn: async () => {

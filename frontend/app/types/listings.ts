@@ -39,6 +39,7 @@ export type PropertyListing = Listing & {
         property_type: PropertyType;
         bedrooms: number;
         bathrooms: number;
+        time_unit: PropertyTimeUnit;
     }
 }
 

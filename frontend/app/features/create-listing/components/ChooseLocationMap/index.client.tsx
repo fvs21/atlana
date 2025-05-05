@@ -150,7 +150,7 @@ export default function ChooseLocationMap({ location, setLocation }: { location:
             </div>
             <div className={styles.mapContainer}>
                 <div id="map" className={styles.selectLocationMap} />
-                {(location.latitude && location.longitude) && (
+                {!!(location.latitude && location.longitude) && (
                     <div className={styles.radiusSlider}>
                         <span>Radio:</span>
                         <Slider 

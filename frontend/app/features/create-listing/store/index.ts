@@ -14,7 +14,6 @@ const listingUsedAtom = atom<boolean>(false);
 //property listings
 const propertyTypeAtom = atom<PropertyType>("");
 const sellAtom = atom<boolean>(false);
-const aproximateLocationAtom = atom<boolean>(true);
 const bedroomsAtom = atom<number>();
 const bathroomsAtom = atom<number>();
 const timeUnitAtom = atom<PropertyTimeUnit>("day");
@@ -35,10 +34,10 @@ const useBody = (): CreateListingBody | CreatePropertyListingBody => {
 
     const [property_type] = useAtom(propertyTypeAtom);
     const [sell] = useAtom(sellAtom);
-    const [aproximate_location] = useAtom(aproximateLocationAtom);
     const [bedrooms] = useAtom(bedroomsAtom);
     const [bathrooms] = useAtom(bathroomsAtom);
     const [location] = useAtom(locationAtom);
+    const [time_unit] = useAtom(timeUnitAtom);
 
     if(category != "property_rentals") {
         return {
@@ -66,7 +65,8 @@ const useBody = (): CreateListingBody | CreatePropertyListingBody => {
         },
         property_type,
         bedrooms: bedrooms as number,
-        bathrooms: bathrooms as number
+        bathrooms: bathrooms as number,
+        time_unit,
     }
 }
 
@@ -80,7 +80,6 @@ export {
     listingUsedAtom,
     propertyTypeAtom,
     sellAtom,
-    aproximateLocationAtom,
     bedroomsAtom,
     bathroomsAtom,
     locationAtom,

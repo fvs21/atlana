@@ -1,4 +1,4 @@
-import { Category } from "~/types/listings";
+import { Category, PropertyTimeUnit } from "~/types/listings";
 
 export type CreateListingBody = {
     title: string;
@@ -19,6 +19,7 @@ export type CreatePropertyListingBody = CreateListingBody & {
     property_type: string;
     bedrooms: number;
     bathrooms: number;
+    time_unit: PropertyTimeUnit;
 }
 
 export type LocationQueryResult = {

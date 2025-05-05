@@ -7,7 +7,7 @@ export default function PropertiesMap() {
 
     useEffect(() => {
         let map = L.map('map').setView(
-            [21.110303, -89.611401], 14
+            [21.110303, -89.611401], 11
         );
 
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {

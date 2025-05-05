@@ -1,0 +1,33 @@
+.container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+}
+
+.mapContainer {
+    width: 65%;
+    height: 100%;
+}
+
+.listingsContainer {
+    width: 35%;
+    height: 100%;
+    overflow-y: auto;
+}
+
+@media only screen and (max-width: 1300px) {
+    .container {
+        flex-direction: column;
+    }
+
+    .mapContainer {
+        width: 100%;
+        height: 40vh;
+    }
+
+    .listingsContainer {
+        width: 100%;
+        height: 60vh;
+        padding: 10px;
+    }
+}
