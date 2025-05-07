@@ -10,6 +10,7 @@ CATEGORIES = [
     'furniture',
     'clothing',
     'sports',
+    'food',
     'scholar',
     'vehicles',
     'property_rentals'
