@@ -1,7 +1,8 @@
 @import "~/styles/variables";
 
 .header {
-    padding: 0 40px;
+    display: flex;
+    gap: $spacing-3xl;
 }
 
 .pfp {
@@ -20,9 +21,22 @@
 
 .fullNameContainer {
     padding-top: $spacing-md;
+    display: flex;
+    gap: $spacing-xl;
 }
 
 .fullName {
-    font-size: 26px;
+    font-size: 22px;
     font-weight: 600;
+}
+
+.actionButton {
+    border: 1px solid $border-color;
+    border-radius: 10px;
+    width: 120px;
+    font-size: 14px;
+
+    &:hover {
+        background-color: $button-hover;
+    }
 }

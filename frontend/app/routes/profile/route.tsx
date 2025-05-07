@@ -16,7 +16,11 @@ export default function Page() {
             <NavbarSmall />
             {!isLoading && (
                 <main className={styles.profilePage}>
-                    <Header pfp_url={user?.profile_picture_url} name={user?.first_name + " " + user?.last_name} />
+                    <Header 
+                        pfp_url={user?.profile_picture_url} 
+                        name={user?.first_name + " " + user?.last_name} 
+                        edit    
+                    />
                 </main>
             )}
         </>
