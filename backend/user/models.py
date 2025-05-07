@@ -41,7 +41,6 @@ class User(AbstractBaseUser):
     phone_verified_at = models.DateTimeField(null=True, blank=True)
 
     profile_picture = models.OneToOneField(Image, on_delete=models.CASCADE, null=True, blank=True)
-    banner = models.OneToOneField(Image, on_delete=models.CASCADE, null=True, blank=True, related_name="banner") 
 
     objects = UserManager()
 
