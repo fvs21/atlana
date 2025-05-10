@@ -27,3 +27,9 @@ html, body {
 .primaryButton {
      @include primary-button;
 }
+
+.flexColContainer {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
