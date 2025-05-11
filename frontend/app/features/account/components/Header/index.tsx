@@ -1,6 +1,6 @@
 import styles from "./styles.module.scss";
 
-export default function Header({ pfp_url, name, edit }: { pfp_url?: string; name?: string, edit: boolean }) {
+export default function Header({ pfp_url, name, bio, edit }: { pfp_url: string; name: string, bio?: string, edit: boolean }) {
     return (
         <div className={styles.header}>
             <div className={styles.content}>

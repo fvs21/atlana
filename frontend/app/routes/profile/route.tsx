@@ -3,7 +3,9 @@ import NavbarSmall from "~/components/navbar-small";
 import styles from "./styles.module.scss";
 import { useUser } from "~/api/client.auth";
 import Header from "~/features/account/components/Header";
-import { GraduationCap } from "lucide-react";
+import Information from "~/features/account/components/Information";
+import Listings from "~/features/account/components/Listings";
+import FooterSmall from "~/components/footer-small";
 
 export const meta: MetaFunction = () => (
     [{ title: "Marketplace: Cuenta" }]
@@ -18,13 +20,21 @@ export default function Page() {
             {!isLoading && (
                 <main className={styles.profilePage}>
                     <Header 
-                        pfp_url={user?.profile_picture_url} 
+                        pfp_url={user?.profile_picture_url!} 
                         name={user?.first_name + " " + user?.last_name} 
                         edit    
                     />
-                    jfksa
+                    <div className={styles.profileContent}>
+                        <Information 
+                            major="Administración de Empresas"
+                            semester={2}
+                            instagram="johndoe"
+                        />
+                        <Listings id={1} />
+                    </div>
                 </main>
             )}
+            <FooterSmall />
         </div>
     )
 }
