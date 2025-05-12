@@ -21,3 +21,16 @@
     grid-auto-flow: row dense;
     gap: 20px 10px;
 }
+
+
+@media only screen and (max-width: 1000px) {
+    .listingsContainer {
+        width: 100%;
+    }
+}
+
+@media only screen and (max-width: 720px) {
+    .listings {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}

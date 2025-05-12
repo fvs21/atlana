@@ -17,7 +17,7 @@ export default function Header({ pfp_url, name, bio, edit }: { pfp_url: string; 
                         )}
                     </div>
                     <div className={styles.bio}>
-                        Estudiante de ingeniería en Yapington University. Amante de la cerveza y la música. Buscando un lugar donde pueda aprender y crecer como profesional.
+                        {bio}
                     </div>
                 </div>
             </div>

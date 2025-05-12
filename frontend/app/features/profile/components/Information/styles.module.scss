@@ -28,3 +28,13 @@
         }
     }
 }
+
+.notAdded {
+    color: gray;
+}
+
+@media only screen and (max-width: 1000px) {
+    .informationContainer {
+        width: 100%;
+    }
+}

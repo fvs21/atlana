@@ -1,17 +1,18 @@
 import ListingCard from "~/components/listing-card";
 import styles from "./styles.module.scss";
 import { useFetchListings } from "~/features/marketplace/api";
+import { useFetchUserListings } from "../../api";
 
 type ListingsProps = {
-    id: number;
+    user_id: number;
 }
 
-export default function Listings({ id }: ListingsProps) {
-    const { data, isLoading } = useFetchListings();
+export default function Listings({ user_id }: ListingsProps) {
+    const { data, isLoading } = useFetchUserListings(user_id);
 
     return (
         <div className={styles.listingsContainer}>
-            <h1 className={styles.title}>Mis publicaciones</h1>
+            <h1 className={styles.title}>Listados</h1>
             <div className={styles.listings}>
                 {!isLoading && (
                     data?.data?.listings.map((listing) => (

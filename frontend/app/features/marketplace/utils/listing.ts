@@ -9,7 +9,6 @@ export const formatTimeSinceUploaded = (date: string) => {
     dayjs.locale(locale_es);
 
     const dateTime = dayjs(date);
-    console.log(dateTime.fromNow());
     
     return dateTime.fromNow();
 }

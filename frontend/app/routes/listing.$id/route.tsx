@@ -19,7 +19,7 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
     const token = await refreshToken({request});
 
     try {
-        const res = await fetchListing(Number(id), token?.data?.access_token as string);
+        const res = await fetchListing(Number(id), token?.data?.access_token!);
         
         return data({
             ...res.data

@@ -34,7 +34,7 @@ export default function NavbarActions() {
                                     </Link>
                                 </li>
                                 <li className={styles.dropdownItem}>
-                                    <Link to="/profile">
+                                    <Link to={"/profile/" + user.id}>
                                         <div className={styles.dropdownLink}>
                                             Cuenta
                                         </div>

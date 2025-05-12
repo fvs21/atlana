@@ -87,3 +87,17 @@ class VerificationData(models.Model):
     
     def is_code_expired(self) -> bool:
         return self.created_at + timedelta(minutes=5) < timezone.now()
+    
+class UserInformation(models.Model):
+    db_table = "user_information"
+
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="information")
+    
+    bio = models.TextField(null=True, blank=True)
+    major = models.CharField(max_length=50, null=True, blank=True)
+    semester = models.SmallIntegerField(null=True, blank=True)
+
+    instagram = models.CharField(max_length=50, null=True, blank=True)
+
+    def __str__(self) -> str:
+        return f"{self.user.first_name} {self.user.last_name} - {self.company_name}"
