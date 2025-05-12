@@ -22,7 +22,6 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
             id: Number(id),
             token: token?.data?.access_token!
         });
-    
 
         return data({
             ...res.data
