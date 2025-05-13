@@ -3,6 +3,7 @@ from rest_framework.decorators import action
 from django.http import HttpRequest, JsonResponse
 
 from authentication.serializers import *
+from user.models import UserInformation
 from user.serializers import UserSerializer
 from . import service
 from django.contrib.auth import authenticate
@@ -24,6 +25,8 @@ class AuthenticationViewSet(viewsets.ViewSet):
             }, status=400)
         
         user = serializer.save()
+
+        UserInformation.objects.create(user=user)
 
         service.generate_and_send_verification_email(user)
 

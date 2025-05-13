@@ -1,6 +1,8 @@
 import { useUser } from "~/api/client.auth";
 import styles from "./styles.module.scss";
 import { Link } from "@remix-run/react";
+import { Button } from "~/components/ui/button";
+import { cn } from "~/lib/utils";
 
 export default function Header({ user_id, pfp_url, name, bio }: { user_id: number, pfp_url: string; name: string, bio?: string }) {
     const { user, isLoading } = useUser();
@@ -11,12 +13,12 @@ export default function Header({ user_id, pfp_url, name, bio }: { user_id: numbe
                 <div className={styles.pfp}>
                     <img src={pfp_url} alt="Profile" />
                 </div>
-                <div>
+                <div className="w-full">
                     <div className={styles.fullNameContainer}>
                         <h1 className={styles.fullName}>{name}</h1>
                         {!isLoading && (
                             user_id == user?.id && (
-                                <Link to={"/settings"}>
+                                <Link to={"/settings/edit"}>
                                     <button className={styles.actionButton}>
                                         Editar perfil
                                     </button>
@@ -27,7 +29,13 @@ export default function Header({ user_id, pfp_url, name, bio }: { user_id: numbe
                     <div className={styles.bio}>
                         {bio}
                     </div>
-
+                    {!isLoading && (
+                        user_id != user?.id && (
+                            <Button className={cn(styles.sendMessageButton, "primaryButton")}>
+                                Enviar Mensaje
+                            </Button>
+                        )
+                    )}
                 </div>
             </div>
         </div>

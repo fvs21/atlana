@@ -1,10 +1,31 @@
 from rest_framework import serializers
 
 
-from .models import User
+from .models import User, UserInformation
+
+class UserInformationSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = UserInformation
+        fields = [
+            'bio',
+            'major',
+            'semester',
+            'instagram'
+        ]
+
+    def update(self, instance, validated_data):
+        instance.bio = validated_data.get('bio', instance.bio)
+        instance.major = validated_data.get('major', instance.major)
+        instance.semester = validated_data.get('semester', instance.semester)
+        instance.instagram = validated_data.get('instagram', instance.instagram)
+        instance.save()
+        return instance
+        
 
 class UserSerializer(serializers.ModelSerializer):
     full_name = serializers.SerializerMethodField()
+    information = UserInformationSerializer()
 
     def get_full_name(self, obj):
         return f"{obj.first_name} {obj.last_name}"
@@ -19,22 +40,21 @@ class UserSerializer(serializers.ModelSerializer):
             'full_name', 
             'profile_picture_url',
             'has_email_verified',
+            'information',
         ]
 
 class ProfileSerializer(serializers.ModelSerializer):
+    information = UserInformationSerializer()
+    full_name = serializers.SerializerMethodField()
+
+    def get_full_name(self, obj):
+        return f"{obj.first_name} {obj.last_name}"
+    
     class Meta:
         model = User
         fields = [
             'id',
-            'first_name', 
-            'last_name', 
+            'full_name',
             'profile_picture_url',
             'information'
         ]
-
-        extra_kwargs = {
-            'information': {
-                'required': False,
-                'allow_null': True
-            }
-        }

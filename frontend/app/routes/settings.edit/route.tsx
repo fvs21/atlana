@@ -4,11 +4,35 @@ import TextArea from "~/components/text-area";
 import ValidatedInput from "~/components/validated-input";
 import { Button } from "~/components/ui/button";
 import { cn } from "~/lib/utils";
+import { useUser } from "~/api/client.auth";
+import { useEditProfile } from "~/features/settings/api";
+import { UserInformation } from "~/types/globals";
+import { toast } from "sonner";
 
 export default function Page() {
+    const { user } = useUser();
+
+    const { editProfile, isPending, editProfileDisabled } = useEditProfile();
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
+        const formData = new FormData(e.currentTarget);
+
+        const data: UserInformation = {
+            bio: formData.get("bio") as string,
+            major: formData.get("major") as string,
+            semester: Number(formData.get("semester")),
+            instagram: formData.get("instagram") as string,
+        };
+
+        await editProfile(data);
+        toast.success("Perfil actualizado");
+    }
+    
     return (
         <main>
-            <form className={styles.editProfileContainer}>
+            <form className={styles.editProfileContainer} onSubmit={handleSubmit}>
                 <h1 className={styles.title}>
                     Editar perfil
                 </h1>
@@ -17,6 +41,7 @@ export default function Page() {
                     label="Bio"
                     name="bio"
                     className={styles.profileInput}
+                    defaultValue={user?.information?.bio || ""}
                 />
                 <ValidatedInput
                     label="Carrera"
@@ -24,6 +49,7 @@ export default function Page() {
                     type="text"
                     className={styles.profileInput}
                     placeholder="Agrega tu carrera"
+                    defaultValue={user?.information?.major || ""}
                 />
                 <ValidatedInput
                     label="Semestre"
@@ -31,6 +57,7 @@ export default function Page() {
                     type="number"
                     className={styles.profileInput}
                     placeholder="Agrega tu semestre"
+                    defaultValue={user?.information?.semester || ""}
                 />
                 <ValidatedInput
                     label="Instagram"
@@ -38,9 +65,10 @@ export default function Page() {
                     type="text"
                     className={styles.profileInput}
                     placeholder="Agrega tu usuario de Instagram"
+                    defaultValue={user?.information?.instagram || ""}
                 />
                 <div className={styles.submitButtonContainer}>
-                    <Button className={cn("primaryButton", styles.submitButton)}>
+                    <Button className={cn("primaryButton", styles.submitButton)} type="submit" disabled={editProfileDisabled}>
                         Guardar
                     </Button>
                 </div>

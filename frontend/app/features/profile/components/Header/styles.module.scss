@@ -59,6 +59,11 @@
     font-size: 14px;
 }
 
+.sendMessageButton {
+    width: 100%;
+    margin-top: $spacing-lg;
+}
+
 @media only screen and (max-width: 768px) {
     .header {
         gap: $spacing-xl;

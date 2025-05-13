@@ -98,6 +98,3 @@ class UserInformation(models.Model):
     semester = models.SmallIntegerField(null=True, blank=True)
 
     instagram = models.CharField(max_length=50, null=True, blank=True)
-
-    def __str__(self) -> str:
-        return f"{self.user.first_name} {self.user.last_name} - {self.company_name}"
