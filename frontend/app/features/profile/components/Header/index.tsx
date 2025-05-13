@@ -1,6 +1,10 @@
+import { useUser } from "~/api/client.auth";
 import styles from "./styles.module.scss";
+import { Link } from "@remix-run/react";
 
-export default function Header({ pfp_url, name, bio, edit }: { pfp_url: string; name: string, bio?: string, edit: boolean }) {
+export default function Header({ user_id, pfp_url, name, bio }: { user_id: number, pfp_url: string; name: string, bio?: string }) {
+    const { user, isLoading } = useUser();
+    
     return (
         <div className={styles.header}>
             <div className={styles.content}>
@@ -10,15 +14,20 @@ export default function Header({ pfp_url, name, bio, edit }: { pfp_url: string; 
                 <div>
                     <div className={styles.fullNameContainer}>
                         <h1 className={styles.fullName}>{name}</h1>
-                        {edit ? (
-                            <button className={styles.actionButton}>Editar perfil</button>
-                        ) : (
-                            <button className={styles.actionButton}>Enviar mensaje</button>
+                        {!isLoading && (
+                            user_id == user?.id && (
+                                <Link to={"/settings"}>
+                                    <button className={styles.actionButton}>
+                                        Editar perfil
+                                    </button>
+                                </Link>
+                            )
                         )}
                     </div>
                     <div className={styles.bio}>
                         {bio}
                     </div>
+
                 </div>
             </div>
         </div>

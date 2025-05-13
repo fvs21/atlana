@@ -1,6 +1,6 @@
-import { Bookmark, ShoppingCart, User } from "lucide-react";
+import { LogOut, Settings, ShoppingCart, User } from "lucide-react";
 import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger } from "../ui/navigation-menu";
-import { useUser } from "~/api/client.auth";
+import { useLogout, useUser } from "~/api/client.auth";
 import React from "react";
 import { Link, useNavigate } from "@remix-run/react";
 import styles from "./styles.module.scss";
@@ -11,6 +11,17 @@ export default function NavbarActions() {
     const { user, isLoading } = useUser();
     const navigate = useNavigate();
 
+    const { logout } = useLogout();
+
+    async function handleLogout() {
+        try {
+            await logout();
+            navigate("/login");
+        } catch {
+            console.error("Error logging out");
+        }
+    }
+
     if (isLoading) {
         return <></>
     }
@@ -20,32 +31,35 @@ export default function NavbarActions() {
             <NavigationMenuList className={styles.actions}>
                 {user ? (
                     <NavigationMenuItem className={styles.dissapearingActionButtons}>
-                        <NavigationMenuTrigger className={cn(styles.iconButton, styles.userIconButton)} onClick={() => navigate("/dashboard")}>
+                        <NavigationMenuTrigger className={cn(styles.iconButton, styles.userIconButton)}>
                             <img src={user.profile_picture_url} className={styles.profilePicture}/>
                             {user.first_name}
                         </NavigationMenuTrigger>
                         <NavigationMenuContent>
                             <ul className={styles.userDropdown}>
                                 <li className={styles.dropdownItem}>
-                                    <Link to="/dashboard">
-                                        <div className={styles.dropdownLink}>
-                                           Panel
-                                        </div>
-                                    </Link>
-                                </li>
-                                <li className={styles.dropdownItem}>
                                     <Link to={"/profile/" + user.id}>
                                         <div className={styles.dropdownLink}>
+                                            <User size={18} />
                                             Cuenta
                                         </div>
                                     </Link>
                                 </li>
                                 <li className={styles.dropdownItem}>
-                                    <Link to="/logout">
+                                    <Link to={"/settings/edit"}>
                                         <div className={styles.dropdownLink}>
-                                            Cerrar sesión
+                                            <Settings size={18} />
+                                            Configuración
                                         </div>
                                     </Link>
+                                </li>
+                                <li className={styles.dropdownItem}>
+                                    <NavigationMenuItem onClick={handleLogout}>
+                                        <div className={styles.dropdownLink}>
+                                            <LogOut size={18}/>
+                                            Cerrar sesión
+                                        </div>
+                                    </NavigationMenuItem>
                                 </li>
                             </ul>
                         </NavigationMenuContent>

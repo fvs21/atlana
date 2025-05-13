@@ -35,7 +35,7 @@ export default function LoginForm() {
     
     const navigate = useNavigate();
 
-    const { login, isPending, loginDisabled } = useLogin();
+    const { login, loginDisabled } = useLogin();
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -54,7 +54,7 @@ export default function LoginForm() {
 
         try {
             await login({email, password});
-            navigate("/dashboard");
+            navigate("/marketplace");
         } catch {
             setErrors({
                 email: "",

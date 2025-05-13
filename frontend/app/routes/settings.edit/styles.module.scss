@@ -1,0 +1,29 @@
+@import "~/styles/variables";
+
+.editProfileContainer {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: $spacing-2xl $spacing-2xl;
+
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-xl;
+}
+
+.title {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.profileInput {
+    border-radius: 10px;
+}
+
+.submitButtonContainer {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.submitButton {
+    width: 200px;
+}

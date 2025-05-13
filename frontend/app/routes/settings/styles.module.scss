@@ -1,0 +1,47 @@
+@import "~/styles/variables";
+
+.settingsContainer {
+    display: flex;
+    flex-grow: 1;
+}
+
+.settingsSidebar {
+    min-width: 350px;
+    height: 100%;
+    border-right: 1px solid $border-color;
+    padding: $spacing-xl $spacing-lg;
+}
+
+.settingsContent {
+    width: 100%;
+}
+
+.title {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.settingsLinks {
+    margin-top: $spacing-lg;
+    display: flex;
+    flex-direction: column;
+}
+
+.settingsLink {
+    width: 100%;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    font-size: 15px;
+    border-radius: 8px;
+
+    &:hover {
+        background-color: $button-hover;
+    }
+}
+
+.active {
+    background-color: $button-hover;
+}

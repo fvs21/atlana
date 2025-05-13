@@ -1,7 +1,6 @@
 import { MetaFunction, useLoaderData } from "@remix-run/react";
 import NavbarSmall from "~/components/navbar-small";
 import styles from "./styles.module.scss";
-import { useUser } from "~/api/client.auth";
 import Header from "~/features/profile/components/Header";
 import Information from "~/features/profile/components/Information";
 import Listings from "~/features/profile/components/Listings";
@@ -9,6 +8,7 @@ import FooterSmall from "~/components/footer-small";
 import { data, LoaderFunctionArgs } from "@remix-run/node";
 import { onlyAuthenticated, refreshToken } from "~/api/server.auth";
 import { getProfileInformation } from "~/features/profile/api/server";
+import { useUser } from "~/api/client.auth";
 
 export async function loader({ request, params }: LoaderFunctionArgs) {
     onlyAuthenticated({ request });
@@ -35,38 +35,32 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
 }
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => (
-    [{ title: "Marketplace: " + `${data?.profile?.first_name} ${data?.profile?.last_name}` }]
+    [{ title: `${data?.profile?.first_name} ${data?.profile?.last_name}` }]
 )
 
 export default function Page() {
-    const { user, isLoading } = useUser();
-
     const data = useLoaderData<typeof loader>();
 
     return (
         <div className="flexColContainer">
             <NavbarSmall />
             <main className={styles.profilePage}>
-                {!isLoading && (
-                    <>
-                        <Header
-                            pfp_url={data.profile?.profile_picture_url!}
-                            name={`${data.profile?.first_name} ${data.profile?.last_name}`}
-                            bio={data.profile?.information?.bio}
-                            edit
-                        />
-                        <div className={styles.profileContent}>
-                            <Information
-                                major={data.profile?.information?.major || ""}
-                                semester={data.profile?.information?.semester || -1}
-                                instagram={data.profile?.information?.instagram || ""}
-                            />
-                            <Listings
-                                user_id={1}
-                            />
-                        </div>
-                    </>
-                )}
+                <Header
+                    pfp_url={data.profile?.profile_picture_url!}
+                    name={`${data.profile?.first_name} ${data.profile?.last_name}`}
+                    bio={data.profile?.information?.bio}
+                    user_id={data.profile?.id!}
+                />
+                <div className={styles.profileContent}>
+                    <Information
+                        major={data.profile?.information?.major || ""}
+                        semester={data.profile?.information?.semester || -1}
+                        instagram={data.profile?.information?.instagram || ""}
+                    />
+                    <Listings
+                        user_id={data.profile?.id!}
+                    />
+                </div>
             </main>
             <FooterSmall />
         </div>
