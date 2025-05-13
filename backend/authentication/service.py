@@ -4,7 +4,7 @@ from django.http import HttpRequest, JsonResponse
 from authentication.utils import AuthenticationUtils
 from user.models import User, VerificationData
 from user.serializers import UserSerializer
-from rest_framework_simplejwt.tokens import RefreshToken
+from rest_framework_simplejwt.tokens import RefreshToken, AccessToken
 from backend.settings import REFRESH_TOKEN_DURATION
 from django.contrib.auth.hashers import make_password, check_password
 from django.utils import timezone

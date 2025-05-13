@@ -67,6 +67,7 @@ INSTALLED_APPS = [
     'listing.apps.ListingConfig',
     'location.apps.LocationConfig',
     'marketplace.apps.MarketplaceConfig',
+    'chat.apps.ChatConfig',
     'rest_framework_simplejwt.token_blacklist',
     'corsheaders',
     'django.contrib.admin',
@@ -107,7 +108,16 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'backend.wsgi.application'
+ASGI_APPLICATION = 'backend.asgi.application'
 
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [(os.environ.get('REDIS_HOST'), os.environ.get('REDIS_PORT'))],
+        },
+    }
+}
 
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
@@ -163,5 +173,3 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-ASGI_APPLICATION = 'backend.asgi.application'

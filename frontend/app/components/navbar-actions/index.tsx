@@ -1,4 +1,4 @@
-import { LogOut, Settings, ShoppingCart, User } from "lucide-react";
+import { LogOut, MessageCircle, Settings, ShoppingCart, User } from "lucide-react";
 import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger } from "../ui/navigation-menu";
 import { useLogout, useUser } from "~/api/client.auth";
 import React from "react";
@@ -42,6 +42,14 @@ export default function NavbarActions() {
                                         <div className={styles.dropdownLink}>
                                             <User size={18} />
                                             Cuenta
+                                        </div>
+                                    </Link>
+                                </li>
+                                <li className={styles.dropdownItem}>
+                                    <Link to={"/messages"}>
+                                        <div className={styles.dropdownLink}>
+                                            <MessageCircle size={18} />
+                                            Mensajes
                                         </div>
                                     </Link>
                                 </li>

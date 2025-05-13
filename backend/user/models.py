@@ -62,8 +62,8 @@ class User(AbstractBaseUser):
     def has_email_verified(self) -> bool:
         return self.email_verified_at is not None
     
-    def has_phone_verified(self) -> bool:
-        return self.phone_verified_at is not None
+    def full_name(self) -> str:
+        return f"{self.first_name} {self.last_name}"
 
 class VerificationData(models.Model):
     db_table = "verification_data"
