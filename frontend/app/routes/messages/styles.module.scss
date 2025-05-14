@@ -1,0 +1,27 @@
+@import "~/styles/variables";
+
+.chatsContainer {
+    display: flex;
+    height: 100%;
+}
+
+.chatsList {
+    width: 400px;
+    border-right: 1px solid $border-color;
+}
+
+.chatsListHeader {
+    padding: $spacing-xl;
+}
+
+.chatsListTitle {
+    font-size: 26px;
+    font-weight: 600;
+}
+
+.chatListBody {
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    width: 100%;
+}

@@ -1,6 +1,10 @@
 from user.models import User
-from .models import Message
+from .models import Chat, Message
 from rest_framework import serializers
+
+class NewChatSerializer(serializers.Serializer):
+    receiver_id = serializers.IntegerField()
+    message = serializers.CharField(max_length=500)
 
 class SenderSerializer(serializers.ModelSerializer):
     class Meta:
@@ -25,3 +29,41 @@ class MessageSerializer(serializers.ModelSerializer):
         ]
 
         read_only_fields = ['id', 'chat', 'sender', 'timestamp']
+
+class LastMessageSerializer(serializers.ModelSerializer):
+    sender = serializers.SerializerMethodField()
+
+    def get_sender(self, obj):
+        if obj.sender == self.context['user']:
+            return "you"
+        else:
+            return "other"
+        
+    class Meta:
+        model = Message
+        fields = [
+            'id',
+            'sender',
+            'content',
+            'timestamp'
+        ]
+
+class ChatSerializer(serializers.ModelSerializer):
+    participants = serializers.SerializerMethodField()
+    last_message = serializers.SerializerMethodField()
+
+    def get_participants(self, obj):
+        other_participants = obj.participants.exclude(id=self.context['user'].id)
+        return SenderSerializer(other_participants, many=True).data
+    
+    def get_last_message(self, obj):
+        return LastMessageSerializer(obj.get_last_message(), context=self.context).data
+
+    class Meta:
+        model = Chat
+        fields = [
+            'id',
+            'participants',
+            'created_at',
+            'last_message',
+        ]

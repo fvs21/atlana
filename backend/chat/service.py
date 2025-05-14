@@ -1,5 +1,5 @@
 
-from typing import Tuple
+from typing import List, Tuple
 from user.models import User
 from chat.models import Chat, Message
 
@@ -54,3 +54,37 @@ async def new_message(chat: Chat, sender: User, message: str) -> Message:
         Create a new message in the chat.
     """
     return await chat.messages.acreate(sender=sender, content=message)
+
+def get_user_chats(user: User) -> List[Chat]:
+    """
+        Get all chats for a user.
+    """
+    return Chat.objects.filter(participants=user).all()
+
+def get_chat_messages(chat_id: int) -> List[Message]:
+    """
+        Get all messages for a chat.
+    """
+    chat = Chat.objects.filter(id=chat_id).first()
+
+    if not chat:
+        return []
+
+    return chat.messages.all()
+
+def chat_exists(chat_id: int) -> bool:
+    """
+        Check if a chat exists.
+    """
+    return Chat.objects.filter(id=chat_id).exists()
+
+def can_user_view_chat(user: User, chat_id: int) -> bool:
+    """
+        Check if the user can view chat messages.
+    """
+    chat = Chat.objects.filter(id=chat_id).first()
+
+    if not chat:
+        return False
+    
+    return user in chat.participants.all()

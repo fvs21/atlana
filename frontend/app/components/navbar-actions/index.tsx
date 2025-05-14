@@ -32,44 +32,42 @@ export default function NavbarActions() {
                 {user ? (
                     <NavigationMenuItem className={styles.dissapearingActionButtons}>
                         <NavigationMenuTrigger className={cn(styles.iconButton, styles.userIconButton)}>
-                            <img src={user.profile_picture_url} className={styles.profilePicture}/>
+                            <img src={user.profile_picture_url} className={styles.profilePicture} />
                             {user.first_name}
                         </NavigationMenuTrigger>
                         <NavigationMenuContent>
-                            <ul className={styles.userDropdown}>
-                                <li className={styles.dropdownItem}>
+                            <div className={styles.userDropdown}>
+                                <div className={styles.dropdownItem}>
                                     <Link to={"/profile/" + user.id}>
                                         <div className={styles.dropdownLink}>
                                             <User size={18} />
                                             Cuenta
                                         </div>
                                     </Link>
-                                </li>
-                                <li className={styles.dropdownItem}>
+                                </div>
+                                <div className={styles.dropdownItem}>
                                     <Link to={"/messages"}>
                                         <div className={styles.dropdownLink}>
                                             <MessageCircle size={18} />
                                             Mensajes
                                         </div>
                                     </Link>
-                                </li>
-                                <li className={styles.dropdownItem}>
+                                </div>
+                                <div className={styles.dropdownItem}>
                                     <Link to={"/settings/edit"}>
                                         <div className={styles.dropdownLink}>
                                             <Settings size={18} />
                                             Configuración
                                         </div>
                                     </Link>
-                                </li>
-                                <li className={styles.dropdownItem}>
-                                    <NavigationMenuItem onClick={handleLogout}>
-                                        <div className={styles.dropdownLink}>
-                                            <LogOut size={18}/>
-                                            Cerrar sesión
-                                        </div>
-                                    </NavigationMenuItem>
-                                </li>
-                            </ul>
+                                </div>
+                                <div className={styles.dropdownItem} onClick={handleLogout}>
+                                    <div className={styles.dropdownLink}>
+                                        <LogOut size={18} />
+                                        Cerrar sesión
+                                    </div>
+                                </div>
+                            </div>
                         </NavigationMenuContent>
                     </NavigationMenuItem>
                 ) : (
