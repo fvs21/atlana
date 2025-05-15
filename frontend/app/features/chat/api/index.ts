@@ -8,7 +8,7 @@ export function useGetChats() {
         queryKey: ["chats"],
         queryFn: async () => {
             const res = await api.get<ResponseBody<{ chats: ChatListItem[] }>>("/chat/all");
-            return res.data;
+            return res.data.data;
         },
         refetchOnWindowFocus: false,
     });

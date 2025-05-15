@@ -26,3 +26,16 @@ export type GetChatResponse = {
     chat: Chat;
     messages: Message[];
 }
+
+export type ChatNotification = {
+    id: number;
+    sender: ChatParticipant;
+    content: string;
+    timestamp: string;
+    chat_id: number;
+}
+
+export type ChatEvent = {
+    type: "chat_notification" | "chat_message";
+    data: ChatNotification | Message;
+}

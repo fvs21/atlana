@@ -5,6 +5,7 @@ from django.db import models
 class Chat(models.Model):
     participants = models.ManyToManyField('user.User', related_name='chats')
     created_at = models.DateTimeField(auto_now_add=True)
+    has_messages = models.BooleanField(default=False)
 
     def get_last_message(self):        
         return self.messages.order_by('-timestamp').first()

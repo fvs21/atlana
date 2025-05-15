@@ -10,10 +10,14 @@ import categories from "~/constants/categories";
 import { PropertyTypes } from "~/constants/property";
 import LocationDisplay from "./LocationDisplay.client";
 import { ClientOnly } from "remix-utils/client-only";
+import ListingActions from "../ListingActions";
+import { useUser } from "~/api/client.auth";
 
 export default function Listing({ listing }: { listing: ListingType | PropertyListing }) {
     const isProperty = listing.category == "property_rentals";
     const category_name = categories.find((cat) => cat.value === listing.category)?.name;
+
+    const { user, isLoading } = useUser();
 
     return (
         <div className={styles.listingContainer}>
@@ -92,16 +96,14 @@ export default function Listing({ listing }: { listing: ListingType | PropertyLi
                             </div>
                         </div>
                     </div>
-                    <div className={styles.actionsContainer}>
-                        <Button className="primaryButton">
-                            <MessageCircle />
-                            Enviar mensaje
-                        </Button>
-                        <Button className="primaryButton">
-                            <Bookmark />
-                            Guardar
-                        </Button>
-                    </div>
+                    {!isLoading && (
+                        listing.creator.id != user?.id && (
+                            <ListingActions 
+                                listing_id={listing.id}
+                                creator_id={listing.creator.id}
+                            />
+                        )
+                    )}
                 </div>
             </div>
         </div>

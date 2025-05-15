@@ -2,10 +2,11 @@ import { MetaFunction, Outlet } from "@remix-run/react";
 import { useEffect } from "react";
 import { useToken } from "~/api/client.auth";
 import NavbarSmall from "~/components/navbar-small";
-import { useUserChatsSocket } from "~/features/chat/store";
+import { useUserChatsMutations, useUserChatsSocket } from "~/features/chat/store";
 import styles from "./styles.module.scss";
 import { useGetChats } from "~/features/chat/api";
 import ChatListItem from "~/features/chat/components/ChatListItem";
+import { ChatNotification } from "~/features/chat/types";
 
 export const meta: MetaFunction = () => (
     [
@@ -14,22 +15,22 @@ export const meta: MetaFunction = () => (
 )
 
 export default function Page() {
-    const [socket, setSocket] = useUserChatsSocket();
+    const [, setSocket] = useUserChatsSocket();
     const [token] = useToken();
 
     const { data, isLoading } = useGetChats();
+    const { chatNotification } = useUserChatsMutations(); 
 
     useEffect(() => {
         const socket = new WebSocket("ws://localhost:8000/ws/chats/?token=" + token);
         setSocket(socket);
 
-        socket.onopen = () => {
-            console.log("WebSocket connection opened");
-        }
-
         socket.onmessage = (event) => {
             const data = JSON.parse(event.data);
-            console.log("WebSocket message received:", data);
+            
+            if (data.type === "chat_notification") {
+                chatNotification(data.data as ChatNotification);
+            }
         }
 
         return () => {
@@ -49,7 +50,7 @@ export default function Page() {
                             <h2 className={styles.chatsListTitle}>Mensajes</h2>
                         </div>
                         <div className={styles.chatListBody}>
-                            {data?.data?.chats.map((chat) => (
+                            {data?.chats.map((chat) => (
                                 <ChatListItem 
                                     key={chat.id}
                                     chat={chat}

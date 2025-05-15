@@ -8,11 +8,8 @@ async def can_user_join_chat(user: User, chat_id: int) -> bool:
     """
         Check if the user can join the chat.
     """
-    # Assuming you have a Chat model with a ManyToMany relationship with User
-
     try:
         return await Chat.objects.filter(id=chat_id, participants=user).aexists()
-
     except Chat.DoesNotExist:
         return False
     
@@ -55,17 +52,25 @@ async def new_message(chat_id: int, sender: User, message: str) -> Message:
     """
     chat = await Chat.objects.aget(id=chat_id)
 
-    return await Message.objects.acreate(
+    message = await Message.objects.acreate(
         chat=chat,
         sender=sender,
         content=message
     )
 
+    if not chat.has_messages:
+        chat.has_messages = True
+        await chat.asave()
+
+    return message
+
 def get_user_chats(user: User) -> List[Chat]:
     """
         Get all chats for a user.
+        Ignore created chats with no messages.
     """
-    return Chat.objects.filter(participants=user).all()
+
+    return Chat.objects.filter(participants=user, has_messages=True).all()
 
 def get_chat_messages(chat_id: int) -> List[Message]:
     """
@@ -107,3 +112,11 @@ def get_chat_information(chat_id: int) -> Tuple[Chat, List[Message]]:
     messages = chat.messages.all().order_by('-timestamp')
 
     return chat, messages
+
+def get_or_create_chat(sender: User, receiver_id: int) -> Chat:
+    """
+        Get or create a chat between two users.
+    """
+    chat, _ = Chat.objects.filter(participants=sender).filter(participants__id=receiver_id).get_or_create()
+
+    return chat
