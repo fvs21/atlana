@@ -1,4 +1,4 @@
-import { MetaFunction } from "@remix-run/react";
+import { MetaFunction, Outlet } from "@remix-run/react";
 import { useEffect } from "react";
 import { useToken } from "~/api/client.auth";
 import NavbarSmall from "~/components/navbar-small";
@@ -51,11 +51,13 @@ export default function Page() {
                         <div className={styles.chatListBody}>
                             {data?.data?.chats.map((chat) => (
                                 <ChatListItem 
+                                    key={chat.id}
                                     chat={chat}
                                 />
                             ))}
                         </div>
                     </div>
+                    <Outlet />
                 </div>
             )}
         </div>

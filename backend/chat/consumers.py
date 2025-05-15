@@ -83,12 +83,12 @@ class ChatConsumer(AsyncWebsocketConsumer):
         message_data = text_data_json['message']
 
         message = await service.new_message(self.chat_id, self.scope['user'], message_data)
-        
+
         await self.channel_layer.group_send(
             self.room_group_name,
             {
                 'type': 'chat.message',
-                'message': MessageSerializer(message).data
+                'message': MessageSerializer(message, context={'user': self.scope['user']}).data
             }
         )
         

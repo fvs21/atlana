@@ -6,12 +6,13 @@
 }
 
 .chatsList {
-    width: 400px;
+    min-width: 400px;
     border-right: 1px solid $border-color;
+    overflow-y: auto;
 }
 
 .chatsListHeader {
-    padding: $spacing-xl;
+    padding: $spacing-lg;
 }
 
 .chatsListTitle {
@@ -22,6 +23,8 @@
 .chatListBody {
     display: flex;
     flex-direction: column;
+    gap: $spacing-xs;
     overflow-y: auto;
     width: 100%;
+    padding: 6px;
 }

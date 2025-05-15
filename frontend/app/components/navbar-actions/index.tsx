@@ -46,7 +46,7 @@ export default function NavbarActions() {
                                     </Link>
                                 </div>
                                 <div className={styles.dropdownItem}>
-                                    <Link to={"/messages"}>
+                                    <Link to={"/direct"}>
                                         <div className={styles.dropdownLink}>
                                             <MessageCircle size={18} />
                                             Mensajes

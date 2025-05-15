@@ -31,7 +31,7 @@ export default function Page() {
     }
     
     return (
-        <main>
+        <main className="overflow-y-auto">
             <form className={styles.editProfileContainer} onSubmit={handleSubmit}>
                 <h1 className={styles.title}>
                     Editar perfil

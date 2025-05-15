@@ -2,7 +2,7 @@ from django.http import HttpRequest, JsonResponse
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 
-from .serializers import ChatSerializer, MessageSerializer
+from .serializers import ChatListItemSerializer, ChatSerializer, MessageSerializer
 
 from . import service
 from authentication.service import get_user_by_id
@@ -17,11 +17,11 @@ class ChatsViewset(viewsets.ViewSet):
 
         return JsonResponse({
             "data": {
-                "chats": ChatSerializer(chats, many=True, context={"user": user}).data
+                "chats": ChatListItemSerializer(chats, many=True, context={"user": user}).data
             }
         }, status=200)
     
-    def get_chat_messages(self, request: HttpRequest, chat_id: int) -> JsonResponse:
+    def get_chat(self, request: HttpRequest, chat_id: int) -> JsonResponse:
         user = get_user_by_id(request.user.id)
 
         if not service.chat_exists(chat_id):
@@ -36,10 +36,11 @@ class ChatsViewset(viewsets.ViewSet):
                 "code": "cannot_view_chat"
             }, status=403)
         
-        messages = service.get_chat_messages(chat_id)
+        chat, messages = service.get_chat_information(chat_id)
 
         return JsonResponse({
             "data": {
-                "messages": MessageSerializer(messages, many=True).data
+                "chat": ChatSerializer(chat, context={"user": user}).data,
+                "messages": MessageSerializer(messages, context={'user': user}, many=True).data
             }
         }, status=200)

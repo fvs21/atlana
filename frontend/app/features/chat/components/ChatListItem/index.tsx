@@ -1,12 +1,17 @@
-import { Link } from "@remix-run/react";
-import { Chat } from "../../types";
+import { Link, useParams } from "@remix-run/react";
+import { ChatListItem as ChatListItemType } from "../../types";
 import styles from "./styles.module.scss";
 import dayjs from "dayjs";
+import { cn } from "~/lib/utils";
 
-export default function ChatListItem({ chat }: { chat: Chat }) {
+export default function ChatListItem({ chat }: { chat: ChatListItemType }) {
+    const params = useParams();
+
+    const currentChat = params?.chat_id || "";    
+    
     return (
-        <Link to={`/messages/${chat.id}`} className="w-full">
-            <button className={styles.chatListItem}>
+        <Link to={`/direct/${chat.id}`} className="w-full">
+            <button className={cn(styles.chatListItem, Number(currentChat) === chat.id ? styles.active : "")}>
                 <div className={styles.profilePictureContainer}>
                     <img 
                         src={chat.participants[0].profile_picture_url}

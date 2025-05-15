@@ -1,0 +1,17 @@
+@import "~/styles/variables";
+
+.chat {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.chatBody {
+    flex: 1 1 0px;
+    display: flex;
+    flex-direction: column-reverse;
+    padding: 0 $spacing-xl;
+    overflow-y: auto;
+    padding-top: $spacing-xs;
+}

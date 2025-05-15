@@ -1,0 +1,22 @@
+@import "~/styles/variables";
+
+.header {
+    height: 55px;
+    border-bottom: 1px solid $border-color;
+    padding: $spacing-xs $spacing-lg;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+}
+
+.chatPicture {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.chatName {
+    font-size: 15px;
+    font-weight: 500;
+}

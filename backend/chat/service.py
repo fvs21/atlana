@@ -11,8 +11,8 @@ async def can_user_join_chat(user: User, chat_id: int) -> bool:
     # Assuming you have a Chat model with a ManyToMany relationship with User
 
     try:
-        chat = await Chat.objects.aget(id=chat_id)
-        return user in chat.participants.all()
+        return await Chat.objects.filter(id=chat_id, participants=user).aexists()
+
     except Chat.DoesNotExist:
         return False
     
@@ -49,11 +49,17 @@ async def create_chat(sender: User, receiver_id: int, message: str) -> Tuple[Cha
 
     return chat, message
 
-async def new_message(chat: Chat, sender: User, message: str) -> Message:
+async def new_message(chat_id: int, sender: User, message: str) -> Message:
     """
         Create a new message in the chat.
     """
-    return await chat.messages.acreate(sender=sender, content=message)
+    chat = await Chat.objects.aget(id=chat_id)
+
+    return await Message.objects.acreate(
+        chat=chat,
+        sender=sender,
+        content=message
+    )
 
 def get_user_chats(user: User) -> List[Chat]:
     """
@@ -88,3 +94,16 @@ def can_user_view_chat(user: User, chat_id: int) -> bool:
         return False
     
     return user in chat.participants.all()
+
+def get_chat_information(chat_id: int) -> Tuple[Chat, List[Message]]:
+    """
+        Get chat information and messages.
+    """
+    chat = Chat.objects.filter(id=chat_id).first()
+
+    if not chat:
+        return None, []
+
+    messages = chat.messages.all().order_by('-timestamp')
+
+    return chat, messages

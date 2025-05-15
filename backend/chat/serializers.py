@@ -16,13 +16,10 @@ class SenderSerializer(serializers.ModelSerializer):
         ]
 
 class MessageSerializer(serializers.ModelSerializer):
-    sender = SenderSerializer()
-
     class Meta:
         model = Message
         fields = [
             'id', 
-            'chat', 
             'sender', 
             'content', 
             'timestamp'
@@ -30,25 +27,7 @@ class MessageSerializer(serializers.ModelSerializer):
 
         read_only_fields = ['id', 'chat', 'sender', 'timestamp']
 
-class LastMessageSerializer(serializers.ModelSerializer):
-    sender = serializers.SerializerMethodField()
-
-    def get_sender(self, obj):
-        if obj.sender == self.context['user']:
-            return "you"
-        else:
-            return "other"
-        
-    class Meta:
-        model = Message
-        fields = [
-            'id',
-            'sender',
-            'content',
-            'timestamp'
-        ]
-
-class ChatSerializer(serializers.ModelSerializer):
+class ChatListItemSerializer(serializers.ModelSerializer):
     participants = serializers.SerializerMethodField()
     last_message = serializers.SerializerMethodField()
 
@@ -57,13 +36,26 @@ class ChatSerializer(serializers.ModelSerializer):
         return SenderSerializer(other_participants, many=True).data
     
     def get_last_message(self, obj):
-        return LastMessageSerializer(obj.get_last_message(), context=self.context).data
+        return MessageSerializer(obj.get_last_message(), context=self.context).data
 
     class Meta:
         model = Chat
         fields = [
             'id',
             'participants',
-            'created_at',
             'last_message',
+        ]
+
+class ChatSerializer(serializers.ModelSerializer):
+    participants = serializers.SerializerMethodField()
+
+    def get_participants(self, obj):
+        other_participants = obj.participants.exclude(id=self.context['user'].id)
+        return SenderSerializer(other_participants, many=True).data
+    class Meta:
+        model = Chat
+        fields = [
+            'id',
+            'participants',
+            'created_at'
         ]

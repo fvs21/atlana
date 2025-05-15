@@ -4,22 +4,25 @@ export type ChatParticipant = {
     profile_picture_url: string;
 }
 
-export type Chat = {
+export type ChatListItem = {
     id: number;
     participants: ChatParticipant[];
-    created_at: string;
-    last_message: {
-        id: number;
-        sender: "you" | "other";
-        content: string;
-        timestamp: string;
-    }
+    last_message: Message;
 };
 
 export type Message = {
     id: number;
-    chat: number;
-    sender: ChatParticipant;
+    sender: number;
     content: string;
     timestamp: string;
+}
+
+export type Chat = {
+    id: number;
+    participants: ChatParticipant[];
+}
+
+export type GetChatResponse = {
+    chat: Chat;
+    messages: Message[];
 }

@@ -1,0 +1,32 @@
+@import "~/styles/variables";
+
+.messageContainer {
+    width: 100%;
+    display: flex;
+}
+
+.message {
+    max-width: 65%;
+    display: inline-block;
+    white-space: pre-line;
+    overflow-wrap: break-word;
+    font-size: 14px;
+    padding: 6px 8px;
+    border-radius: 10px;
+    margin-bottom: $spacing-xs;
+}
+
+.yourMessage {
+    background-color: rgb(0, 123, 0);
+    color: white;
+}
+
+.otherMessage {
+    background-color: gray;
+}
+
+.timestamp {
+    font-size: 12px;
+    color: white;
+    text-align: right;
+}
