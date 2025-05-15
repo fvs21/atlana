@@ -60,6 +60,9 @@ $breakpoint-xl: 1280px;
 
 $max-width: 1200px;
 
+$chat-primary: #2083ff;
+$chat-secondary: rgb(224, 224, 224);
+
 // Mixins
 @mixin container {
   max-width: 1200px;

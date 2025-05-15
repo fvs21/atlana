@@ -13,9 +13,11 @@ export default function Message({ content, own, timestamp }: MessageProps) {
         <div className={cn(styles.messageContainer, own ? "justify-end" : "justify-start")}>
             <div className={cn(styles.message, own ? styles.yourMessage : styles.otherMessage)}>
                <div>{content}</div>
-               <div className={styles.timestamp}>
+               {/**
+                * <div className={styles.timestamp}>
                     {dayjs(timestamp).format("hh:mm a")}
-               </div>
+                </div>
+                */}
             </div>
         </div>
     )

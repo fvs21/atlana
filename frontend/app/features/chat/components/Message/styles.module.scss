@@ -11,18 +11,19 @@
     white-space: pre-line;
     overflow-wrap: break-word;
     font-size: 14px;
-    padding: 6px 8px;
-    border-radius: 10px;
+    padding: 8px 12px;
+    border-radius: 20px;
     margin-bottom: $spacing-xs;
 }
 
 .yourMessage {
-    background-color: rgb(0, 123, 0);
+    background-color: $chat-primary;
     color: white;
 }
 
 .otherMessage {
-    background-color: gray;
+    background-color: $chat-secondary;
+    color: black;
 }
 
 .timestamp {
