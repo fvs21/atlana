@@ -1,0 +1,63 @@
+@import "~/styles/variables";
+
+.chatListItem {
+    width: 100%;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    padding: $spacing-md;
+    gap: $spacing-md;
+    border-radius: 6px;
+
+    &:hover {
+        background-color: $button-hover;
+    }
+}
+
+.profilePictureContainer {
+    min-width: 50px;
+    min-height: 50px;
+    max-width: 50px;
+    max-height: 50px;
+}
+
+.profilePicture {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+}
+
+.chatListItemContent {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    width: 100%;
+}
+
+.chatListName {
+    font-size: 15px;
+    font-weight: 500;
+}
+
+.chatListLastMessageContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.message {
+    font-size: 13px;
+    max-width: 70%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.timestamp {
+    font-size: 13px;
+}
+
+.active {
+    background-color: $button-hover;
+}

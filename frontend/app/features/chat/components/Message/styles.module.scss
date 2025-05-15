@@ -1,0 +1,33 @@
+@import "~/styles/variables";
+
+.messageContainer {
+    width: 100%;
+    display: flex;
+}
+
+.message {
+    max-width: 65%;
+    display: inline-block;
+    white-space: pre-line;
+    overflow-wrap: break-word;
+    font-size: 14px;
+    padding: 8px 12px;
+    border-radius: 20px;
+    margin-bottom: $spacing-xs;
+}
+
+.yourMessage {
+    background-color: $chat-primary;
+    color: white;
+}
+
+.otherMessage {
+    background-color: $chat-secondary;
+    color: black;
+}
+
+.timestamp {
+    font-size: 12px;
+    color: white;
+    text-align: right;
+}

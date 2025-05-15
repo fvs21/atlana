@@ -62,8 +62,8 @@ class User(AbstractBaseUser):
     def has_email_verified(self) -> bool:
         return self.email_verified_at is not None
     
-    def has_phone_verified(self) -> bool:
-        return self.phone_verified_at is not None
+    def full_name(self) -> str:
+        return f"{self.first_name} {self.last_name}"
 
 class VerificationData(models.Model):
     db_table = "verification_data"
@@ -98,6 +98,3 @@ class UserInformation(models.Model):
     semester = models.SmallIntegerField(null=True, blank=True)
 
     instagram = models.CharField(max_length=50, null=True, blank=True)
-
-    def __str__(self) -> str:
-        return f"{self.user.first_name} {self.user.last_name} - {self.company_name}"

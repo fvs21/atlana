@@ -1,21 +1,22 @@
+from functools import partial
 from django.http import HttpRequest, JsonResponse
-from django.shortcuts import render
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 
 from listing.serializers import ListingSerializer
 
 from .models import User
-from .serializers import ProfileSerializer
+from .serializers import ProfileSerializer, UserInformationSerializer, UserSerializer
 
 from marketplace.service import get_listings_by_user
+from authentication.service import get_user_by_id
 
 # Create your views here.
-class ProfileViewset(viewsets.ViewSet):
+class UserViewset(viewsets.ViewSet):
     permission_classes = [IsAuthenticated]
 
     def profile(self, request: HttpRequest, id: int) -> JsonResponse:
-        user = User.objects.filter(id=id).first()
+        user = User.objects.filter(id=id).first() 
 
         if not user:
             return JsonResponse({
@@ -46,5 +47,22 @@ class ProfileViewset(viewsets.ViewSet):
             }
         }, status=200)
 
-class UserViewset(viewsets.ViewSet):
-    permission_classes = [IsAuthenticated]
+    def edit_profile(self, request: HttpRequest) -> JsonResponse:
+        user = get_user_by_id(request.user.id)
+
+        serializer = UserInformationSerializer(user.information, data=request.data, partial=True)
+
+        if not serializer.is_valid():
+            return JsonResponse({
+                "code": "invalid_data",
+                "details": serializer.errors
+            }, status=400)
+        
+        serializer.save()
+
+        return JsonResponse({
+            "data": {
+                "user": UserSerializer(user).data,
+            },
+            "details": "Profile updated successfully"
+        }, status=200)

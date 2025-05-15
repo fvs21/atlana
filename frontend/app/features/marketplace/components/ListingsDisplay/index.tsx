@@ -22,20 +22,10 @@ export default function ListingsDisplay({ listings }: { listings: ListingCardTyp
 export function PropertyListingsDisplay({ listings }: { listings: ListingCardType[] }) {
     if (!listings[0])
         return <></>;
-
-    const test = (() => {
-        let l = [];
-
-        for(let i = 0; i < 50; i++) {
-            l.push(listings[0]);
-        };
-
-        return l;
-    })();
     
     return (
         <div className={styles.propertyListingsContainer}>
-            {test.map((listing) => (
+            {listings.map((listing) => (
                 <ListingCard
                     key={listing.id}
                     id={listing.id}

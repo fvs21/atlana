@@ -3,12 +3,20 @@ import NavbarSmall from "~/components/navbar-small";
 import styles from "./styles.module.scss";
 import { Shield, User } from "lucide-react";
 import { cn } from "~/lib/utils";
+import { LoaderFunctionArgs } from "@remix-run/node";
+import { onlyAuthenticated } from "~/api/server.auth";
 
 export const meta: MetaFunction = () => (
     [
         { title: "Marketplace: Configuración" }
     ]
 )
+
+export async function loader({ request }: LoaderFunctionArgs) {
+    onlyAuthenticated({ request });
+
+    return null;
+}
 
 export default function Page() {
     const location = useLocation();

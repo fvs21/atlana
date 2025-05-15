@@ -1,0 +1,40 @@
+@import "~/styles/variables";
+
+.inputContainer {
+    height: 60px;
+    background: transparent;
+    display: flex;
+    align-items: center;
+    padding: $spacing-sm $spacing-lg;
+    width: 100%;
+}
+
+.inputWrapper {
+    background-color: white;    
+    height: 45px;
+    padding-left: 18px;
+    padding-right: 6px;
+    border-radius: 30px;
+    width: 100%;
+    border: 1px solid $border-color;
+    display: flex;
+    align-items: center;
+
+    &:focus-within {
+        outline: none;
+    }
+}
+
+.input {
+    font-size: 15px;
+    border: none;
+    width: 100%;
+    outline: none;
+}
+
+.sendButton {
+    border-radius: 50%;
+    background: $chat-primary;
+    width: 35px;
+    height: 35px;
+}

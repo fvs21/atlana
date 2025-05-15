@@ -1,12 +1,8 @@
-type Profile = {
+import { UserInformation } from "~/types/globals";
+
+export type Profile = {
     id: number;
-    first_name: string;
-    last_name: string;
+    full_name: string;
     profile_picture_url: string;
-    information: {
-        major: string;
-        semester: number;
-        instagram: string;
-        bio: string;
-    }
+    information: UserInformation;
 }

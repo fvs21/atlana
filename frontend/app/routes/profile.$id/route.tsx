@@ -35,7 +35,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
 }
 
 export const meta: MetaFunction<typeof loader> = ({ data }) => (
-    [{ title: `${data?.profile?.first_name} ${data?.profile?.last_name}` }]
+    [{ title: data?.profile?.full_name }]
 )
 
 export default function Page() {
@@ -47,7 +47,7 @@ export default function Page() {
             <main className={styles.profilePage}>
                 <Header
                     pfp_url={data.profile?.profile_picture_url!}
-                    name={`${data.profile?.first_name} ${data.profile?.last_name}`}
+                    name={data.profile?.full_name!}
                     bio={data.profile?.information?.bio}
                     user_id={data.profile?.id!}
                 />
