@@ -52,8 +52,7 @@ export const useLogout = () => {
             await api.post<ResponseBody<null>>("/auth/logout");
         },
         onSuccess: () => {
-            queryClient.setQueryData(["access-token"], null);
-            queryClient.setQueryData(["user"], null);
+            queryClient.removeQueries();
         }
     });
 

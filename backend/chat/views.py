@@ -2,7 +2,7 @@ from django.http import HttpRequest, JsonResponse
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 
-from .serializers import ChatListItemSerializer, ChatSerializer, MessageSerializer
+from .serializers import ChatListItemSerializer, ChatSerializer, CreateChatSerializer, MessageSerializer
 
 from . import service
 from authentication.service import get_user_by_id
@@ -42,5 +42,26 @@ class ChatsViewset(viewsets.ViewSet):
             "data": {
                 "chat": ChatSerializer(chat, context={"user": user}).data,
                 "messages": MessageSerializer(messages, context={'user': user}, many=True).data
+            }
+        }, status=200)
+    
+    def create_or_get_chat(self, request: HttpRequest) -> JsonResponse:
+        user = get_user_by_id(request.user.id)
+
+        serializer = CreateChatSerializer(data=request.data, context={"user": user})
+
+        if not serializer.is_valid():
+            return JsonResponse({
+                "details": serializer.errors,
+                "code": "invalid_data"
+            }, status=400)
+        
+        receiver_id = serializer.validated_data["receiver_id"]
+
+        chat = service.get_or_create_chat(user, receiver_id)
+
+        return JsonResponse({
+            "data": {
+                "chat_id": chat.id,
             }
         }, status=200)

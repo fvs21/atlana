@@ -4,4 +4,5 @@ from . import views
 urlpatterns = [
     path("all", views.ChatsViewset.as_view({"get": "get_user_chats"}), name="chat-list"),
     path("<int:chat_id>", views.ChatsViewset.as_view({"get": "get_chat"}), name="chat-detail"),
+    path("create", views.ChatsViewset.as_view({"post": "create_or_get_chat"}), name="chat-create"),
 ]

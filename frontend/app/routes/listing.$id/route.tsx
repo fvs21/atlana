@@ -29,7 +29,6 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
             status: 404
         })
     }
-
 }
 
 export const meta: MetaFunction<typeof loader> = ({data}) => {

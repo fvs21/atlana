@@ -1,0 +1,7 @@
+@import "~/styles/variables";
+
+.actionsContainer {
+    margin-top: $spacing-lg;
+    display: flex;
+    gap: $spacing-md;
+}

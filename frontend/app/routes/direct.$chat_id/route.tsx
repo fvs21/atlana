@@ -12,10 +12,7 @@ export default function Page() {
     const chat = data?.chat;
     const messages = data?.messages;
 
-    if (isLoading)
-        return <></>
-
-    if (isError)
+    if (isLoading || isError)
         return <></>
 
     return (
@@ -26,9 +23,7 @@ export default function Page() {
                 chat_id={chat?.id!}
                 receiver_id={chat?.participants[0].id!}
             />   
-            <Chat 
-                messages={messages!}
-            />
+            <Chat messages={messages!}/>
         </main>
     )
 }

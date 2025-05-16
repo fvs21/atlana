@@ -25,7 +25,21 @@ class MessageSerializer(serializers.ModelSerializer):
             'timestamp'
         ]
 
-        read_only_fields = ['id', 'chat', 'sender', 'timestamp']
+        read_only_fields = ['id', 'sender', 'timestamp']
+
+class ChatNotificationSerializer(serializers.ModelSerializer):
+    sender = SenderSerializer()
+    chat_id = serializers.IntegerField(source='chat.id')
+
+    class Meta:
+        model = Message
+        fields = [
+            'id',
+            'sender',
+            'content',
+            'chat_id',
+            'timestamp'
+        ]
 
 class ChatListItemSerializer(serializers.ModelSerializer):
     participants = serializers.SerializerMethodField()
@@ -59,3 +73,15 @@ class ChatSerializer(serializers.ModelSerializer):
             'participants',
             'created_at'
         ]
+
+class CreateChatSerializer(serializers.Serializer):
+    receiver_id = serializers.IntegerField()
+    
+    def validate_receiver_id(self, value):
+        if not User.objects.filter(id=value).exists():
+            raise serializers.ValidationError("Receiver does not exist")
+
+        if value == self.context['user'].id:
+            raise serializers.ValidationError("You cannot create a chat with yourself")
+        
+        return value

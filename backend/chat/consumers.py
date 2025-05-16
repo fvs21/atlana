@@ -1,9 +1,9 @@
 import json
-from attr import validate
 from channels.generic.websocket import AsyncWebsocketConsumer
 
-from .serializers import MessageSerializer, NewChatSerializer
+from .serializers import ChatNotificationSerializer, MessageSerializer
 from . import service
+from channels.db import database_sync_to_async
 
 class UserChatsConsumer(AsyncWebsocketConsumer):
     async def connect(self):
@@ -20,42 +20,12 @@ class UserChatsConsumer(AsyncWebsocketConsumer):
     async def disconnect(self, close_code):
         await self.channel_layer.group_discard(self.room_group_name, self.channel_name)
 
-    async def receive(self, text_data):
-        text_data_json = json.loads(text_data)
-
-        serializer = NewChatSerializer(data=text_data_json)
-
-        if not serializer.is_valid():
-            await self.send(text_data=json.dumps({
-                'error': serializer.errors
-            }))
-            return
-        
-        validated_data = serializer.validated_data
-
-        if not await service.can_create_chat(self.scope['user'], validated_data['receiver_id']):
-            print('User cannot create chat')
-            return
-
-        _, message = await service.create_chat(
-            self.scope['user'], 
-            validated_data['receiver_id'], 
-            validated_data['message']
-        ) 
-
-        await self.channel_layer.group_send(
-            f"chats_user_{validated_data['receiver_id']}",
-            {
-                'type': 'new.chat',
-                'message': MessageSerializer(message).data
-            }
-        )
-
-    async def new_chat(self, event):
+    async def chat_notification(self, event):
         message = event['message']
 
         await self.send(text_data=json.dumps({
-            'message': message
+            'type': 'chat_notification',
+            'data': message
         }))
 
 class ChatConsumer(AsyncWebsocketConsumer):
@@ -91,10 +61,25 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 'message': MessageSerializer(message, context={'user': self.scope['user']}).data
             }
         )
+
+        participants = await database_sync_to_async(lambda : list(message.chat.participants.all()))()
+
+        for participant in participants:
+            if participant.id == self.scope['user'].id:
+                continue
+
+            await self.channel_layer.group_send(
+                f'chats_user_{participant.id}',
+                {
+                    'type': 'chat_notification',
+                    'message': ChatNotificationSerializer(message).data
+                }
+            )
         
     async def chat_message(self, event):
         message = event['message']
 
         await self.send(text_data=json.dumps({
-            'message': message
+            'type': 'chat_message',
+            'data': message
         }))

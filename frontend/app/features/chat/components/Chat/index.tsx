@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import styles from "./styles.module.scss";
 import ChatInput from "../ChatInput";
-import { Message as MessageType } from "../../types";
+import { ChatEvent, Message as MessageType } from "../../types";
 import Message from "../Message";
 import { useChatMutations } from "../../store";
 import { useParams } from "@remix-run/react";
@@ -33,9 +33,9 @@ export default function Chat({ messages }: { messages: MessageType[] }) {
         }
 
         socket.current.onmessage = (event) => {
-            const data = JSON.parse(event.data);
+            const data = JSON.parse(event.data) as ChatEvent;    
 
-            newMessage(data.message as MessageType);
+            newMessage(data.data as MessageType);
         }
 
         return () => {
