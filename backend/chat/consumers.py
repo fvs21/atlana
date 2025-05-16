@@ -3,6 +3,7 @@ from channels.generic.websocket import AsyncWebsocketConsumer
 
 from .serializers import ChatNotificationSerializer, MessageSerializer
 from . import service
+from channels.db import database_sync_to_async
 
 class UserChatsConsumer(AsyncWebsocketConsumer):
     async def connect(self):
@@ -61,7 +62,9 @@ class ChatConsumer(AsyncWebsocketConsumer):
             }
         )
 
-        async for participant in message.chat.participants.all():
+        participants = await database_sync_to_async(lambda : list(message.chat.participants.all()))()
+
+        for participant in participants:
             if participant.id == self.scope['user'].id:
                 continue
 

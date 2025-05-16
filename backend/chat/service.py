@@ -1,8 +1,10 @@
 
 from typing import List, Tuple
+
+from attr import has
 from user.models import User
 from chat.models import Chat, Message
-
+from django.db.models import Max
 
 async def can_user_join_chat(user: User, chat_id: int) -> bool:
     """
@@ -70,18 +72,7 @@ def get_user_chats(user: User) -> List[Chat]:
         Ignore created chats with no messages.
     """
 
-    return Chat.objects.filter(participants=user, has_messages=True).all()
-
-def get_chat_messages(chat_id: int) -> List[Message]:
-    """
-        Get all messages for a chat.
-    """
-    chat = Chat.objects.filter(id=chat_id).first()
-
-    if not chat:
-        return []
-
-    return chat.messages.all()
+    return Chat.objects.annotate(last_message_timestamp=Max('messages__timestamp')).order_by('-last_message_timestamp').filter(participants=user, has_messages=True)
 
 def chat_exists(chat_id: int) -> bool:
     """
@@ -117,6 +108,11 @@ def get_or_create_chat(sender: User, receiver_id: int) -> Chat:
     """
         Get or create a chat between two users.
     """
-    chat, _ = Chat.objects.filter(participants=sender).filter(participants__id=receiver_id).get_or_create()
+    chat, created = Chat.objects.filter(participants=sender).filter(participants__id=receiver_id).get_or_create()
+
+    if created:
+        chat.participants.add(sender)
+        chat.participants.add(receiver_id)
+        chat.save()
 
     return chat

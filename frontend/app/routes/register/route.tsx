@@ -79,7 +79,7 @@ export default function RegisterPage() {
 
         try {
             await register(body);
-            navigate("/dashboard");
+            navigate("/marketplace");
         } catch(error) {
             console.log(error);
         }

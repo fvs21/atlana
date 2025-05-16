@@ -8,6 +8,9 @@ class Chat(models.Model):
     has_messages = models.BooleanField(default=False)
 
     def get_last_message(self):        
+        if not self.has_messages:
+            return None
+        
         return self.messages.order_by('-timestamp').first()
 
 class Message(models.Model):
