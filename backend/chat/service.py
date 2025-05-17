@@ -14,26 +14,6 @@ async def can_user_join_chat(user: User, chat_id: int) -> bool:
         return await Chat.objects.filter(id=chat_id, participants=user).aexists()
     except Chat.DoesNotExist:
         return False
-    
-async def can_create_chat(user: User, receiver_id: int) -> bool:
-    """
-        Check if a new chat can be created.
-        Check if:
-        - The receiver exists
-        - The sender is not the same as the receiver
-        - A chat does not already exist between the user and the receiver
-    """
-
-    try:
-        receiver = await User.objects.aget(id=receiver_id)
-
-        if receiver == user:
-            return False
-
-        return not await Chat.objects.filter(participants=user).filter(participants__id=receiver_id).aexists()
-    
-    except User.DoesNotExist:
-        return False
 
 async def create_chat(sender: User, receiver_id: int, message: str) -> Tuple[Chat, Message]:
     receiver = await User.objects.aget(id=receiver_id)
@@ -104,9 +84,30 @@ def get_chat_information(chat_id: int) -> Tuple[Chat, List[Message]]:
 
     return chat, messages
 
+    
+def can_create_chat(user: User, receiver_id: int) -> bool:
+    """
+        Check if a new chat can be created.
+        Check if:
+        - The receiver exists
+        - The sender is not the same as the receiver
+    """
+
+    receiver = User.objects.filter(id=receiver_id).first()
+
+    if not receiver:
+        return False
+
+    if receiver == user:
+        return False
+
+    return True
+
 def get_or_create_chat(sender: User, receiver_id: int) -> Chat:
     """
         Get or create a chat between two users.
+        If the chat already exists, return it.
+        If the chat does not exist, create it and add the participants.
     """
     chat, created = Chat.objects.filter(participants=sender).filter(participants__id=receiver_id).get_or_create()
 

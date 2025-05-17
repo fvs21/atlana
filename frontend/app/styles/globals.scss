@@ -1,6 +1,7 @@
 @import "variables";
 
-html, body {
+html,
+body {
      font-family: $font-family;
      margin: 0;
      padding: 0;
@@ -29,7 +30,16 @@ html, body {
 }
 
 .flexColContainer {
-    display: flex;
-    flex-direction: column;
-    height: 100vh;
+     display: flex;
+     flex-direction: column;
+     height: 100vh;
+}
+
+.property-map-popup {
+     .leaflet-popup-content-wrapper {
+          .leaflet-popup-content {
+               margin: 4px;
+               position: relative;
+          }
+     }
 }

@@ -4,10 +4,6 @@ import styles from "./styles.module.scss";
 import ListingCardImages from "./ListingCardImages";
 
 export default function ListingCard({ id, title, price, images_urls, creator }: ListingCardProps) {
-    const addToCart = (e: React.MouseEvent) => {
-        e.preventDefault();
-    }
-
     return (
         <a href={`/listing/${id}`} target="_blank">
             <Card className={styles.listingCard}>

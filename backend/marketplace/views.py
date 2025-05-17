@@ -1,7 +1,7 @@
 from rest_framework import viewsets
 
 from listing.models import CATEGORIES
-from listing.serializers import ListingSerializer
+from .serializers import ListingCardSerializer, MapBoundsSerializer
 from . import service
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import action
@@ -20,7 +20,7 @@ class MarketplaceViewSet(viewsets.ViewSet):
 
         return JsonResponse({
             "data": {
-                "listings": ListingSerializer(listings, many=True).data
+                "listings": ListingCardSerializer(listings, many=True).data
             },
         }, status=200)
 
@@ -44,6 +44,30 @@ class MarketplaceViewSet(viewsets.ViewSet):
 
         return JsonResponse({
             "data": {
-                "listings": ListingSerializer(listings, many=True).data
+                "listings": ListingCardSerializer(listings, many=True).data
             },
+        }, status=200)
+    
+    @action(methods=['GET'], detail=False)
+    def property_listings_inside_bounds(self, request: HttpRequest) -> JsonResponse:
+        '''
+            Method to get a limited number of property listings inside given bounds
+            Returns the coordinates of the listings and its respective prices and ids
+        '''
+
+        serializer = MapBoundsSerializer(data=request.query_params.dict())
+
+        if not serializer.is_valid():
+            return JsonResponse({
+                'details': serializer.errors,
+                'code': 'invalid_data'
+            }, status=400)
+        
+        listings = service.filter_property_listings_inside_bounds(serializer.validated_data)
+
+        return JsonResponse({
+            "data": {
+                "listings": ListingCardSerializer(listings, many=True).data
+            },
+            "details": "Property listings retrieved"
         }, status=200)

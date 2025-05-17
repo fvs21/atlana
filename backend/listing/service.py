@@ -1,4 +1,3 @@
-from re import A
 from typing import List
 from django.core.files.uploadedfile import UploadedFile
 from image.service import upload_image

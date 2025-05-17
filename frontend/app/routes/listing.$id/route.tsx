@@ -20,10 +20,10 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
 
     try {
         const res = await fetchListing(Number(id), token?.data?.access_token!);
-        
         return data({
             ...res.data
-        })
+        });
+        
     } catch {
         return new Response(null, {
             status: 404
@@ -40,6 +40,9 @@ export const meta: MetaFunction<typeof loader> = ({data}) => {
 export default function Page() {
     const data = useLoaderData<typeof loader>();
     const listing = data.listing;
+
+    console.log(listing);
+    
 
     return (
         <>

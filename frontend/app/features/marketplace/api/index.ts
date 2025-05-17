@@ -1,7 +1,8 @@
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { api } from "~/api";
 import { ResponseBody } from "~/types/globals";
-import { Category, Listing } from "~/types/listings";
+import { Category, Listing, ListingCard, PropertyListingCard } from "~/types/listings";
+import { PropertyMapBounds } from "../types";
 
 export function useFetchListings() {
     const { data, isLoading } = useQuery({
@@ -48,20 +49,22 @@ export function useFetchListingsByCategory(category: Category) {
     }
 }
 
-export function useSendMessage() {
-    const { mutateAsync: sendMessage, isPending, isError } = useMutation({
-        mutationFn: async (receiver_id: number) => {
-            const res = await api.post<ResponseBody<{chat_id: number}>>("/chat/create", {
-                receiver_id
+export function useFilterListingsInsideBounds(bounds: PropertyMapBounds) {
+    const { data, isLoading } = useQuery({
+        queryKey: ["property-listings", bounds],
+        queryFn: async () => {
+            const query = new URLSearchParams({
+                northeast: `${bounds.northeast.lat},${bounds.northeast.lng}`,
+                southwest: `${bounds.southwest.lat},${bounds.southwest.lng}`
             });
 
+            const res = await api.get<ResponseBody<{listings: PropertyListingCard[]}>>(`/marketplace/property/bounds?${query.toString()}`);
             return res.data.data;
         }
     });
 
     return {
-        sendMessage,
-        isPending,
-        sendMessageDisabled: isPending && !isError,
+        data,
+        isLoading
     }
 }

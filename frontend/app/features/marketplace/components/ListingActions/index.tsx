@@ -1,8 +1,8 @@
 import { Button } from "~/components/ui/button";
 import styles from "./styles.module.scss";
 import { Bookmark, MessageCircle } from "lucide-react";
-import { useSendMessage } from "../../api";
 import { useNavigate } from "@remix-run/react";
+import { useSendMessage } from "~/features/chat/api";
 
 type ListingActionsProps = {
     listing_id: number;
@@ -10,7 +10,7 @@ type ListingActionsProps = {
 }
 
 export default function ListingActions({ listing_id, creator_id }: ListingActionsProps) {
-    const { sendMessage, isPending, sendMessageDisabled } = useSendMessage();
+    const { sendMessage, sendMessageDisabled } = useSendMessage();
     const navigate = useNavigate();
 
     const handleSendMessage = async () => {

@@ -3,7 +3,7 @@ import styles from "./styles.module.scss";
 import { Link, useNavigate } from "@remix-run/react";
 import { Button } from "~/components/ui/button";
 import { cn } from "~/lib/utils";
-import { useSendMessage } from "~/features/marketplace/api";
+import { useSendMessage } from "~/features/chat/api";
 
 export default function Header({ user_id, pfp_url, name, bio }: { user_id: number, pfp_url: string; name: string, bio?: string }) {
     const { user, isLoading } = useUser();

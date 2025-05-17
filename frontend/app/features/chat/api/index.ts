@@ -1,7 +1,25 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { api } from "~/api";
 import { ResponseBody } from "~/types/globals";
 import { Chat, ChatListItem, GetChatResponse, Message } from "../types";
+
+export function useSendMessage() {
+    const { mutateAsync: sendMessage, isPending, isError } = useMutation({
+        mutationFn: async (receiver_id: number) => {
+            const res = await api.post<ResponseBody<{chat_id: number}>>("/chat/create", {
+                receiver_id
+            });
+
+            return res.data.data;
+        }
+    });
+
+    return {
+        sendMessage,
+        isPending,
+        sendMessageDisabled: isPending && !isError,
+    }
+}
 
 export function useGetChats() {
     const { data, isLoading } = useQuery({

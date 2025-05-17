@@ -1,6 +1,6 @@
 import styles from "./styles.module.scss";
 import ListingCard from "~/components/listing-card";
-import { ListingCard as ListingCardType } from "~/types/listings";
+import { ListingCard as ListingCardType, PropertyListingCard } from "~/types/listings";
 
 export default function ListingsDisplay({ listings }: { listings: ListingCardType[] }) {
     return (
@@ -19,7 +19,7 @@ export default function ListingsDisplay({ listings }: { listings: ListingCardTyp
     )
 }
 
-export function PropertyListingsDisplay({ listings }: { listings: ListingCardType[] }) {
+export function PropertyListingsDisplay({ listings }: { listings: PropertyListingCard[] }) {
     if (!listings[0])
         return <></>;
     

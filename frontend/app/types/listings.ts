@@ -28,6 +28,12 @@ export type ListingCard = {
     }
 }
 
+export type PropertyListingCard = ListingCard & {
+    property: {
+        location: Location;
+    }
+}
+
 export type Category = "" | "electronics" | "clothes" | "scholar" | "sports" | "food" | "furniture" | "vehicles" | "property_rentals";
 
 export type PropertyType = "" | "apartment" | "house" | "townhouse" | "villa" | "studio" | "room_only";

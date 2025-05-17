@@ -21,6 +21,12 @@ class CreateListingBodySerializer(serializers.ModelSerializer):
             'used'
         ]
 
+    def validate_used(self, used) -> bool:
+        if used is None and not self.initial_data.get('category') == "food":
+            raise serializers.ValidationError("Debes especificar si el producto es nuevo o usado")
+        
+        return used
+
 class CreateListingRequestSerializer(serializers.Serializer):
     data = serializers.JSONField()
     images = serializers.ListField(child=serializers.ImageField())

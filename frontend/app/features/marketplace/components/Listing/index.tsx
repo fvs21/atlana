@@ -4,8 +4,7 @@ import ListingImages from "~/components/listing-images";
 import { Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbLink, BreadcrumbSeparator } from "~/components/ui/breadcrumb";
 import { formatPropertyListingPriceTimeUnit, formatTimeSinceUploaded } from "../../utils/listing";
 import { Link } from "@remix-run/react";
-import { Button } from "~/components/ui/button";
-import { Bed, Bookmark, House, MessageCircle, ShowerHead } from "lucide-react";
+import { Bed, House, ShowerHead } from "lucide-react";
 import categories from "~/constants/categories";
 import { PropertyTypes } from "~/constants/property";
 import LocationDisplay from "./LocationDisplay.client";
@@ -48,6 +47,13 @@ export default function Listing({ listing }: { listing: ListingType | PropertyLi
                 </div>
                 <div className={styles.infoContainer}>
                     <h1 className={styles.title}>{listing.title}</h1>
+                    {listing.used != null && (
+                        <div>
+                            <span className={styles.usedTag}>
+                                {listing.used ? "Usado" : "Nuevo"}
+                            </span>
+                        </div>
+                    )}
                     <div className={styles.priceContainer}>
                         <span className={styles.price}>
                             MXN ${Intl.NumberFormat("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 }).format(listing.price)}
@@ -80,7 +86,8 @@ export default function Listing({ listing }: { listing: ListingType | PropertyLi
                                 <ClientOnly>
                                     {() => <LocationDisplay location={(listing as PropertyListing).property.location} />}
                                 </ClientOnly>
-                            </div> 
+                                <span className={styles.mapDisclaimer}>La ubicación es aproximada.</span>
+                            </div>
                         </>
                     )}
                     <div className={styles.creatorContainer}>
@@ -98,7 +105,7 @@ export default function Listing({ listing }: { listing: ListingType | PropertyLi
                     </div>
                     {!isLoading && (
                         listing.creator.id != user?.id && (
-                            <ListingActions 
+                            <ListingActions
                                 listing_id={listing.id}
                                 creator_id={listing.creator.id}
                             />

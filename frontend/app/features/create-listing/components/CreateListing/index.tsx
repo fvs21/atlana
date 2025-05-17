@@ -7,6 +7,5 @@ export default function CreateListing() {
 
     const [category] = useAtom(listingCategoryAtom);
     
-
     return determineCreateListingStep(step, category === "property_rentals");
 }

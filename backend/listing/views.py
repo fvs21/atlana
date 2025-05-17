@@ -1,3 +1,4 @@
+import stat
 from django.http import HttpRequest, HttpResponse, JsonResponse
 from rest_framework import viewsets
 from rest_framework.decorators import action
@@ -60,7 +61,7 @@ class ListingsViewset(viewsets.ViewSet):
         }, status=201)
 
     @action(methods=['GET'], detail=False)
-    def get_listing(self, request: HttpResponse, id: int) -> JsonResponse:
+    def listing(self, request: HttpResponse, id: int) -> JsonResponse:
         listing = service.get_listing_by_id(id)
 
         if not listing:
