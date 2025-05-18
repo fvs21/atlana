@@ -53,14 +53,12 @@ export default function PropertiesMap({ setBounds, listings, isLoading }: Proper
                 .addTo(mapRef.current!);
 
             popupsRef.current.set(listing.id, popup);
-
-
         });
     }, []);
 
     useEffect(() => {
         let map = L.map('map').setView(
-            [21.110303, -89.611401], 11
+            [21.110303, -89.611401], 12
         );
 
         L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -76,7 +74,10 @@ export default function PropertiesMap({ setBounds, listings, isLoading }: Proper
             southwest: map.getBounds().getSouthWest()
         });
 
-        map.on('moveend', (event) => {            
+        console.log(map.getBounds());
+        
+
+        map.on('moveend', (event) => {       
             if (timeout.current)
                 clearTimeout(timeout.current);
 
@@ -96,10 +97,12 @@ export default function PropertiesMap({ setBounds, listings, isLoading }: Proper
             if(timeout.current)
                 clearTimeout(timeout.current);
 
-            mapRef.current?.remove();
+            map.remove();
+
             popupsRef.current.forEach((popup) => {
                 mapRef.current?.removeLayer(popup);
             });
+            popupsRef.current.clear();
         };
     }, []);
 
@@ -120,9 +123,7 @@ export default function PropertiesMap({ setBounds, listings, isLoading }: Proper
                     <div className={styles.loader}></div>
                 </div>
             )}
-            <div id="map" className="w-full h-full z-10">
-
-            </div>
+            <div id="map" className="w-full h-full z-10" />
         </div>
     )
 }

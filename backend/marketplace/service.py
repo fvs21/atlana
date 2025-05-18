@@ -36,11 +36,8 @@ def filter_property_listings_inside_bounds(bounds: dict) -> List[Listing]:
         longitude__gte=southwest['lng']
     )
 
-    property_listings = PropertyListing.objects.filter(location__in=locations)[:15].values_list(
-        'listing',
-        flat=True
-    )
-
-    listings = Listing.objects.filter(id__in=property_listings).all()
+    listings = Listing.objects.filter(category='property_rentals').filter(
+        property__location__in=locations
+    ).select_related('property')[:15]
 
     return listings

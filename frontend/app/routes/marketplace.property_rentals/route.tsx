@@ -9,12 +9,12 @@ import { useState } from "react";
 export default function Page() {
     const [bounds, setBounds] = useState<PropertyMapBounds>({
         northeast: {
-            lat: 21.38083552074288,
-            lng: -89.389572143554
+            lat: 21.24554236107254,
+            lng: -89.43626403808595
         },
         southwest: {
-            lat: 20.839561262207024,
-            lng: -89.83314514160156
+            lat: 20.975224870396257,
+            lng: -89.78679656982422
         }
     });
 

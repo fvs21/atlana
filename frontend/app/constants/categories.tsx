@@ -15,7 +15,7 @@ const categories: CategoryObject[] = [
     },
     {
         name: 'Ropa',
-        value: 'clothes',
+        value: 'clothing',
         icon: Shirt
     },
     {

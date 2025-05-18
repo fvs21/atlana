@@ -32,12 +32,12 @@ class MarketplaceViewSet(viewsets.ViewSet):
 
         if not cat:
             return JsonResponse({
-                "error": "category is required"
+                "details": "category is required"
             }, status=400)
         
         if not cat in CATEGORIES:
             return JsonResponse({
-                "error": "category is not valid"
+                "details": "category is not valid"
             }, status=404)
 
         listings = service.get_listings_by_category(cat)
