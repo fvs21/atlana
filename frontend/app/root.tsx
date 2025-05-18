@@ -9,7 +9,7 @@ import {
 } from "@remix-run/react";
 import type { LinksFunction } from "@remix-run/node";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { useState } from "react";
+import React, { useState } from "react";
 import { Provider } from "jotai";
 
 import "./tailwind.css";

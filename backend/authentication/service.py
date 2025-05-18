@@ -4,7 +4,7 @@ from django.http import HttpRequest, JsonResponse
 from authentication.utils import AuthenticationUtils
 from user.models import User, VerificationData
 from user.serializers import UserSerializer
-from rest_framework_simplejwt.tokens import RefreshToken, AccessToken
+from rest_framework_simplejwt.tokens import RefreshToken
 from backend.settings import REFRESH_TOKEN_DURATION
 from django.contrib.auth.hashers import make_password, check_password
 from django.utils import timezone
@@ -14,6 +14,9 @@ logging.basicConfig(level=logging.INFO)
 
 def generate_tokens_for_user(user: User) -> dict[str, str]:
     refresh_token = RefreshToken.for_user(user)
+
+    refresh_token['verified'] = user.email_verified_at is not None
+
     return {
         "access_token": str(refresh_token.access_token),
         "refresh_token": str(refresh_token)

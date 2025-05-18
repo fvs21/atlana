@@ -62,7 +62,7 @@ export default function Index() {
             <div className={styles.categoryGrid}>
               {["Women", "Men", "Accessories", "Shoes"].map((category) => (
                 <Link to={`/category/${category.toLowerCase()}`} key={category} className={styles.categoryCard}>
-                  <img src={`/placeholder.svg?height=300&width=300`} alt={category} width={300} height={300} />
+                  <img alt={category} width={300} height={300} />
                   <h3>{category}</h3>
                 </Link>
               ))}

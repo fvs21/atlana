@@ -2,6 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import React, { useLayoutEffect } from "react";
 import { api, apiMultiPart } from "~/api";
 import { refreshToken, useToken } from "~/api/client.auth";
+import { useIsomorphicEffect } from "~/hooks";
 
 export default function AuthProvider({access_token, children}: { access_token?: string, children: React.ReactNode }) {
     useQuery({
@@ -14,7 +15,7 @@ export default function AuthProvider({access_token, children}: { access_token?: 
 
     const [token, setToken] = useToken();
 
-    useLayoutEffect(() => {
+    useIsomorphicEffect(() => {
         const interceptor = api.interceptors.request.use(
             (config: any) => {
                 config.headers.Authorization = !config['_retry'] && token ? `Bearer ${token}` : config.headers.Authorization;
@@ -35,7 +36,7 @@ export default function AuthProvider({access_token, children}: { access_token?: 
         }
     }, [token]);
 
-    useLayoutEffect(() => {
+    useIsomorphicEffect(() => {
         const interceptor = api.interceptors.response.use(
             (response) => response,
             async (error) => {
