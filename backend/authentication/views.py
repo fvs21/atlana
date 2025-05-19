@@ -103,18 +103,22 @@ class AuthenticatedAuthViewSet(viewsets.ViewSet):
         if not serializer.is_valid():
             return JsonResponse({"details": serializer.errors}, status=400)
 
-        user = service.get_user_by_id(request.user.id)
+        user = request.user
 
-        result = service.check_email_verification(user, serializer.data['verification_code'])
+        result = service.check_email_verification(user, serializer.data['code'])
 
         if result:
-            return JsonResponse({"details": "Email verified"}, status=200)
+            response = service.generate_authentication_response(user)
+
+            response['details'] = "Email verified"
+
+            return response
         
         return JsonResponse({"details": "Invalid verification code", "code": "invalid_verification_code"}, status=400)
 
     @action(methods=['post'], detail=False)
-    def request_email_verification(self, request: HttpRequest):
-        user = service.get_user_by_id(request.user.id)
+    def request_email_verification_code(self, request: HttpRequest):
+        user = request.user
 
         result = service.resend_email_verification_code(user)
 
@@ -124,14 +128,14 @@ class AuthenticatedAuthViewSet(viewsets.ViewSet):
         return JsonResponse(
             {
                 "details": "You need to wait 5 minutes to request a new verification code",
-                "code": "code_request_limit"
+                "code": "code_rate_limit"
             }, 
             status=429
         )
     
     @action(methods=['patch'], detail=False)
     def update_phone_number(self, request: HttpRequest) -> JsonResponse:
-        user = service.get_user_by_id(request.user.id)
+        user = request.user
 
         serializer = UpdatePhoneNumberRequestSerializer(data=request.data)
 
@@ -165,7 +169,7 @@ class AuthenticatedAuthViewSet(viewsets.ViewSet):
                 "code": "invalid_data"
             }, status=400)
     
-        user = service.get_user_by_id(request.user.id)
+        user = request.user
 
         result = service.check_phone_verification(user, serializer.data['code'])
 
@@ -183,8 +187,8 @@ class AuthenticatedAuthViewSet(viewsets.ViewSet):
         }, status=400)
     
     @action(methods=['post'], detail=False)
-    def request_phone_verification(self, request: HttpRequest) -> JsonResponse:
-        user = service.get_user_by_id(request.user.id)
+    def request_phone_verification_code(self, request: HttpRequest) -> JsonResponse:
+        user = request.user
 
         result = service.resend_phone_verification_code(user)
 

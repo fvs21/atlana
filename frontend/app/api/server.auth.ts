@@ -34,7 +34,7 @@ export const refreshToken = async ({ request }: { request: Request }) => {
     return null;
 }
 
-export const onlyGuests = ({ request }: { request: Request }) => {
+export const onlyGuests = ({ request }: { request: Request }): void => {
     const token = getAuthToken({ request });
 
     if(token != null) {
@@ -46,7 +46,7 @@ const parseJwt = (token: string) => {
     return JSON.parse(Buffer.from(token.split(".")[1], "base64").toString());
 }
 
-export const onlyAuthenticated = ({ request }: { request: Request }) => {
+export const onlyAuthenticated = ({ request }: { request: Request }): void => {
     const token = getAuthToken({ request });
 
     if(token == null) {
@@ -55,7 +55,39 @@ export const onlyAuthenticated = ({ request }: { request: Request }) => {
 
     const payload = parseJwt(token);
     
-    if(!payload.verified && false) {
+    if(!payload.verified) {
+        throw redirect("/verify-email");
+    }
+}
+
+export const onlyAuthenticatedNotVerified = ({ request }: { request: Request }): void => {
+    const token = getAuthToken({ request });
+
+    if(token == null) {
+        throw redirect("/login");
+    }
+
+    const payload = parseJwt(token);
+    
+    if(payload.verified) {
+        throw redirect("/marketplace");
+    }
+}
+
+/**
+ * Allows all requests, but check if the user is authenticated and verified
+ * and redirects to the verify email page if not
+ */
+export const allowAll = ({ request }: { request: Request }): void => {
+    const token = getAuthToken({ request });
+
+    if(token == null) {
+        return;
+    }
+
+    const payload = parseJwt(token);
+    
+    if(!payload.verified) {
         throw redirect("/verify-email");
     }
 }

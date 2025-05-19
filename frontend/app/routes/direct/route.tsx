@@ -7,6 +7,13 @@ import styles from "./styles.module.scss";
 import { useGetChats } from "~/features/chat/api";
 import ChatListItem from "~/features/chat/components/ChatListItem";
 import { ChatNotification } from "~/features/chat/types";
+import { LoaderFunctionArgs } from "@remix-run/node";
+import { onlyAuthenticated } from "~/api/server.auth";
+
+export async function loader({ request }: LoaderFunctionArgs) {
+    onlyAuthenticated({ request });
+    return null;
+}
 
 export const meta: MetaFunction = () => (
     [

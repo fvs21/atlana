@@ -41,9 +41,6 @@ export default function Page() {
     const data = useLoaderData<typeof loader>();
     const listing = data.listing;
 
-    console.log(listing);
-    
-
     return (
         <>
             <Navbar />

@@ -1,10 +1,11 @@
-import type { MetaFunction } from "@remix-run/node";
+import type { LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
 import { ArrowRight } from "lucide-react";
 import Navbar from "~/components/navbar";
 import styles from "./index.module.scss"
 import Footer from "~/components/footer";
 import { Link } from "@remix-run/react";
 import { useUser } from "~/api/client.auth";
+import { allowAll } from "~/api/server.auth";
 
 export const meta: MetaFunction = () => {
   return [
@@ -12,9 +13,14 @@ export const meta: MetaFunction = () => {
   ];
 };
 
+export async function loader({ request }: LoaderFunctionArgs) {
+  allowAll({ request });
+
+  return null;
+}
+
 export default function Index() {
   const { user, isLoading } = useUser();
-
 
   return (
     <>

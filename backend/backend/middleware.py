@@ -1,8 +1,10 @@
 from typing import Optional
 from channels.db import database_sync_to_async
+from django.http import HttpRequest, JsonResponse
 from user.models import User
 from rest_framework_simplejwt.tokens import AccessToken
 from django.contrib.auth.models import AnonymousUser
+from django.utils.deprecation import MiddlewareMixin
 
 @database_sync_to_async
 def get_user_from_token(token: str) -> Optional[User]:
@@ -13,7 +15,9 @@ def get_user_from_token(token: str) -> Optional[User]:
     except (User.DoesNotExist, Exception):
         return AnonymousUser()
     
-
+'''
+    Asgi middleware to authenticate users using JWT tokens
+'''
 class JWTAuthMiddleware:
     def __init__(self, app):
         self.app = app
@@ -23,3 +27,4 @@ class JWTAuthMiddleware:
         scope["user"] = await get_user_from_token(token) if token else AnonymousUser()
 
         return await self.app(scope, receive, send)
+    

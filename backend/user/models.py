@@ -80,7 +80,7 @@ class VerificationData(models.Model):
         self.save()
 
     def __str__(self) -> str:
-        return f"{self.user.first_name} for {self.field}: {self.code}"
+        return f"{self.user.first_name}, {self.field}: {self.code}"
     
     def can_request_new_code(self) -> bool:
         return self.created_at + timedelta(seconds=45) <= timezone.now()

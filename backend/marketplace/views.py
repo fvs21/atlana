@@ -1,5 +1,6 @@
 from rest_framework import viewsets
 
+from backend.permissions import GENERAL_AUTHENTICATION_PERMISSIONS
 from listing.models import CATEGORIES
 from .serializers import ListingCardSerializer, MapBoundsSerializer
 from . import service
@@ -9,7 +10,7 @@ from django.http import HttpRequest, JsonResponse
 
 # Create your views here.
 class MarketplaceViewSet(viewsets.ViewSet):
-    permission_classes = [IsAuthenticated]
+    permission_classes = GENERAL_AUTHENTICATION_PERMISSIONS
 
     @action(methods=['GET'], detail=False)
     def get_listings(self, request: HttpRequest) -> JsonResponse:

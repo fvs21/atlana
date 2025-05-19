@@ -1,0 +1,54 @@
+@import "~/styles/variables";
+
+.verifyEmailContainer {
+    flex-grow: 1;
+}
+
+.verifyEmailFormContainer {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+}
+
+.verifyEmailForm {
+    padding-top: $spacing-4xl;
+    padding-left: $spacing-md;
+    padding-right: $spacing-md;
+    width: 600px;
+    text-align: left;
+}
+
+.verifyEmailTitle {
+    font-size: 26px;
+    font-weight: 600;
+}
+
+.verifyEmailBody {
+    padding-top: $spacing-sm;
+}
+
+.verifyEmailDescription {
+    font-size: 14px;
+    line-height: 1.4;
+}
+
+.formInput {
+    margin-top: $spacing-md;
+}
+
+.resendVerificationCodeButton {
+    margin-top: $spacing-md;
+    font-size: 14px;
+    color: $primary-color;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+.verifyEmailActions {
+    display: flex;
+    justify-content: right;
+    margin-top: $spacing-sm;
+}

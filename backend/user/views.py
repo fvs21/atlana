@@ -3,17 +3,17 @@ from django.http import HttpRequest, JsonResponse
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 
+from backend.permissions import GENERAL_AUTHENTICATION_PERMISSIONS
 from listing.serializers import ListingSerializer
 
 from .models import User
 from .serializers import ProfileSerializer, UserInformationSerializer, UserSerializer
 
 from marketplace.service import get_listings_by_user
-from authentication.service import get_user_by_id
 
 # Create your views here.
 class UserViewset(viewsets.ViewSet):
-    permission_classes = [IsAuthenticated]
+    permission_classes = GENERAL_AUTHENTICATION_PERMISSIONS
 
     def profile(self, request: HttpRequest, id: int) -> JsonResponse:
         user = User.objects.filter(id=id).first() 
@@ -48,7 +48,7 @@ class UserViewset(viewsets.ViewSet):
         }, status=200)
 
     def edit_profile(self, request: HttpRequest) -> JsonResponse:
-        user = get_user_by_id(request.user.id)
+        user = request.user
 
         serializer = UserInformationSerializer(user.information, data=request.data, partial=True)
 

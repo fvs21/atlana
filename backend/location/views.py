@@ -1,12 +1,13 @@
 from django.http import HttpRequest, JsonResponse
-from django.shortcuts import render
 from rest_framework import viewsets
-
+from rest_framework.permissions import IsAuthenticated
+from backend.permissions import GENERAL_AUTHENTICATION_PERMISSIONS
 from location.serializers import LocationQuerySerializer
 from . import service
 
 # Create your views here.
 class LocationViewSet(viewsets.ViewSet):
+    permission_classes = GENERAL_AUTHENTICATION_PERMISSIONS
     def search_by_street(self, request: HttpRequest) -> JsonResponse:
         """
         Search for a location by street name.

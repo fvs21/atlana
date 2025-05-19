@@ -37,30 +37,34 @@ export default function NavbarActions() {
                         </NavigationMenuTrigger>
                         <NavigationMenuContent>
                             <div className={styles.userDropdown}>
-                                <div className={styles.dropdownItem}>
-                                    <Link to={"/profile/" + user.id}>
-                                        <div className={styles.dropdownLink}>
-                                            <User size={18} />
-                                            Cuenta
+                                {user.has_email_verified && (
+                                    <>
+                                        <div className={styles.dropdownItem}>
+                                            <Link to={"/profile/" + user.id}>
+                                                <div className={styles.dropdownLink}>
+                                                    <User size={18} />
+                                                    Cuenta
+                                                </div>
+                                            </Link>
                                         </div>
-                                    </Link>
-                                </div>
-                                <div className={styles.dropdownItem}>
-                                    <Link to={"/direct"}>
-                                        <div className={styles.dropdownLink}>
-                                            <MessageCircle size={18} />
-                                            Mensajes
+                                        <div className={styles.dropdownItem}>
+                                            <Link to={"/direct"}>
+                                                <div className={styles.dropdownLink}>
+                                                    <MessageCircle size={18} />
+                                                    Mensajes
+                                                </div>
+                                            </Link>
                                         </div>
-                                    </Link>
-                                </div>
-                                <div className={styles.dropdownItem}>
-                                    <Link to={"/settings/edit"}>
-                                        <div className={styles.dropdownLink}>
-                                            <Settings size={18} />
-                                            Configuración
+                                        <div className={styles.dropdownItem}>
+                                            <Link to={"/settings/edit"}>
+                                                <div className={styles.dropdownLink}>
+                                                    <Settings size={18} />
+                                                    Configuración
+                                                </div>
+                                            </Link>
                                         </div>
-                                    </Link>
-                                </div>
+                                    </>
+                                )}
                                 <div className={styles.dropdownItem} onClick={handleLogout}>
                                     <div className={styles.dropdownLink}>
                                         <LogOut size={18} />

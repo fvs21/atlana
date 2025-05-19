@@ -1,5 +1,5 @@
 import logging
-from typing import Optional
+from typing import Dict, Optional
 from django.http import HttpRequest, JsonResponse
 from authentication.utils import AuthenticationUtils
 from user.models import User, VerificationData
@@ -12,7 +12,7 @@ from .exceptions import *
 
 logging.basicConfig(level=logging.INFO)
 
-def generate_tokens_for_user(user: User) -> dict[str, str]:
+def generate_tokens_for_user(user: User) -> Dict[str, str]:
     refresh_token = RefreshToken.for_user(user)
 
     refresh_token['verified'] = user.email_verified_at is not None
@@ -54,7 +54,7 @@ def generate_and_send_verification_email(user: User) -> None:
     logging.info(f"Verification code for {user.email}: {verification_code}")
 
 def get_session(request: HttpRequest) -> JsonResponse:
-    user: User = get_user_by_id(request.user.id)
+    user: User = request.user
     return JsonResponse({
         "data": {
             "user": UserSerializer(user).data
@@ -94,6 +94,13 @@ def generate_logout_cookie() -> JsonResponse:
     return response
 
 def check_email_verification(user: User, verification_code: str) -> bool:
+    '''
+        Method to check if the email verification code the user provided is correct.
+        Checks:
+        - If the user has already verified their email
+        - If the verification code is correct
+        - If the verification code is expired (after checking if the code is correct)
+    '''
     if user.email_verified_at is not None:
         raise UserAlreadyVerifiedException(field="email")
 

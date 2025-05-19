@@ -2,16 +2,17 @@ from django.http import HttpRequest, JsonResponse
 from rest_framework import viewsets
 from rest_framework.permissions import IsAuthenticated
 
+from backend.permissions import GENERAL_AUTHENTICATION_PERMISSIONS
+
 from .serializers import ChatListItemSerializer, ChatSerializer, CreateChatSerializer, MessageSerializer
 
 from . import service
-from authentication.service import get_user_by_id
 
 class ChatsViewset(viewsets.ViewSet):
-    permission_classes = [IsAuthenticated]
+    permission_classes = GENERAL_AUTHENTICATION_PERMISSIONS
 
     def get_user_chats(self, request: HttpRequest) -> JsonResponse:
-        user = get_user_by_id(request.user.id)
+        user = request.user
 
         chats = service.get_user_chats(user)
 
@@ -22,7 +23,7 @@ class ChatsViewset(viewsets.ViewSet):
         }, status=200)
     
     def get_chat(self, request: HttpRequest, chat_id: int) -> JsonResponse:
-        user = get_user_by_id(request.user.id)
+        user = request.user
 
         if not service.chat_exists(chat_id):
             return JsonResponse({
@@ -46,7 +47,7 @@ class ChatsViewset(viewsets.ViewSet):
         }, status=200)
     
     def create_or_get_chat(self, request: HttpRequest) -> JsonResponse:
-        user = get_user_by_id(request.user.id)
+        user = request.user
 
         serializer = CreateChatSerializer(data=request.data, context={"user": user})
 
