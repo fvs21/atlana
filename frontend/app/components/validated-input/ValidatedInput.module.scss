@@ -14,6 +14,14 @@
     input::-webkit-inner-spin-button {
         appearance: none;
     }
+
+    input {
+        &:focus {
+            border-color: $primary-color;
+            box-shadow: 0 0 0 2px rgba($primary-color, 0.2);
+        }
+    }
+
 }
 
 .inputError {

@@ -12,6 +12,7 @@ import { onlyGuests } from "~/api/server.auth"
 import { useState } from "react"
 import { LoginErrors } from "~/features/login/types"
 import { useLogin } from "~/features/login/api"
+import AuthForm from "~/components/auth-form"
 
 export const meta: MetaFunction = () => {
     return [
@@ -21,8 +22,8 @@ export const meta: MetaFunction = () => {
     ]
 }
 
-export async function loader({request}: LoaderFunctionArgs) {
-    onlyGuests({request});
+export async function loader({ request }: LoaderFunctionArgs) {
+    onlyGuests({ request });
 
     return data({});
 }
@@ -32,7 +33,7 @@ export default function LoginForm() {
         email: "",
         password: "",
     });
-    
+
     const navigate = useNavigate();
 
     const { login, loginDisabled } = useLogin();
@@ -45,7 +46,7 @@ export default function LoginForm() {
         const email = formData.get("email") as string;
         const password = formData.get("password") as string;
 
-        const validationErrors = validateLoginForm({email, password});
+        const validationErrors = validateLoginForm({ email, password });
 
         if (Object.keys(validationErrors).length > 0) {
             setErrors(validationErrors);
@@ -53,7 +54,7 @@ export default function LoginForm() {
         }
 
         try {
-            await login({email, password});
+            await login({ email, password });
             navigate("/marketplace");
         } catch {
             setErrors({
@@ -64,16 +65,16 @@ export default function LoginForm() {
     }
 
     return (
-        <>
+        <div className="flexColContainer">
             <div className={styles.container}>
-                <div className={styles.loginBackground}>
-                    <div className={styles.meshGradient}></div>
-                </div>
-                <div style={{zIndex: 1}}>
+                <div style={{ zIndex: 1 }} className={styles.logo}>
                     <Logo width={45} />
                 </div>
-                <div className={styles.formWrapper}>
+                <AuthForm className={styles.formWrapper}>
                     <div className={styles.formContent}>
+                        <div className={styles.insideLogo}>
+                            <Logo width={35} />
+                        </div>
                         <div className={styles.welcomeSection}>
                             <h2>Inicia sesión</h2>
                         </div>
@@ -109,10 +110,10 @@ export default function LoginForm() {
                             </Link>
                         </div>
                     </div>
-                </div>
+                </AuthForm>
             </div>
             <FooterSmall />
-        </>
+        </div>
     )
 }
 

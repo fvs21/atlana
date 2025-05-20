@@ -78,8 +78,10 @@ export default function NavbarActions() {
                     <React.Fragment>
                         <NavigationMenuItem className={styles.dissapearingActionButtons}>
                             <NavigationMenuLink asChild>
-                                <Link to="/login" className={styles.loginButton}>
-                                    Inicia sesión
+                                <Link to="/login">
+                                    <Button className={styles.loginButton}>
+                                        Iniciar sesión
+                                    </Button>
                                 </Link>
                             </NavigationMenuLink>
                         </NavigationMenuItem>

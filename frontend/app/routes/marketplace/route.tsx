@@ -25,11 +25,11 @@ export default function Page() {
         <div className={styles.container}>
             <NavbarSmall />
             <SidebarProvider style={{
-                '--sidebar-width': "350px",
+                '--sidebar-width': "350px"
             } as React.CSSProperties} className={styles.sidebarProvider}>
                 <main className={styles.marketplaceContainer}>
                     <MarketplaceSidebar />
-                    <div className="h-full w-full">
+                    <div className={styles.marketplaceContent}>
                         <ClosedSidebarSection />
                         <Outlet />
                     </div>

@@ -9,7 +9,7 @@
 
 .iconButton {
     &:hover {
-        color: $secondary-color;
+        color: $primary-color;
         transition: $transition;
         background-color: transparent !important;
     }
@@ -37,15 +37,22 @@
 .loginButton {
     word-break: keep-all;
     white-space: nowrap;
+    background-color: #e3e4ff;
+    color: $primary-color;
+
+    &:hover {
+        opacity: 0.7;
+    }
 }
 
 .registerButton {
     background-color: $primary-color;
+
+    &:hover {
+        background-color: $secondary-color;
+    }
 }
 
-.registerButton:hover {
-    background-color: $secondary-color;
-}
 
 .iconText {
     font-size: 13px;

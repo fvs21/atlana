@@ -148,19 +148,27 @@ def get_user_by_unknown_credential(credential: str) -> Optional[User]:
     return None
 
 def generate_and_send_password_reset_token(credential: str) -> bool:
-    user = get_user_by_unknown_credential(credential)
+    '''
+        Method to generate a password reset token for the user.
+        Returns
+        - True if the token was generated and sent
+        - False if the user has already requested a password reset token in the last 5 minutes
+        - Raises UserDoesNotExistException if the user does not exist
+    '''
+    user = User.objects.filter(email=credential).first()
 
     if user is None:
+        raise UserDoesNotExistException()
+    
+    if not user.can_request_password_reset():
         return False
     
-    password_reset_token: str = AuthenticationUtils.generate_verification_code()
+    password_reset_token: str = AuthenticationUtils.generate_reset_password_token()
 
     user.password_reset_token = make_password(password_reset_token)
     user.password_reset_token_created_at = timezone.now()
 
     logging.info(f"Password reset token for {user.email}: {password_reset_token}")
-
-    #send email or sms
 
     user.save()
     return True

@@ -17,6 +17,12 @@ body {
      margin-top: 0.25rem;
 }
 
+.successMessage {
+     color: $success-color;
+     font-size: 0.875rem;
+     margin-top: 0.25rem;
+}
+
 .errorBorder {
      border: 1px solid $error-color;
 

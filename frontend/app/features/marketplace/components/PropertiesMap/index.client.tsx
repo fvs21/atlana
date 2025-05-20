@@ -74,9 +74,6 @@ export default function PropertiesMap({ setBounds, listings, isLoading }: Proper
             southwest: map.getBounds().getSouthWest()
         });
 
-        console.log(map.getBounds());
-        
-
         map.on('moveend', (event) => {       
             if (timeout.current)
                 clearTimeout(timeout.current);

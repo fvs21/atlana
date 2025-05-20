@@ -1,0 +1,81 @@
+@import "~/styles/variables";
+
+.forgotPasswordContainer {
+    padding-top: $spacing-5xl;
+    height: 100%;
+    width: 100%;
+    background-color: #f1f1f9;
+}
+
+.forgotPasswordFormContainer {
+    border-radius: 20px;
+    padding: $spacing-lg;
+    width: 500px;
+    background-color: white;
+}
+
+.forgotPasswordTitle {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.forgotPasswordDescription {
+    font-size: 14px;
+    margin-top: $spacing-sm;
+    margin-bottom: $spacing-md;
+    color: gray;
+}
+
+.emailInput {
+    input {
+        padding: 22px 12px;
+        border-radius: $border-radius;
+    }
+}
+
+.submitButtonContainer {
+    width: 100%;
+    padding-top: $spacing-lg;
+}
+
+.submitButton {
+    width: 100%;
+}
+
+.returnButtonContainer {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    padding-bottom: $spacing-sm;
+}
+
+.returnButtonWrapper {
+    width: 500px;
+}
+
+.returnButton {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    font-size: 14px;
+    color: gray;
+}
+
+.insideReturnButton {
+    display: none;
+    margin-bottom: $spacing-md;
+}
+
+@media only screen and (max-width: 768px) {
+    .forgotPasswordContainer {
+        padding-top: 0;
+    }
+
+    .returnButtonContainer {
+        display: none;
+    }
+
+    .insideReturnButton {
+        display: block;
+    }
+}

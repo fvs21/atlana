@@ -1,12 +1,12 @@
-$primary-color: #00246b;
-$primary-color-rgb: rgb(0, 36, 107);
-$secondary-color: #e6c82c;
+$primary-color: #5961f8;
+$primary-color-rgb: rgb(89, 97, 248);
+$secondary-color: #9399ff;
 $text-primary: #1f2937;
 $text-secondary: #4b5563;
 $background-light: #ffffff;
 $background-dark: #111827;
 $border-color: #e5e7eb;
-$logo-color: #00246b;
+$logo-color: #5961f8;
 $error-color: #ef4444;
 $transition: all 0.3s ease;
 $button-hover: #e0e0e0;
@@ -62,6 +62,8 @@ $max-width: 1200px;
 
 $chat-primary: #2083ff;
 $chat-secondary: rgb(224, 224, 224);
+
+$border-radius: 12px;
 
 // Mixins
 @mixin container {

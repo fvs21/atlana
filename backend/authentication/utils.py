@@ -1,10 +1,11 @@
 import random
 from email.utils import parseaddr
+import string
 
 class AuthenticationUtils:
     @staticmethod
     def generate_verification_code() -> str:
-        return str(random.randint(100000, 999999))
+        return str(random.SystemRandom().randint(100000, 999999))
     
     @staticmethod
     def is_email(credential: str) -> bool:
@@ -23,3 +24,7 @@ class AuthenticationUtils:
             return "phone"
         
         return "username"
+    
+    @staticmethod
+    def generate_reset_password_token() -> str:
+        return ''.join(random.SystemRandom().choice(string.ascii_letters + string.digits) for _ in range(32))

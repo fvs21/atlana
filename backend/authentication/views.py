@@ -60,14 +60,20 @@ class AuthenticationViewSet(viewsets.ViewSet):
         data = ForgotPasswordRequestSerializer(data=request.data)
 
         if not data.is_valid():
-            return JsonResponse({"details": data.errors}, status=400)
+            return JsonResponse({
+                "details": data.errors,
+                "code": "invalid_data"
+            }, status=400)
 
-        result: bool = service.generate_and_send_password_reset_token(data.data['credential'])
+        result = service.generate_and_send_password_reset_token(data.validated_data['email'])
 
         if result:
             return JsonResponse({"details": "Password reset token sent"}, status=200)
-        
-        return JsonResponse({"details": "User was not found", 'code': 'user_does_not_exist'}, status=404)
+
+        return JsonResponse({
+            "details": "You must wait 5 minutes before requesting a new token", 
+            'code': 'token_rate_limit'
+        }, status=429)
 
     @action(methods=['POST'], detail=False)
     def reset_password(self, request: HttpRequest) -> JsonResponse:
@@ -75,8 +81,10 @@ class AuthenticationViewSet(viewsets.ViewSet):
 
         if not data.is_valid():
             return JsonResponse({"details": data.errors, 'code': 'reset_password_error'}, status=400)
+        
+        validated_data = data.validated_data
 
-        result: bool = service.reset_password(data.data['credential'], data.data['password_reset_token'], data.data['new_password'])  
+        result: bool = service.reset_password(validated_data['credential'], validated_data['token'], validated_data['new_password'])
 
         if result:
             return JsonResponse({"details": "Password reset successful"}, status=200)
@@ -87,17 +95,17 @@ class AuthenticatedAuthViewSet(viewsets.ViewSet):
     permission_classes = [IsAuthenticated]
 
     @action(methods=['get'], detail=False)
-    def session(self, request: HttpRequest):
+    def session(self, request: HttpRequest) -> JsonResponse:
         return service.get_session(request)
     
     @action(methods=['post'], detail=False)
-    def logout(self, request: HttpRequest):
+    def logout(self, request: HttpRequest) -> JsonResponse:
         service.logout_session(request)
         
         return service.generate_logout_cookie()
     
     @action(methods=['post'], detail=False)
-    def verify_email(self, request: HttpRequest):
+    def verify_email(self, request: HttpRequest) -> JsonResponse:
         serializer = VerifyEmailRequestSerializer(data=request.data)
 
         if not serializer.is_valid():
@@ -117,7 +125,7 @@ class AuthenticatedAuthViewSet(viewsets.ViewSet):
         return JsonResponse({"details": "Invalid verification code", "code": "invalid_verification_code"}, status=400)
 
     @action(methods=['post'], detail=False)
-    def request_email_verification_code(self, request: HttpRequest):
+    def request_email_verification_code(self, request: HttpRequest) -> JsonResponse:
         user = request.user
 
         result = service.resend_email_verification_code(user)
