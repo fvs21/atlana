@@ -66,7 +66,17 @@ class User(AbstractBaseUser):
         return f"{self.first_name} {self.last_name}"
 
     def can_request_password_reset(self) -> bool:
+        if self.password_reset_token_created_at is None:
+            return True
+        
         return self.password_reset_token_created_at + timedelta(minutes=5) <= timezone.now()
+    
+    def has_user_changed_password_in_the_last_24_hours(self) -> bool:
+        if self.password_updated_at is None:
+            return False
+        
+        return self.password_updated_at + timedelta(hours=24) >= timezone.now()
+    
 
 class VerificationData(models.Model):
     db_table = "verification_data"

@@ -4,7 +4,7 @@
     padding-top: $spacing-5xl;
     height: 100%;
     width: 100%;
-    background-color: #f1f1f9;
+    background-color: $auth-forms-background;
 }
 
 .forgotPasswordFormContainer {
@@ -26,20 +26,9 @@
     color: gray;
 }
 
-.emailInput {
-    input {
-        padding: 22px 12px;
-        border-radius: $border-radius;
-    }
-}
-
 .submitButtonContainer {
     width: 100%;
     padding-top: $spacing-lg;
-}
-
-.submitButton {
-    width: 100%;
 }
 
 .returnButtonContainer {

@@ -26,8 +26,16 @@ export default function Page() {
             instagram: formData.get("instagram") as string,
         };
 
-        await editProfile(data);
-        toast.success("Perfil actualizado");
+        if (Object.keys(data).every(key => user?.information[key as keyof UserInformation] === data[key as keyof UserInformation])) {
+            return;
+        }
+        
+        try {
+            await editProfile(data);
+            toast.success("Perfil actualizado");
+        } catch(error) {
+
+        }
     }
     
     return (

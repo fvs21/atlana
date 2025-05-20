@@ -36,10 +36,10 @@ class LoginSerializer(serializers.Serializer):
     password = serializers.CharField()
 
 class ResetPasswordSerializer(serializers.Serializer):
-    credential = serializers.CharField(required=True, error_messages={'required': 'Credential missing'})
     token = serializers.CharField(max_length=128)
     new_password = serializers.CharField(max_length = 20)
     confirm_password = serializers.CharField(max_length = 20)
+    email = serializers.EmailField()
 
     def validate_credential(self, value):
         if AuthenticationUtils.determine_credential_type(value) == "username":
@@ -52,7 +52,7 @@ class ResetPasswordSerializer(serializers.Serializer):
         return value
     
     def validate_confirm_password(self, value):
-        if value != self.new_password:
+        if value != self.initial_data['new_password']:
             raise serializers.ValidationError('Password don\' match')
         return value
 

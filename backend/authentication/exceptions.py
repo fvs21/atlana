@@ -42,3 +42,9 @@ class PhoneNumberAlreadyUsedException(DefaultException):
 
     def __init__(self):
         super().__init__("Phone number already in use", 409, self.code)
+
+class UserAlreadyChangedPasswordException(DefaultException):
+    code = "user_already_changed_password"
+
+    def __init__(self):
+        super().__init__("User has already changed password", 429, self.code)

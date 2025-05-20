@@ -49,3 +49,10 @@ body {
           }
      }
 }
+
+.authInput {
+     input {
+          padding: 22px 12px;
+          border-radius: $border-radius;
+     }
+}

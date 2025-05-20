@@ -17,3 +17,25 @@ export function useForgotPassword() {
         forgotPasswordDisabled: isPending && !isError,
     };
 }
+
+type ResetPassowordBody = {
+    new_password: string;
+    token: string;
+    confirm_password: string;
+    email: string;
+}
+
+export function useResetPassword() {
+    const { mutateAsync: resetPassword, isPending, isError } = useMutation({
+        mutationFn: async (data: ResetPassowordBody) => {
+            const res = await apiGuest.post<ResponseBody<null>>("/auth/reset-password", data);
+            return res.data.data;
+        }
+    });
+
+    return {
+        resetPassword,
+        isPending,
+        resetPasswordDisabled: isPending && !isError,
+    };
+}

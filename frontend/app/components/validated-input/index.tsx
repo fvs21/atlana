@@ -3,7 +3,7 @@ import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import styles from "./ValidatedInput.module.scss";
 
-type ValidatedInputProps = Omit<React.ComponentProps<"input">, "onChange" | "className"> & {
+export type ValidatedInputProps = Omit<React.ComponentProps<"input">, "onChange" | "className"> & {
     onChange?: (value: string) => void;
     className?: string;
     label?: string;

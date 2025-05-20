@@ -27,4 +27,4 @@ class AuthenticationUtils:
     
     @staticmethod
     def generate_reset_password_token() -> str:
-        return ''.join(random.SystemRandom().choice(string.ascii_letters + string.digits) for _ in range(32))
+        return ''.join(random.SystemRandom().choice(string.ascii_letters + string.digits) for _ in range(64))

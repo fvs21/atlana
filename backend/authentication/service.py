@@ -154,6 +154,7 @@ def generate_and_send_password_reset_token(credential: str) -> bool:
         - True if the token was generated and sent
         - False if the user has already requested a password reset token in the last 5 minutes
         - Raises UserDoesNotExistException if the user does not exist
+        - Raises UserAlreadyChangedPasswordException if the user has changed their password in the last 24 hours
     '''
     user = User.objects.filter(email=credential).first()
 
@@ -163,18 +164,22 @@ def generate_and_send_password_reset_token(credential: str) -> bool:
     if not user.can_request_password_reset():
         return False
     
+    if user.has_user_changed_password_in_the_last_24_hours():
+        raise UserAlreadyChangedPasswordException()
+    
     password_reset_token: str = AuthenticationUtils.generate_reset_password_token()
 
     user.password_reset_token = make_password(password_reset_token)
     user.password_reset_token_created_at = timezone.now()
 
-    logging.info(f"Password reset token for {user.email}: {password_reset_token}")
+    logging.info(f"Password reset token for {user.email}: http://localhost:5173/reset-password?token={password_reset_token}&email={user.email}")
 
     user.save()
+    
     return True
 
-def reset_password(credential: str, password_reset_token: str, new_password: str) -> bool:
-    user = get_user_by_unknown_credential(credential)
+def reset_password(email: str, password_reset_token: str, new_password: str) -> bool:
+    user = User.objects.filter(email=email).first()
 
     if user is None:
         raise UserDoesNotExistException()
@@ -182,7 +187,12 @@ def reset_password(credential: str, password_reset_token: str, new_password: str
     if not check_password(password_reset_token, user.password_reset_token):
         return False
     
-    user.reset_password(new_password)
+    user.set_password(new_password)
+    user.password_reset_token = None
+    user.password_reset_token_created_at = None
+    user.password_updated_at = timezone.now()
+
+    user.save()
 
     return True
 

@@ -1,0 +1,38 @@
+@import "~/styles/variables";
+
+.resetPasswordContainer {
+    padding-top: $spacing-5xl;
+    height: 100%;
+    width: 100%;
+    background-color: $auth-forms-background;
+}
+
+.resetPasswordFormContainer {
+    width: 500px;
+    background-color: white;
+    border-radius: 20px;
+    padding: $spacing-lg;
+}
+
+.resetPasswordTitle {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.resetPasswordDescription {
+    font-size: 14px;
+    margin-top: $spacing-sm;
+    margin-bottom: $spacing-md;
+    color: gray;
+}
+
+.submitButtonContainer {
+    width: 100%;
+    padding-top: $spacing-lg;
+}
+
+@media only screen and (max-width: 768px) {
+    .resetPasswordContainer {
+        padding-top: 0;
+    }
+}

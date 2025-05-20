@@ -51,6 +51,9 @@ export default function Page() {
                 case "user_does_not_exist":
                     setError("No se encontró ningún usuario con ese correo electrónico.");
                     break;
+                case "user_already_changed_password":
+                    setError("Ya has cambiado tu contraseña recientemente. Debes esperar un día para volver a cambiarla.");
+                    break;
             }
         }
     }
@@ -83,14 +86,14 @@ export default function Page() {
                         </p>
                     </div>
                     <form className={styles.forgotPasswordForm} onSubmit={handleSubmit}>
-                        <div className={styles.formInput}>
+                        <div>
                             <ValidatedInput
                                 type="email"
                                 name="email"
                                 placeholder="Ingresa tu correo electrónico"
                                 required
                                 autoComplete="email"
-                                className={styles.emailInput}
+                                className="authInput"
                                 value={email}
                                 onChange={setEmail}
                                 error={error}

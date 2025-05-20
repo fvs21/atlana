@@ -80,11 +80,11 @@ class AuthenticationViewSet(viewsets.ViewSet):
         data = ResetPasswordSerializer(data=request.data)
 
         if not data.is_valid():
-            return JsonResponse({"details": data.errors, 'code': 'reset_password_error'}, status=400)
+            return JsonResponse({"details": data.errors, 'code': 'invalid_data'}, status=400)
         
         validated_data = data.validated_data
 
-        result: bool = service.reset_password(validated_data['credential'], validated_data['token'], validated_data['new_password'])
+        result: bool = service.reset_password(validated_data['email'], validated_data['token'], validated_data['new_password'])
 
         if result:
             return JsonResponse({"details": "Password reset successful"}, status=200)
