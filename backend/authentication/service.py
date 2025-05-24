@@ -1,4 +1,5 @@
 import logging
+from pydoc import plain
 from typing import Dict, Optional
 from django.http import HttpRequest, JsonResponse
 from authentication.utils import AuthenticationUtils
@@ -9,8 +10,9 @@ from backend.settings import REFRESH_TOKEN_DURATION
 from django.contrib.auth.hashers import make_password, check_password
 from django.utils import timezone
 from .exceptions import *
-
-logging.basicConfig(level=logging.INFO)
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
 
 def generate_tokens_for_user(user: User) -> Dict[str, str]:
     refresh_token = RefreshToken.for_user(user)
@@ -46,12 +48,33 @@ def generate_authentication_response(user: User) -> JsonResponse:
 
     return response
 
-def generate_and_send_verification_email(user: User) -> None:
+def send_verification_email(email: str, first_name: str, verification_code: str) -> None:
+    html_message = render_to_string('email/verification.html', {
+        'first_name': first_name,
+        'verification_code': verification_code
+    })
+
+    text_message = strip_tags(html_message)
+
+    send_mail(
+        subject="Verifica tu cuenta",
+        from_email="fvs9621@gmail.com",
+        recipient_list=[email],
+        html_message=html_message,
+        fail_silently=False,
+        message=text_message
+    )
+
+def generate_and_send_verification_code(user: User) -> None:
     verification_code = AuthenticationUtils.generate_verification_code()
     verification_data = VerificationData(user=user, field="email", code=make_password(verification_code))
     verification_data.save()
 
-    logging.info(f"Verification code for {user.email}: {verification_code}")
+    send_verification_email(
+        email=user.email,
+        first_name=user.first_name,
+        verification_code=verification_code
+    )
 
 def get_session(request: HttpRequest) -> JsonResponse:
     user: User = request.user
@@ -133,7 +156,13 @@ def resend_email_verification_code(user: User) -> bool:
     verification_code = AuthenticationUtils.generate_verification_code()
     verification_data.set_new_code(make_password(verification_code))
 
-    logging.info(f"Verification code for {user.email}: {verification_code}")
+    verification_data.save()
+
+    send_verification_email(
+        email=user.email,
+        first_name=user.first_name,
+        verification_code=verification_code
+    )
 
     return True
 

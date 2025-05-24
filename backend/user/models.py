@@ -4,7 +4,9 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.utils import timezone
 
 from image.models import Image
-from location.models import Location
+from dotenv import load_dotenv
+import os
+load_dotenv()
 
 # Create your models here.
 class UserManager(BaseUserManager):
@@ -52,10 +54,10 @@ class User(AbstractBaseUser):
     REQUIRED_FIELDS = ["password", "first_name", "last_name", "company_name"]
 
     def profile_picture_url(self):
-        base = "http://localhost:8000"
+        base = os.environ.get("SERVER_BASE_URL")
         
         if self.profile_picture:
-            return base + self.profile_picture.url
+            return base + self.profile_picture.image_url
         
         return base + "/api/image/default-pfp.png"
     

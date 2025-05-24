@@ -4,7 +4,6 @@ from rest_framework import serializers
 from .models import User, UserInformation
 
 class UserInformationSerializer(serializers.ModelSerializer):
-
     class Meta:
         model = UserInformation
         fields = [
@@ -13,6 +12,10 @@ class UserInformationSerializer(serializers.ModelSerializer):
             'semester',
             'instagram'
         ]
+
+    def create(self, validated_data):
+        user_information = UserInformation.objects.create(**validated_data)
+        return user_information
 
     def update(self, instance, validated_data):
         instance.bio = validated_data.get('bio', instance.bio)
@@ -58,3 +61,12 @@ class ProfileSerializer(serializers.ModelSerializer):
             'profile_picture_url',
             'information'
         ]
+
+class UpdateProfilePictureSerializer(serializers.Serializer):
+    image = serializers.ImageField(required=True)
+
+    def validate_image(self, value):
+        if not value.content_type in ['image/jpeg', 'image/jpg', 'image/png']:
+            raise serializers.ValidationError("Invalid image type")
+        
+        return value

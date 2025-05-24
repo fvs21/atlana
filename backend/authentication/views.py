@@ -28,7 +28,7 @@ class AuthenticationViewSet(viewsets.ViewSet):
 
         UserInformation.objects.create(user=user)
 
-        service.generate_and_send_verification_email(user)
+        service.generate_and_send_verification_code(user)
 
         return service.generate_authentication_response(user)
     

@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap">
+    </head>
+    <body style="font-family: 'Montserrat', sans-serif; background-color: #f4f4f4; color: #333;">
+        <div style="width: 100%; padding: 20px;">
+            <div style="border-bottom: 1px solid rgb(194, 194, 194);">
+                <h1>Verifica tu cuenta</h1>
+            </div>
+            <p>Hola {{ first_name }}, utiliza el siguiente código para verificar tu cuenta: </p>
+            <div style="text-align: center;">
+                <h2>{{ verification_code }}</h2>
+            </div>
+            <p>Si no solicitaste este código, puedes ignorar este mensaje.</p>
+        </div>
+        <div style="padding: 20px; color: gray;">
+            <span>Atlana &copy; 2025</span>
+        </div>
+    </body>
+</html>

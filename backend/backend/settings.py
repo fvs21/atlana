@@ -13,6 +13,7 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 from datetime import timedelta
 import os
 from pathlib import Path
+from tkinter import E
 from dotenv import load_dotenv
 
 
@@ -26,17 +27,27 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-g-5rkjfuh3zjvdaymahvoefn08385&i#-oz!u^b3334pc-=wr('
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DEBUG', "True").lower() in ('true', '1', 't')
 
-ALLOWED_HOSTS = ['192.168.68.103', 'localhost', '127.0.0.1', '192.168.68.106']
+ALLOWED_HOSTS = [
+    '192.168.68.103', 
+    'localhost', 
+    '127.0.0.1', 
+    'backend', 
+    "atlana-lb-651789820.us-east-2.elb.amazonaws.com",
+    '10.0.1.239'
+]
+
 CORS_ALLOWED_ORIGINS = [
     'http://192.168.68.103:5173', 
     'http://localhost:5173', 
+    'http://localhost:3000',
     'http://127.0.0.1:5173',
-    'http://192.168.68.106:5173'
+    "http://atlana-lb-651789820.us-east-2.elb.amazonaws.com",
+    'http://10.0.1.239:5173'
 ]
 CORS_ALLOW_CREDENTIALS = True
 
@@ -68,6 +79,7 @@ INSTALLED_APPS = [
     'location.apps.LocationConfig',
     'marketplace.apps.MarketplaceConfig',
     'chat.apps.ChatConfig',
+    'health_check.apps.HealthCheckConfig',
     'rest_framework_simplejwt.token_blacklist',
     'corsheaders',
     'django.contrib.admin',
@@ -94,7 +106,9 @@ ROOT_URLCONF = 'backend.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            os.path.join(BASE_DIR, 'authentication', 'templates'),
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -125,9 +139,11 @@ CHANNEL_LAYERS = {
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'marketplace',
+        'NAME': os.environ.get('PSQL_DB'),
         'USER': os.environ.get('PSQL_USER'),
         'PASSWORD': os.environ.get('PSQL_PASSWORD'),
+        'HOST': os.environ.get('PSQL_HOST'),
+        'PORT': os.environ.get('PSQL_PORT'),
     }
 }
 
@@ -173,3 +189,11 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False

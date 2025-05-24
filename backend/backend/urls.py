@@ -25,4 +25,5 @@ urlpatterns = [
     path('api/marketplace/', include('marketplace.urls')),
     path('api/location/', include('location.urls')),
     path('api/chat/', include('chat.urls')),
+    path('api/health', include('health_check.urls')),
 ]

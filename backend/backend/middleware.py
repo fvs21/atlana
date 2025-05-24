@@ -1,10 +1,8 @@
 from typing import Optional
 from channels.db import database_sync_to_async
-from django.http import HttpRequest, JsonResponse
 from user.models import User
 from rest_framework_simplejwt.tokens import AccessToken
 from django.contrib.auth.models import AnonymousUser
-from django.utils.deprecation import MiddlewareMixin
 
 @database_sync_to_async
 def get_user_from_token(token: str) -> Optional[User]:
