@@ -8,7 +8,7 @@ import FooterSmall from "~/components/footer-small";
 
 export const meta: MetaFunction = () => {
     return [
-        { title: "Marketplace: Crea una publicación" }
+        { title: "Atlana: Crea una publicación" }
     ]
 }
 

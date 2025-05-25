@@ -7,14 +7,23 @@ class UserInformationSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserInformation
         fields = [
+            'user',
             'bio',
             'major',
             'semester',
             'instagram'
         ]
 
+        extra_kwargs = {
+            'user': {
+                'required': False,
+            }
+        }
+
     def create(self, validated_data):
-        user_information = UserInformation.objects.create(**validated_data)
+        user = validated_data.pop('user')
+
+        user_information = UserInformation.objects.create(user=user, **validated_data)
         return user_information
 
     def update(self, instance, validated_data):

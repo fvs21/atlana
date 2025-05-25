@@ -1,4 +1,4 @@
-import { LoaderFunctionArgs, MetaFunction } from "@remix-run/node"
+import { data, LoaderFunctionArgs, MetaFunction } from "@remix-run/node"
 import { useUser } from "~/api/client.auth";
 import { onlyAuthenticatedNotVerified } from "~/api/server.auth"
 import FooterSmall from "~/components/footer-small";
@@ -15,14 +15,14 @@ import { toast } from "sonner";
 
 export const meta: MetaFunction = () => {
     return [
-        { title: "Marketplace: Verificate " }
+        { title: "Atlana: Verificate " }
     ]
 }
 
 export async function loader({ request }: LoaderFunctionArgs) {
     onlyAuthenticatedNotVerified({ request });
 
-    return null;
+    return data({});
 }
 
 export default function Page() {
@@ -35,7 +35,9 @@ export default function Page() {
     const { verifyEmail, verifyEmailDisabled } = useVerifyEmail();
     const { resendCode, isPending: isResending, resendCodeDisabled } = useResendVerificationEmail();
 
-    const handleVerifyEmail = async () => {
+    const handleVerifyEmail = async (e: React.FormEvent<HTMLFormElement>) => {
+        e.preventDefault();
+
         if (verifyEmailDisabled) return;
 
         if(!code) 
@@ -81,7 +83,7 @@ export default function Page() {
                 <div className={styles.verifyEmailFormContainer}>
                     <div className={styles.verifyEmailForm}>
                         <h1 className={styles.verifyEmailTitle}>Verifica tu correo</h1>
-                        <div className={styles.verifyEmailBody}>
+                        <form className={styles.verifyEmailBody} onSubmit={handleVerifyEmail}>
                             {!isLoading && (
                                 <p className={styles.verifyEmailDescription}>
                                     Te hemos enviado un correo a <span className="font-semibold">{user?.email}</span> con el código para verificar tu cuenta.
@@ -105,13 +107,13 @@ export default function Page() {
                             <div className={styles.verifyEmailActions}>
                                 <Button 
                                     className="primaryButton" 
-                                    onClick={handleVerifyEmail} 
+                                    type="submit"
                                     disabled={verifyEmailDisabled}
                                 >
                                     Verificar
                                 </Button>
                             </div>
-                        </div>
+                        </form>
                     </div>
                 </div>
             </main>

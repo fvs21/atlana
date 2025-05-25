@@ -17,7 +17,7 @@ import AuthForm from "~/components/auth-form"
 export const meta: MetaFunction = () => {
     return [
         {
-            title: 'Marketplace: Inicia sesión'
+            title: 'Atlana: Inicia sesión'
         }
     ]
 }
@@ -54,7 +54,11 @@ export default function LoginForm() {
         }
 
         try {
-            await login({ email, password });
+            const res = await login({ email, password });
+            if(!res.user.has_email_verified) {
+                navigate("/verify-email");
+                return;
+            }
             navigate("/marketplace");
         } catch {
             setErrors({
@@ -68,12 +72,12 @@ export default function LoginForm() {
         <div className="flexColContainer">
             <div className={styles.container}>
                 <div style={{ zIndex: 1 }} className={styles.logo}>
-                    <Logo width={45} />
+                    <Logo width={200} />
                 </div>
                 <AuthForm className={styles.formWrapper}>
                     <div className={styles.formContent}>
                         <div className={styles.insideLogo}>
-                            <Logo width={35} />
+                            <Logo width={140} />
                         </div>
                         <div className={styles.welcomeSection}>
                             <h2>Inicia sesión</h2>

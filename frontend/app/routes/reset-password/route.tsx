@@ -29,7 +29,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
 
 export const meta: MetaFunction = () => (
     [
-        { title: "Marketplace: Restablecer contraseña" }
+        { title: "Atlana: Restablecer contraseña" }
     ]
 )
 

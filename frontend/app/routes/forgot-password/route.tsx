@@ -20,7 +20,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
 export const meta: MetaFunction = () => {
     return [
-        { title: "Marketplace: Olvide mi contraseña" }
+        { title: "Atlana: Olvide mi contraseña" }
     ]
 }
 

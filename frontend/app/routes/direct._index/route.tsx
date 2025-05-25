@@ -1,6 +1,8 @@
+import styles from "./styles.module.scss";
+
 export default function Page() {
     return (
-        <div className="w-full h-full flex justify-center items-center">
+        <div className={styles.selectChat}>
             Selecciona un chat
         </div>
     )

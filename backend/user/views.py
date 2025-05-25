@@ -51,8 +51,8 @@ class UserViewset(viewsets.ViewSet):
     def edit_profile(self, request: HttpRequest) -> JsonResponse:
         user: User = request.user
 
-        if not user.information:
-            serializer = UserInformationSerializer(data={**request.data, "user": user})
+        if not user.has_information():
+            serializer = UserInformationSerializer(data={**request.data, "user": user.id})
         else:
             serializer = UserInformationSerializer(user.information, data=request.data, partial=True)
 

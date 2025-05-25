@@ -1,6 +1,7 @@
 import { useMutation } from "@tanstack/react-query";
 import { apiGuest } from "~/api";
 import { ResponseBody } from "~/types/globals";
+import { ResetPasswordBody } from "../types";
 
 export function useForgotPassword() {
     const { mutateAsync: forgotPassword, isPending, isError } = useMutation({
@@ -18,16 +19,9 @@ export function useForgotPassword() {
     };
 }
 
-type ResetPassowordBody = {
-    new_password: string;
-    token: string;
-    confirm_password: string;
-    email: string;
-}
-
 export function useResetPassword() {
     const { mutateAsync: resetPassword, isPending, isError } = useMutation({
-        mutationFn: async (data: ResetPassowordBody) => {
+        mutationFn: async (data: ResetPasswordBody) => {
             const res = await apiGuest.post<ResponseBody<null>>("/auth/reset-password", data);
             return res.data.data;
         }

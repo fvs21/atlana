@@ -42,7 +42,7 @@ class User(AbstractBaseUser):
     email_verified_at = models.DateTimeField(null=True, blank=True)
     phone_verified_at = models.DateTimeField(null=True, blank=True)
 
-    profile_picture = models.OneToOneField(Image, on_delete=models.CASCADE, null=True, blank=True)
+    profile_picture = models.OneToOneField(Image, on_delete=models.SET_NULL, null=True, blank=True)
 
     objects = UserManager()
 
@@ -78,6 +78,9 @@ class User(AbstractBaseUser):
             return False
         
         return self.password_updated_at + timedelta(hours=24) >= timezone.now()
+    
+    def has_information(self) -> bool:
+        return hasattr(self, "information")
     
 
 class VerificationData(models.Model):

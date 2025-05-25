@@ -2,6 +2,8 @@ import { ResponseBody } from "~/types/globals";
 import { BASE_URL } from ".";
 import { redirect } from "@remix-run/node";
 
+export const SERVER_BASE_URL = process.env.SERVER_BASE_URL;
+
 export const authTokenExists = ({ request }: { request: Request }) => {
     return getAuthToken({ request }) != null;
 }

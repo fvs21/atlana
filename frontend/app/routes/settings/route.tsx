@@ -8,7 +8,7 @@ import { onlyAuthenticated } from "~/api/server.auth";
 
 export const meta: MetaFunction = () => (
     [
-        { title: "Marketplace: Configuración" }
+        { title: "Atlana: Configuración" }
     ]
 )
 
@@ -25,7 +25,8 @@ export default function Page() {
         <div className="flexColContainer">
             <NavbarSmall />
             <div className={styles.settingsContainer}>
-                <div className={styles.settingsSidebar}>
+                {/**
+                 * <div className={styles.settingsSidebar}>
                     <h1 className={styles.title}>
                         Configuración
                     </h1>
@@ -34,12 +35,9 @@ export default function Page() {
                             <User />
                             Perfil
                         </NavLink>
-                        <NavLink to={"/settings/security"} className={cn(styles.settingsLink, location.pathname === "/settings/security" ? styles.active : "")}>
-                            <Shield />
-                            Seguridad
-                        </NavLink>
                     </div>
                 </div>
+                 */}
                 <div className={styles.settingsContent}>
                     <Outlet />
                 </div>

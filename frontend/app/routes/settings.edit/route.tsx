@@ -24,9 +24,17 @@ export default function Page() {
             major: formData.get("major") as string,
             semester: Number(formData.get("semester")),
             instagram: formData.get("instagram") as string,
-        };
+        };                
 
-        if (Object.keys(data).every(key => user?.information[key as keyof UserInformation] === data[key as keyof UserInformation])) {
+        if (Object.keys(data).every(key => {
+            if(!user?.information)
+                return false;
+
+            if (!(key in user?.information))
+                return false;
+
+            return user?.information[key as keyof UserInformation] === data[key as keyof UserInformation];
+        })) {
             return;
         }
         
@@ -39,7 +47,7 @@ export default function Page() {
     }
     
     return (
-        <main className="overflow-y-auto">
+        <main className="h-full overflow-y-auto">
             <form className={styles.editProfileContainer} onSubmit={handleSubmit}>
                 <h1 className={styles.title}>
                     Editar perfil

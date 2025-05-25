@@ -1,4 +1,4 @@
-@import "~/styles/variables";
+@use "~/styles/variables" as *;
 
 .header {
     height: 55px;
@@ -19,4 +19,18 @@
 .chatName {
     font-size: 15px;
     font-weight: 500;
+}
+
+.backButton {
+    display: none;
+}
+
+@media only screen and (max-width: 800px) {
+    .backButton {
+        display: block;
+    }
+
+    .header {
+        padding: $spacing-xs $spacing-sm;
+    }
 }

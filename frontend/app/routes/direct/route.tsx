@@ -1,4 +1,4 @@
-import { MetaFunction, Outlet } from "@remix-run/react";
+import { MetaFunction, Outlet, useParams } from "@remix-run/react";
 import { useEffect } from "react";
 import { useToken } from "~/api/client.auth";
 import NavbarSmall from "~/components/navbar-small";
@@ -9,6 +9,7 @@ import ChatListItem from "~/features/chat/components/ChatListItem";
 import { ChatNotification } from "~/features/chat/types";
 import { LoaderFunctionArgs } from "@remix-run/node";
 import { onlyAuthenticated } from "~/api/server.auth";
+import { cn } from "~/lib/utils";
 
 export async function loader({ request }: LoaderFunctionArgs) {
     onlyAuthenticated({ request });
@@ -17,7 +18,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
 
 export const meta: MetaFunction = () => (
     [
-        { title: "Marketplace: Mensajes" }
+        { title: "Atlana: Mensajes" }
     ]
 )
 
@@ -27,6 +28,8 @@ export default function Page() {
 
     const { data, isLoading } = useGetChats();
     const { chatNotification } = useUserChatsMutations(); 
+
+    const { chat_id } = useParams();
 
     useEffect(() => {
         const socket = new WebSocket("ws://localhost:8000/ws/chats/?token=" + token);
@@ -52,7 +55,7 @@ export default function Page() {
             <NavbarSmall />
             {!isLoading && (
                 <div className={styles.chatsContainer}>
-                    <div className={styles.chatsList}>
+                    <div className={cn(styles.chatsList, chat_id ? styles.hide : styles.show)}>
                         <div className={styles.chatsListHeader}>
                             <h2 className={styles.chatsListTitle}>Mensajes</h2>
                         </div>

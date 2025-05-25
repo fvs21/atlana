@@ -1,4 +1,4 @@
-@import "~/styles/variables";
+@use "~/styles/variables" as *;
 
 .header {
     background-color: white;
@@ -26,6 +26,7 @@
         width: 100%;
         height: 100%;
         border-radius: 50%;
+        object-fit: cover;
     }
 }
 
@@ -64,8 +65,9 @@
     margin-top: $spacing-lg;
     border-radius: 25px;
     background-color: white;
-    border: 1px solid black;
+    border: 1px solid $border-color;
     color: black;
+    box-shadow: none;
 
     &:hover {
         background-color: rgb(239, 239, 239);

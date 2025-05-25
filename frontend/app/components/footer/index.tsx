@@ -29,7 +29,7 @@ export default function Footer() {
         </div>
       </div>
       <div className={styles.bottom}>
-        <p>&copy; {new Date().getFullYear()} Marketplace.</p>
+        <p>&copy; {new Date().getFullYear()} Atlana.</p>
       </div>
     </footer>
   )

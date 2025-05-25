@@ -1,4 +1,4 @@
-@import '~/styles/variables';
+@use "~/styles/variables" as *;
 
 .nav {
     background-color: $background-light;
@@ -27,13 +27,13 @@
 
 .menu {
     display: none;
+    width: 550px;
+
 
     @include responsive($breakpoint-md) {
         display: flex;
         gap: $spacing-xl;
     }
-
-    width: 550px;
 }
 
 .actions {

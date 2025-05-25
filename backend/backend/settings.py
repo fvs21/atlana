@@ -34,6 +34,7 @@ DEBUG = os.environ.get('DEBUG', "True").lower() in ('true', '1', 't')
 
 ALLOWED_HOSTS = [
     '192.168.68.103', 
+    '192.168.68.102',
     'localhost', 
     '127.0.0.1', 
     'backend', 
@@ -47,8 +48,10 @@ CORS_ALLOWED_ORIGINS = [
     'http://localhost:3000',
     'http://127.0.0.1:5173',
     "http://atlana-lb-651789820.us-east-2.elb.amazonaws.com",
-    'http://10.0.1.239:5173'
+    'http://10.0.1.239:5173',
+    'http://192.168.68.102:5173'
 ]
+
 CORS_ALLOW_CREDENTIALS = True
 
 ACCESS_TOKEN_DURATION = 60*60

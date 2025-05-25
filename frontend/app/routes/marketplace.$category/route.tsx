@@ -24,7 +24,7 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
 export const meta: MetaFunction = ({ params }) => {
     const category = categories.find((cat) => cat.value === params.category);
     return [
-        { title: "Marketplace: " + category?.name },
+        { title: "Atlana: " + category?.name },
     ];
 }
 

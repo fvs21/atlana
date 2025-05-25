@@ -9,7 +9,7 @@ import { allowAll } from "~/api/server.auth";
 
 export const meta: MetaFunction = () => {
   return [
-    { title: "Marketplace: Compra y venta de segunda mano" },
+    { title: "Atlana: Compra y venta de segunda mano" },
   ];
 };
 

@@ -1,4 +1,4 @@
-@import "~/styles/variables";
+@use "~/styles/variables" as *;
 
 $transition: all 0.3s ease;
 
@@ -20,7 +20,6 @@ $transition: all 0.3s ease;
 .imageContainer {
     flex: 1;
     position: relative;
-    background-image: url('/placeholder.svg?height=1080&width=1920');
     background-size: cover;
     background-position: center;
 

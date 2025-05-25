@@ -15,7 +15,7 @@ import { onlyGuests } from "~/api/server.auth";
 
 export const meta: MetaFunction = () => {
     return [
-        { title: "Marketplace: Regístrate" },
+        { title: "Atlana: Regístrate" },
     ]
 }
 
@@ -79,7 +79,7 @@ export default function RegisterPage() {
 
         try {
             await register(body);
-            navigate("/marketplace");
+            navigate("/verify-email");
         } catch(error) {
             console.log(error);
         }
@@ -89,7 +89,7 @@ export default function RegisterPage() {
         <div className={styles.container}>
             <div className={styles.formWrapper}>
                 <div className={styles.formContent}>
-                    <Logo width={35} />
+                    <Logo width={150} />
                     <h2>Crea tu cuenta</h2>
                     <form className={styles.form} onSubmit={handleSubmit}>
                         <div className={styles.nameFields}>

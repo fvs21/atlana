@@ -1,8 +1,9 @@
-@import "~/styles/variables";
+@use "~/styles/variables" as *;
 
 .settingsContainer {
     display: flex;
     flex-grow: 1;
+    overflow-y: hidden;
 }
 
 .settingsSidebar {

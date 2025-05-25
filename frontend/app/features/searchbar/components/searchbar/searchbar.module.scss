@@ -1,4 +1,4 @@
-@import "~/styles/variables.scss";
+@use "~/styles/variables" as *;
 
 .searchbarContainer {
     border: 1px solid $border-color;

@@ -1,4 +1,4 @@
-@import "~/styles/variables";
+@use "~/styles/variables" as *;
 
 $box-shadow: 0 1px 10px 2px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
 $border-radius: 14px;
@@ -58,7 +58,9 @@ $transition: all 0.3s ease;
 }
 
 .logo {
-    text-align: center;
+    display: flex;
+    justify-content: center;
+    padding-bottom: $spacing-sm;
 }
 
 .insideLogo {
