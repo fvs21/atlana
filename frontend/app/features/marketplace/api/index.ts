@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { api } from "~/api";
 import { ResponseBody } from "~/types/globals";
 import { Category, Listing, ListingCard, PropertyListingCard } from "~/types/listings";
@@ -20,7 +20,7 @@ export function useFetchListings() {
 }
 
 export function useFetchListing(id: number) {
-    const { data, isLoading, isError } = useQuery({
+    const { data, isLoading } = useQuery({
         queryKey: ["listing", id],
         queryFn: async () => {
             const request = await api.get<ResponseBody<Listing>>(`/listing/${id}`);
@@ -66,5 +66,30 @@ export function useFilterListingsInsideBounds(bounds: PropertyMapBounds) {
     return {
         data,
         isLoading
+    }
+}
+
+export function useDeleteListing(listingId: number) {
+    const queryClient = useQueryClient();
+
+    const { mutateAsync: deleteListing, isPending, isError } = useMutation({
+        mutationFn: async () => {
+            const response = await api.delete<ResponseBody<null>>(`/listing/${listingId}`);
+            return response.data;
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({
+                queryKey: ["listing", listingId]
+            });
+            queryClient.invalidateQueries({
+                queryKey: ["listings"]
+            });
+        }   
+    });
+
+    return {
+        deleteListing,
+        isPending,
+        isError
     }
 }

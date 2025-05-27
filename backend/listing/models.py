@@ -16,6 +16,10 @@ CATEGORIES = [
     'property_rentals'
 ]
 
+class PublicListingManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(archived=False)
+
 class Listing(models.Model):
     CATEGORIES_CHOICES = [
         (category, category.capitalize())
@@ -29,6 +33,10 @@ class Listing(models.Model):
     category = models.CharField(max_length=50, choices=CATEGORIES_CHOICES)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     used = models.BooleanField(blank=True, null=True)
+
+    archived = models.BooleanField(default=False)
+
+    public = PublicListingManager()
 
     def images_urls(self) -> List[str]:
         return [

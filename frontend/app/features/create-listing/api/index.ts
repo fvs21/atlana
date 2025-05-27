@@ -10,6 +10,7 @@ export function useCreateListing() {
     const { mutateAsync: create, isPending, isError } = useMutation({
         mutationFn: async (body: FormData) => {
             const request = await apiMultiPart.post<ResponseBody<Listing>>("/listing/create", body);
+            
             return request.data
         },
         onSuccess: (data) => {

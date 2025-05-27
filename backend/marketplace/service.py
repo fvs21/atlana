@@ -2,23 +2,23 @@ from typing import List
 
 from location.models import Location
 from user.models import User
-from listing.models import Listing, PropertyListing
+from listing.models import Listing
 
 
 def get_all_listings() -> List[Listing]:
-    return Listing.objects.all()
+    return Listing.public.all()
 
 def get_listings_by_category(category: str) -> List[Listing]:
     """
         Get all listings by category
     """
-    return Listing.objects.filter(category=category)
+    return Listing.public.filter(category=category)
 
 def get_listings_by_user(user: User) -> List[Listing]:
     """
         Get all listings by user
     """
-    return Listing.objects.filter(creator=user).all()
+    return Listing.public.filter(creator=user).all()
 
 def filter_property_listings_inside_bounds(bounds: dict) -> List[Listing]:
     '''
@@ -36,7 +36,7 @@ def filter_property_listings_inside_bounds(bounds: dict) -> List[Listing]:
         longitude__gte=southwest['lng']
     )
 
-    listings = Listing.objects.filter(category='property_rentals').filter(
+    listings = Listing.public.filter(category='property_rentals').filter(
         property__location__in=locations
     ).select_related('property')[:15]
 

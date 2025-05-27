@@ -105,6 +105,7 @@ export default function Page() {
                                 size={"lg"} 
                                 type="submit"
                                 disabled={forgotPasswordDisabled}
+                                isFetching={isPending}
                             >
                                 Enviar correo
                             </Button>

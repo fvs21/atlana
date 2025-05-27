@@ -62,6 +62,7 @@ class ListingsViewset(viewsets.ViewSet):
     @action(methods=['GET'], detail=False)
     def listing(self, request: HttpResponse, id: int) -> JsonResponse:
         listing = service.get_listing_by_id(id)
+        user = request.user
 
         if not listing:
             return JsonResponse({
@@ -69,9 +70,43 @@ class ListingsViewset(viewsets.ViewSet):
                 'code': 'listing_not_found'
             }, status=404)
         
+        if listing.archived and listing.creator != user:
+            return JsonResponse({
+                'details': "Listing not found",
+                'code': 'listing_not_found'
+            }, status=404) 
+        
         return JsonResponse({
             "data": {
                 "listing": ListingSerializer(listing).data
             },
             "details": "Listing retrieved"
         }, status=200)
+    
+    @action(methods=['DELETE'], detail=False)
+    def delete_listing(self, request: HttpRequest, id: int) -> JsonResponse:
+        user = request.user
+
+        if not service.delete_listing(user, id):
+            return JsonResponse({
+                'details': "You do not have permission to delete this listing",
+                'code': "listing_permission_denied"
+            }, status=403)
+
+        return JsonResponse({
+            "details": "Listing deleted"
+        }, status=204)
+    
+    @action(methods=['POST'], detail=False)
+    def archive_listing(self, request: HttpRequest, id: int) -> JsonResponse:
+        user = request.user
+
+        if not service.archive_listing(user, id):
+            return JsonResponse({
+                'details': "You do not have permission to archive this listing",
+                'code': "listing_permission_denied"
+            }, status=403)
+
+        return JsonResponse({
+            "details": "Listing archived"
+        }, status=204)

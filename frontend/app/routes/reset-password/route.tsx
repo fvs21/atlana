@@ -119,6 +119,8 @@ export default function Page() {
                                 className="primaryButton w-full" 
                                 size={"lg"} 
                                 type="submit"
+                                disabled={resetPasswordDisabled}
+                                isFetching={isPending}
                             >
                                 Cambiar
                             </Button>

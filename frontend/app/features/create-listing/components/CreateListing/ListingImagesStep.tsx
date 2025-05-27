@@ -1,5 +1,5 @@
 import { useAtom } from "jotai";
-import { listingImagesAtom, stepAtom, useBody } from "../../store";
+import { listingImagesAtom, stepAtom, useBody, useResetBody } from "../../store";
 import styles from "./styles.module.scss";
 import { ChevronLeft } from "lucide-react";
 import ListingImagesInput from "../ListingImagesInput";
@@ -21,6 +21,8 @@ export default function ListingImagesStep() {
     const { create: createProperty } = useCreatePropertyListing();
 
     const body = useBody();
+    const resetBody = useResetBody();
+
     const navigate = useNavigate();
 
     const next = async () => {
@@ -30,13 +32,15 @@ export default function ListingImagesStep() {
         }        
 
         if(body.category == "property_rentals")
-            createProperyListing();
+            await createPropertyListing();
         else 
-            createListing();
+            await createListing();
         
     }
 
     const createListing = async () => {
+        if(createDisabled) return;
+
         const formData = new FormData();
 
         const listingBody = body as CreateListingBody;
@@ -45,23 +49,25 @@ export default function ListingImagesStep() {
             formData.append("images", image);
         });
 
-
         formData.append("data", JSON.stringify({
             title: listingBody.title,
             description: listingBody.description,
             category: listingBody.category,
             price: listingBody.price,
+            used: listingBody.used,
         }));
 
         try {
             await create(formData);
-            navigate("/marketplace")
+            resetBody();
+            toast.success("Publicación creada");
+            navigate("/marketplace");
         } catch(error) {
             console.log(error);     
         }
     }
 
-    const createProperyListing = async () => {
+    const createPropertyListing = async () => {
         const listingBody = body as CreatePropertyListingBody;
         const formData = new FormData();
 
@@ -83,7 +89,9 @@ export default function ListingImagesStep() {
 
         try {
             await createProperty(formData);
-            navigate("/marketplace")
+            resetBody();
+            toast.success("Publicación creada");
+            navigate("/marketplace");
         } catch(error) {
             console.log(error);     
         }
@@ -106,7 +114,12 @@ export default function ListingImagesStep() {
                             Estas son las imagenes que se mostraran en el apartado principal de tu anuncio. Puedes agregar hasta 6 imagenes.
                         </div>
                     </div>
-                    <Button className="primaryButton" onClick={next} disabled={createDisabled}>
+                    <Button 
+                        className="primaryButton" 
+                        onClick={next} 
+                        disabled={createDisabled}
+                        isFetching={isPending}
+                    >
                         Crear
                     </Button>
                 </div>

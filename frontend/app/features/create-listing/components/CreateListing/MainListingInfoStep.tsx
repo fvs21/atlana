@@ -2,11 +2,11 @@ import { cn } from "~/lib/utils";
 import styles from "./styles.module.scss";
 import ValidatedInput from "~/components/validated-input";
 import { useAtom } from "jotai";
-import { listingCategoryAtom, listingDescriptionAtom, listingTitleAtom, stepAtom } from "../../store";
+import { listingCategoryAtom, listingDescriptionAtom, listingTitleAtom, listingUsedAtom, stepAtom } from "../../store";
 import TextArea from "~/components/text-area";
 import LabeledSelect from "~/components/labeled-select";
 import { Button } from "~/components/ui/button";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { validateStepOne } from "../../utils/validators";
 import categories from "~/constants/categories";
 import { Category } from "~/types/listings";
@@ -15,15 +15,17 @@ export default function MainListingInfoStep() {
     const [title, setTitle] = useAtom(listingTitleAtom);
     const [description, setDescription] = useAtom(listingDescriptionAtom);
     const [category, setCategory] = useAtom(listingCategoryAtom);
+    const [used, setUsed] = useAtom(listingUsedAtom);
 
     const [errors, setErrors] = useState({
         title: "",
         description: "",
         category: "",
+        used: ""
     });
 
     const nextButton = () => {
-        const errors_ = validateStepOne(title, description, category);
+        const errors_ = validateStepOne(title, description, category, used);
 
         if (Object.keys(errors_).length > 0) {
             setErrors(errors_ as typeof errors);
@@ -82,6 +84,28 @@ export default function MainListingInfoStep() {
                         </div>
                     )}
                 </div>
+                {(category && !["food", "property_rentals"].includes(category)) && (
+                    <div className={styles.formInput}>
+                        <LabeledSelect
+                            name="used"
+                            label="Condición del producto"
+                            placeholder="Selecciona una opción"
+                            options={[
+                                { name: "Nuevo", value: "new" },
+                                { name: "Usado", value: "used" }
+                            ]}
+                            value={used ? "used" : "new"}
+                            onChange={(val: string) => {
+                                setUsed(val === "used");
+                            }}
+                        />
+                        {errors.used && (
+                            <div className="pt-2">
+                                <span className="errorMessage">{errors.used}</span>
+                            </div>
+                        )}
+                    </div>
+                )}
                 <div className={cn(styles.formInput, styles.nextButtonContainer)}>
                     <Button className="primaryButton" onClick={nextButton}>
                         Siguiente

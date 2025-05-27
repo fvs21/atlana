@@ -1,9 +1,10 @@
-from typing import List
+from typing import List, Optional
 from django.core.files.uploadedfile import UploadedFile
 from image.service import upload_image
 from listing.models import Listing, ListingImage, PropertyListing
 from location.models import Location
 from user.models import User
+from listing.exceptions import ListingDoesNotExistException
 
 def create_property_listing(user: User, body: dict, images: List[UploadedFile]) -> Listing:
     listing = create_listing(user, body, images)
@@ -51,8 +52,40 @@ def create_listing(user: User, body: dict, images: List[UploadedFile]) -> Listin
 
     return listing
 
-def get_listing_by_id(id: int) -> Listing:
+def get_listing_by_id(id: int) -> Optional[Listing]:
     """
         Get a listing by its id
     """
+
     return Listing.objects.filter(id=id).first()
+
+def delete_listing(user: User, id: int) -> bool:
+    """
+        Delete a listing by its id
+    """
+    listing = get_listing_by_id(id)
+    
+    if not listing:
+        raise ListingDoesNotExistException()
+    
+    if listing.creator != user:
+        return False
+    
+    listing.delete()
+    return True
+    
+def archive_listing(user: User, id: int) -> bool:
+    """
+        Archive a listing by its id
+    """
+    listing = get_listing_by_id(id)
+    
+    if not listing:
+        raise ListingDoesNotExistException()
+    
+    if listing.creator != user:
+        return False
+    
+    listing.archived = True
+    listing.save()
+    return True

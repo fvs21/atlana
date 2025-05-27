@@ -11,3 +11,9 @@ class ListingOptionsException(DefaultException):
 
     def __init__(self, detail="Invalid options for listing", status_code=404):
         super().__init__(detail, status_code, self.code)
+
+class ListingDoesNotExistException(DefaultException):
+    code = "listing_does_not_exist"
+
+    def __init__(self, detail="Listing does not exist", status_code=404):
+        super().__init__(detail, status_code, self.code)

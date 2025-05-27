@@ -11,6 +11,7 @@ import LocationDisplay from "./LocationDisplay.client";
 import { ClientOnly } from "remix-utils/client-only";
 import ListingActions from "../ListingActions";
 import { useUser } from "~/api/client.auth";
+import ListingCreatorActions from "../ListingCreatorActions";
 
 export default function Listing({ listing }: { listing: ListingType | PropertyListing }) {
     const isProperty = listing.category == "property_rentals";
@@ -46,7 +47,14 @@ export default function Listing({ listing }: { listing: ListingType | PropertyLi
                     </div>
                 </div>
                 <div className={styles.infoContainer}>
-                    <h1 className={styles.title}>{listing.title}</h1>
+                    <h1 className={styles.title}>
+                        {listing.title}
+                    </h1>
+                    {listing.creator.id == user?.id && (
+                        <ListingCreatorActions
+                            listing_id={listing.id}
+                        />
+                    )}
                     {listing.used != null && (
                         <div>
                             <span className={styles.usedTag}>

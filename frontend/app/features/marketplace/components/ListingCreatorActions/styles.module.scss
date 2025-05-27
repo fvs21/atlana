@@ -1,0 +1,21 @@
+@use "~/styles/variables" as *;
+
+.actionsContainer {
+    margin-top: $spacing-sm;
+    margin-bottom: $spacing-md;
+    display: flex;
+    gap: $spacing-md;
+}
+
+.actionButton {
+    background-color: $background-secondary;
+    color: black;
+
+    &:hover {
+        background-color: $button-hover;
+    }
+}
+
+.deleteButton {
+    color: $error-color;
+}

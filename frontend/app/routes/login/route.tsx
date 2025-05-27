@@ -36,7 +36,7 @@ export default function LoginForm() {
 
     const navigate = useNavigate();
 
-    const { login, loginDisabled } = useLogin();
+    const { login, isPending, loginDisabled } = useLogin();
 
     const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -103,7 +103,12 @@ export default function LoginForm() {
                                     ¿Olvidaste tu contraseña?
                                 </Link>
                             </div>
-                            <Button type="submit" className={styles.submitButton} disabled={loginDisabled}>
+                            <Button 
+                                type="submit" 
+                                className={styles.submitButton} 
+                                disabled={loginDisabled}
+                                isFetching={isPending}
+                            >
                                 Iniciar sesión
                             </Button>
                         </form>

@@ -1,6 +1,6 @@
 import { Category } from "~/types/listings";
 
-export function validateStepOne(title: string, description: string, category: Category | undefined) {
+export function validateStepOne(title: string, description: string, category: Category | undefined, used: boolean): { [key: string]: string } {
     const errors: { [key: string]: string } = {};
 
     if (!title) {
@@ -13,6 +13,12 @@ export function validateStepOne(title: string, description: string, category: Ca
 
     if (!category) {
         errors.category = "La categoría es requerida";
+    }
+
+    if(category && !["property_rentals", "food"].includes(category)) {
+        if (used == null) {
+            errors.used = "La condición del producto es requerida";
+        }
     }
 
     return errors;

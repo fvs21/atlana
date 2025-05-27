@@ -23,7 +23,7 @@ export default function Page() {
                 chat_id={chat?.id!}
                 receiver_id={chat?.participants[0].id!}
             />   
-            <Chat messages={messages!}/>
+            <Chat messages={messages!} />
         </main>
     )
 }

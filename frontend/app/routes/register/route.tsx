@@ -157,7 +157,12 @@ export default function RegisterPage() {
                             </div>
                             {errors?.agree_to_terms && <span className={styles.errorMessage}>{errors.agree_to_terms}</span>}
                         </div>
-                        <Button type="submit" className={styles.submitButton} disabled={registerDisabled}>
+                        <Button 
+                            type="submit" 
+                            className={styles.submitButton} 
+                            disabled={registerDisabled}
+                            isFetching={isPending}
+                        >
                             Crea tu cuenta
                         </Button>
                     </form>

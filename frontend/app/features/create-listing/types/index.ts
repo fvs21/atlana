@@ -6,7 +6,7 @@ export type CreateListingBody = {
     category: Category;
     images: File[];
     price: number;
-    used: boolean;
+    used?: boolean;
 }
 
 export type CreatePropertyListingBody = CreateListingBody & {

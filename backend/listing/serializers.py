@@ -22,7 +22,10 @@ class CreateListingBodySerializer(serializers.ModelSerializer):
         ]
 
     def validate_used(self, used) -> bool:
-        if used is None and not self.initial_data.get('category') == "food":
+        if self.initial_data.get('category') in ["food", "property_rentals"]:
+            return None
+        
+        if used is None:
             raise serializers.ValidationError("Debes especificar si el producto es nuevo o usado")
         
         return used
@@ -134,5 +137,6 @@ class ListingSerializer(serializers.ModelSerializer):
             'created_at',
             'creator',
             'used',
-            'property'
+            'property',
+            'archived'
         ]

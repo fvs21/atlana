@@ -13,7 +13,6 @@ const listingUsedAtom = atom<boolean>(false);
 
 //property listings
 const propertyTypeAtom = atom<PropertyType>("");
-const sellAtom = atom<boolean>(false);
 const bedroomsAtom = atom<number>();
 const bathroomsAtom = atom<number>();
 const timeUnitAtom = atom<PropertyTimeUnit>("day");
@@ -33,13 +32,12 @@ const useBody = (): CreateListingBody | CreatePropertyListingBody => {
     const [used] = useAtom(listingUsedAtom);
 
     const [property_type] = useAtom(propertyTypeAtom);
-    const [sell] = useAtom(sellAtom);
     const [bedrooms] = useAtom(bedroomsAtom);
     const [bathrooms] = useAtom(bathroomsAtom);
     const [location] = useAtom(locationAtom);
     const [time_unit] = useAtom(timeUnitAtom);
 
-    if(category != "property_rentals") {
+    if (category != "property_rentals") {
         return {
             title,
             description,
@@ -56,8 +54,6 @@ const useBody = (): CreateListingBody | CreatePropertyListingBody => {
         category,
         price: price || 0,
         images,
-        used,
-        sell,
         location: {
             latitude: location.latitude,
             longitude: location.longitude,
@@ -70,6 +66,38 @@ const useBody = (): CreateListingBody | CreatePropertyListingBody => {
     }
 }
 
+const useResetBody = () => {
+    const [, setTitle] = useAtom(listingTitleAtom);
+    const [, setDescription] = useAtom(listingDescriptionAtom);
+    const [, setCategory] = useAtom(listingCategoryAtom);
+    const [, setImages] = useAtom(listingImagesAtom);
+    const [, setPrice] = useAtom(listingPriceAtom);
+    const [, setUsed] = useAtom(listingUsedAtom);
+    const [, setPropertyType] = useAtom(propertyTypeAtom);
+    const [, setBedrooms] = useAtom(bedroomsAtom);
+    const [, setBathrooms] = useAtom(bathroomsAtom);
+    const [, setLocation] = useAtom(locationAtom);
+    const [, setTimeUnit] = useAtom(timeUnitAtom);
+
+    return () => {
+        setTitle("");
+        setDescription("");
+        setCategory("");
+        setImages([]);
+        setPrice(undefined);
+        setUsed(false);
+        setPropertyType("");
+        setBedrooms(undefined);
+        setBathrooms(undefined);
+        setLocation({
+            latitude: 0,
+            longitude: 0,
+            radius: 0
+        });
+        setTimeUnit("day");
+    }
+}
+
 export {
     stepAtom,
     listingTitleAtom,
@@ -79,10 +107,10 @@ export {
     listingPriceAtom,
     listingUsedAtom,
     propertyTypeAtom,
-    sellAtom,
     bedroomsAtom,
     bathroomsAtom,
     locationAtom,
     timeUnitAtom,
-    useBody
+    useBody,
+    useResetBody
 }
