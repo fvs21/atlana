@@ -36,6 +36,7 @@ class Listing(models.Model):
 
     archived = models.BooleanField(default=False)
 
+    objects = models.Manager()
     public = PublicListingManager()
 
     def images_urls(self) -> List[str]:

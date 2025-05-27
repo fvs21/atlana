@@ -90,6 +90,31 @@ export function useDeleteListing(listingId: number) {
     return {
         deleteListing,
         isPending,
-        isError
+        deleteListingDisabled: isPending && !isError
+    }
+}
+
+export function useArchiveListing(listingId: number) {
+    const queryClient = useQueryClient();
+
+    const { mutateAsync: archiveListing, isPending, isError } = useMutation({
+        mutationFn: async () => {
+            const response = await api.post<ResponseBody<null>>(`/listing/archive/${listingId}`);
+            return response.data;
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries({
+                queryKey: ["listing", listingId]
+            });
+            queryClient.invalidateQueries({
+                queryKey: ["listings"]
+            });
+        }
+    });
+
+    return {
+        archiveListing,
+        isPending,
+        archiveListingDisabled: isPending && !isError
     }
 }
