@@ -4,7 +4,6 @@ from backend.permissions import GENERAL_AUTHENTICATION_PERMISSIONS
 from listing.models import CATEGORIES
 from .serializers import ListingCardSerializer, MapBoundsSerializer
 from . import service
-from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import action
 from django.http import HttpRequest, JsonResponse
 
@@ -13,7 +12,7 @@ class MarketplaceViewSet(viewsets.ViewSet):
     permission_classes = GENERAL_AUTHENTICATION_PERMISSIONS
 
     @action(methods=['GET'], detail=False)
-    def get_listings(self, request: HttpRequest) -> JsonResponse:
+    def listings(self, request: HttpRequest) -> JsonResponse:
         """
         Get all listings
         """
@@ -26,7 +25,7 @@ class MarketplaceViewSet(viewsets.ViewSet):
         }, status=200)
 
     @action(methods=['GET'], detail=False)
-    def get_listings_by_category(self, request: HttpRequest, cat: str) -> JsonResponse:
+    def listings_by_category(self, request: HttpRequest, cat: str) -> JsonResponse:
         """
         Get all listings by category
         """
@@ -71,4 +70,34 @@ class MarketplaceViewSet(viewsets.ViewSet):
                 "listings": ListingCardSerializer(listings, many=True).data
             },
             "details": "Property listings retrieved"
+        }, status=200)
+    
+    @action(methods=['GET'], detail=False)
+    def created_listings(self, request: HttpRequest) -> JsonResponse:
+        """
+        Get all created listings by user
+        """
+        user = request.user
+
+        listings = service.get_listings_by_user(user)
+
+        return JsonResponse({
+            "data": {
+                "listings": ListingCardSerializer(listings, many=True).data
+            },
+        }, status=200)
+    
+    @action(methods=['GET'], detail=False)
+    def search(self, request: HttpRequest) -> JsonResponse:
+        """
+        Search listings by query
+        """
+        query = request.GET.get('query', '')
+
+        listings = service.search_listings(query)
+
+        return JsonResponse({
+            "data": {
+                "listings": ListingCardSerializer(listings, many=True).data
+            },
         }, status=200)

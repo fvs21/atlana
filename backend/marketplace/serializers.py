@@ -36,7 +36,8 @@ class ListingCardSerializer(serializers.ModelSerializer):
             'price',
             'images_urls',
             'creator',
-            'property'
+            'property',
+            'archived'
         ]
 
 class MapBoundsSerializer(serializers.Serializer):

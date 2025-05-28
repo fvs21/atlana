@@ -1,15 +1,13 @@
-from functools import partial
 from django.http import HttpRequest, JsonResponse
 from rest_framework import viewsets
-from rest_framework.permissions import IsAuthenticated
 
 from backend.permissions import GENERAL_AUTHENTICATION_PERMISSIONS
 from listing.serializers import ListingSerializer
 
-from .models import User, UserInformation
+from .models import User
 from .serializers import ProfileSerializer, UpdateProfilePictureSerializer, UserInformationSerializer, UserSerializer
 
-from marketplace.service import get_listings_by_user
+from marketplace.service import get_public_listings_by_user
 from image.service import upload_image
 
 # Create your views here.
@@ -40,7 +38,7 @@ class UserViewset(viewsets.ViewSet):
                 "details": "User not found"
             }, status=404)
         
-        listings = get_listings_by_user(user)
+        listings = get_public_listings_by_user(user)
         
         return JsonResponse({
             "data": {

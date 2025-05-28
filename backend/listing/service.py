@@ -86,6 +86,6 @@ def archive_listing(user: User, id: int) -> bool:
     if listing.creator != user:
         return False
     
-    listing.archived = True
+    listing.archived = not listing.archived
     listing.save()
     return True
