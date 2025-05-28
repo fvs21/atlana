@@ -32,7 +32,7 @@ export default function Page() {
     const { chat_id } = useParams();
 
     useEffect(() => {
-        const socket = new WebSocket("ws://localhost:8000/ws/chats/?token=" + token);
+        const socket = new WebSocket("ws://localhost:8000/api/ws/chats/?token=" + token);
         setSocket(socket);
 
         socket.onmessage = (event) => {

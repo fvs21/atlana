@@ -8,7 +8,6 @@ import FooterSmall from "~/components/footer-small";
 import { data, LoaderFunctionArgs } from "@remix-run/node";
 import { onlyAuthenticated, refreshToken } from "~/api/server.auth";
 import { getProfileInformation } from "~/features/profile/api/server";
-import { useUser } from "~/api/client.auth";
 
 export async function loader({ request, params }: LoaderFunctionArgs) {
     onlyAuthenticated({ request });

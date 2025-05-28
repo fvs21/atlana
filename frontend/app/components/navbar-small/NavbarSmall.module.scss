@@ -9,12 +9,13 @@
 }
 
 .container {
-    @include container;
-    height: 70px;
+    height: 60px;
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: $spacing-md;
+    margin: 0 auto;
+    padding: 0 $spacing-xl;
 }
 
 .logo {
@@ -28,7 +29,6 @@
 .menu {
     display: none;
     width: 550px;
-
 
     @include responsive($breakpoint-md) {
         display: flex;

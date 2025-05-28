@@ -1,7 +1,10 @@
 import { data, LoaderFunctionArgs, MetaFunction } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
 import { onlyAuthenticated, refreshToken } from "~/api/server.auth";
+import FooterSmall from "~/components/footer-small";
+import LoadingScreen from "~/components/loading-screen";
 import Navbar from "~/components/navbar";
+import { useListing } from "~/features/marketplace/api";
 import { fetchListing } from "~/features/marketplace/api/server";
 import Listing from "~/features/marketplace/components/Listing";
 
@@ -20,6 +23,7 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
 
     try {
         const res = await fetchListing(Number(id), token?.data?.access_token!);
+        
         return data({
             ...res.data
         });
@@ -38,14 +42,22 @@ export const meta: MetaFunction<typeof loader> = ({data}) => {
 }
 
 export default function Page() {
-    const data = useLoaderData<typeof loader>();
-    const listing = data.listing;
+    const loaderData = useLoaderData<typeof loader>();
+
+    const { data, isLoading } = useListing(loaderData.listing);
+
+    if (isLoading) {
+        return <LoadingScreen />;
+    }
 
     return (
-        <>
+        <div className="flexColContainer">
             <Navbar />
-            <Listing listing={listing} />
-        </>
+            <main className="flex-grow">
+                <Listing listing={data!} />
+            </main>
+            <FooterSmall />
+        </div>
     )
     
 }

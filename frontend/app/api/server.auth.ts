@@ -48,11 +48,18 @@ const parseJwt = (token: string) => {
     return JSON.parse(Buffer.from(token.split(".")[1], "base64").toString());
 }
 
+const parsePath = (url: string): string => {
+    const urlObj = new URL(url);
+    return urlObj.pathname + urlObj.search;
+}
+
 export const onlyAuthenticated = ({ request }: { request: Request }): void => {
     const token = getAuthToken({ request });
 
+    const path = parsePath(request.url);
+
     if(token == null) {
-        throw redirect("/login");
+        throw redirect("/login?redirect=" + encodeURIComponent(path));
     }
 
     const payload = parseJwt(token);
@@ -63,10 +70,12 @@ export const onlyAuthenticated = ({ request }: { request: Request }): void => {
 }
 
 export const onlyAuthenticatedNotVerified = ({ request }: { request: Request }): void => {
-    const token = getAuthToken({ request });
+    const token = getAuthToken({ request });  
+    
+    const path = parsePath(request.url);
 
     if(token == null) {
-        throw redirect("/login");
+        throw redirect("/login?redirect=" + encodeURIComponent(path));
     }
 
     const payload = parseJwt(token);

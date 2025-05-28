@@ -1,4 +1,4 @@
-import { Link, useNavigate } from "@remix-run/react"
+import { Link, useNavigate, useSearchParams } from "@remix-run/react"
 import { Button } from "~/components/ui/button"
 import styles from "./login.module.scss"
 import FooterSmall from "~/components/footer-small"
@@ -28,13 +28,16 @@ export async function loader({ request }: LoaderFunctionArgs) {
     return data({});
 }
 
-export default function LoginForm() {
+export default function Page() {
     const [errors, setErrors] = useState<LoginErrors>({
         email: "",
         password: "",
     });
 
     const navigate = useNavigate();
+    const [searchParams] = useSearchParams();
+
+    const redirectTo = searchParams.get("redirect") || "/marketplace";
 
     const { login, isPending, loginDisabled } = useLogin();
 
@@ -55,11 +58,13 @@ export default function LoginForm() {
 
         try {
             const res = await login({ email, password });
+
             if(!res.user.has_email_verified) {
                 navigate("/verify-email");
                 return;
             }
-            navigate("/marketplace");
+
+            navigate(redirectTo);
         } catch {
             setErrors({
                 email: "",

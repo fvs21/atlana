@@ -8,9 +8,10 @@ import { useNavigate } from "@remix-run/react";
 
 type ListingCreatorActionsProps = {
     listing_id: number;
+    archived: boolean;
 }
 
-export default function ListingCreatorActions({ listing_id }: ListingCreatorActionsProps) {
+export default function ListingCreatorActions({ listing_id, archived }: ListingCreatorActionsProps) {
     const navigate = useNavigate();
 
     const { deleteListing, isPending, deleteListingDisabled } = useDeleteListing(listing_id);
@@ -32,8 +33,12 @@ export default function ListingCreatorActions({ listing_id }: ListingCreatorActi
 
         try {
             await archiveListing();
-            toast.success("Anuncio archivado correctamente");
-            navigate('/marketplace');
+
+            if( archived ) {
+                toast.success("Anuncio desarchivado correctamente");
+            } else {
+                toast.success("Anuncio archivado correctamente");
+            }
         } catch (error) {
             toast.error("Error al archivar el anuncio");
         }
@@ -59,7 +64,7 @@ export default function ListingCreatorActions({ listing_id }: ListingCreatorActi
                 isFetching={isArchiving}
             >
                 <Archive />
-                Archivar
+                {archived ? "Desarchivar" : "Archivar"}
             </Button>
         </div>
     )

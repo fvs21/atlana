@@ -52,7 +52,9 @@ export const useLogout = () => {
             await api.post<ResponseBody<null>>("/auth/logout");
         },
         onSuccess: () => {
-            queryClient.removeQueries();
+            setTimeout(() => {
+                queryClient.resetQueries();
+            }, 1200);
         }
     });
 

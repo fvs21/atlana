@@ -53,6 +53,7 @@ export default function Listing({ listing }: { listing: ListingType | PropertyLi
                     {listing.creator.id == user?.id && (
                         <ListingCreatorActions
                             listing_id={listing.id}
+                            archived={listing.archived}
                         />
                     )}
                     {listing.used != null && (

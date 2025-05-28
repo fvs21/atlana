@@ -13,6 +13,7 @@ export default function ListingsDisplay({ listings }: { listings: ListingCardTyp
                     price={listing.price}
                     images_urls={listing.images_urls}
                     creator={listing.creator}
+                    archived={listing.archived}
                 />
             ))}
         </div>

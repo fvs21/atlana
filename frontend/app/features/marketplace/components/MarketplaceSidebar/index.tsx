@@ -1,6 +1,6 @@
 import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "~/components/ui/sidebar";
 import styles from "./styles.module.scss";
-import { LucideProps, Search } from "lucide-react";
+import { LucideProps, Search, Store, User } from "lucide-react";
 import { NavLink, useLocation, useParams } from "@remix-run/react";
 import { Button } from "~/components/ui/button";
 import categories from "~/constants/categories";
@@ -11,7 +11,6 @@ export default function MarketplaceSidebar() {
     const params = useParams();
 
     const categoryParam = params?.category;    
-    
 
     return (
         <Sidebar className={styles.sidebar}>
@@ -23,6 +22,18 @@ export default function MarketplaceSidebar() {
                 <SidebarGroup className={styles.createListingGroup}>
                     <SidebarGroupContent>
                         <SidebarMenu>
+                            <SidebarButton 
+                                tag="Todos los anuncios"
+                                link="/marketplace"
+                                selected={categoryParam === ""}
+                                icon={Store}
+                            />
+                            <SidebarButton 
+                                tag="Mis anuncios"
+                                link="/marketplace/created"
+                                selected={categoryParam === "created"}
+                                icon={User}
+                            />
                             <div className={styles.createListingContainer}>
                                 <NavLink to="/create-listing">
                                     <Button className={styles.createListingButton}>

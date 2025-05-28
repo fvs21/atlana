@@ -26,7 +26,7 @@ export default function Chat({ messages }: { messages: MessageType[] }) {
     }
 
     useEffect(() => {
-        socket.current = new WebSocket(`ws://localhost:8000/ws/chat/${chat_id}/?token=${token}`);
+        socket.current = new WebSocket(`ws://localhost:8000/api/ws/chat/${chat_id}/?token=${token}`);
 
         socket.current.onopen = () => {
             console.log("Connected to chat");

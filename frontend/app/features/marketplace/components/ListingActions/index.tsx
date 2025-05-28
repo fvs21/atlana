@@ -23,13 +23,9 @@ export default function ListingActions({ listing_id, creator_id }: ListingAction
     }
     return (
         <div className={styles.actionsContainer}>
-            <Button className="primaryButton" onClick={handleSendMessage} disabled={sendMessageDisabled}>
+            <Button size="default2" className="primaryButton" onClick={handleSendMessage} disabled={sendMessageDisabled}>
                 <MessageCircle />
                 Enviar mensaje
-            </Button>
-            <Button className="primaryButton">
-                <Bookmark />
-                Guardar
             </Button>
         </div>
     )
