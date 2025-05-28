@@ -4,7 +4,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 export const refreshToken = async (): Promise<string | null> => {
     try {
-        const request = await apiGuest.get<ResponseBody<{ access_token: string }>>("/auth/refresh");
+        const request = await apiGuest.post<ResponseBody<{ access_token: string }>>("/auth/refresh");
         return request.data.data?.access_token as string;
     } catch {
         return null;
@@ -52,6 +52,7 @@ export const useLogout = () => {
             await api.post<ResponseBody<null>>("/auth/logout");
         },
         onSuccess: () => {
+            queryClient.resetQueries({ queryKey: ['access-token'] });
             setTimeout(() => {
                 queryClient.resetQueries();
             }, 1200);

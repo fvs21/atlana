@@ -3,7 +3,7 @@
 .hero {
   padding: $spacing-3xl 0;
   background-image: url("https://wp-media.petersons.com/blog/wp-content/uploads/2019/09/20145500/iStock-1136187224.jpg");
-  background-size: cover; 
+  background-size: cover;
   background-position: center;
 }
 
@@ -77,7 +77,7 @@
   @include container;
   display: grid;
   gap: $spacing-xl;
-  
+
   @include responsive($breakpoint-md) {
     grid-template-columns: repeat(4, 1fr);
   }
@@ -212,3 +212,79 @@
   color: rgba(white, 0.7);
 }
 
+.information {
+  padding: $spacing-3xl 0;
+  background-color: $background-light;
+  margin: 0 auto;
+  max-width: 60%;
+}
+
+.informationSection {
+  display: flex;
+  column-gap: $spacing-4xl;
+  row-gap: $spacing-xl;
+  padding-bottom: $spacing-2xl;
+}
+
+.informationSectionReverse {
+  flex-direction: row-reverse;
+}
+
+.informationImage {
+  width: 35%;
+  border-radius: 8px;
+  display: block;
+  object-fit: contain;
+}
+
+.informationContent {
+  width: 65%;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: $spacing-md;
+}
+
+.informationContentTitle {
+  font-size: 30px;
+  font-weight: 600;
+}
+
+.informationList {
+  list-style: decimal inside;
+  font-size: 15px;
+  
+  li {
+    margin-bottom: $spacing-sm;
+  }
+
+  li:last-child {
+    margin-bottom: 0;
+  }
+}
+
+@media only screen and (max-width: 1130px) {
+  .information {
+    padding: $spacing-xl 0;
+    max-width: 85%;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  .information {
+    max-width: 95%;
+    padding: $spacing-lg 0;
+  }
+
+  .informationSection {
+    flex-direction: column;
+  }
+
+  .informationImage {
+    width: 100%;
+  }
+  .informationContent {
+    width: 100%;
+  }
+}

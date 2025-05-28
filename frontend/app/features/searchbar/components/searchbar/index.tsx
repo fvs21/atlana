@@ -3,11 +3,15 @@ import styles from "./searchbar.module.scss";
 
 export default function Searchbar() {
     return (
-        <div className={styles.searchbarContainer}>
-            <input className={styles.searchbar} placeholder="Busca productos"/>
+        <form className={styles.searchbarContainer} action="/marketplace/search" method="get">
+            <input 
+                className={styles.searchbar} 
+                placeholder="Busca productos"
+                name="query"
+            />
             <div className={styles.searchIcon}>
                 <Search color="white" size={20}/>
             </div>
-        </div>
+        </form>
     )
 }

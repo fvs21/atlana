@@ -6,6 +6,7 @@ import Footer from "~/components/footer";
 import { Link } from "@remix-run/react";
 import { useUser } from "~/api/client.auth";
 import { allowAll } from "~/api/server.auth";
+import { cn } from "~/lib/utils";
 
 export const meta: MetaFunction = () => {
   return [
@@ -38,40 +39,24 @@ export default function Index() {
             </div>
           </div>
         </section>
-        <section className={styles.features}>
-          <div className={styles.featureGrid}>
-            <div className={styles.featureItem}>
-              <div className={styles.icon}>🚚</div>
-              <h3>Free Shipping</h3>
-              <p>On orders over $50</p>
-            </div>
-            <div className={styles.featureItem}>
-              <div className={styles.icon}>↩️</div>
-              <h3>Devoluciones sencillas</h3>
-              <p>30-day return policy</p>
-            </div>
-            <div className={styles.featureItem}>
-              <div className={styles.icon}>🔒</div>
-              <h3>Pagos seguros</h3>
-              <p>Sesión de pago 100% segura con Stripe</p>
-            </div>
-            <div className={styles.featureItem}>
-              <div className={styles.icon}>💎</div>
-              <h3>Productos de calidad</h3>
-              <p>Curated selection</p>
+        <section className={styles.information}>
+          <div className={styles.informationSection}>
+            <img className={styles.informationImage} src="/music.png" />
+            <div className={styles.informationContent}>
+              <h2 className={styles.informationContentTitle}>Compra y vende</h2>
+              Atlana es un marketplace exclusivo para estudiantes. Nuestra plataforma permite comprar y vender artículos de segunda mano de manera segura y sencilla dentro de una comunidad confiable, fomentando la economía circular y el ahorro entre la comunidad estudiantil.
             </div>
           </div>
-        </section>
-        <section className={styles.categories}>
-          <div className={styles.categoryContainer}>
-            <h2 className={styles.categoryTitle}>Shop by Category</h2>
-            <div className={styles.categoryGrid}>
-              {["Women", "Men", "Accessories", "Shoes"].map((category) => (
-                <Link to={`/category/${category.toLowerCase()}`} key={category} className={styles.categoryCard}>
-                  <img alt={category} width={300} height={300} />
-                  <h3>{category}</h3>
-                </Link>
-              ))}
+          <div className={cn(styles.informationSection, styles.informationSectionReverse)}>
+            <img className={styles.informationImage} src="/selling.png" />
+            <div className={styles.informationContent}>
+              <h2 className={styles.informationContentTitle}>¿Cómo funciona?</h2>
+              <ol className={styles.informationList}>
+                <li>Regístrate y verifícate en la plataforma con tu correo institucional (anahuacmayab.edu.mx)</li>
+                <li>Publica artículos o busca por categorías</li>
+                <li>Conecta con vendedores o compradores por mensaje</li>
+                <li>Reúnete seguramente y completa la compra</li>
+              </ol>
             </div>
           </div>
         </section>
