@@ -16,6 +16,7 @@ export default function MarkeplaceSearchbar() {
                 className={styles.searchBar}
                 placeholder="Buscar..."
                 defaultValue={query}
+                autoFocus={false}
             />
         </form>
     )

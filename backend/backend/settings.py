@@ -33,7 +33,7 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 DEBUG = os.environ.get('DEBUG', "True").lower() in ('true', '1', 't')
 
 ALLOWED_HOSTS = [
-    '192.168.68.103', 
+    '192.168.68.101', 
     '192.168.68.102',
     'localhost', 
     '127.0.0.1', 
@@ -43,7 +43,7 @@ ALLOWED_HOSTS = [
 ]
 
 CORS_ALLOWED_ORIGINS = [
-    'http://192.168.68.103:5173', 
+    'http://192.168.68.101:5173', 
     'http://localhost:5173', 
     'http://localhost:3000',
     'http://127.0.0.1:5173',

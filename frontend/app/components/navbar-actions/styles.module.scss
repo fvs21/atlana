@@ -28,7 +28,7 @@
 .dissapearingActionButtons {
     display: none;
 
-    @include responsive($breakpoint-lg) {
+    @include responsive($breakpoint-md) {
         display: flex;
     }
 }

@@ -16,8 +16,8 @@ export default function Page() {
     }
 
     return (
-        <ListingsDisplay 
-            listings={data?.data?.listings || []} 
+        <ListingsDisplay
+            listings={data?.data?.listings || []}
         />
     )
 }

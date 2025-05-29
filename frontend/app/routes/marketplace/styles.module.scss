@@ -1,11 +1,5 @@
 @use "~/styles/variables" as *;
 
-.container {
-    width: 100%;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-}
 
 .sidebarProvider {
     display: flex;
@@ -22,8 +16,7 @@
 }
 
 .marketplaceContent {
-    width: 100%;
-    height: 100%;
+    flex-grow: 1;
     background-color: $background-secondary;
     overflow-y: auto;
 }

@@ -22,7 +22,7 @@ export const meta: MetaFunction = () => {
 
 export default function Page() {
     return (
-        <div className={styles.container}>
+        <div className="flexColContainer">
             <NavbarSmall />
             <SidebarProvider style={{
                 '--sidebar-width': "350px"

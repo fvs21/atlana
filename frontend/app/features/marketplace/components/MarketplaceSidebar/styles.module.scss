@@ -81,3 +81,9 @@
 .sidebarButtonTag {
     font-size: 15px;
 }
+
+@media only screen and (max-width: $breakpoint-mobile) {
+    .categoriesMenu {
+        padding-bottom: 70px;
+    }
+}

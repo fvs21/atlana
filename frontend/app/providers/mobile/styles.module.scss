@@ -1,0 +1,61 @@
+@use "~/styles/variables" as *;
+
+.responsiveLayoutContainer {
+    height: 100%;
+}
+
+.content {
+    min-height: 100svh;
+}
+
+.mobileTabsContainer {
+    display: flex;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    background-color: white;
+    height: 70px;
+    justify-content: center;
+    border-top: 1px solid $border-color;
+    z-index: 1000;
+
+    @include responsive($breakpoint-mobile) {
+        display: none;
+    }
+}
+
+.mobileTabs {
+    display: flex;
+    justify-content: center;
+    max-width: 80%;
+    width: 100%;
+}
+
+.mobileTab {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: $spacing-sm;
+    gap: 8px;
+
+}
+
+.tabName {
+    font-size: 11px;
+}
+
+.active {
+    color: $primary-color;
+    font-weight: 500;
+}
+
+@media only screen and (max-width: $breakpoint-mobile) {
+    .content {
+        min-height: $responsive-height;
+        padding-bottom: 70px;
+    }
+}

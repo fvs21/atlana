@@ -56,3 +56,9 @@ body {
           border-radius: $border-radius;
      }
 }
+
+@media only screen and (max-width: $breakpoint-mobile) {
+     .flexColContainer {
+          height: $responsive-height;
+     }
+}

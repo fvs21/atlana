@@ -54,7 +54,7 @@ class User(AbstractBaseUser):
     REQUIRED_FIELDS = ["password", "first_name", "last_name", "company_name"]
 
     def profile_picture_url(self):
-        base = os.environ.get("SERVER_BASE_URL")
+        base = "http://localhost:8000"
         
         if self.profile_picture:
             return base + self.profile_picture.image_url

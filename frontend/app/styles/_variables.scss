@@ -60,12 +60,16 @@ $breakpoint-md: 768px;
 $breakpoint-lg: 1024px;
 $breakpoint-xl: 1280px;
 
+$breakpoint-mobile: 768px;
+
 $max-width: 1200px;
 
 $chat-primary: #2083ff;
 $chat-secondary: rgb(224, 224, 224);
 
 $border-radius: 12px;
+
+$responsive-height: calc(100svh - 70px);
 
 // Mixins
 @mixin container {

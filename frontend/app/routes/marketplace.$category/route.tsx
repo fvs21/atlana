@@ -7,8 +7,8 @@ import ListingsDisplay from "~/features/marketplace/components/ListingsDisplay";
 import { Category } from "~/types/listings";
 
 export async function loader({ params, request }: LoaderFunctionArgs) {
-    onlyAuthenticated({request});
-    const category = params.category;    
+    onlyAuthenticated({ request });
+    const category = params.category;
 
 
     if (!categories.map((cat) => cat.value).includes(category as Category)) {

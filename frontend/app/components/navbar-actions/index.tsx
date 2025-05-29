@@ -94,13 +94,6 @@ export default function NavbarActions() {
                         </NavigationMenuItem>
                     </React.Fragment>
                 )}
-                <NavigationMenuItem className={styles.dissapearingActionButtons}>
-                    <NavigationMenuLink asChild className={styles.iconButton}>
-                        <Link to="/cart">
-                            <ShoppingCart />
-                        </Link>
-                    </NavigationMenuLink>
-                </NavigationMenuItem>
             </NavigationMenuList>
         </NavigationMenu>
     )

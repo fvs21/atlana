@@ -16,7 +16,7 @@ export default function Page() {
         return <></>
 
     return (
-        <main className={styles.chatContainer}>
+        <div className={styles.chatContainer}>
             <ChatHeader 
                 chat_name={chat?.participants[0].full_name!}
                 chat_picture={chat?.participants[0].profile_picture_url!}
@@ -24,6 +24,6 @@ export default function Page() {
                 receiver_id={chat?.participants[0].id!}
             />   
             <Chat messages={messages!} />
-        </main>
+        </div>
     )
 }

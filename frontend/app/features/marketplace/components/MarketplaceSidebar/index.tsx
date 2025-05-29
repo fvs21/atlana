@@ -1,6 +1,6 @@
 import { Sidebar, SidebarContent, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuButton, SidebarMenuItem } from "~/components/ui/sidebar";
 import styles from "./styles.module.scss";
-import { LucideProps, Search, Store, User } from "lucide-react";
+import { LucideProps, Store, User } from "lucide-react";
 import { NavLink, useLocation, useParams } from "@remix-run/react";
 import { Button } from "~/components/ui/button";
 import categories from "~/constants/categories";
@@ -36,7 +36,7 @@ export default function MarketplaceSidebar() {
                             />
                             <div className={styles.createListingContainer}>
                                 <NavLink to="/create-listing">
-                                    <Button className={styles.createListingButton}>
+                                    <Button className={styles.createListingButton} size="default2">
                                         + Crear anuncio
                                     </Button>
                                 </NavLink>
@@ -47,7 +47,7 @@ export default function MarketplaceSidebar() {
                 <SidebarGroup>
                     <SidebarGroupLabel>Categorías</SidebarGroupLabel>
                     <SidebarGroupContent>
-                        <SidebarMenu>
+                        <SidebarMenu className={styles.categoriesMenu}>
                             {categories.map((category) => (
                                 <SidebarButton
                                     key={category.name}

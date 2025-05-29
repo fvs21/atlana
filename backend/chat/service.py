@@ -1,10 +1,10 @@
 
-from typing import List, Tuple
+from typing import Dict, List, Tuple
 
-from attr import has
 from user.models import User
 from chat.models import Chat, Message
 from django.db.models import Max
+from channels.db import database_sync_to_async
 
 async def can_user_join_chat(user: User, chat_id: int) -> bool:
     """

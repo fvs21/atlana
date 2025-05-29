@@ -35,3 +35,9 @@
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 }
+
+@media only screen and (max-width: 460px) {
+    .listings {
+        grid-template-columns: 1fr;
+    }
+}

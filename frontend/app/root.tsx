@@ -18,6 +18,7 @@ import "./styles/globals.scss";
 import { authTokenExists, refreshToken } from "./api/server.auth";
 import AuthProvider from "./providers/AuthProvider";
 import { Toaster } from "./components/ui/sonner";
+import MobileProvider from "./providers/mobile/MobileProvider";
 
 export const links: LinksFunction = () => [
   { rel: "preconnect", href: "https://fonts.googleapis.com" },
@@ -51,13 +52,13 @@ export function Layout({ children }: { children: React.ReactNode }) {
 }
 
 export async function loader({ request }: { request: Request }) {
-  if(!authTokenExists({request})) {
+  if (!authTokenExists({ request })) {
     return new Response();
   }
 
   const response = await refreshToken({ request });
 
-  if(!response) {
+  if (!response) {
     return new Response();
   }
 
@@ -76,13 +77,15 @@ export default function App() {
   }));
 
   const data = useLoaderData<typeof loader>();
-  
+
   return (
     <QueryClientProvider client={queryClient}>
       <AuthProvider access_token={data.access_token}>
         <Provider>
-          <Outlet />
-          <Toaster richColors />
+          <MobileProvider>
+            <Outlet />
+            <Toaster richColors />
+          </MobileProvider>
         </Provider>
       </AuthProvider>
     </QueryClientProvider>

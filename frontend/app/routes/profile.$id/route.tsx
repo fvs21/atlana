@@ -41,7 +41,7 @@ export default function Page() {
     const data = useLoaderData<typeof loader>();
 
     return (
-        <div className="flexColContainer">
+        <>
             <NavbarSmall />
             <main className={styles.profilePage}>
                 <Header
@@ -62,6 +62,6 @@ export default function Page() {
                 </div>
             </main>
             <FooterSmall />
-        </div>
+        </>
     )
 }

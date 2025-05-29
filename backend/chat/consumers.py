@@ -1,7 +1,10 @@
 import json
+from typing import Dict
 from channels.generic.websocket import AsyncWebsocketConsumer
 
-from .serializers import ChatNotificationSerializer, MessageSerializer
+from chat.models import Message
+
+from .serializers import MessageSerializer, ChatNotificationSerializer
 from . import service
 from channels.db import database_sync_to_async
 
@@ -72,7 +75,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 f'chats_user_{participant.id}',
                 {
                     'type': 'chat_notification',
-                    'message': ChatNotificationSerializer(message).data
+                    'message': self.serializer_chat_notification(message)
                 }
             )
         
@@ -83,3 +86,8 @@ class ChatConsumer(AsyncWebsocketConsumer):
             'type': 'chat_message',
             'data': message
         }))
+
+    
+    @database_sync_to_async
+    def serializer_chat_notification(self, message: Message) -> Dict:
+        return ChatNotificationSerializer(message).data

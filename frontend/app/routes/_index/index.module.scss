@@ -67,151 +67,6 @@
     border-radius: 12px;
   }
 }
-
-.features {
-  padding: $spacing-3xl 0;
-  background-color: $background-light;
-}
-
-.featureGrid {
-  @include container;
-  display: grid;
-  gap: $spacing-xl;
-
-  @include responsive($breakpoint-md) {
-    grid-template-columns: repeat(4, 1fr);
-  }
-}
-
-.featureItem {
-  text-align: center;
-
-  .icon {
-    font-size: $font-size-3xl;
-    margin-bottom: $spacing-md;
-  }
-
-  h3 {
-    font-size: $font-size-lg;
-    margin-bottom: $spacing-sm;
-  }
-
-  p {
-    color: $text-secondary;
-    font-size: $font-size-sm;
-  }
-}
-
-.categories {
-  padding: $spacing-3xl 0;
-}
-
-.categoryContainer {
-  @include container;
-}
-
-.categoryTitle {
-  text-align: center;
-  font-size: $font-size-2xl;
-  margin-bottom: $spacing-2xl;
-}
-
-.categoryGrid {
-  display: grid;
-  gap: $spacing-lg;
-  grid-template-columns: repeat(2, 1fr);
-
-  @include responsive($breakpoint-md) {
-    grid-template-columns: repeat(4, 1fr);
-  }
-}
-
-.categoryCard {
-  position: relative;
-  overflow: hidden;
-  border-radius: 12px;
-
-  img {
-    width: 100%;
-    height: auto;
-    transition: transform 0.3s ease;
-  }
-
-  &:hover img {
-    transform: scale(1.05);
-  }
-
-  h3 {
-    text-align: center;
-    margin-top: $spacing-md;
-    font-size: $font-size-lg;
-  }
-}
-
-.footer {
-  background-color: $background-dark;
-  color: white;
-  padding: $spacing-3xl 0 $spacing-xl;
-}
-
-.footerContent {
-  @include container;
-  display: grid;
-  gap: $spacing-xl;
-
-  @include responsive($breakpoint-md) {
-    grid-template-columns: repeat(4, 1fr);
-  }
-}
-
-.footerSection {
-  h4 {
-    font-size: $font-size-lg;
-    margin-bottom: $spacing-lg;
-  }
-
-  p {
-    color: rgba(white, 0.7);
-    margin-bottom: $spacing-md;
-  }
-
-  a {
-    display: block;
-    color: rgba(white, 0.7);
-    margin-bottom: $spacing-sm;
-    transition: color 0.2s ease;
-
-    &:hover {
-      color: white;
-    }
-  }
-}
-
-.newsletter {
-  input {
-    width: 100%;
-    padding: $spacing-md;
-    background-color: rgba(white, 0.1);
-    border: 1px solid rgba(white, 0.2);
-    border-radius: 6px;
-    color: white;
-    margin-bottom: $spacing-md;
-
-    &::placeholder {
-      color: rgba(white, 0.5);
-    }
-  }
-}
-
-.footerBottom {
-  @include container;
-  text-align: center;
-  padding-top: $spacing-xl;
-  border-top: 1px solid rgba(white, 0.1);
-  margin-top: $spacing-3xl;
-  color: rgba(white, 0.7);
-}
-
 .information {
   padding: $spacing-3xl 0;
   background-color: $background-light;
@@ -253,8 +108,7 @@
 
 .informationList {
   list-style: decimal inside;
-  font-size: 15px;
-  
+
   li {
     margin-bottom: $spacing-sm;
   }
@@ -266,15 +120,13 @@
 
 @media only screen and (max-width: 1130px) {
   .information {
-    padding: $spacing-xl 0;
     max-width: 85%;
   }
 }
 
 @media only screen and (max-width: 768px) {
   .information {
-    max-width: 95%;
-    padding: $spacing-lg 0;
+    max-width: 90%;
   }
 
   .informationSection {
@@ -284,6 +136,7 @@
   .informationImage {
     width: 100%;
   }
+
   .informationContent {
     width: 100%;
   }

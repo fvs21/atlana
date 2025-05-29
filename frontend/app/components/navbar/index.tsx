@@ -1,5 +1,3 @@
-import { Link } from "@remix-run/react";
-import { Menu } from "lucide-react";
 import styles from "./navbar.module.scss";
 import Searchbar from "~/features/searchbar/components/searchbar";
 import NavbarFilters from "../navbar-filters";
@@ -18,9 +16,6 @@ export default function Navbar() {
                 </div>
                 <div>
                     <NavbarActions />
-                    <button className={`${styles.iconButton} ${styles.mobileMenu}`} aria-label="Menu">
-                        <Menu />
-                    </button>
                 </div>
             </div>
             <NavbarFilters />
