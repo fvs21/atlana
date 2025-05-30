@@ -70,7 +70,7 @@ export default function MainListingInfoStep() {
                 <div className={styles.formInput}>
                     <LabeledSelect
                         name="category"
-                        placeholder="Selecciona la categoría de tu producto"
+                        placeholder="Selecciona la categoría de tu artículo"
                         label="Categoría"
                         options={categories.map((category) => ({name: category.name, value: category.value}))}
                         value={category || ""}

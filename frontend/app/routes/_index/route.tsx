@@ -10,7 +10,7 @@ import { cn } from "~/lib/utils";
 
 export const meta: MetaFunction = () => {
   return [
-    { title: "Atlana: Compra y venta de segunda mano" },
+    { title: "Atlana: Compra y venta de artículos" },
   ];
 };
 
@@ -30,7 +30,7 @@ export default function Index() {
         <section className={styles.hero}>
           <div className={styles.heroContainer}>
             <div className={styles.heroContent}>
-              <h1>Vende y compra de segunda mano en tu comunidad</h1>
+              <h1>Vende y compra en tu comunidad</h1>
               <p>Disponible ahora para estudiantes de la Anáhuac Mayab</p>
               <Link to={!!user ? "/marketplace" : "login"} className={`${styles.button} ${styles.buttonPrimary}`}>
                 Buscar
@@ -44,7 +44,7 @@ export default function Index() {
             <img className={styles.informationImage} src="/music.png" />
             <div className={styles.informationContent}>
               <h2 className={styles.informationContentTitle}>Compra y vende</h2>
-              Atlana es un marketplace exclusivo para estudiantes. Nuestra plataforma permite comprar y vender artículos de segunda mano de manera segura y sencilla dentro de una comunidad confiable, fomentando la economía circular y el ahorro entre la comunidad estudiantil.
+              Atlana es un marketplace exclusivo para estudiantes. Nuestra plataforma permite comprar y vender artículos de manera segura y sencilla dentro de una comunidad confiable, fomentando la economía circular y el ahorro entre la comunidad estudiantil.
             </div>
           </div>
           <div className={cn(styles.informationSection, styles.informationSectionReverse)}>

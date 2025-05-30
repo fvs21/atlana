@@ -8,21 +8,25 @@ type Option = {
     value: string;
 }
 
-type LabeledSelectProps = {
+type LabeledSelectProps = Omit<React.ComponentProps<typeof Select>, "onChange" | "value" | "className" | "placeholder" | "name"> & {
     name: string;
     label?: string;
     options: Option[];
-    value: string;
-    onChange: (value: string) => void;
+    onChange?: (value: string) => void;
+    value?: string;
     className?: string;
     placeholder?: string;
 }
 
-export default function LabeledSelect({ name, label, options, value, onChange, className, placeholder }: LabeledSelectProps) {
+export default function LabeledSelect({ name, label, options, className, onChange, placeholder, ...props}: LabeledSelectProps) {    
     return (
         <div className={cn(styles.container, className)}>
             {label && <Label>{label}</Label>}
-            <Select name={name} onValueChange={onChange} value={value}>
+            <Select 
+                name={name} 
+                onValueChange={onChange}
+                {...props}
+            >
                 <SelectTrigger>
                     <SelectValue placeholder={placeholder}/>
                 </SelectTrigger>

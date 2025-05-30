@@ -1,5 +1,6 @@
 import { Calendar, GraduationCap, Instagram } from 'lucide-react';
 import styles from './styles.module.scss';
+import { MAJORS_LIST } from '~/constants/majors';
 
 type InformationProps = {
     major?: string;
@@ -16,7 +17,7 @@ export default function Information({ major, semester, instagram }: InformationP
             <ul className={styles.informationList}>
                 <li className={!major ? styles.notAdded : ""}>
                     <GraduationCap size={20} />
-                    {major ? major : "Sin agregar"}
+                    {major ? MAJORS_LIST.find(majorItem => majorItem.value === major)?.name : "Sin agregar"}
                 </li>
                 <li className={semester == -1 ? styles.notAdded : ""}>
                     <Calendar size={20} />

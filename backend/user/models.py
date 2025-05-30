@@ -3,10 +3,10 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.utils import timezone
 
+from backend.settings import SERVER_BASE_URL
 from image.models import Image
-from dotenv import load_dotenv
-import os
-load_dotenv()
+
+from .constants import MAJORS_LIST
 
 # Create your models here.
 class UserManager(BaseUserManager):
@@ -54,12 +54,10 @@ class User(AbstractBaseUser):
     REQUIRED_FIELDS = ["password", "first_name", "last_name", "company_name"]
 
     def profile_picture_url(self):
-        base = "http://localhost:8000"
-        
         if self.profile_picture:
-            return base + self.profile_picture.image_url
+            return SERVER_BASE_URL + self.profile_picture.image_url
         
-        return base + "/api/image/default-pfp.png"
+        return SERVER_BASE_URL + "/api/image/default-pfp.png"
     
     def has_email_verified(self) -> bool:
         return self.email_verified_at is not None
@@ -112,7 +110,7 @@ class UserInformation(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="information")
     
     bio = models.TextField(null=True, blank=True)
-    major = models.CharField(max_length=50, null=True, blank=True)
+    major = models.CharField(max_length=50, choices=MAJORS_LIST, null=True, blank=True)
     semester = models.SmallIntegerField(null=True, blank=True)
 
     instagram = models.CharField(max_length=50, null=True, blank=True)

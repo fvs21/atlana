@@ -8,11 +8,18 @@ import { useUser } from "~/api/client.auth";
 import { useEditProfile } from "~/features/settings/api";
 import { UserInformation } from "~/types/globals";
 import { toast } from "sonner";
+import LabeledSelect from "~/components/labeled-select";
+import { MAJORS_LIST } from "~/constants/majors";
+import LoadingScreen from "~/components/loading-screen";
 
 export default function Page() {
-    const { user } = useUser();
+    const { user, isLoading } = useUser();
 
     const { editProfile, isPending, editProfileDisabled } = useEditProfile();
+
+    if (isLoading) {
+        return <LoadingScreen />;
+    }
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -59,13 +66,13 @@ export default function Page() {
                     className={styles.profileInput}
                     defaultValue={user?.information?.bio || ""}
                 />
-                <ValidatedInput
+                <LabeledSelect
                     label="Carrera"
                     name="major"
-                    type="text"
                     className={styles.profileInput}
                     placeholder="Agrega tu carrera"
                     defaultValue={user?.information?.major || ""}
+                    options={MAJORS_LIST}
                 />
                 <ValidatedInput
                     label="Semestre"

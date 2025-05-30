@@ -9,9 +9,9 @@ export default function Searchbar() {
                 placeholder="Busca productos"
                 name="query"
             />
-            <div className={styles.searchIcon}>
+            <button className={styles.searchIcon} type="submit">
                 <Search color="white" size={20}/>
-            </div>
+            </button>
         </form>
     )
 }

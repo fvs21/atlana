@@ -1,5 +1,4 @@
 import { ResponseBody } from "~/types/globals";
-import { BASE_URL } from ".";
 import { redirect } from "@remix-run/node";
 
 export const SERVER_BASE_URL = process.env.SERVER_BASE_URL;
@@ -21,7 +20,7 @@ export const getAuthToken = ({ request }: { request: Request }): string | null =
  * server function
  */
 export const refreshToken = async ({ request }: { request: Request }) => {
-    const response = await fetch(BASE_URL + "/auth/refresh", {
+    const response = await fetch(SERVER_BASE_URL + "/auth/refresh", {
         method: "POST",
         credentials: "include",
         headers: {

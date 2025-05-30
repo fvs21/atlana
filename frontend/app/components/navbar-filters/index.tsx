@@ -1,6 +1,6 @@
 import { Logs, Trophy } from "lucide-react";
 import styles from "./navbar-filters.module.scss";
-import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger } from "../ui/navigation-menu";
+import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuList, NavigationMenuTrigger } from "../ui/navigation-menu";
 import CategoriesFilter from "./CategoriesFilter";
 
 export default function NavbarFilters() {
@@ -15,12 +15,6 @@ export default function NavbarFilters() {
                     <NavigationMenuContent>
                         <CategoriesFilter />
                     </NavigationMenuContent>
-                </NavigationMenuItem>
-                <NavigationMenuItem>
-                    <NavigationMenuLink className={styles.filter} href="/most-sold">
-                        <Trophy size={18} />
-                        Más vendidos
-                    </NavigationMenuLink>
                 </NavigationMenuItem>
             </NavigationMenuList>
         </NavigationMenu>

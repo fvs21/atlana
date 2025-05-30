@@ -1,7 +1,6 @@
 import axios, { AxiosInstance } from 'axios';
 
-export const BASE_URL = process.env.NODE_ENV === 'production' ? 'http://atlana-lb-651789820.us-east-2.elb.amazonaws.com/api' : 'http://localhost:8000/api';
-
+export const BASE_URL = process.env.NODE_ENV === 'production' ? 'http://atlana-lb-501671792.us-east-2.elb.amazonaws.com/api' : 'http://localhost:8000/api';
 
 export const api: AxiosInstance = axios.create({
     baseURL: BASE_URL,

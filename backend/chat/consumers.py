@@ -75,7 +75,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 f'chats_user_{participant.id}',
                 {
                     'type': 'chat_notification',
-                    'message': self.serializer_chat_notification(message)
+                    'message': await self.serializer_chat_notification(message)
                 }
             )
         

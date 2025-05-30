@@ -20,7 +20,7 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
 
     if (!token || !email) {
         throw new Response(null, {
-            status: 400,
+            status: 404,
         })
     }
 

@@ -13,7 +13,6 @@ https://docs.djangoproject.com/en/4.1/ref/settings/
 from datetime import timedelta
 import os
 from pathlib import Path
-from tkinter import E
 from dotenv import load_dotenv
 
 
@@ -32,13 +31,15 @@ SECRET_KEY = os.environ.get('SECRET_KEY')
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get('DEBUG', "True").lower() in ('true', '1', 't')
 
+SERVER_BASE_URL = os.environ.get('SERVER_URL', 'http://localhost:8000')
+
 ALLOWED_HOSTS = [
     '192.168.68.101', 
     '192.168.68.102',
     'localhost', 
     '127.0.0.1', 
     'backend', 
-    "atlana-lb-651789820.us-east-2.elb.amazonaws.com",
+    "atlana-lb-501671792.us-east-2.elb.amazonaws.com",
     '10.0.1.239'
 ]
 
@@ -47,7 +48,7 @@ CORS_ALLOWED_ORIGINS = [
     'http://localhost:5173', 
     'http://localhost:3000',
     'http://127.0.0.1:5173',
-    "http://atlana-lb-651789820.us-east-2.elb.amazonaws.com",
+    "http://atlana-lb-501671792.us-east-2.elb.amazonaws.com",
     'http://10.0.1.239:5173',
     'http://192.168.68.102:5173'
 ]
