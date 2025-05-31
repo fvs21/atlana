@@ -7,16 +7,18 @@
 }
 
 .leftScroller {
-    height: 100%;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: start;
+    align-items: center;
     gap: $spacing-md;
 }
 
 .imagePreviewContainer {
     width: 100%;
-    height: 100px;   
+    min-height: 80px;   
+    height: 80px;
+    width: 80px;
 }
 
 .imagePreview {
@@ -31,6 +33,13 @@
     &:hover {
         opacity: 0.8;
     }
+}
+
+.moreImagesButton {
+    border-radius: 6px;
+    cursor: pointer;
+    background-color: $background-secondary;
+
 }
 
 .rightImageDisplayer {
@@ -69,7 +78,7 @@
 }
 
 .selected {
-    outline: 1px solid black;
+    outline: 1px solid $primary-color;
     border-radius: 6px;
 }
 

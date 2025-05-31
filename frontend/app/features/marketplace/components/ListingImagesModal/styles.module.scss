@@ -1,0 +1,95 @@
+@use "~/styles/variables" as *;
+
+.modalOverlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 1);
+    z-index: 2000;
+}
+
+.modalContent {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow-y: auto;
+}
+
+.modalHeader {
+    margin: $spacing-2xl $spacing-2xl $spacing-md;
+}
+
+.closeButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: $spacing-xs;
+    color: white;
+    font-size: 15px;
+    padding: 6px 10px;
+    border-radius: 6px;
+
+    &:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+    }
+}
+
+.imagesGrid {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: $spacing-sm;
+    margin: $spacing-md $spacing-2xl $spacing-xl;
+}
+
+.imagePreviewContainer {
+    width: 50px;
+    height: 50px;
+}
+
+.imagePreview {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 6px;
+
+    &:hover {
+        opacity: 0.7;
+    }
+}
+
+.selected {
+    opacity: 0.7;
+}
+
+.modalBody {
+    flex: 1;
+    flex-grow: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 $spacing-2xl;
+    gap: $spacing-lg;
+}
+
+.selectedImageContainer {
+    height: 600px;
+}
+
+.selectedImage {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.navigationButton {
+    background-color: white;
+    padding: 8px;
+    border-radius: 50%;
+}
+
+.navigationButtonDisabled {
+    background-color: rgba(255, 255, 255, 0.5);
+    cursor: default;
+}

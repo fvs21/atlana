@@ -15,7 +15,7 @@ class UserViewset(viewsets.ViewSet):
     permission_classes = GENERAL_AUTHENTICATION_PERMISSIONS
 
     def profile(self, request: HttpRequest, id: int) -> JsonResponse:
-        user = User.objects.filter(id=id).select_related('user_information').first() 
+        user = User.objects.filter(id=id).select_related('information').first() 
 
         if not user:
             return JsonResponse({
