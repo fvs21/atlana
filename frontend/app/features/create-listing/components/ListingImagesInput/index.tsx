@@ -5,7 +5,7 @@ import { ArrowBigDown, ArrowBigUp, Ellipsis, Plus, Trash2 } from "lucide-react";
 import { useAtom } from "jotai";
 import { listingImagesAtom } from "../../store";
 import AddImageModal from "../AddImageModal";
-import ListingImageCarousel from "~/components/listing-images/ListingImageCarousel";
+import ListingImageCarousel from "~/features/marketplace/components/ListingImages/ListingImageCarousel";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "~/components/ui/dropdown-menu";
 
 export default function ListingImagesInput() {

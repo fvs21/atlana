@@ -1,5 +1,5 @@
 import styles from "./styles.module.scss";
-import { CarouselApi, Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "../ui/carousel";
+import { CarouselApi, Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "../../../../components/ui/carousel";
 import { useEffect, useState } from "react";
 
 export default function ListingImageCarousel({ images, selected, setSelected }: { images: string[]; selected: number, setSelected: (index: number) => void }) {

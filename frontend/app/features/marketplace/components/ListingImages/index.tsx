@@ -1,13 +1,15 @@
-import { useState } from "react";
+import { lazy, Suspense, useState } from "react";
 import styles from "./styles.module.scss";
 import ListingImageCarousel from "./ListingImageCarousel";
 import { cn } from "~/lib/utils";
-import ListingImagesModal from "~/features/marketplace/components/ListingImagesModal";
+import { LoadingScreenFull } from "~/components/loading-screen";
+
+const ListingImagesModal = lazy(() => import("../ListingImagesModal"));
 
 export default function ListingImages({ images }: { images: string[] }) {
     const [selectedImage, setSelectedImage] = useState<number>(0);
 
-    const [modalOpen, setModalOpen] = useState<boolean>(true);
+    const [modalOpen, setModalOpen] = useState<boolean>(false);
 
     return (
         <div className={styles.listingImagesContainer}>
@@ -35,10 +37,12 @@ export default function ListingImages({ images }: { images: string[] }) {
                 setSelected={setSelectedImage}
             />
             {modalOpen && (
-                <ListingImagesModal
-                    images={images}
-                    onClose={() => setModalOpen(false)}
-                />
+                <Suspense fallback={<LoadingScreenFull />}>
+                    <ListingImagesModal
+                        images={images}
+                        onClose={() => setModalOpen(false)}
+                    />
+                </Suspense>
             )}
         </div>
     )

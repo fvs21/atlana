@@ -7,3 +7,11 @@ export default function LoadingScreen() {
         </div>
     );
 }
+
+export const LoadingScreenFull = () => {
+    return (
+        <div className="flex items-center justify-center fixed inset-0 bg-white z-50">
+            <Loader className="animate-spin" />
+        </div>
+    );
+}

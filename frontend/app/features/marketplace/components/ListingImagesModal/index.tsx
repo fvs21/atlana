@@ -1,4 +1,3 @@
-import { ClientOnly } from "remix-utils/client-only";
 import styles from "./styles.module.scss";
 import { createPortal } from "react-dom";
 import { RemoveScroll } from "react-remove-scroll";
@@ -13,20 +12,16 @@ type ListingImagesModalProps = {
 
 function ListingImagesModalOverlay({ children }: { children?: React.ReactNode }) {
     return (
-        <ClientOnly>
-            {() => (
-                createPortal(
-                    (
-                        <RemoveScroll>
-                            <div className={styles.modalOverlay}>
-                                {children}
-                            </div>
-                        </RemoveScroll>
-                    ),
-                    document.body
-                )
-            )}
-        </ClientOnly>
+        createPortal(
+            (
+                <RemoveScroll>
+                    <div className={styles.modalOverlay}>
+                        {children}
+                    </div>
+                </RemoveScroll>
+            ),
+            document.body
+        )
     )
 }
 
@@ -50,25 +45,25 @@ export default function ListingImagesModal({ images, onClose }: ListingImagesMod
             <div className={styles.modalContent}>
                 <header className={styles.modalHeader}>
                     <button className={styles.closeButton} onClick={onClose}>
-                        <X size={18}/>
+                        <X size={18} />
                         Cerrar
                     </button>
                 </header>
                 <section className={styles.modalBody}>
-                    <button 
+                    <button
                         className={cn(styles.navigationButton, selectedImage === 0 ? styles.navigationButtonDisabled : "")}
                         onClick={previousImage}
                     >
                         <ChevronLeft size={18} />
                     </button>
                     <div className={styles.selectedImageContainer}>
-                        <img 
-                            src={images[selectedImage]} 
-                            alt={`Imagen del producto ${selectedImage + 1}`} 
-                            className={styles.selectedImage} 
+                        <img
+                            src={images[selectedImage]}
+                            alt={`Imagen del producto ${selectedImage + 1}`}
+                            className={styles.selectedImage}
                         />
                     </div>
-                    <button 
+                    <button
                         className={cn(styles.navigationButton, selectedImage === images.length - 1 ? styles.navigationButtonDisabled : "")}
                         onClick={nextImage}
                     >

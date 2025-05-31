@@ -1,6 +1,6 @@
 import { Listing as ListingType, PropertyListing } from "~/types/listings";
 import styles from "./styles.module.scss";
-import ListingImages from "~/components/listing-images";
+import ListingImages from "../ListingImages";
 import { Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbLink, BreadcrumbSeparator } from "~/components/ui/breadcrumb";
 import { formatPropertyListingPriceTimeUnit, formatTimeSinceUploaded } from "../../utils/listing";
 import { Link } from "@remix-run/react";

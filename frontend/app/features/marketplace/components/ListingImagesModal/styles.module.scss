@@ -13,7 +13,6 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    overflow-y: auto;
 }
 
 .modalHeader {
@@ -65,7 +64,7 @@
 
 .modalBody {
     flex: 1;
-    flex-grow: 1;
+    overflow: auto;
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -74,7 +73,7 @@
 }
 
 .selectedImageContainer {
-    height: 600px;
+    height: 100%;
 }
 
 .selectedImage {
