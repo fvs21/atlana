@@ -27,7 +27,7 @@ export default function NavbarActions() {
     }
 
     return (
-        <NavigationMenu style={{ zIndex: 40 }}>
+        <NavigationMenu style={{ zIndex: 40 }} side="right">
             <NavigationMenuList className={styles.actions}>
                 {user ? (
                     <NavigationMenuItem className={styles.dissapearingActionButtons}>

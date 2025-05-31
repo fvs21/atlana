@@ -43,7 +43,8 @@ export default function Chat({ messages }: { messages: MessageType[] }) {
         socket.current = new WebSocket(`ws://localhost:8000/api/ws/chat/${chat_id}/?token=${token}`);
 
         socket.current.onopen = () => {
-            readChat();
+            if(messages.some((message) => message.seen_at && message.sender !== user?.id)) 
+                readChat();
         }
 
         socket.current.onmessage = (event) => {
