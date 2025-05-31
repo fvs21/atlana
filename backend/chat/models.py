@@ -18,6 +18,15 @@ class Message(models.Model):
     sender = models.ForeignKey('user.User', related_name='messages', on_delete=models.CASCADE)
     content = models.TextField()
     timestamp = models.DateTimeField(auto_now_add=True)
+    seen_at = models.DateTimeField(null=True, blank=True)
+
+    reply_to_listing = models.ForeignKey(
+        'listing.Listing', 
+        related_name='replies', 
+        null=True, 
+        blank=True, 
+        on_delete=models.SET_NULL
+    )
 
     def __str__(self):
         return f"{self.sender.username}: {self.content[:20]}..."

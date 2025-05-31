@@ -51,10 +51,14 @@ class ChatConsumer(AsyncWebsocketConsumer):
         await self.channel_layer.group_discard(self.room_group_name, self.channel_name)
 
     async def receive(self, text_data):
-        text_data_json = json.loads(text_data)
+        json_data = json.loads(text_data)
 
-        message_data = text_data_json['message']
+        if json_data['type'] == 'send_message':
+            await self.receive_chat_message(json_data['message'])
+        elif json_data['type'] == 'read_chat':
+            await self.receive_read_chat()
 
+    async def receive_chat_message(self, message_data: str):
         message = await service.new_message(self.chat_id, self.scope['user'], message_data)
 
         await self.channel_layer.group_send(
@@ -65,7 +69,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
             }
         )
 
-        participants = await database_sync_to_async(lambda : list(message.chat.participants.all()))()
+        participants = message.chat.participants.all()
 
         for participant in participants:
             if participant.id == self.scope['user'].id:
@@ -78,13 +82,35 @@ class ChatConsumer(AsyncWebsocketConsumer):
                     'message': await self.serializer_chat_notification(message)
                 }
             )
-        
+
+    async def receive_read_chat(self):
+        res = await service.mark_chat_as_read(self.chat_id, self.scope['user'])
+
+        if not res:
+            return
+
+        await self.channel_layer.group_send(
+            self.room_group_name,
+            {
+                'type': 'chat.read',
+                'user': self.scope['user'].id
+            }
+        )
+
     async def chat_message(self, event):
         message = event['message']
 
         await self.send(text_data=json.dumps({
             'type': 'chat_message',
             'data': message
+        }))
+
+    async def chat_read(self, event):
+        await self.send(text_data=json.dumps({
+            'type': 'chat_read',
+            'data': {
+                "user": event['user']
+            }
         }))
 
     

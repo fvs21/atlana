@@ -1,10 +1,12 @@
 
-from typing import Dict, List, Tuple
+from typing import List, Tuple
 
 from user.models import User
 from chat.models import Chat, Message
 from django.db.models import Max
 from channels.db import database_sync_to_async
+from django.utils import timezone
+from django.db.models import Q
 
 async def can_user_join_chat(user: User, chat_id: int) -> bool:
     """
@@ -15,24 +17,11 @@ async def can_user_join_chat(user: User, chat_id: int) -> bool:
     except Chat.DoesNotExist:
         return False
 
-async def create_chat(sender: User, receiver_id: int, message: str) -> Tuple[Chat, Message]:
-    receiver = await User.objects.aget(id=receiver_id)
-
-    chat = await Chat.objects.acreate()
-
-    await chat.participants.aadd(sender)
-    await chat.participants.aadd(receiver)
-    await chat.asave()
-
-    message = await chat.messages.acreate(sender=sender, content=message)
-
-    return chat, message
-
 async def new_message(chat_id: int, sender: User, message: str) -> Message:
     """
         Create a new message in the chat.
     """
-    chat = await Chat.objects.aget(id=chat_id)
+    chat = await Chat.objects.prefetch_related('participants').aget(id=chat_id)
 
     message = await Message.objects.acreate(
         chat=chat,
@@ -46,13 +35,30 @@ async def new_message(chat_id: int, sender: User, message: str) -> Message:
 
     return message
 
+async def mark_chat_as_read(chat_id: int, user: User) -> bool:
+    """
+        Mark all messages in the chat as read for the user.
+    """
+    messages = Message.objects.filter(
+        chat__id=chat_id, seen_at__isnull=True
+    ).filter(~Q(sender=user))
+
+    if not await messages.aexists():
+        return False
+    
+    await messages.aupdate(seen_at=timezone.now())
+    return True
+
+
 def get_user_chats(user: User) -> List[Chat]:
     """
         Get all chats for a user.
         Ignore created chats with no messages.
     """
 
-    return Chat.objects.annotate(last_message_timestamp=Max('messages__timestamp')).order_by('-last_message_timestamp').filter(participants=user, has_messages=True)
+    return Chat.objects.annotate(
+        last_message_timestamp=Max('messages__timestamp')
+    ).order_by('-last_message_timestamp').filter(participants=user, has_messages=True).prefetch_related('participants').all()
 
 def chat_exists(chat_id: int) -> bool:
     """
@@ -75,10 +81,7 @@ def get_chat_information(chat_id: int) -> Tuple[Chat, List[Message]]:
     """
         Get chat information and messages.
     """
-    chat = Chat.objects.filter(id=chat_id).first()
-
-    if not chat:
-        return None, []
+    chat = Chat.objects.filter(id=chat_id).prefetch_related('messages').first()
 
     messages = chat.messages.all().order_by('-timestamp')
 

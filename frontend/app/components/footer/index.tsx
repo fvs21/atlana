@@ -8,7 +8,7 @@ export default function Footer() {
         <div className={styles.section}>
           <h4>Acerca de nosotros</h4>
           <p>
-            Unete a nuestro marketplace para buscar y vender productos de segunda mano en tu comunidad universitaria.
+            Unete a nuestro marketplace para buscar y vender artículos en tu comunidad universitaria.
           </p>
         </div>
         <div className={styles.section}>

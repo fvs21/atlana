@@ -14,7 +14,7 @@ export type Message = {
     id: number;
     sender: number;
     content: string;
-    timestamp: string;
+    seen_at: string;
 }
 
 export type Chat = {
@@ -35,7 +35,11 @@ export type ChatNotification = {
     chat_id: number;
 }
 
+export type ChatSeenEvent = {
+    user: number;
+}
+
 export type ChatEvent = {
-    type: "chat_notification" | "chat_message";
-    data: ChatNotification | Message;
+    type: "chat_notification" | "chat_message" | "chat_read";
+    data: ChatNotification | Message | ChatSeenEvent;
 }

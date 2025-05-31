@@ -3,6 +3,7 @@
 .messageContainer {
     width: 100%;
     display: flex;
+    flex-direction: column;
 }
 
 .message {
@@ -11,7 +12,7 @@
     white-space: pre-line;
     overflow-wrap: break-word;
     font-size: 14px;
-    padding: 8px 12px;
+    padding: 6px 12px;
     border-radius: 20px;
     margin-bottom: $spacing-xs;
 }
@@ -26,8 +27,10 @@
     color: black;
 }
 
-.timestamp {
-    font-size: 12px;
-    color: white;
+.seenAt {
+    transition: 1s ease-in-out;
+    font-size: 11px;
+    color: gray;
     text-align: right;
+    margin-bottom: $spacing-xs;
 }

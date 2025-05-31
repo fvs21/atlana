@@ -78,6 +78,7 @@ def generate_and_send_verification_code(user: User) -> None:
 
 def get_session(request: HttpRequest) -> JsonResponse:
     user: User = request.user
+    
     return JsonResponse({
         "data": {
             "user": UserSerializer(user).data

@@ -1,6 +1,7 @@
 from user.models import User
 from .models import Chat, Message
 from rest_framework import serializers
+from django.db.models import Q
 
 class NewChatSerializer(serializers.Serializer):
     receiver_id = serializers.IntegerField()
@@ -14,18 +15,6 @@ class SenderSerializer(serializers.ModelSerializer):
             'full_name',
             'profile_picture_url',
         ]
-
-class MessageSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Message
-        fields = [
-            'id', 
-            'sender', 
-            'content', 
-            'timestamp'
-        ]
-
-        read_only_fields = ['id', 'sender', 'timestamp']
 
 class ChatNotificationSerializer(serializers.ModelSerializer):
     sender = SenderSerializer()
@@ -44,6 +33,7 @@ class ChatNotificationSerializer(serializers.ModelSerializer):
 class ChatListItemSerializer(serializers.ModelSerializer):
     participants = serializers.SerializerMethodField()
     last_message = serializers.SerializerMethodField()
+    unread_messages = serializers.SerializerMethodField()
 
     def get_participants(self, obj):
         other_participants = obj.participants.exclude(id=self.context['user'].id)
@@ -51,6 +41,12 @@ class ChatListItemSerializer(serializers.ModelSerializer):
     
     def get_last_message(self, obj):
         return MessageSerializer(obj.get_last_message(), context=self.context).data
+    
+    def get_unread_messages(self, obj):
+        if not obj.has_messages:
+            return 0
+
+        return obj.messages.filter(seen_at__isnull=True).filter(~Q(sender__id=self.context['user'].id)).count()
 
     class Meta:
         model = Chat
@@ -58,6 +54,7 @@ class ChatListItemSerializer(serializers.ModelSerializer):
             'id',
             'participants',
             'last_message',
+            'unread_messages'
         ]
 
 class ChatSerializer(serializers.ModelSerializer):
@@ -66,6 +63,7 @@ class ChatSerializer(serializers.ModelSerializer):
     def get_participants(self, obj):
         other_participants = obj.participants.exclude(id=self.context['user'].id)
         return SenderSerializer(other_participants, many=True).data
+    
     class Meta:
         model = Chat
         fields = [
@@ -85,3 +83,16 @@ class CreateChatSerializer(serializers.Serializer):
             raise serializers.ValidationError("You cannot create a chat with yourself")
         
         return value
+    
+class MessageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Message
+        fields = [
+            'id', 
+            'sender', 
+            'content', 
+            'timestamp',
+            'seen_at',
+        ]
+
+        read_only_fields = ['id', 'sender', 'timestamp']

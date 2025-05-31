@@ -104,8 +104,26 @@ const useChatMutations = (chat_id: number) => {
         });
     }
 
+    const chatRead = () => {
+        const chat = queryClient.getQueryData(["chat", chat_id]) as GetChatResponse;
+
+        queryClient.setQueryData(["chat", chat_id], {
+            ...chat,
+            messages: chat.messages.map((message) => {
+                if (message.sender !== chat.chat.participants[0].id) {
+                    return {
+                        ...message,
+                        seen_at: (new Date()).toUTCString()
+                    };
+                }
+                return message;
+            })
+        });        
+    }
+
     return {
-        newMessage
+        newMessage,
+        chatRead
     };
 }
 
