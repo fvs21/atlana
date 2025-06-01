@@ -49,6 +49,9 @@ class Listing(models.Model):
 
     def is_property(self) -> bool:
         return hasattr(self, 'property')
+    
+    def first_image(self) -> str:
+        return self.images.all()[0].get_image_url()
 
 class ListingImage(models.Model):
     listing = models.ForeignKey(Listing, on_delete=models.CASCADE, related_name='images')

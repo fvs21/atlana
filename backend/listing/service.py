@@ -57,7 +57,7 @@ def get_listing_by_id(id: int) -> Optional[Listing]:
         Get a listing by its id
     """
 
-    return Listing.objects.filter(id=id).first()
+    return Listing.objects.select_related('creator').prefetch_related('images').filter(id=id).first()
 
 def delete_listing(user: User, id: int) -> bool:
     """

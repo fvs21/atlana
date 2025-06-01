@@ -1,27 +1,33 @@
 
 from typing import List, Tuple
 
+from django.dispatch import receiver
+
 from user.models import User
 from chat.models import Chat, Message
 from django.db.models import Max
-from channels.db import database_sync_to_async
 from django.utils import timezone
 from django.db.models import Q
+from marketplace.service import get_listing_by_id
+from channels.db import database_sync_to_async
 
 async def can_user_join_chat(user: User, chat_id: int) -> bool:
     """
         Check if the user can join the chat.
     """
-    try:
-        return await Chat.objects.filter(id=chat_id, participants=user).aexists()
-    except Chat.DoesNotExist:
-        return False
+    return await Chat.objects.filter(id=chat_id, participants=user).aexists()
+
+async def get_chat_by_id(chat_id: int) -> Chat:
+    """
+        Get a chat by its ID.
+    """
+    return await Chat.objects.prefetch_related('participants').aget(id=chat_id)
 
 async def new_message(chat_id: int, sender: User, message: str) -> Message:
     """
         Create a new message in the chat.
     """
-    chat = await Chat.objects.prefetch_related('participants').aget(id=chat_id)
+    chat = await get_chat_by_id(chat_id)
 
     message = await Message.objects.acreate(
         chat=chat,
@@ -34,6 +40,30 @@ async def new_message(chat_id: int, sender: User, message: str) -> Message:
         await chat.asave()
 
     return message
+
+async def reply_to_listing(chat_id: int, sender: User, message: str, listing_id: int) -> Message:
+    listing = await database_sync_to_async(get_listing_by_id)(listing_id)
+    
+    if not listing:
+        return None
+
+    chat = await get_chat_by_id(chat_id)
+    receiver = await chat.participants.exclude(id=sender.id).afirst()
+
+    if not listing.creator == receiver:
+        return None
+
+    message = await Message.objects.acreate(
+        chat=chat,
+        sender=sender,
+        content=message,
+        reply_to_listing=listing
+    )
+
+    return message
+
+async def reply_to(chat_id: int, sender: User, message: str, message_id: int) -> Message:
+    pass
 
 async def mark_chat_as_read(chat_id: int, user: User) -> bool:
     """
@@ -58,7 +88,7 @@ def get_user_chats(user: User) -> List[Chat]:
 
     return Chat.objects.annotate(
         last_message_timestamp=Max('messages__timestamp')
-    ).order_by('-last_message_timestamp').filter(participants=user, has_messages=True).prefetch_related('participants').all()
+    ).prefetch_related('participants__profile_picture').order_by('-last_message_timestamp').filter(participants=user, has_messages=True).all()
 
 def chat_exists(chat_id: int) -> bool:
     """
@@ -81,7 +111,7 @@ def get_chat_information(chat_id: int) -> Tuple[Chat, List[Message]]:
     """
         Get chat information and messages.
     """
-    chat = Chat.objects.filter(id=chat_id).prefetch_related('messages').first()
+    chat = Chat.objects.prefetch_related('messages__reply_to_listing').filter(id=chat_id).first()
 
     messages = chat.messages.all().order_by('-timestamp')
 

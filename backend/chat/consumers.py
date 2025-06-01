@@ -4,7 +4,7 @@ from channels.generic.websocket import AsyncWebsocketConsumer
 
 from chat.models import Message
 
-from .serializers import MessageSerializer, ChatNotificationSerializer
+from .serializers import ConsumerEventSerializer, MessageSerializer, ChatNotificationSerializer
 from . import service
 from channels.db import database_sync_to_async
 
@@ -52,14 +52,44 @@ class ChatConsumer(AsyncWebsocketConsumer):
 
     async def receive(self, text_data):
         json_data = json.loads(text_data)
+        serializer = ConsumerEventSerializer(data=json_data)
+
+        if not serializer.is_valid():
+            print("Invalid data received:", serializer.errors)
+            return
+        
+        json_data = serializer.validated_data
 
         if json_data['type'] == 'send_message':
-            await self.receive_chat_message(json_data['message'])
+            await self.receive_chat_message(json_data['data'])
         elif json_data['type'] == 'read_chat':
             await self.receive_read_chat()
 
-    async def receive_chat_message(self, message_data: str):
-        message = await service.new_message(self.chat_id, self.scope['user'], message_data)
+    async def receive_chat_message(self, data: Dict):
+        if 'reply_to_listing' in data:
+            message = await service.reply_to_listing(
+                self.chat_id,
+                self.scope['user'],
+                data['content'],
+                data['reply_to_listing']
+            )
+        elif 'reply_to' in data:
+            message = await service.reply_to(
+                self.chat_id,
+                self.scope['user'],
+                data['content'],
+                data['reply_to']
+            )
+        else:
+            message = await service.new_message(
+                self.chat_id, 
+                self.scope['user'], 
+                data['content']
+            )
+
+        if not message:
+            print("Failed to create message")
+            return
 
         await self.channel_layer.group_send(
             self.room_group_name,

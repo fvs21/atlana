@@ -28,5 +28,13 @@ class Message(models.Model):
         on_delete=models.SET_NULL
     )
 
+    reply_to = models.ForeignKey(
+        'self', 
+        related_name='replies', 
+        null=True, 
+        blank=True, 
+        on_delete=models.SET_NULL
+    )
+
     def __str__(self):
-        return f"{self.sender.username}: {self.content[:20]}..."
+        return f"{self.sender.first_name}: {self.content[:20]}..."

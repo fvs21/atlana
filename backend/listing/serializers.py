@@ -32,7 +32,7 @@ class CreateListingBodySerializer(serializers.ModelSerializer):
 
 class CreateListingRequestSerializer(serializers.Serializer):
     data = serializers.JSONField()
-    images = serializers.ListField(child=serializers.ImageField())
+    images = serializers.ListField(child=serializers.ImageField(), max_length=10)
 
     def validate_data(self, data) -> CreateListingBodySerializer:
         serializer = CreateListingBodySerializer(data=data)

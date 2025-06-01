@@ -1,4 +1,4 @@
-from typing import List
+from typing import List, Optional
 
 from location.models import Location
 from user.models import User
@@ -58,3 +58,10 @@ def search_listings(query: str) -> List[Listing]:
 
     listings = Listing.public.annotate(search=vector).filter(search=search_query)
     return listings
+
+def get_listing_by_id(id: int) -> Optional[Listing]:
+    """
+        Retrieve listing from public manager
+    """
+
+    return Listing.public.prefetch_related('images__image').select_related('creator').filter(id=id).first()

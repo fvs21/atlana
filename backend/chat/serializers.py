@@ -1,3 +1,4 @@
+from listing.models import Listing
 from user.models import User
 from .models import Chat, Message
 from rest_framework import serializers
@@ -84,7 +85,18 @@ class CreateChatSerializer(serializers.Serializer):
         
         return value
     
+class ListingReplySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Listing
+        fields = [
+            'id',
+            'title',
+            'first_image'
+        ]
+    
 class MessageSerializer(serializers.ModelSerializer):
+    reply_to_listing = ListingReplySerializer(read_only=True)
+
     class Meta:
         model = Message
         fields = [
@@ -93,6 +105,37 @@ class MessageSerializer(serializers.ModelSerializer):
             'content', 
             'timestamp',
             'seen_at',
+            'reply_to_listing',
+            'reply_to'
         ]
 
-        read_only_fields = ['id', 'sender', 'timestamp']
+        read_only_fields = ['id', 'sender', 'timestamp', 'seen_at', 'reply_to_listing', 'reply_to']
+
+class SendMessageEventSerializer(serializers.Serializer):
+    content = serializers.CharField(max_length=500)
+    reply_to_listing = serializers.IntegerField(required=False, allow_null=True)
+    reply_to = serializers.IntegerField(required=False, allow_null=True)
+
+class ConsumerEventSerializer(serializers.Serializer):
+    type = serializers.CharField()
+    data = serializers.JSONField()
+
+    def validate_type(self, value):
+        if value not in ['send_message', 'read_chat']:
+            raise serializers.ValidationError("Invalid event type")
+        return value
+    
+    def validate_data(self, value):
+        if self.initial_data['type'] == 'send_message':
+            '''
+                Serialize and validate the data for sending a message.
+            '''
+            serializer = SendMessageEventSerializer(data=value)
+
+            if not serializer.is_valid():
+                raise serializers.ValidationError(serializer.errors)
+            
+            return serializer.validated_data
+        
+        elif self.initial_data['type'] == 'read_chat':
+            return None
