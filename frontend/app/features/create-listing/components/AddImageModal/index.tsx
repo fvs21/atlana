@@ -6,9 +6,11 @@ import { useRef, useState } from "react";
 import { toast } from "sonner";
 import { useAtom } from "jotai";
 import { listingImagesAtom } from "../../store";
+import { MAX_IMAGES } from "../../utils/variables";
+
 
 export default function AddImageModal({ open, close }: { open: boolean, close: () => void }) {
-    const [, setListingImages] = useAtom(listingImagesAtom);
+    const [listingImages, setListingImages] = useAtom(listingImagesAtom);
 
     const [image, setImage] = useState<File | null>(null);
     const containerRef = useRef<HTMLButtonElement>(null);
@@ -69,6 +71,11 @@ export default function AddImageModal({ open, close }: { open: boolean, close: (
     const save = () => {
         if(!image)
             return;
+
+        if(listingImages.length >= MAX_IMAGES) {
+            toast.error(`No puedes agregar más de ${MAX_IMAGES} imágenes`);
+            return;
+        }
 
         setListingImages((prev) => ([
             ...prev,

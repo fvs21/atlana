@@ -4,6 +4,13 @@
     width: 100%;
     display: flex;
     flex-direction: column;
+    margin-bottom: $spacing-xs;
+}
+
+.messageWrapper {
+    width: 100%;
+    display: flex;
+    gap: $spacing-sm;
 }
 
 .message {
@@ -12,9 +19,12 @@
     white-space: pre-line;
     overflow-wrap: break-word;
     font-size: 14px;
-    padding: 6px 12px;
     border-radius: 20px;
-    margin-bottom: $spacing-xs;
+
+}
+
+.content {
+    padding: 6px 12px;
 }
 
 .yourMessage {
@@ -28,9 +38,72 @@
 }
 
 .seenAt {
-    transition: 1s ease-in-out;
-    font-size: 11px;
+    font-size: 11.5px;
     color: gray;
     text-align: right;
-    margin-bottom: $spacing-xs;
+    padding-top: $spacing-xs;
+}
+
+.replyToListing {
+    width: 100%;
+    padding: $spacing-sm;
+    display: block;
+
+    &:hover {
+        opacity: 0.7;
+    }
+}
+
+.replyToListingContent {
+    border-radius: 12px;
+}
+
+.listingImage {
+    border-top-left-radius: 12px;
+    border-top-right-radius: 12px;
+    min-width: none;
+    width: 100%;
+    max-width: 400px;
+    object-fit: cover;
+}
+
+.listingTitle {
+    padding: $spacing-sm;
+}
+
+.yourListingMsg {
+    background-color: $chat-reply-background;
+
+    &:hover {
+        background-color: darken($chat-reply-background, 10%);
+    }
+}
+
+.otherListingMsg {
+    background-color: $chat-reply-background-secondary;
+
+    &:hover {
+        background-color: darken($chat-reply-background-secondary, 10%);
+    }
+}
+
+.messageActions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: $spacing-xs;
+    height: 100%;
+}
+
+.messageActionsContent {
+    left: 0;
+}
+
+.messageAction {
+    border-radius: 50%;
+    padding: 2px;
+    
+    &:hover {
+        background-color: $button-hover;
+    }
 }

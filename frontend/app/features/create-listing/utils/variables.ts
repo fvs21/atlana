@@ -28,3 +28,5 @@ export const sizeSpecs = {
     sleeve_length: 'Largo de manga',
     insteam: 'Tiro'
 }
+
+export const MAX_IMAGES = 10;

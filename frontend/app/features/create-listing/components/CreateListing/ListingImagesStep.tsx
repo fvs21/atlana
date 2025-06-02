@@ -111,7 +111,7 @@ export default function ListingImagesStep() {
                             Agrega tus imagenes
                         </h1>
                         <div className={styles.description}>
-                            Estas son las imagenes que se mostraran en el apartado principal de tu anuncio. Puedes agregar hasta 6 imagenes.
+                            Estas son las imagenes que se mostraran en el apartado principal de tu anuncio. Puedes agregar hasta 10 imagenes.
                         </div>
                     </div>
                     <Button 

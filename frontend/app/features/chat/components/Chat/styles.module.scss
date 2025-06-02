@@ -5,6 +5,7 @@
     width: 100%;
     display: flex;
     flex-direction: column;
+    position: relative;
 }
 
 .chatBody {
@@ -14,4 +15,13 @@
     padding: 0 $spacing-xl;
     overflow-y: auto;
     padding-top: $spacing-xs;
+}
+
+.scrollToBottom {
+    position: absolute;
+    right: 40px;
+    bottom: 140px;
+    background-color: rgba(230, 230, 230, 0.9);
+    padding: 6px;
+    border-radius: 50%;
 }

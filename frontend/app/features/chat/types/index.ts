@@ -15,6 +15,13 @@ export type Message = {
     sender: number;
     content: string;
     seen_at: string;
+    timestamp: string;
+    reply_to_listing?: {
+        id: number;
+        title: string;
+        first_image: string;
+    }
+    reply_to?: number;
 }
 
 export type Chat = {
@@ -42,4 +49,20 @@ export type ChatSeenEvent = {
 export type ChatEvent = {
     type: "chat_notification" | "chat_message" | "chat_read";
     data: ChatNotification | Message | ChatSeenEvent;
+}
+
+export type ReplyToListing = {
+    id: number;
+    title: string;
+    first_image: string;
+}
+
+export type ReplyToMessage = {
+    id: number;
+    content: string;
+}
+
+export type ChatInputMessage = {
+    content: string;
+    reply_to?: ReplyToMessage;
 }

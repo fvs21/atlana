@@ -1,9 +1,15 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { atom, useAtom } from "jotai";
-import { ChatListItem, ChatNotification, GetChatResponse, Message } from "../types";
+import { ChatListItem, ChatNotification, GetChatResponse, Message, ReplyToListing } from "../types";
 
 const userChatsSocket = atom<WebSocket>();
 const chatSocket = atom<WebSocket>();
+
+const replyToListing = atom<ReplyToListing | null>(null);
+
+const useReplyToListing = () => {
+    return useAtom(replyToListing);
+}
 
 const useUserChatsSocket = () => {
     return useAtom(userChatsSocket);
@@ -132,5 +138,7 @@ export {
     userChatsSocket,
     chatSocket,
     useChatMutations,
-    useUserChatsMutations
+    useUserChatsMutations,
+    replyToListing,
+    useReplyToListing
 }

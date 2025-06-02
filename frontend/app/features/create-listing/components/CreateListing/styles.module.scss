@@ -1,5 +1,10 @@
 @use "~/styles/variables" as *;
 
+@mixin createListingInput {
+    padding: 22px 12px;
+    border-radius: 8px;
+}
+
 .container {
     width: 100%;
 }
@@ -44,7 +49,7 @@
     cursor: pointer;
 
     &:hover {
-        transform:scale(1.05);
+        transform: scale(1.05);
     }
 }
 
@@ -75,6 +80,7 @@
 
 .formDescription {
     height: 140px;
+    border-radius: 12px;
 }
 
 .nextButtonContainer {
@@ -101,4 +107,16 @@
     align-items: center;
     flex-wrap: wrap;
     gap: $spacing-sm;
+}
+
+.listingInformationInput {
+    input {
+        @include createListingInput;
+    }
+}
+
+.listingSelectInput {
+    button {
+        @include createListingInput;
+    }
 }

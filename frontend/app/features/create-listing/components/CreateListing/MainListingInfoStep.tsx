@@ -53,6 +53,7 @@ export default function MainListingInfoStep() {
                         onChange={setTitle}
                         type="text"
                         error={errors.title}
+                        className={styles.listingInformationInput}
                     />
                 </div>
                 <div className={styles.formInput}>
@@ -77,6 +78,7 @@ export default function MainListingInfoStep() {
                         onChange={(val: string) => {
                             setCategory(val as Category);
                         }}
+                        className={styles.listingSelectInput}
                     />
                     {errors.category && (
                         <div className="pt-2">
@@ -98,6 +100,7 @@ export default function MainListingInfoStep() {
                             onChange={(val: string) => {
                                 setUsed(val === "used");
                             }}
+                            className={styles.listingSelectInput}
                         />
                         {errors.used && (
                             <div className="pt-2">

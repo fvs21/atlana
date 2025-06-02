@@ -7,12 +7,22 @@ import { listingImagesAtom } from "../../store";
 import AddImageModal from "../AddImageModal";
 import ListingImageCarousel from "~/features/marketplace/components/ListingImages/ListingImageCarousel";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "~/components/ui/dropdown-menu";
+import { toast } from "sonner";
+import { MAX_IMAGES } from "../../utils/variables";
 
 export default function ListingImagesInput() {
     const [images] = useAtom(listingImagesAtom);
     const [selectedImage, setSelectedImage] = useState<number>(0);
 
     const [addImageModal, setAddImageModal] = useState<boolean>(false);
+
+    const openImageModal = () => {
+        if(images.length >= MAX_IMAGES) {
+            toast.error(`No puedes agregar más de ${MAX_IMAGES} imágenes`);
+            return;
+        }
+        setAddImageModal(true);
+    }
 
     return (
         <>
@@ -29,7 +39,7 @@ export default function ListingImagesInput() {
                     ))}
                     <button
                         className={cn(styles.imagePreviewContainer, styles.addImageButton)}
-                        onClick={() => setAddImageModal(true)}
+                        onClick={openImageModal}
                     >
                         <Plus color="gray" />
                     </button>

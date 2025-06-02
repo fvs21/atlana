@@ -117,6 +117,8 @@ export default function Listing({ listing }: { listing: ListingType | PropertyLi
                             <ListingActions
                                 listing_id={listing.id}
                                 creator_id={listing.creator.id}
+                                title={listing.title}
+                                first_image={listing.images_urls[0]}
                             />
                         )
                     )}

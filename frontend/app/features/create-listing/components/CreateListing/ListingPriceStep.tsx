@@ -52,6 +52,7 @@ export default function ListingPriceStep() {
                         value={price}
                         onChange={(val) => setPrice(parseFloat(val))}
                         type="number"
+                        className={styles.listingInformationInput}
                         error=""
                     />
                 </div>
