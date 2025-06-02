@@ -20,7 +20,6 @@
     overflow-wrap: break-word;
     font-size: 14px;
     border-radius: 20px;
-
 }
 
 .content {
@@ -106,4 +105,48 @@
     &:hover {
         background-color: $button-hover;
     }
+}
+
+.replyToMessage {
+    padding: 6px;
+    padding-bottom: 0;
+    width: 100%;
+    display: inline-block;
+    white-space: pre-line;
+    overflow-wrap: break-word;
+    word-break: break-all;
+}
+
+.replyToMessageContent {
+    height: 100%;
+    width: 100%;
+    border-radius: 12px;
+    padding: 6px 12px;
+    text-align: left;
+    
+}
+
+.yourReply {
+    border-left: 6px solid rgb(0, 0, 0);
+    background-color: $chat-reply-background;
+}
+
+.otherReply {
+    border-left: 6px solid $chat-primary;
+    background-color: white;
+    color: black;
+}
+
+@keyframes messageHighlight {
+    0% {
+        opacity: 0.5;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+.highlightedReply {
+    animation: messageHighlight 0.5s linear;
+    animation-iteration-count: infinite;
 }

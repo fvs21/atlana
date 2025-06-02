@@ -1,4 +1,5 @@
 
+from calendar import c
 from typing import List, Tuple
 
 from django.dispatch import receiver
@@ -63,7 +64,21 @@ async def reply_to_listing(chat_id: int, sender: User, message: str, listing_id:
     return message
 
 async def reply_to(chat_id: int, sender: User, message: str, message_id: int) -> Message:
-    pass
+    chat = await get_chat_by_id(chat_id)
+
+    message_to_reply = await Message.objects.filter(id=message_id, chat=chat).afirst()
+
+    if not message_to_reply:
+        return None
+
+    message = await Message.objects.acreate(
+        chat=chat,
+        sender=sender,
+        content=message,
+        reply_to=message_to_reply
+    )
+
+    return message
 
 async def mark_chat_as_read(chat_id: int, user: User) -> bool:
     """

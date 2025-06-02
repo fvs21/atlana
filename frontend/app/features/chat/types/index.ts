@@ -10,18 +10,25 @@ export type ChatListItem = {
     last_message: Message;
 };
 
+export type ReplyToListing = {
+    id: number;
+    title: string;
+    first_image: string;
+}
+
+export type ReplyToMessage = {
+    id: number;
+    content: string;
+}
+
 export type Message = {
     id: number;
     sender: number;
     content: string;
     seen_at: string;
     timestamp: string;
-    reply_to_listing?: {
-        id: number;
-        title: string;
-        first_image: string;
-    }
-    reply_to?: number;
+    reply_to_listing?: ReplyToListing;
+    reply_to?: ReplyToMessage;
 }
 
 export type Chat = {
@@ -51,18 +58,8 @@ export type ChatEvent = {
     data: ChatNotification | Message | ChatSeenEvent;
 }
 
-export type ReplyToListing = {
-    id: number;
-    title: string;
-    first_image: string;
-}
-
-export type ReplyToMessage = {
-    id: number;
-    content: string;
-}
-
 export type ChatInputMessage = {
     content: string;
     reply_to?: ReplyToMessage;
+    reply_to_listing?: ReplyToListing;
 }

@@ -12,10 +12,11 @@ export default function Chat({ messages }: { messages: MessageType[] }) {
     const { chat_id } = useParams();
     const { user } = useUser();
 
-    const [message, setMessage] = useState<ChatInputMessage>({
-        content: ""
-    });
     const [replyToListing, setReplyToListing] = useReplyToListing();
+    const [message, setMessage] = useState<ChatInputMessage>({
+        content: "",
+        reply_to_listing: replyToListing || undefined
+    });
 
     const { newMessage, chatRead } = useChatMutations(Number(chat_id));
     const socket = useRef<WebSocket>();
@@ -23,6 +24,15 @@ export default function Chat({ messages }: { messages: MessageType[] }) {
 
     const chatRef = useRef<HTMLDivElement>(null);
     const [scrollTop, setScrollTop] = useState<number>(0);
+
+    const scrollToBottom = () => {
+        if (chatRef.current) {
+            chatRef.current.scrollTo({
+                top: 1000,
+                behavior: "smooth"
+            });
+        }
+    }
 
     const handleScroll = (e: SyntheticEvent) => {
         const target = e.target as HTMLDivElement;
@@ -36,12 +46,12 @@ export default function Chat({ messages }: { messages: MessageType[] }) {
 
     const sendMessage = (message: ChatInputMessage) => {
         if (socket.current?.readyState === WebSocket.OPEN) {
-            if(replyToListing) {
+            if(message.reply_to_listing) {
                 socket.current.send(JSON.stringify({
                     type: "send_message",
                     data: {
                         content: message.content,
-                        reply_to_listing: replyToListing.id
+                        reply_to_listing: message.reply_to_listing.id
                     }
                 }));
                 setReplyToListing(null);
@@ -116,13 +126,15 @@ export default function Chat({ messages }: { messages: MessageType[] }) {
                             seen_at={message.seen_at}
                             display_seen={i === lastReadMessageIndex}
                             reply_to_listing={message.reply_to_listing}
-                            reply={() => {
+                            reply_to={message.reply_to}
+                            add_reply={() => {
                                 setMessage((prev) => ({
                                     ...prev,
                                     reply_to: {
                                         id: message.id,
                                         content: message.content,
-                                    }
+                                    },
+                                    reply_to_listing: undefined
                                 }));
                             }}
                         />
@@ -150,7 +162,8 @@ export default function Chat({ messages }: { messages: MessageType[] }) {
                     setMessage({
                         content: "",
                         reply_to: undefined
-                    }) 
+                    });
+                    scrollToBottom();
                 }}
             />
         </div>

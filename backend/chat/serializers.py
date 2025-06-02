@@ -1,3 +1,4 @@
+from pyexpat import model
 from listing.models import Listing
 from user.models import User
 from .models import Chat, Message
@@ -85,7 +86,7 @@ class CreateChatSerializer(serializers.Serializer):
         
         return value
     
-class ListingReplySerializer(serializers.ModelSerializer):
+class MessageListingReplySerializer(serializers.ModelSerializer):
     class Meta:
         model = Listing
         fields = [
@@ -93,9 +94,18 @@ class ListingReplySerializer(serializers.ModelSerializer):
             'title',
             'first_image'
         ]
+
+class MessageReplySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Message
+        fields = [
+            'id',
+            'content',
+        ]
     
 class MessageSerializer(serializers.ModelSerializer):
-    reply_to_listing = ListingReplySerializer(read_only=True)
+    reply_to_listing = MessageListingReplySerializer(read_only=True)
+    reply_to = MessageReplySerializer(read_only=True)
 
     class Meta:
         model = Message

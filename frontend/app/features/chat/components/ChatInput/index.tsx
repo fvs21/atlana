@@ -12,21 +12,24 @@ type ChatInputProps = {
 }
 
 export default function ChatInput({ message, setMessage, sendMessage }: ChatInputProps) {
-    const [replyToListing, setReplyToListing] = useReplyToListing();
+    const isReplying = !!message.reply_to_listing || !!message.reply_to;
 
     return (
         <div className={styles.inputContainer}>
-            <form className={cn(styles.inputWrapper, replyToListing ? styles.replyInputWrapper : "")} onSubmit={(e) => e.preventDefault()}>
-                {replyToListing && (
-                    <MessageReply removeReply={() => setReplyToListing(null)}>
+            <form className={cn(styles.inputWrapper, isReplying ? styles.replyInputWrapper : "")} onSubmit={(e) => e.preventDefault()}>
+                {message.reply_to_listing && (
+                    <MessageReply removeReply={() => setMessage({
+                        ...message,
+                        reply_to_listing: undefined
+                    })}>
                         <div className={styles.replyToListing}>
                             <div className={styles.listingTitle}>
-                                {replyToListing.title}
+                                {message.reply_to_listing.title}
                             </div>
                             <div className={styles.listingImageContainer}>
                                 <img
-                                    src={replyToListing.first_image}
-                                    alt={replyToListing.title}
+                                    src={message.reply_to_listing.first_image}
+                                    alt={message.reply_to_listing.title}
                                     className={styles.image}
                                 />
                             </div>
@@ -55,7 +58,7 @@ export default function ChatInput({ message, setMessage, sendMessage }: ChatInpu
                         })}
                         autoFocus
                     />
-                    {!!message.content.length && (
+                    {!!message.content.trimEnd().length && (
                         <Button className={styles.sendButton} onClick={sendMessage}>
                             <SendHorizonal size={22} />
                         </Button>
