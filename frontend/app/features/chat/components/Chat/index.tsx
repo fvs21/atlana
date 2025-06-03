@@ -7,6 +7,7 @@ import { useChatMutations, useReplyToListing } from "../../store";
 import { useParams } from "@remix-run/react";
 import { useToken, useUser } from "~/api/client.auth";
 import { ChevronDown } from "lucide-react";
+import { WS_URL } from "~/api";
 
 export default function Chat({ messages }: { messages: MessageType[] }) {
     const { chat_id } = useParams();
@@ -84,7 +85,7 @@ export default function Chat({ messages }: { messages: MessageType[] }) {
     }
 
     useEffect(() => {
-        socket.current = new WebSocket(`ws://localhost:8000/api/ws/chat/${chat_id}/?token=${token}`);
+        socket.current = new WebSocket(`${WS_URL}/chat/${chat_id}/?token=${token}`);
 
         socket.current.onopen = () => {
             if (messages.some((message) => message.seen_at && message.sender !== user?.id))

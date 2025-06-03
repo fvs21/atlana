@@ -6,7 +6,7 @@ from authentication.utils import AuthenticationUtils
 from user.models import User, VerificationData
 from user.serializers import UserSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
-from backend.settings import REFRESH_TOKEN_DURATION
+from backend.settings import DEBUG, REFRESH_TOKEN_DURATION
 from django.contrib.auth.hashers import make_password, check_password
 from django.utils import timezone
 from .exceptions import *
@@ -41,9 +41,10 @@ def generate_authentication_response(user: User) -> JsonResponse:
         "user_r", 
         tokens["refresh_token"], 
         httponly=True, 
-        secure=False,  # Set to True in production
+        secure=False if DEBUG else True,  # Set to True in production
         samesite="Lax",
-        expires=REFRESH_TOKEN_DURATION
+        expires=REFRESH_TOKEN_DURATION,
+        domain="localhost" if DEBUG else ".atlana.mx"
     )
 
     return response
@@ -114,7 +115,10 @@ def logout_session(request: HttpRequest) -> None:
 
 def generate_logout_cookie() -> JsonResponse:
     response = JsonResponse({"details": "Logged out"}, status=200)
-    response.delete_cookie("user_r")
+    response.delete_cookie(
+        key="user_r",
+        domain="localhost" if DEBUG else ".atlana.mx",
+    )
     return response
 
 def check_email_verification(user: User, verification_code: str) -> bool:

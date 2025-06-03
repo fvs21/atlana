@@ -2,7 +2,8 @@ from time import time_ns
 from typing import List
 from django.db import models
 
-from backend.settings import SERVER_BASE_URL
+from image.service import generate_presigned_url
+from backend.settings import DEBUG, SERVER_BASE_URL
 from location.models import Location
 
 # Create your models here.
@@ -58,7 +59,12 @@ class ListingImage(models.Model):
     image = models.ForeignKey('image.Image', on_delete=models.CASCADE)
 
     def get_image_url(self):
-        return SERVER_BASE_URL + self.image.image_url
+        if not DEBUG:
+            return generate_presigned_url(
+                key=self.image.key
+            )
+        else:
+            return SERVER_BASE_URL + self.image.image_url
 
 
 class PropertyListing(models.Model):

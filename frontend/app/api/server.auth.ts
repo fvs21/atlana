@@ -3,6 +3,8 @@ import { redirect } from "@remix-run/node";
 
 export const SERVER_BASE_URL = process.env.SERVER_BASE_URL;
 
+export const DEBUG = process.env.DEBUG === "true" || false;
+
 export const authTokenExists = ({ request }: { request: Request }) => {
     return getAuthToken({ request }) != null;
 }
@@ -10,6 +12,11 @@ export const authTokenExists = ({ request }: { request: Request }) => {
 export const getAuthToken = ({ request }: { request: Request }): string | null => {
     const cookies = request.headers.get("Cookie");
     const token = cookies?.split(";").find(cookie => cookie.trim().startsWith("user_r"))?.split("=")[1];
+
+    if(DEBUG) {
+        console.log("Auth Token:", token);
+        console.log("Cookies:", cookies);
+    }
     
     if(!token) return null;
 
@@ -39,7 +46,7 @@ export const onlyGuests = ({ request }: { request: Request }): void => {
     const token = getAuthToken({ request });
 
     if(token != null) {
-        throw redirect("/dashboard");
+        throw redirect("/marketplace");
     }
 }
 
@@ -62,6 +69,10 @@ export const onlyAuthenticated = ({ request }: { request: Request }): void => {
     }
 
     const payload = parseJwt(token);
+
+    if(DEBUG) {
+
+    }
     
     if(!payload.verified) {
         throw redirect("/verify-email");
@@ -78,6 +89,10 @@ export const onlyAuthenticatedNotVerified = ({ request }: { request: Request }):
     }
 
     const payload = parseJwt(token);
+
+    if(DEBUG) {
+        console.log("Payload:", payload);
+    }
     
     if(payload.verified) {
         throw redirect("/marketplace");

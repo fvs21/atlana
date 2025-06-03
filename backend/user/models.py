@@ -3,7 +3,8 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.utils import timezone
 
-from backend.settings import SERVER_BASE_URL
+from image.service import generate_presigned_url
+from backend.settings import DEBUG, SERVER_BASE_URL
 from image.models import Image
 
 from .constants import MAJORS_LIST
@@ -54,10 +55,20 @@ class User(AbstractBaseUser):
     REQUIRED_FIELDS = ["password", "first_name", "last_name", "company_name"]
 
     def profile_picture_url(self):
-        if self.profile_picture:
-            return SERVER_BASE_URL + self.profile_picture.image_url
-        
-        return SERVER_BASE_URL + "/api/image/default-pfp.png"
+        if not DEBUG:
+            if not self.profile_picture:
+                return generate_presigned_url(
+                    key=f"images/pfp/default-pfp.png"
+                )
+            
+            return generate_presigned_url(
+                key=self.profile_picture.key
+            )
+        else:
+            if self.profile_picture:
+                return SERVER_BASE_URL + self.profile_picture.image_url
+            
+            return SERVER_BASE_URL + "/api/image/default-pfp.png"
     
     def has_email_verified(self) -> bool:
         return self.email_verified_at is not None

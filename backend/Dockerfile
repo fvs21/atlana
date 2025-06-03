@@ -7,6 +7,7 @@ WORKDIR /app
 COPY . /app
 
 RUN apt-get update && apt-get install -y build-essential libpq-dev
+RUN apt-get install exiftool -y
 RUN pip install --upgrade pip
 RUN pip install -r requirements.txt
 

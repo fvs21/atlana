@@ -20,3 +20,7 @@ class Image(models.Model):
     def delete(self, *args, **kwargs):
         self.image.delete()
         super(Image, self).delete(*args, **kwargs)
+
+    @property
+    def key(self) -> str:
+        return f"images/{self.container}/{self.image_name}"

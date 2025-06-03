@@ -10,6 +10,7 @@ import { ChatNotification } from "~/features/chat/types";
 import { LoaderFunctionArgs } from "@remix-run/node";
 import { onlyAuthenticated } from "~/api/server.auth";
 import { cn } from "~/lib/utils";
+import { WS_URL } from "~/api";
 
 export async function loader({ request }: LoaderFunctionArgs) {
     onlyAuthenticated({ request });
@@ -32,7 +33,7 @@ export default function Page() {
     const { chat_id } = useParams();
 
     useEffect(() => {
-        const socket = new WebSocket("ws://localhost:8000/api/ws/chats/?token=" + token);
+        const socket = new WebSocket(`${WS_URL}/chats/?token=${token}`);
         setSocket(socket);
 
         socket.onmessage = (event) => {

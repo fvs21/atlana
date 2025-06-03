@@ -15,7 +15,6 @@ import os
 from pathlib import Path
 from dotenv import load_dotenv
 
-
 load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -38,8 +37,8 @@ ALLOWED_HOSTS = [
     '192.168.68.102',
     'localhost', 
     '127.0.0.1', 
-    'backend', 
-    "atlana-lb-501671792.us-east-2.elb.amazonaws.com",
+    'www.atlana.mx',
+    "atlana.mx",
     '10.0.1.239'
 ]
 
@@ -48,7 +47,10 @@ CORS_ALLOWED_ORIGINS = [
     'http://localhost:5173', 
     'http://localhost:3000',
     'http://127.0.0.1:5173',
-    "http://atlana-lb-501671792.us-east-2.elb.amazonaws.com",
+    "http://atlana.mx",
+    'http://www.atlana.mx',
+    "https://atlana.mx",
+    "https://www.atlana.mx",
     'http://10.0.1.239:5173',
     'http://192.168.68.102:5173'
 ]
@@ -97,12 +99,12 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
 ]
 
 ROOT_URLCONF = 'backend.urls'
@@ -201,3 +203,15 @@ EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
+
+if not DEBUG:
+    STORAGES = {
+        "default": {
+            "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
+        }
+    }
+    
+AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
+AWS_S3_REGION_NAME = os.environ.get('AWS_REGION_NAME')
+AWS_S3_SIGNATURE_VERSION = 's3v4'
+MEDIA_URL = f'https://{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com/'

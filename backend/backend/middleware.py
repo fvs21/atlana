@@ -22,7 +22,9 @@ class JWTAuthMiddleware:
 
     async def __call__(self, scope, receive, send):
         token = scope["query_string"].decode().split("=")[1] if b"token=" in scope["query_string"] else None
+        print(f"JWTAuthMiddleware: token={token}")
         scope["user"] = await get_user_from_token(token) if token else AnonymousUser()
+        print(scope["user"])
 
         return await self.app(scope, receive, send)
     
