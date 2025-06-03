@@ -25,7 +25,7 @@ function Message({ id, content, own, seen_at, reply_to_listing, reply_to, add_re
 
             setTimeout(() => {
                 repliedMessage.classList.remove(styles.highlightedReply);
-            }, 3500);
+            }, 2000);
         }
     }
 

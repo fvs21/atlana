@@ -81,6 +81,9 @@ class PropertyListing(models.Model):
     time_unit = models.CharField(max_length=5, choices=TIME_UNITS)
     sell = models.BooleanField(default=False)
     location = models.ForeignKey(Location, on_delete=models.CASCADE, related_name='property')
+
     property_type = models.CharField(max_length=9, choices=TYPES)
     bedrooms = models.SmallIntegerField(blank=True, null=True)
     bathrooms = models.SmallIntegerField(blank=True, null=True)
+    air_conditioning = models.BooleanField(default=False)
+    furnished = models.BooleanField(default=False)

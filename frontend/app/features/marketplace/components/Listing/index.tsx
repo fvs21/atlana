@@ -4,7 +4,7 @@ import ListingImages from "../ListingImages";
 import { Breadcrumb, BreadcrumbList, BreadcrumbItem, BreadcrumbLink, BreadcrumbSeparator } from "~/components/ui/breadcrumb";
 import { formatPropertyListingPriceTimeUnit, formatTimeSinceUploaded } from "../../utils/listing";
 import { Link } from "@remix-run/react";
-import { Bed, House, ShowerHead } from "lucide-react";
+import { AirVent, Armchair, Bed, House, ShowerHead } from "lucide-react";
 import categories from "~/constants/categories";
 import { PropertyTypes } from "~/constants/property";
 import LocationDisplay from "./LocationDisplay.client";
@@ -89,6 +89,18 @@ export default function Listing({ listing }: { listing: ListingType | PropertyLi
                                     <ShowerHead color="gray" />
                                     {(listing as PropertyListing).property.bathrooms} {(listing as PropertyListing).property.bathrooms == 1 ? "baño" : "baños"}
                                 </div>
+                                {(listing as PropertyListing).property && (
+                                    <div className={styles.propertyAttribute}>
+                                        <AirVent color="gray"/>
+                                        Aire acondicionado
+                                    </div>
+                                )}
+                                {(listing as PropertyListing).property && (
+                                    <div className={styles.propertyAttribute}>
+                                        <Armchair color="gray"/>
+                                        Amueblado
+                                    </div>
+                                )}
                             </div>
                             <hr className="my-4" />
                             <div className={styles.propertyLocationContainer}>

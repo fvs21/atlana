@@ -22,7 +22,9 @@ def create_property_listing(user: User, body: dict, images: List[UploadedFile]) 
         bedrooms=body.get('bedrooms', None),
         bathrooms=body.get('bathrooms', None),
         location=location,
-        time_unit=body['time_unit']
+        time_unit=body['time_unit'],
+        air_conditioning=body.get('air_conditioned', False),
+        furnished=body.get('furnished', False),
     )
 
     return listing

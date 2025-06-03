@@ -42,7 +42,7 @@ def filter_property_listings_inside_bounds(bounds: dict) -> List[Listing]:
         longitude__gte=southwest['lng']
     )
 
-    listings = Listing.public.filter(category='property_rentals').select_related('property').filter(
+    listings = Listing.public.filter(category='property_rentals').select_related('property__location').filter(
         property__location__in=locations
     )[:15]
 

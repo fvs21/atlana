@@ -85,6 +85,8 @@ export default function ListingImagesStep() {
             bathrooms: listingBody.bathrooms,
             location: listingBody.location,
             time_unit: listingBody.time_unit,
+            air_conditioning: listingBody.air_conditioning,
+            furnished: listingBody.furnished,
         }));
 
         try {

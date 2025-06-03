@@ -14,7 +14,7 @@ export default function ListingImages({ images }: { images: string[] }) {
     return (
         <div className={styles.listingImagesContainer}>
             <div className={styles.leftScroller}>
-                {images.slice(0, Math.min(images.length, 5)).map((image, index) => (
+                {images.slice(0, Math.min(images.length, 4)).map((image, index) => (
                     <ImagePreview
                         key={index}
                         image={image}
@@ -22,7 +22,7 @@ export default function ListingImages({ images }: { images: string[] }) {
                         selected={index === selectedImage}
                     />
                 ))}
-                {images.length > 5 && (
+                {images.length > 4 && (
                     <button
                         className={cn(styles.imagePreviewContainer, styles.moreImagesButton)}
                         onClick={() => setModalOpen(true)}

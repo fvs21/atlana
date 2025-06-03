@@ -16,10 +16,12 @@ export type CreatePropertyListingBody = CreateListingBody & {
         longitude: number;
         radius: number;
     }
+    time_unit: PropertyTimeUnit;
     property_type: string;
     bedrooms: number;
     bathrooms: number;
-    time_unit: PropertyTimeUnit;
+    air_conditioning: boolean;
+    furnished: boolean;
 }
 
 export type LocationQueryResult = {

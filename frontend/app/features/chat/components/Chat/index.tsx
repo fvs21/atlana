@@ -163,7 +163,9 @@ export default function Chat({ messages }: { messages: MessageType[] }) {
                         content: "",
                         reply_to: undefined
                     });
-                    scrollToBottom();
+                    setTimeout(() => {
+                        scrollToBottom();
+                    }, 100); 
                 }}
             />
         </div>

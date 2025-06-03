@@ -21,6 +21,8 @@ const locationAtom = atom<Location>({
     longitude: 0,
     radius: 0
 });
+const airConditioningAtom = atom<boolean>();
+const furnishedAtom = atom<boolean>();
 
 
 const useBody = (): CreateListingBody | CreatePropertyListingBody => {
@@ -36,6 +38,8 @@ const useBody = (): CreateListingBody | CreatePropertyListingBody => {
     const [bathrooms] = useAtom(bathroomsAtom);
     const [location] = useAtom(locationAtom);
     const [time_unit] = useAtom(timeUnitAtom);
+    const [air_conditioning] = useAtom(airConditioningAtom);
+    const [furnished] = useAtom(furnishedAtom);
 
     if (category != "property_rentals") {
         return {
@@ -63,6 +67,8 @@ const useBody = (): CreateListingBody | CreatePropertyListingBody => {
         bedrooms: bedrooms as number,
         bathrooms: bathrooms as number,
         time_unit,
+        air_conditioning,
+        furnished,
     }
 }
 
@@ -78,6 +84,8 @@ const useResetBody = () => {
     const [, setBathrooms] = useAtom(bathroomsAtom);
     const [, setLocation] = useAtom(locationAtom);
     const [, setTimeUnit] = useAtom(timeUnitAtom);
+    const [, setAirConditioning] = useAtom(airConditioningAtom);
+    const [, setFurnished] = useAtom(furnishedAtom);
 
     return () => {
         setTitle("");
@@ -95,6 +103,8 @@ const useResetBody = () => {
             radius: 0
         });
         setTimeUnit("day");
+        setAirConditioning(false);
+        setFurnished(false);
     }
 }
 
@@ -106,6 +116,8 @@ export {
     listingImagesAtom,
     listingPriceAtom,
     listingUsedAtom,
+    airConditioningAtom,
+    furnishedAtom,
     propertyTypeAtom,
     bedroomsAtom,
     bathroomsAtom,

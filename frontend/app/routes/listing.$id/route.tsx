@@ -9,7 +9,7 @@ import { fetchListing } from "~/features/marketplace/api/server";
 import Listing from "~/features/marketplace/components/Listing";
 
 export async function loader({ params, request }: LoaderFunctionArgs) {
-    onlyAuthenticated({request});
+    onlyAuthenticated({ request });
 
     const id = params.id;
 
@@ -19,36 +19,40 @@ export async function loader({ params, request }: LoaderFunctionArgs) {
         })
     }
 
-    const token = await refreshToken({request});
+    const token = await refreshToken({ request });
 
-    try {
-        const res = await fetchListing(Number(id), token?.data?.access_token!);
-        
-        return data({
-            ...res.data
-        });
-        
-    } catch {
-        return new Response(null, {
+    const res = await fetchListing(Number(id), token?.data?.access_token!);
+
+    if (!res) {
+        throw new Response(null, {
             status: 404
-        })
+        });
     }
+
+    return data({
+        listing: res.data?.listing
+    });
 }
 
-export const meta: MetaFunction<typeof loader> = ({data}) => {
+export const meta: MetaFunction<typeof loader> = ({ data, error }) => {
+    if (error) {
+        return [
+            { title: "Listing not found" },
+        ];
+    }
+
     return [
-        { title: data.listing.title },
+        { title: data?.listing?.title || "Listing not found" },
     ];
 }
 
 export default function Page() {
     const loaderData = useLoaderData<typeof loader>();
 
-    const { data, isLoading } = useListing(loaderData.listing);
+    const { data, isLoading } = useListing(loaderData.listing!);
 
-    if (isLoading) {
+    if (isLoading)
         return <LoadingScreen />;
-    }
 
     return (
         <div className="flexColContainer">
@@ -59,5 +63,5 @@ export default function Page() {
             <FooterSmall />
         </div>
     )
-    
+
 }

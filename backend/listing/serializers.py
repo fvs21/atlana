@@ -73,6 +73,8 @@ class CreatePropertyListingBodySerializer(serializers.ModelSerializer):
     bedrooms = serializers.IntegerField(required=False)
     bathrooms = serializers.IntegerField(required=False)
     time_unit = serializers.ChoiceField(choices=PropertyListing.TIME_UNITS, required=True)
+    air_conditioning = serializers.BooleanField(default=False, required=False)
+    furnished = serializers.BooleanField(default=False, required=False)
 
     class Meta:
         model = Listing
@@ -87,6 +89,8 @@ class CreatePropertyListingBodySerializer(serializers.ModelSerializer):
             'bathrooms',
             'sell',
             'time_unit',
+            'air_conditioning',
+            'furnished'
         ]
 
 class CreatePropertyListingRequestSerializer(serializers.Serializer):
@@ -111,7 +115,9 @@ class PropertyListingSerializer(serializers.ModelSerializer):
             'property_type',
             'bedrooms',
             'bathrooms',
-            'time_unit'
+            'time_unit',
+            'air_conditioning',
+            'furnished',
         ]
     
 class ListingSerializer(serializers.ModelSerializer):

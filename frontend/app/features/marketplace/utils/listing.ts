@@ -23,3 +23,14 @@ export const formatPropertyListingPriceTimeUnit = (unit: PropertyTimeUnit) => {
             return "/mes";
     }
 }
+
+export const formatPropertyListingPriceTimeUnitShort = (unit: PropertyTimeUnit) => {
+    switch (unit) {
+        case "day":
+            return "/día";
+        case "week":
+            return "/sem";
+        case "month":
+            return "/mes";
+    }
+}

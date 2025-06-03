@@ -29,6 +29,8 @@ export type PropertyListing = Listing & {
         bedrooms: number;
         bathrooms: number;
         time_unit: PropertyTimeUnit;
+        air_conditioning: boolean;
+        furnished: boolean;
     }
 }
 
@@ -48,6 +50,7 @@ export type ListingCard = {
 export type PropertyListingCard = ListingCard & {
     property: {
         location: Location;
+        time_unit: PropertyTimeUnit;
     }
 }
 

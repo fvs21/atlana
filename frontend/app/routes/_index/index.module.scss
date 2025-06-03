@@ -2,7 +2,7 @@
 
 .hero {
   padding: $spacing-3xl 0;
-  background-image: url("https://wp-media.petersons.com/blog/wp-content/uploads/2019/09/20145500/iStock-1136187224.jpg");
+  background-image: url("/university_students.jpg");
   background-size: cover;
   background-position: center;
 }
@@ -32,6 +32,8 @@
     font-weight: 700;
     margin-bottom: $spacing-md;
     line-height: 1.2;
+    text-shadow: $primary-color 1px 0 10px;
+    
   }
 
   p {

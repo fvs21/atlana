@@ -14,7 +14,8 @@ class PropertyListingCardSerializer(serializers.ModelSerializer):
     class Meta:
         model = PropertyListing
         fields = [
-            'location'
+            'location',
+            'time_unit',
         ]
 
 class ListingCardSerializer(serializers.ModelSerializer):

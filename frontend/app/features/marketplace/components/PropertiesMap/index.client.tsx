@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { PropertyMapBounds } from "../../types";
 import { PropertyListingCard } from "~/types/listings";
 import styles from "./styles.module.scss";
+import { formatPropertyListingPriceTimeUnitShort } from "../../utils/listing";
 
 const mapPopupOptions = {
     closeButton: false,
@@ -47,7 +48,7 @@ export default function PropertiesMap({ setBounds, listings, isLoading }: Proper
                 .setLatLng([listing.property.location.latitude, listing.property.location.longitude])
                 .setContent(`
                     <a href="/listing/${listing.id}" target="_blank" class="${styles.popupButton}">
-                        $${price}
+                        $${price} ${formatPropertyListingPriceTimeUnitShort(listing.property.time_unit)}
                     </a>    
                 `)
                 .addTo(mapRef.current!);

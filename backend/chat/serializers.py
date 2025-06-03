@@ -128,7 +128,7 @@ class SendMessageEventSerializer(serializers.Serializer):
 
 class ConsumerEventSerializer(serializers.Serializer):
     type = serializers.CharField()
-    data = serializers.JSONField()
+    data = serializers.JSONField(required=False)
 
     def validate_type(self, value):
         if value not in ['send_message', 'read_chat']:

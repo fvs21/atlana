@@ -2,7 +2,7 @@ import { cn } from "~/lib/utils";
 import styles from "./styles.module.scss";
 import { ChevronLeft } from "lucide-react";
 import { useAtom } from "jotai";
-import { bathroomsAtom, bedroomsAtom, propertyTypeAtom, stepAtom } from "../../store";
+import { airConditioningAtom, bathroomsAtom, bedroomsAtom, furnishedAtom, propertyTypeAtom, stepAtom } from "../../store";
 import LabeledSelect from "~/components/labeled-select";
 import { PropertyType } from "~/types/listings";
 import { PropertyTypes } from "~/constants/property";
@@ -15,6 +15,8 @@ export default function PropertyInformationStep() {
     const [propertyType, setPropertyType] = useAtom(propertyTypeAtom);
     const [bedrooms, setBedrooms] = useAtom(bedroomsAtom);
     const [bathrooms, setBathrooms] = useAtom(bathroomsAtom);
+    const [airConditioning, setAirConditioning] = useAtom(airConditioningAtom);
+    const [furnished, setFurnished] = useAtom(furnishedAtom);
 
     const next = () => {
         if(propertyType === "") 
@@ -71,6 +73,32 @@ export default function PropertyInformationStep() {
                         type="number"
                         value={bathrooms}
                         onChange={(val) => setBathrooms(parseInt(val))}
+                    />
+                </div>
+                <div className={styles.formInput}>
+                    <LabeledSelect
+                        label="Aire acondicionado"
+                        placeholder="Selecciona si la propiedad cuenta con aire acondicionado"
+                        name="air_conditioning"
+                        options={[
+                            { name: "Sí", value: "true" },
+                            { name: "No", value: "false" },
+                        ]}
+                        value={airConditioning == undefined ? "" : airConditioning ? "true" : "false"}
+                        onChange={(val) => setAirConditioning(val === "true")}
+                    />
+                </div>
+                <div className={styles.formInput}>
+                    <LabeledSelect
+                        label="Amueblado"
+                        placeholder="Selecciona si la propiedad está amueblada"
+                        name="furnished"
+                        options={[
+                            { name: "Sí", value: "true" },
+                            { name: "No", value: "false" },
+                        ]}
+                        value={furnished == undefined ? "" : furnished ? "true" : "false"}
+                        onChange={(val) => setFurnished(val === "true")}
                     />
                 </div>
                 <div className={cn(styles.formInput, styles.nextButtonContainer)}>
