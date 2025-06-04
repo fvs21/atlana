@@ -1,6 +1,6 @@
 from io import BytesIO
 from typing import Optional
-from backend.settings import AWS_S3_REGION_NAME, AWS_STORAGE_BUCKET_NAME, DEBUG, MEDIA_URL
+from backend.settings import AWS_STORAGE_BUCKET_NAME, DEBUG, MEDIA_URL
 from image.exceptions import ImageUploadException
 from .models import Image
 from django.core.files.uploadedfile import InMemoryUploadedFile
@@ -84,7 +84,7 @@ def strip_image_metadata(image: InMemoryUploadedFile) -> InMemoryUploadedFile:
     return stripped_image
 
 def generate_presigned_url(key: str, expiration=3600) -> str:
-    s3 = boto3.client('s3', region_name=AWS_S3_REGION_NAME, config=boto3.session.Config(signature_version='s3v4'))
+    s3 = boto3.client('s3', config=boto3.session.Config(signature_version='s3v4'))
 
     try:
         res = s3.generate_presigned_url(

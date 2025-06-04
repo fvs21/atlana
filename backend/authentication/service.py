@@ -59,7 +59,7 @@ def send_verification_email(email: str, first_name: str, verification_code: str)
 
     send_mail(
         subject="Verifica tu cuenta",
-        from_email="fvs9621@gmail.com",
+        from_email="noreply@mail.atlana.mx",
         recipient_list=[email],
         html_message=html_message,
         fail_silently=False,

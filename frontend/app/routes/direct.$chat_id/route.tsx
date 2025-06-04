@@ -6,7 +6,7 @@ import Chat from '~/features/chat/components/Chat';
 
 export default function Page() {
     const { chat_id } = useParams();
-
+    
     const { data, isLoading, isError } = useGetChat(Number(chat_id));
 
     const chat = data?.chat;

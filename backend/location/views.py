@@ -8,6 +8,7 @@ from . import service
 # Create your views here.
 class LocationViewSet(viewsets.ViewSet):
     permission_classes = GENERAL_AUTHENTICATION_PERMISSIONS
+    
     def search_by_street(self, request: HttpRequest) -> JsonResponse:
         """
         Search for a location by street name.

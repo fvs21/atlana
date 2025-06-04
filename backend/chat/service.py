@@ -61,6 +61,10 @@ async def reply_to_listing(chat_id: int, sender: User, message: str, listing_id:
         reply_to_listing=listing
     )
 
+    if not chat.has_messages:
+        chat.has_messages = True
+        await chat.asave()
+
     return message
 
 async def reply_to(chat_id: int, sender: User, message: str, message_id: int) -> Message:
@@ -77,6 +81,10 @@ async def reply_to(chat_id: int, sender: User, message: str, message_id: int) ->
         content=message,
         reply_to=message_to_reply
     )
+
+    if not chat.has_messages:
+        chat.has_messages = True
+        await chat.asave()
 
     return message
 

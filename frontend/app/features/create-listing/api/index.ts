@@ -50,11 +50,11 @@ export function useQueryLocation() {
 
     const { mutateAsync: queryLocation, isPending } = useMutation({
         mutationFn: async (query: string) => {
-            const request = await api.get<ResponseBody<{ locations: LocationQueryResult[] }>>("/location/search?q=" + query);
+            const request = await api.get<ResponseBody<LocationQueryResult[]>>(`https://nominatim.openstreetmap.org/search?q=${query}&format=json&addressdetails=1&limit=5`);
             return request.data;
         },
         onSuccess: (data) => {
-            data.data?.locations.forEach((location) => {
+            data.data?.forEach((location) => {
                 queryClient.setQueryData(["location", location.display_name], location);
             });
         }

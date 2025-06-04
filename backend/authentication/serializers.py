@@ -8,10 +8,7 @@ class RegistrationSerializer(serializers.ModelSerializer):
         model = User
         fields = ['email', 'password', 'first_name', 'last_name']
 
-    def validate_email(self, value):
-        if User.objects.filter(email=value).exists():
-            raise serializers.ValidationError("Email already exists")
-        
+    def validate_email(self, value):        
         domain = value.split('@')[1]
         if domain != 'anahuacmayab.edu.mx':
             raise serializers.ValidationError("Email domain not allowed")

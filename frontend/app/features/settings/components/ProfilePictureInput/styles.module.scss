@@ -51,6 +51,8 @@
     padding: 10px;
     border-top: 0.5px solid $border-color;
     font-size: 14px;
+    display: flex;
+    justify-content: center;
 
     &:hover {
         background-color: $button-hover;

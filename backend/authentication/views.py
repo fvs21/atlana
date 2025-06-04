@@ -19,6 +19,12 @@ class AuthenticationViewSet(viewsets.ViewSet):
         serializer = RegistrationSerializer(data=request.data)
 
         if not serializer.is_valid():
+            if 'email' in serializer.errors and 'user with this email already exists.' in serializer.errors['email']:
+                return JsonResponse({
+                    'details': 'User with this email already exists',
+                    'code': 'email_already_exists'
+                }, status=400)
+                
             return JsonResponse({
                 'details': serializer.errors,
                 'code': 'registration_failed'

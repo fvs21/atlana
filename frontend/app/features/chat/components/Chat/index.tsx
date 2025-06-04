@@ -37,17 +37,17 @@ export default function Chat({ messages }: { messages: MessageType[] }) {
 
     const handleScroll = (e: SyntheticEvent) => {
         const target = e.target as HTMLDivElement;
-        setScrollTop(target.scrollTop);          
+        setScrollTop(target.scrollTop);
     }
 
     const lastReadMessageIndex = messages.findIndex((message) => {
-            return message.seen_at && message.sender === user?.id;
-        }
+        return message.seen_at && message.sender === user?.id;
+    }
     );
 
     const sendMessage = (message: ChatInputMessage) => {
         if (socket.current?.readyState === WebSocket.OPEN) {
-            if(message.reply_to_listing) {
+            if (message.reply_to_listing) {
                 socket.current.send(JSON.stringify({
                     type: "send_message",
                     data: {
@@ -97,8 +97,16 @@ export default function Chat({ messages }: { messages: MessageType[] }) {
 
             switch (data.type) {
                 case "chat_message":
-                    newMessage(data.data as MessageType);
+                    const receivedMessage = data.data as MessageType;
+                    newMessage(receivedMessage);
                     readChat();
+
+                    if (receivedMessage.sender === user?.id) {
+                        setTimeout(() => {
+                            scrollToBottom();
+                        }, 100);
+                    }
+
                     return;
                 case "chat_read":
                     if ((data.data as ChatSeenEvent).user !== user?.id)
@@ -109,10 +117,12 @@ export default function Chat({ messages }: { messages: MessageType[] }) {
         }
 
         return () => {
-            socket.current?.close();
+            if (socket.current) {
+                socket.current.close();
+            }
             setReplyToListing(null);
         }
-    }, []);
+    }, [chat_id]);
 
     return (
         <div className={styles.chat}>
@@ -158,15 +168,12 @@ export default function Chat({ messages }: { messages: MessageType[] }) {
             <ChatInput
                 message={message}
                 setMessage={setMessage}
-                sendMessage={() => { 
-                    sendMessage(message); 
+                sendMessage={() => {
+                    sendMessage(message);
                     setMessage({
                         content: "",
                         reply_to: undefined
                     });
-                    setTimeout(() => {
-                        scrollToBottom();
-                    }, 100); 
                 }}
             />
         </div>

@@ -93,7 +93,7 @@ export default function ProfilePictureInput() {
                                 onClick={handleUpdatePfp}
                             >
                                 {isPending ? (
-                                    <Loader className="animate-spin" color="white" />
+                                    <Loader className="animate-spin" color="black" />
                                 ) : (
                                     "Actualizar foto"
                                 )}
@@ -119,7 +119,7 @@ export default function ProfilePictureInput() {
                                 onClick={handleDeletePfp}
                             >
                                 {isDeletePfpPending ? (
-                                    <Loader className="animate-spin" color="white" />
+                                    <Loader className="animate-spin" color="black" />
                                 ) : (
                                     "Eliminar foto de perfil"
                                 )}

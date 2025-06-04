@@ -12,6 +12,8 @@ import { useState } from "react";
 import { useRegister } from "~/features/register/api";
 import { LoaderFunctionArgs } from "@remix-run/node";
 import { onlyGuests } from "~/api/server.auth";
+import { AxiosError } from "axios";
+import { ResponseBody } from "~/types/globals";
 
 export const meta: MetaFunction = () => {
     return [
@@ -80,8 +82,17 @@ export default function RegisterPage() {
         try {
             await register(body);
             navigate("/verify-email");
-        } catch(error) {
-            console.log(error);
+        } catch(e) {
+            const error = (e as AxiosError).response?.data as ResponseBody<null>;
+
+            switch(error.code) {
+                case "email_already_exists":
+                    setErrors({
+                        ...errors,
+                        email: "El correo electrónico ya está en uso"
+                    });
+                    break;
+            }
         }
     }
 

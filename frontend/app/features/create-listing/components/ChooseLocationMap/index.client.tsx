@@ -54,9 +54,9 @@ export default function ChooseLocationMap({ location, setLocation }: { location:
 
         const data = await queryLocation(query);
 
-        if(!data.data?.locations) return;
+        if(!data.data) return;
 
-        setQueryResults(data.data.locations);
+        setQueryResults(data.data);
     }
 
     const selectLocation = (location: LocationQueryResult) => {        
