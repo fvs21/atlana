@@ -18,7 +18,7 @@ export default function ListingImagesStep() {
     const [images] = useAtom(listingImagesAtom);
 
     const { create, isPending, createDisabled } = useCreateListing();
-    const { create: createProperty } = useCreatePropertyListing();
+    const { create: createProperty, isPending: createPropertyPending } = useCreatePropertyListing();
 
     const body = useBody();
     const resetBody = useResetBody();
@@ -120,7 +120,7 @@ export default function ListingImagesStep() {
                         className="primaryButton" 
                         onClick={next} 
                         disabled={createDisabled}
-                        isFetching={isPending}
+                        isFetching={isPending || createPropertyPending}
                     >
                         Crear
                     </Button>

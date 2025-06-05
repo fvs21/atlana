@@ -109,7 +109,7 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 f'chats_user_{participant.id}',
                 {
                     'type': 'chat_notification',
-                    'message': await self.serializer_chat_notification(message)
+                    'message': ChatNotificationSerializer(message).data
                 }
             )
 
@@ -142,8 +142,3 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 "user": event['user']
             }
         }))
-
-    
-    @database_sync_to_async
-    def serializer_chat_notification(self, message: Message) -> Dict:
-        return ChatNotificationSerializer(message).data

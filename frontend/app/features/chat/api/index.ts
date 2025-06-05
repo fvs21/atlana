@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { api } from "~/api";
 import { ResponseBody } from "~/types/globals";
 import { Chat, ChatListItem, GetChatResponse, Message } from "../types";
@@ -29,6 +29,7 @@ export function useGetChats() {
             return res.data.data;
         },
         refetchOnWindowFocus: false,
+        refetchOnMount: "always"
     });
 
     return { 
@@ -39,12 +40,15 @@ export function useGetChats() {
 
 
 export function useGetChat(chat_id: number) {
+    const queryClient = useQueryClient();
+
     const { data, isLoading, isError } = useQuery({
         queryKey: ["chat", chat_id],
         queryFn: async () => {
             const res = await api.get<ResponseBody<GetChatResponse>>(`/chat/${chat_id}`);
             return res.data.data;
         },
+
         refetchOnWindowFocus: false,
     });
 

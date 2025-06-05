@@ -71,7 +71,7 @@ def strip_image_metadata(image: InMemoryUploadedFile) -> InMemoryUploadedFile:
             buffer = BytesIO(f.read())
             stripped_image = InMemoryUploadedFile(
                 buffer, 
-                image.field_name, 
+                None, 
                 image.name, 
                 image.content_type, 
                 size=os.path.getsize(image_path),

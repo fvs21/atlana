@@ -4,6 +4,7 @@ import { Button } from "~/components/ui/button";
 import { useReplyToListing } from "../../store";
 import { cn } from "~/lib/utils";
 import { ChatInputMessage } from "../../types";
+import { useEffect, useRef } from "react";
 
 type ChatInputProps = {
     message: ChatInputMessage;
@@ -12,7 +13,14 @@ type ChatInputProps = {
 }
 
 export default function ChatInput({ message, setMessage, sendMessage }: ChatInputProps) {
+    const inputRef = useRef<HTMLInputElement>(null);
+
     const isReplying = !!message.reply_to_listing || !!message.reply_to;
+
+    useEffect(() => {
+        if (inputRef.current)
+            inputRef.current.focus();
+    }, [message.reply_to, message.reply_to_listing]);
 
     return (
         <div className={styles.inputContainer}>
@@ -48,6 +56,7 @@ export default function ChatInput({ message, setMessage, sendMessage }: ChatInpu
                 )}
                 <div className={styles.messageInput}>
                     <input
+                        ref={inputRef}
                         className={styles.input}
                         type="text"
                         placeholder="Escribe un mensaje..."
@@ -57,6 +66,8 @@ export default function ChatInput({ message, setMessage, sendMessage }: ChatInpu
                             content: e.target.value
                         })}
                         autoFocus
+                        spellCheck="true"
+
                     />
                     {!!message.content.trimEnd().length && (
                         <Button className={styles.sendButton} onClick={sendMessage}>

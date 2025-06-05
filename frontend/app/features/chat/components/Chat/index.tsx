@@ -29,7 +29,7 @@ export default function Chat({ messages }: { messages: MessageType[] }) {
     const scrollToBottom = () => {
         if (chatRef.current) {
             chatRef.current.scrollTo({
-                top: 1000,
+                top: 1,
                 behavior: "smooth"
             });
         }
@@ -100,29 +100,31 @@ export default function Chat({ messages }: { messages: MessageType[] }) {
                     const receivedMessage = data.data as MessageType;
                     newMessage(receivedMessage);
                     readChat();
-
-                    if (receivedMessage.sender === user?.id) {
-                        setTimeout(() => {
-                            scrollToBottom();
-                        }, 100);
-                    }
-
-                    return;
+                    break;
                 case "chat_read":
-                    if ((data.data as ChatSeenEvent).user !== user?.id)
-                        chatRead();
-
-                    return;
+                    if ((data.data as ChatSeenEvent).user !== user?.id) chatRead();
+                    break;
             }
         }
 
         return () => {
-            if (socket.current) {
+            if (socket.current)
                 socket.current.close();
-            }
+
             setReplyToListing(null);
         }
     }, [chat_id]);
+
+    useEffect(() => {
+        if(messages[0]?.sender === user?.id) {
+            scrollToBottom();
+            return;
+        }
+
+        if(chatRef.current && chatRef.current?.scrollTop > -60)
+            scrollToBottom();
+
+    }, [messages, user?.id]);
 
     return (
         <div className={styles.chat}>
@@ -151,7 +153,6 @@ export default function Chat({ messages }: { messages: MessageType[] }) {
                         />
                     )
                 })}
-
                 {scrollTop < 0 && (
                     <button className={styles.scrollToBottom} onClick={() => {
                         if (chatRef.current) {
