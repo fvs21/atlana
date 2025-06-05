@@ -24,32 +24,38 @@ export const meta: MetaFunction = () => (
 )
 
 export default function Page() {
-    const [, setSocket] = useUserChatsSocket();
+    const [socket, setSocket] = useUserChatsSocket();
     const [token] = useToken();
 
     const { data, isLoading } = useGetChats();
     const { chatNotification } = useChatMutations(); 
 
     const { chat_id } = useParams();
-
     const { user } = useUser();
 
     useEffect(() => {
         const socket = new WebSocket(`${WS_URL}/chats/?token=${token}`);
         setSocket(socket);
 
-        socket.onmessage = (event) => {
-            const data = JSON.parse(event.data);
-            
-            if (data.type === "chat_message")
-                chatNotification(data.data as Message, user?.id!);
-        }
-
         return () => {
             socket.close();
             setSocket(undefined);
         }
-    }, [token, user?.id]);
+    }, [token]);
+
+    useEffect(() => {
+        if (!socket) return;
+
+        socket.onmessage = (event) => {
+            const data = JSON.parse(event.data);
+            
+            if (data.type === "chat_message") {
+                const message = data.data as Message;
+                chatNotification(message, user?.id!, !!chat_id && Number(chat_id) === message.chat_id);
+            }
+        }
+
+    }, [chat_id, socket, user?.id]);
 
 
     return (

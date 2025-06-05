@@ -1,4 +1,3 @@
-from pyexpat import model
 from listing.models import Listing
 from user.models import User
 from .models import Chat, Message

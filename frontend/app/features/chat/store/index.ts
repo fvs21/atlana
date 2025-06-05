@@ -18,7 +18,7 @@ const useUserChatsSocket = () => {
 const useChatMutations = () => {
     const queryClient = useQueryClient();
 
-    const chatNotification = (data: Message, user_id: number) => {
+    const chatNotification = (data: Message, user_id: number, userInChat: boolean) => {
         const chat = queryClient.getQueryData(["chat", data.chat_id]) as GetChatResponse;
 
         if (!!chat) {
@@ -37,34 +37,34 @@ const useChatMutations = () => {
                     chats: [
                         {
                             id: data.chat_id,
-                            participants: [data.sender],
+                            participants: [!!chat ? chat.chat.participants[0] : data.sender],
                             last_message: {
                                 id: data.id,
                                 sender: data.sender.id,
                                 content: data.content,
                                 timestamp: data.timestamp,
                             },
-                            unread_messages: data.sender.id !== user_id ? 1 : 0
+                            unread_messages: !userInChat && data.sender.id !== user_id ? 1 : 0
                         },
                         ...oldData.chats
                     ]
                 }
             }
 
-            const chat = oldData.chats[chatIndex];
+            const oldChat = oldData.chats[chatIndex];
 
             return {
                 ...oldData,
                 chats: [
                     {
-                        ...chat,
+                        ...oldChat,
                         last_message: {
-                            ...chat.last_message,
+                            ...oldChat.last_message,
                             id: data.id,
                             content: data.content,
                             timestamp: data.timestamp,
                         },
-                        unread_messages: data.sender.id !== user_id ? chat.unread_messages + 1 : chat.unread_messages
+                        unread_messages: !userInChat && data.sender.id !== user_id ? oldChat.unread_messages + 1 : oldChat.unread_messages
                     },
                     ...oldData.chats.filter((_: any, index: number) => index !== chatIndex)
                 ]

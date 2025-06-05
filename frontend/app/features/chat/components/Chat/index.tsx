@@ -42,8 +42,7 @@ export default function Chat({ messages }: { messages: MessageType[] }) {
 
     const lastReadMessageIndex = messages.findIndex((message) => {
         return message.seen_at && message.sender.id === user?.id;
-    }
-    );
+    });
 
     const sendMessage = (message: ChatInputMessage) => {
         if (socket.current?.readyState === WebSocket.OPEN) {
@@ -96,13 +95,9 @@ export default function Chat({ messages }: { messages: MessageType[] }) {
             const data = JSON.parse(event.data) as ChatEvent;
 
             switch (data.type) {
-                case "chat_message":
-                    readChat();
-                    break;
                 case "chat_read":
                     if ((data.data as ChatSeenEvent).user !== user?.id) chatRead(Number(chat_id));
                     else cleanUnreadMessages(Number(chat_id));
-
                     break;
             }
         }
@@ -116,14 +111,12 @@ export default function Chat({ messages }: { messages: MessageType[] }) {
     }, [chat_id]);
 
     useEffect(() => {
-        if(messages[0]?.sender.id === user?.id) {
+        if (messages[0]?.sender.id === user?.id)
             scrollToBottom();
-            return;
+        else {
+            readChat();
+            if (chatRef.current && chatRef.current?.scrollTop > -60) scrollToBottom();
         }
-
-        if(chatRef.current && chatRef.current?.scrollTop > -60)
-            scrollToBottom();
-
     }, [messages, user?.id]);
 
     return (
