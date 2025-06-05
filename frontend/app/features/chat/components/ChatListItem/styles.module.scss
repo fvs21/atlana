@@ -29,6 +29,7 @@
     object-fit: cover;
 }
 
+
 .chatListItemContent {
     display: flex;
     flex-direction: column;
@@ -37,9 +38,28 @@
     width: 100%;
 }
 
+.chatListItemHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
+
 .chatListName {
     font-size: 15px;
     font-weight: 500;
+}
+
+.unreadMessagesCount {
+    font-size: 11px;
+    border-radius: 50%;
+    background-color: $primary-color;
+    color: white;
+    height: 18px;
+    width: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .chatListLastMessageContainer {
@@ -54,6 +74,7 @@
     max-width: 70%;
     overflow: hidden;
     text-overflow: ellipsis;
+    white-space: nowrap;
 }
 
 .timestamp {

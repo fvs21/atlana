@@ -18,7 +18,7 @@ class SenderSerializer(serializers.ModelSerializer):
             'profile_picture_url',
         ]
 
-class ChatNotificationSerializer(serializers.ModelSerializer):
+class LastMessageSerializer(serializers.ModelSerializer):
     sender = SenderSerializer()
     chat_id = serializers.IntegerField(source='chat.id')
 
@@ -37,12 +37,12 @@ class ChatListItemSerializer(serializers.ModelSerializer):
     last_message = serializers.SerializerMethodField()
     unread_messages = serializers.SerializerMethodField()
 
+    def get_last_message(self, obj):
+        return LastMessageSerializer(obj.get_last_message()).data
+
     def get_participants(self, obj):
         other_participants = obj.participants.exclude(id=self.context['user'].id)
         return SenderSerializer(other_participants, many=True).data
-    
-    def get_last_message(self, obj):
-        return MessageSerializer(obj.get_last_message(), context=self.context).data
     
     def get_unread_messages(self, obj):
         if not obj.has_messages:
@@ -106,11 +106,14 @@ class MessageReplySerializer(serializers.ModelSerializer):
 class MessageSerializer(serializers.ModelSerializer):
     reply_to_listing = MessageListingReplySerializer(read_only=True)
     reply_to = MessageReplySerializer(read_only=True)
+    sender = SenderSerializer(read_only=True)
+    chat_id = serializers.IntegerField(source='chat.id')
 
     class Meta:
         model = Message
         fields = [
             'id', 
+            'chat_id',
             'sender', 
             'content', 
             'timestamp',

@@ -9,7 +9,7 @@ def get_user_from_token(token: str) -> Optional[User]:
     try:
         token = AccessToken(token)
         user_id = token.payload.get("user_id")
-        return User.objects.get(id=user_id)
+        return User.objects.select_related('profile_picture').get(id=user_id)
     except (User.DoesNotExist, Exception):
         return AnonymousUser()
     
@@ -22,9 +22,7 @@ class JWTAuthMiddleware:
 
     async def __call__(self, scope, receive, send):
         token = scope["query_string"].decode().split("=")[1] if b"token=" in scope["query_string"] else None
-        print(f"JWTAuthMiddleware: token={token}")
         scope["user"] = await get_user_from_token(token) if token else AnonymousUser()
-        print(scope["user"])
 
         return await self.app(scope, receive, send)
     

@@ -7,21 +7,30 @@ import { cn } from "~/lib/utils";
 export default function ChatListItem({ chat }: { chat: ChatListItemType }) {
     const params = useParams();
 
-    const currentChat = params?.chat_id || "";    
-    
+    const currentChat = params?.chat_id || "";
+
     return (
         <Link to={`/direct/${chat.id}`} className="w-full">
             <button className={cn(styles.chatListItem, Number(currentChat) === chat.id ? styles.active : "")}>
                 <div className={styles.profilePictureContainer}>
-                    <img 
+                    <img
                         src={chat.participants[0].profile_picture_url}
                         alt={chat.participants[0].full_name}
                         className={styles.profilePicture}
                     />
                 </div>
                 <div className={styles.chatListItemContent}>
-                    <div className={styles.chatListName}>
-                        {chat.participants[0].full_name}
+                    <div className={styles.chatListItemHeader}>
+                        <div className={styles.chatListName}>
+                            {chat.participants[0].full_name}
+                        </div>
+                        <div>
+                            {chat.unread_messages > 0 && (
+                                <div className={styles.unreadMessagesCount}>
+                                    {chat.unread_messages > 99 ? "99+" : chat.unread_messages}
+                                </div>
+                            )}
+                        </div>
                     </div>
                     <div className={styles.chatListLastMessageContainer}>
                         <span className={styles.message}>

@@ -2,8 +2,6 @@
 from calendar import c
 from typing import List, Tuple
 
-from django.dispatch import receiver
-
 from user.models import User
 from chat.models import Chat, Message
 from django.db.models import Max

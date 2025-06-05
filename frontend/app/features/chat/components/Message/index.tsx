@@ -6,7 +6,7 @@ import { Message as MessageType } from "../../types";
 import { Link } from "@remix-run/react";
 import { Reply } from "lucide-react";
 
-type MessageProps = Omit<MessageType, "sender" | "timestamp"> & {
+type MessageProps = Omit<MessageType, "sender" | "timestamp" | "chat_id"> & {
     own: boolean;
     display_seen?: boolean;
     add_reply: () => void;

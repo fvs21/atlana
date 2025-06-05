@@ -1,16 +1,16 @@
 import { MetaFunction, Outlet, useParams } from "@remix-run/react";
 import { useEffect } from "react";
-import { useToken } from "~/api/client.auth";
+import { useToken, useUser } from "~/api/client.auth";
 import NavbarSmall from "~/components/navbar-small";
-import { useUserChatsMutations, useUserChatsSocket } from "~/features/chat/store";
+import { useChatMutations, useUserChatsSocket } from "~/features/chat/store";
 import styles from "./styles.module.scss";
 import { useGetChats } from "~/features/chat/api";
 import ChatListItem from "~/features/chat/components/ChatListItem";
-import { ChatNotification } from "~/features/chat/types";
 import { LoaderFunctionArgs } from "@remix-run/node";
 import { onlyAuthenticated } from "~/api/server.auth";
 import { cn } from "~/lib/utils";
 import { WS_URL } from "~/api";
+import { Message } from "~/features/chat/types";
 
 export async function loader({ request }: LoaderFunctionArgs) {
     onlyAuthenticated({ request });
@@ -28,9 +28,11 @@ export default function Page() {
     const [token] = useToken();
 
     const { data, isLoading } = useGetChats();
-    const { chatNotification } = useUserChatsMutations(); 
+    const { chatNotification } = useChatMutations(); 
 
     const { chat_id } = useParams();
+
+    const { user } = useUser();
 
     useEffect(() => {
         const socket = new WebSocket(`${WS_URL}/chats/?token=${token}`);
@@ -39,16 +41,15 @@ export default function Page() {
         socket.onmessage = (event) => {
             const data = JSON.parse(event.data);
             
-            if (data.type === "chat_notification") {
-                chatNotification(data.data as ChatNotification);
-            }
+            if (data.type === "chat_message")
+                chatNotification(data.data as Message, user?.id!);
         }
 
         return () => {
             socket.close();
             setSocket(undefined);
         }
-    }, [token]);
+    }, [token, user?.id]);
 
 
     return (

@@ -2,11 +2,8 @@ import json
 from typing import Dict
 from channels.generic.websocket import AsyncWebsocketConsumer
 
-from chat.models import Message
-
-from .serializers import ConsumerEventSerializer, MessageSerializer, ChatNotificationSerializer
+from .serializers import ConsumerEventSerializer, MessageSerializer
 from . import service
-from channels.db import database_sync_to_async
 
 class UserChatsConsumer(AsyncWebsocketConsumer):
     async def connect(self):
@@ -23,11 +20,11 @@ class UserChatsConsumer(AsyncWebsocketConsumer):
     async def disconnect(self, close_code):
         await self.channel_layer.group_discard(self.room_group_name, self.channel_name)
 
-    async def chat_notification(self, event):
+    async def chat_message(self, event):
         message = event['message']
 
         await self.send(text_data=json.dumps({
-            'type': 'chat_notification',
+            'type': 'chat_message',
             'data': message
         }))
 
@@ -55,7 +52,6 @@ class ChatConsumer(AsyncWebsocketConsumer):
         serializer = ConsumerEventSerializer(data=json_data)
 
         if not serializer.is_valid():
-            print("Invalid data received:", serializer.errors)
             return
         
         json_data = serializer.validated_data
@@ -88,28 +84,16 @@ class ChatConsumer(AsyncWebsocketConsumer):
             )
 
         if not message:
-            print("Failed to create message")
             return
-
-        await self.channel_layer.group_send(
-            self.room_group_name,
-            {
-                'type': 'chat.message',
-                'message': MessageSerializer(message, context={'user': self.scope['user']}).data
-            }
-        )
 
         participants = message.chat.participants.all()
 
         for participant in participants:
-            if participant.id == self.scope['user'].id:
-                continue
-
             await self.channel_layer.group_send(
                 f'chats_user_{participant.id}',
                 {
-                    'type': 'chat_notification',
-                    'message': ChatNotificationSerializer(message).data
+                    'type': 'chat_message',
+                    'message': MessageSerializer(message).data
                 }
             )
 
@@ -126,14 +110,6 @@ class ChatConsumer(AsyncWebsocketConsumer):
                 'user': self.scope['user'].id
             }
         )
-
-    async def chat_message(self, event):
-        message = event['message']
-
-        await self.send(text_data=json.dumps({
-            'type': 'chat_message',
-            'data': message
-        }))
 
     async def chat_read(self, event):
         await self.send(text_data=json.dumps({
