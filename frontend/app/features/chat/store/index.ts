@@ -1,6 +1,6 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { atom, useAtom } from "jotai";
-import { ChatListItem, ChatNotification, GetChatResponse, Message, ReplyToListing } from "../types";
+import { ChatListItem, GetChatResponse, Message, ReplyToListing } from "../types";
 
 const userChatsSocket = atom<WebSocket>();
 const chatSocket = atom<WebSocket>();
@@ -15,10 +15,19 @@ const useUserChatsSocket = () => {
     return useAtom(userChatsSocket);
 }
 
-const useUserChatsMutations = () => {
+const useChatMutations = () => {
     const queryClient = useQueryClient();
 
-    const chatNotification = (data: ChatNotification) => {
+    const chatNotification = (data: Message, user_id: number) => {
+        const chat = queryClient.getQueryData(["chat", data.chat_id]) as GetChatResponse;
+
+        if (!!chat) {
+            queryClient.setQueryData(["chat", data.chat_id], {
+                ...chat,
+                messages: [data, ...chat.messages]
+            });
+        }
+        
         queryClient.setQueryData(["chats"], (oldData: { chats: ChatListItem[] }) => {
             const chatIndex = oldData.chats.findIndex((chat: any) => chat.id === data.chat_id);
 
@@ -34,7 +43,8 @@ const useUserChatsMutations = () => {
                                 sender: data.sender.id,
                                 content: data.content,
                                 timestamp: data.timestamp,
-                            }
+                            },
+                            unread_messages: data.sender.id !== user_id ? 1 : 0
                         },
                         ...oldData.chats
                     ]
@@ -53,70 +63,22 @@ const useUserChatsMutations = () => {
                             id: data.id,
                             content: data.content,
                             timestamp: data.timestamp,
-                        }
-                    },
-                    ...oldData.chats.filter((_: any, index: number) => index !== chatIndex)
-                ]
-            }
-        });
-    }
-
-    return {
-        chatNotification
-    };
-}
-
-const useChatMutations = (chat_id: number) => {
-    const queryClient = useQueryClient();
-
-    const newMessage = (message: Message) => {
-        const chat = queryClient.getQueryData(["chat", chat_id]) as GetChatResponse;
-
-        queryClient.setQueryData(["chat", chat_id], {
-            ...chat,
-            messages: [message, ...chat.messages]
-        }
-        );
-
-        queryClient.setQueryData(["chats"], (oldData: { chats: ChatListItem[] }) => {
-            const chatIndex = oldData.chats.findIndex((chat: any) => chat.id === chat_id);
-
-            if (chatIndex === -1) {
-                return {
-                    ...oldData,
-                    chats: [
-                        {
-                            id: chat_id,
-                            participants: [...chat.chat.participants],
-                            last_message: message
                         },
-                        ...oldData.chats
-                    ]
-                }
-            }
-
-            const oldChat = oldData.chats[chatIndex];
-
-            return {
-                ...oldData,
-                chats: [
-                    {
-                        ...oldChat,
-                        last_message: message
+                        unread_messages: data.sender.id !== user_id ? chat.unread_messages + 1 : chat.unread_messages
                     },
                     ...oldData.chats.filter((_: any, index: number) => index !== chatIndex)
                 ]
             }
         });
-    }
+    }   
 
-    const chatRead = () => {
+    const chatRead = (chat_id: number) => {
         const chat = queryClient.getQueryData(["chat", chat_id]) as GetChatResponse;
 
         queryClient.setQueryData(["chat", chat_id], {
             ...chat,
             messages: chat.messages.map((message) => {
-                if (message.sender !== chat.chat.participants[0].id) {
+                if (message.sender.id !== chat.chat.participants[0].id) {
                     return {
                         ...message,
                         seen_at: (new Date()).toUTCString()
@@ -124,12 +86,28 @@ const useChatMutations = (chat_id: number) => {
                 }
                 return message;
             })
-        });        
+        });
+    }
+
+    const cleanUnreadMessages = (chat_id: number) => {
+        queryClient.setQueryData(["chats"], (oldData: { chats: ChatListItem[] }) => {
+            const chats = [...oldData.chats];
+
+            const chatIndex = chats.findIndex((chat: any) => chat.id === chat_id);
+
+            chats[chatIndex] = {
+                ...chats[chatIndex],
+                unread_messages: 0
+            }
+
+            return {chats};
+        });
     }
 
     return {
-        newMessage,
-        chatRead
+        chatNotification,
+        chatRead,
+        cleanUnreadMessages
     };
 }
 
@@ -138,7 +116,6 @@ export {
     userChatsSocket,
     chatSocket,
     useChatMutations,
-    useUserChatsMutations,
     replyToListing,
     useReplyToListing
 }

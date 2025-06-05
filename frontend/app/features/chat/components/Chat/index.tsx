@@ -19,7 +19,7 @@ export default function Chat({ messages }: { messages: MessageType[] }) {
         reply_to_listing: replyToListing || undefined
     });
 
-    const { newMessage, chatRead } = useChatMutations(Number(chat_id));
+    const { chatRead, cleanUnreadMessages } = useChatMutations();
     const socket = useRef<WebSocket>();
     const [token] = useToken();
 
@@ -41,7 +41,7 @@ export default function Chat({ messages }: { messages: MessageType[] }) {
     }
 
     const lastReadMessageIndex = messages.findIndex((message) => {
-        return message.seen_at && message.sender === user?.id;
+        return message.seen_at && message.sender.id === user?.id;
     }
     );
 
@@ -88,7 +88,7 @@ export default function Chat({ messages }: { messages: MessageType[] }) {
         socket.current = new WebSocket(`${WS_URL}/chat/${chat_id}/?token=${token}`);
 
         socket.current.onopen = () => {
-            if (messages.some((message) => message.seen_at && message.sender !== user?.id))
+            if (messages.some((message) => !message.seen_at && message.sender.id !== user?.id))
                 readChat();
         }
 
@@ -97,12 +97,12 @@ export default function Chat({ messages }: { messages: MessageType[] }) {
 
             switch (data.type) {
                 case "chat_message":
-                    const receivedMessage = data.data as MessageType;
-                    newMessage(receivedMessage);
                     readChat();
                     break;
                 case "chat_read":
-                    if ((data.data as ChatSeenEvent).user !== user?.id) chatRead();
+                    if ((data.data as ChatSeenEvent).user !== user?.id) chatRead(Number(chat_id));
+                    else cleanUnreadMessages(Number(chat_id));
+
                     break;
             }
         }
@@ -116,7 +116,7 @@ export default function Chat({ messages }: { messages: MessageType[] }) {
     }, [chat_id]);
 
     useEffect(() => {
-        if(messages[0]?.sender === user?.id) {
+        if(messages[0]?.sender.id === user?.id) {
             scrollToBottom();
             return;
         }
@@ -135,7 +135,7 @@ export default function Chat({ messages }: { messages: MessageType[] }) {
                             key={message.id}
                             id={message.id}
                             content={message.content}
-                            own={message.sender === user?.id}
+                            own={message.sender.id === user?.id}
                             seen_at={message.seen_at}
                             display_seen={i === lastReadMessageIndex}
                             reply_to_listing={message.reply_to_listing}

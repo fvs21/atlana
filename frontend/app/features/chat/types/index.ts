@@ -8,6 +8,7 @@ export type ChatListItem = {
     id: number;
     participants: ChatParticipant[];
     last_message: Message;
+    unread_messages: number;
 };
 
 export type ReplyToListing = {
@@ -23,7 +24,8 @@ export type ReplyToMessage = {
 
 export type Message = {
     id: number;
-    sender: number;
+    chat_id: number;
+    sender: ChatParticipant;
     content: string;
     seen_at: string;
     timestamp: string;
@@ -41,21 +43,14 @@ export type GetChatResponse = {
     messages: Message[];
 }
 
-export type ChatNotification = {
-    id: number;
-    sender: ChatParticipant;
-    content: string;
-    timestamp: string;
-    chat_id: number;
-}
 
 export type ChatSeenEvent = {
     user: number;
 }
 
 export type ChatEvent = {
-    type: "chat_notification" | "chat_message" | "chat_read";
-    data: ChatNotification | Message | ChatSeenEvent;
+    type: "chat_message" | "chat_read";
+    data: Message | ChatSeenEvent;
 }
 
 export type ChatInputMessage = {
