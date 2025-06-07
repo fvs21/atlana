@@ -14,7 +14,7 @@ import { Message } from "~/features/chat/types";
 
 export async function loader({ request }: LoaderFunctionArgs) {
     onlyAuthenticated({ request });
-    return null;
+    return {};
 }
 
 export const meta: MetaFunction = () => (

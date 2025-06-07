@@ -1,5 +1,4 @@
 import logging
-from pydoc import plain
 from typing import Dict, Optional
 from django.http import HttpRequest, JsonResponse
 from authentication.utils import AuthenticationUtils
@@ -181,6 +180,24 @@ def get_user_by_unknown_credential(credential: str) -> Optional[User]:
     
     return None
 
+def send_password_reset_email(user: User, password_reset_link: str) -> None:
+    html_message = render_to_string('email/password_reset.html', {
+        'first_name': user.first_name,
+        'password_reset_link': password_reset_link,
+        'email': user.email
+    })
+
+    text_message = strip_tags(html_message)
+
+    send_mail(
+        subject="Restablece tu contraseña",
+        from_email="mail@atlana.mx",
+        recipient_list=[user.email],
+        html_message=html_message,
+        text_message=text_message,
+    )
+
+
 def generate_and_send_password_reset_token(credential: str) -> bool:
     '''
         Method to generate a password reset token for the user.
@@ -206,9 +223,11 @@ def generate_and_send_password_reset_token(credential: str) -> bool:
     user.password_reset_token = make_password(password_reset_token)
     user.password_reset_token_created_at = timezone.now()
 
-    logging.info(f"Password reset token for {user.email}: http://localhost:5173/reset-password?token={password_reset_token}&email={user.email}")
+    password_reset_link = f"http://localhost:5173/reset-password?token={password_reset_token}&email={user.email}"
 
     user.save()
+
+    send_password_reset_email(user, password_reset_link)
     
     return True
 

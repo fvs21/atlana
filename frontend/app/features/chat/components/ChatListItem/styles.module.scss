@@ -8,10 +8,12 @@
     padding: $spacing-md;
     gap: $spacing-md;
     border-radius: 6px;
+}
 
-    &:hover {
-        background-color: $button-hover;
-    }
+.notSelected {
+   &:hover {
+        background-color: lighten($button-hover, 7%);
+    } 
 }
 
 .profilePictureContainer {

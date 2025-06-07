@@ -1,4 +1,5 @@
 from datetime import timedelta
+from ipaddress import ip_address
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 from django.utils import timezone
@@ -50,6 +51,8 @@ class User(AbstractBaseUser):
     password_reset_token = models.CharField(max_length=128, null=True, blank=True)
     password_reset_token_created_at = models.DateTimeField(null=True, blank=True)
     password_updated_at = models.DateTimeField(null=True, blank=True)
+
+    ip_address = models.GenericIPAddressField(null=True, blank=True)
 
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = ["password", "first_name", "last_name", "company_name"]

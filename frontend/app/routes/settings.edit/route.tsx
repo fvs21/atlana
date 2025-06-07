@@ -28,7 +28,7 @@ export default function Page() {
 
         const data: UserInformation = {
             bio: formData.get("bio") as string,
-            major: formData.get("major") as string,
+            major: (formData.get("major") as string) == "unassign" ? "" : formData.get("major") as string,
             semester: Number(formData.get("semester")),
             instagram: formData.get("instagram") as string,
         };                
@@ -91,7 +91,12 @@ export default function Page() {
                     defaultValue={user?.information?.instagram || ""}
                 />
                 <div className={styles.submitButtonContainer}>
-                    <Button className={cn("primaryButton", styles.submitButton)} type="submit" disabled={editProfileDisabled}>
+                    <Button 
+                        isFetching={isPending} 
+                        className={cn("primaryButton", styles.submitButton)} 
+                        type="submit" 
+                        disabled={editProfileDisabled}
+                    >
                         Guardar
                     </Button>
                 </div>

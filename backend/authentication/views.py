@@ -1,3 +1,4 @@
+from multiprocessing import context
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from django.http import HttpRequest, JsonResponse
@@ -16,7 +17,7 @@ class AuthenticationViewSet(viewsets.ViewSet):
 
     @action(methods=['post'], detail=False)
     def register(self, request: HttpRequest):
-        serializer = RegistrationSerializer(data=request.data)
+        serializer = RegistrationSerializer(data=request.data, context={'request': request})
 
         if not serializer.is_valid():
             if 'email' in serializer.errors and 'user with this email already exists.' in serializer.errors['email']:

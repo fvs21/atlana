@@ -12,10 +12,10 @@ export type User = {
 }
 
 export type UserInformation = {
-    major: string;
-    semester: number;
-    instagram: string;
-    bio: string;
+    major?: string;
+    semester?: number;
+    instagram?: string;
+    bio?: string;
 }
 
 export type ResponseBody<T> = {

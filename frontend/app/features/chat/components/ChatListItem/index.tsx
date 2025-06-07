@@ -11,7 +11,7 @@ export default function ChatListItem({ chat }: { chat: ChatListItemType }) {
 
     return (
         <Link to={`/direct/${chat.id}`} className="w-full">
-            <button className={cn(styles.chatListItem, Number(currentChat) === chat.id ? styles.active : "")}>
+            <button className={cn(styles.chatListItem, Number(currentChat) === chat.id ? styles.active : styles.notSelected)}>
                 <div className={styles.profilePictureContainer}>
                     <img
                         src={chat.participants[0].profile_picture_url}

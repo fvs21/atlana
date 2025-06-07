@@ -50,11 +50,20 @@ export default function Listing({ listing }: { listing: ListingType | PropertyLi
                     <h1 className={styles.title}>
                         {listing.title}
                     </h1>
-                    {listing.creator.id == user?.id && (
-                        <ListingCreatorActions
-                            listing_id={listing.id}
-                            archived={listing.archived}
-                        />
+                    {!isLoading && (
+                        listing.creator.id == user?.id ? (
+                            <ListingCreatorActions
+                                listing_id={listing.id}
+                                archived={listing.archived}
+                            />
+                        ) : (
+                            <ListingActions
+                                listing_id={listing.id}
+                                creator_id={listing.creator.id}
+                                title={listing.title}
+                                first_image={listing.images_urls[0]}
+                            />
+                        )
                     )}
                     {listing.used != null && (
                         <div>
@@ -91,13 +100,13 @@ export default function Listing({ listing }: { listing: ListingType | PropertyLi
                                 </div>
                                 {(listing as PropertyListing).property && (
                                     <div className={styles.propertyAttribute}>
-                                        <AirVent color="gray"/>
+                                        <AirVent color="gray" />
                                         Aire acondicionado
                                     </div>
                                 )}
                                 {(listing as PropertyListing).property && (
                                     <div className={styles.propertyAttribute}>
-                                        <Armchair color="gray"/>
+                                        <Armchair color="gray" />
                                         Amueblado
                                     </div>
                                 )}
@@ -124,16 +133,6 @@ export default function Listing({ listing }: { listing: ListingType | PropertyLi
                             </div>
                         </div>
                     </div>
-                    {!isLoading && (
-                        listing.creator.id != user?.id && (
-                            <ListingActions
-                                listing_id={listing.id}
-                                creator_id={listing.creator.id}
-                                title={listing.title}
-                                first_image={listing.images_urls[0]}
-                            />
-                        )
-                    )}
                 </div>
             </div>
         </div>

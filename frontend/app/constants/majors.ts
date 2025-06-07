@@ -1,4 +1,5 @@
 export const MAJORS_LIST = [
+    { value: "unassign", name: "Quitar" },
     { value: 'admin', name: 'Administración de empresas' },
     { value: 'arq', name: 'Arquitectura' },
     { value: 'biotec', name: 'Biotecnología' },

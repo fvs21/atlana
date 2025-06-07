@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from authentication.utils import AuthenticationUtils
+from authentication.utils import AuthenticationUtils, get_client_ip
 from user.models import User
 
 class RegistrationSerializer(serializers.ModelSerializer):
@@ -16,10 +16,13 @@ class RegistrationSerializer(serializers.ModelSerializer):
         return value
 
     def create(self, validated_data):
+        ip = get_client_ip(self.context['request'])
+
         user = User.objects.create_user(
             email=validated_data['email'],
             first_name=validated_data['first_name'],
             last_name=validated_data['last_name'],
+            ip_address=ip,
         )
 
         user.set_password(validated_data['password'])

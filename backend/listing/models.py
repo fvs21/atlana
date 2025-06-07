@@ -16,7 +16,8 @@ CATEGORIES = [
     'food',
     'scholar',
     'vehicles',
-    'property_rentals'
+    'property_rentals',
+    'other'
 ]
 
 class PublicListingManager(models.Manager):

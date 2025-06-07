@@ -40,18 +40,36 @@ export function useGetChats() {
 
 
 export function useGetChat(chat_id: number) {
-    const { data, isLoading, isError } = useQuery({
+    const queryClient = useQueryClient();
+    
+    const { data, isLoading, isError, isFetching } = useQuery({
         queryKey: ["chat", chat_id],
         queryFn: async () => {
             const res = await api.get<ResponseBody<GetChatResponse>>(`/chat/${chat_id}`);
             return res.data.data;
         },
         refetchOnWindowFocus: false,
+        placeholderData: () => {
+            const chats = queryClient.getQueryData<{ chats: ChatListItem[] }>(["chats"]);
+            const chat = chats?.chats.find(chat => chat.id === chat_id);
+
+            if (chat) {
+                return {
+                    chat: {
+                        id: chat.id,
+                        participants: chat.participants,
+                    },
+                    messages: []
+                } as GetChatResponse;
+            }
+
+        }
     });
 
     return { 
         data,
         isLoading,
-        isError
+        isError,
+        isFetching,
     };
 }

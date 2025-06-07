@@ -2,6 +2,8 @@ import random
 from email.utils import parseaddr
 import string
 
+from django.http import HttpRequest
+
 class AuthenticationUtils:
     @staticmethod
     def generate_verification_code() -> str:
@@ -28,3 +30,10 @@ class AuthenticationUtils:
     @staticmethod
     def generate_reset_password_token() -> str:
         return ''.join(random.SystemRandom().choice(string.ascii_letters + string.digits) for _ in range(64))
+    
+def get_client_ip(request: HttpRequest) -> str:
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+
+    if x_forwarded_for:
+        return x_forwarded_for.split(',')[0]
+    return request.META.get('REMOTE_ADDR', '')

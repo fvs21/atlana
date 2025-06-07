@@ -1,7 +1,8 @@
 @use "~/styles/variables" as *;
 
 .actionsContainer {
-    margin-top: $spacing-lg;
+    margin-top: $spacing-sm;
+    margin-bottom: $spacing-sm;
     display: flex;
     gap: $spacing-md;
 }

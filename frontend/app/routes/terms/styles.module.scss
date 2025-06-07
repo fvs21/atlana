@@ -1,0 +1,56 @@
+@use "~/styles/variables" as *;
+
+.termsContainer {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: $spacing-lg $spacing-lg;
+    padding-top: $spacing-4xl;
+}
+
+.termsHeader {
+    h1 {
+        font-size: 40px;
+        font-weight: 500;
+        margin-bottom: $spacing-sm;
+    }
+
+    padding-bottom: $spacing-md;
+}
+
+.termsSection {
+    font-size: 15px;
+    
+    p {
+        line-height: 1.8;
+        color: rgb(47, 47, 47);
+        margin-bottom: $spacing-sm;
+    }
+    p:last-child {
+        margin-bottom: 0;
+    }
+
+
+    ul {
+        list-style-type: disc;
+        list-style-position: inside;
+        
+        li {
+            margin-bottom: $spacing-sm;
+            color: rgb(47, 47, 47);
+        }
+
+        li:last-child {
+            margin-bottom: 0;
+        }
+    }
+}
+
+.termsSectionTitle {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: $spacing-sm;
+}
+
+.termsSeparator {
+    margin: $spacing-lg 0;
+}

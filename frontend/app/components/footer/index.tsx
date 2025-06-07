@@ -13,7 +13,6 @@ export default function Footer() {
         </div>
         <div className={styles.section}>
           <h4>Links</h4>
-          <Link to="/faq">Preguntas frecuentes</Link>
           <Link to="/contact">Contacto</Link>
           <Link to="/terms">Términos y condiciones</Link>
           <Link to="/privacy">Política de privacidad</Link>

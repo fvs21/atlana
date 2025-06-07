@@ -7,6 +7,7 @@ import { useQueryLocation } from "../../api";
 import { LocationQueryResult } from "../../types";
 import { Slider } from "~/components/ui/slider";
 import { Location } from "~/types/location";
+import { defaultIcon } from "~/components/map-marker";
 
 export default function ChooseLocationMap({ location, setLocation }: { location: Location, setLocation: (location: Location) => void }) {
     const mapRef = useRef<L.Map>();
@@ -34,7 +35,7 @@ export default function ChooseLocationMap({ location, setLocation }: { location:
         map.on('click', mapClick);
 
         if(location.latitude && location.longitude) {
-            markerRef.current = L.marker([location.latitude, location.longitude]).addTo(map);
+            markerRef.current = L.marker([location.latitude, location.longitude], {icon: defaultIcon}).addTo(map);
             circleRef.current = L.circle([location.latitude, location.longitude], {
                 color: '#3b82f6',
                 fillColor: '#00246b',
