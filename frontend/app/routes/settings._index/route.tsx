@@ -10,7 +10,7 @@ export async function loader({ request }: LoaderFunctionArgs) {
 export default function Page() {
     return (
         <div className={styles.defaultSettings}>
-            
+            Haz click en una configuración
         </div>
     )
 }

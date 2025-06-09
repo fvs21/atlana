@@ -80,7 +80,7 @@ export default function ChangePasswordModal({ open, close }: { open: boolean, cl
     }
 
     return (
-        <Dialog open={open} onOpenChange={close}>
+        <Dialog open={open} onOpenChange={close} modal>
             <DialogContent>
                 <DialogHeader>
                     <DialogTitle>

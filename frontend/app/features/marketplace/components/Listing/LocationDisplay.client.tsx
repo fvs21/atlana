@@ -33,6 +33,6 @@ export default function LocationDisplay({ location }: { location: { latitude: nu
     }, []);
 
     return (
-        <div id="map" className="w-full h-full" style={{ borderRadius: 6}}/>
+        <div id="map" className="w-full h-full z-40" style={{ borderRadius: 6}}/>
     )
 }

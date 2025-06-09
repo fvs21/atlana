@@ -57,7 +57,7 @@ export default function Page() {
     return (
         <div className="flexColContainer">
             <Navbar />
-            <main className="flex-grow">
+            <main className="flex flex-1">
                 <Listing listing={data!} />
             </main>
             <FooterSmall />

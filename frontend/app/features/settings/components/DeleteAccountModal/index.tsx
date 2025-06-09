@@ -40,7 +40,7 @@ export default function DeleteAccountModal({ open, close }: { open: boolean, clo
     }
 
     return (
-        <Dialog open={open} onOpenChange={close}>
+        <Dialog open={open} onOpenChange={close} modal>
             <DialogContent>
                 <DialogHeader>
                     <DialogTitle>

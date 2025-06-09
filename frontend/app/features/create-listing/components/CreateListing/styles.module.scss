@@ -1,8 +1,8 @@
 @use "~/styles/variables" as *;
 
 @mixin createListingInput {
-    padding: 22px 12px;
-    border-radius: 8px;
+    padding: $input-padding;
+    border-radius: $border-radius;
 }
 
 .container {

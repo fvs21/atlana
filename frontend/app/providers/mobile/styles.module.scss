@@ -19,7 +19,7 @@
     height: 70px;
     justify-content: center;
     border-top: 1px solid $border-color;
-    z-index: 1000;
+    z-index: 100;
 
     @include responsive($breakpoint-mobile) {
         display: none;
