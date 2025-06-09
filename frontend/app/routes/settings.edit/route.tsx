@@ -1,5 +1,5 @@
 import ProfilePictureInput from "~/features/settings/components/ProfilePictureInput";
-import styles from "./styles.module.scss";
+import styles from "../settings/styles.module.scss";
 import TextArea from "~/components/text-area";
 import ValidatedInput from "~/components/validated-input";
 import { Button } from "~/components/ui/button";
@@ -49,7 +49,7 @@ export default function Page() {
             await editProfile(data);
             toast.success("Perfil actualizado");
         } catch(error) {
-
+            toast.error("Error al actualizar el perfil, intenta de nuevo más tarde.");
         }
     }
     

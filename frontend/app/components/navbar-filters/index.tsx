@@ -1,8 +1,9 @@
-import { Logs, Store, Trophy } from "lucide-react";
+import { Logs, MessageCircle, Store, Trophy } from "lucide-react";
 import styles from "./navbar-filters.module.scss";
 import { NavigationMenu, NavigationMenuContent, NavigationMenuItem, NavigationMenuLink, NavigationMenuList, NavigationMenuTrigger } from "../ui/navigation-menu";
 import CategoriesFilter from "./CategoriesFilter";
 import { Link } from "@remix-run/react";
+import { cn } from "~/lib/utils";
 
 export default function NavbarFilters() {
     return (
@@ -18,9 +19,15 @@ export default function NavbarFilters() {
                     </NavigationMenuContent>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
-                    <NavigationMenuLink className={styles.filter} href={"/marketplace"}>
+                    <NavigationMenuLink className={cn(styles.filter, styles.link)} href={"/marketplace"}>
                         <Store size={18}/>
                         Marketplace
+                    </NavigationMenuLink>
+                </NavigationMenuItem>
+                <NavigationMenuItem>
+                    <NavigationMenuLink className={cn(styles.filter, styles.link)} href={"/direct"}>
+                        <MessageCircle size={18}/>
+                        Mensajes
                     </NavigationMenuLink>
                 </NavigationMenuItem>
             </NavigationMenuList>

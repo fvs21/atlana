@@ -73,3 +73,10 @@ class UpdatePhoneNumberRequestSerializer(serializers.Serializer):
             raise serializers.ValidationError('Country code not supported')
         
         return value
+
+class DeleteAccountRequestSerializer(serializers.Serializer):
+    password = serializers.CharField(required=True, error_messages={'required': 'Password missing'})
+
+class UpdatePasswordSerializer(serializers.Serializer):
+    current_password = serializers.CharField(required=True, error_messages={'required': 'Old password missing'})
+    new_password = serializers.CharField(required=True, error_messages={'required': 'New password missing'})

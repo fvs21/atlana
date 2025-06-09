@@ -14,4 +14,6 @@ urlpatterns = [
     path('phone/update', views.AuthenticatedAuthViewSet.as_view({'patch': 'update_phone_number'}), name='update-phone'),
     path('verify-phone', views.AuthenticatedAuthViewSet.as_view({'post': 'verify_phone_number'}), name='verify-phone'),
     path('verify-phone/resend', views.AuthenticatedAuthViewSet.as_view({'post': 'request_phone_verification'}), name='request-phone-verification-code'),
+    path('delete-account', views.AuthenticatedAuthViewSet.as_view({'post': 'delete_account'}), name='delete-account'),
+    path('password/update', views.AuthenticatedAuthViewSet.as_view({'patch': 'update_password'}), name='update-password'),
 ]

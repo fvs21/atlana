@@ -4,16 +4,11 @@ import { Label } from "../ui/label";
 import styles from "./PasswordInput.module.scss";
 import { useRef, useState } from "react";
 
-type PasswordInputProps = {
-    id: string;
-    name: string;
-    className?: string;
+type PasswordInputProps = Omit<React.ComponentProps<"input">, "onChange" | "className"> & {
     label: string;
     error?: string;
-    placeholder?: string;
-    value?: string;
-    onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-    [key: string]: any;
+    className?: string;
+    onChange?: (value: string) => void;
 }
 
 export default function PasswordInput({id, name, type, className, error, placeholder, value, onChange, label, ...props}: PasswordInputProps) {
@@ -25,7 +20,7 @@ export default function PasswordInput({id, name, type, className, error, placeho
 
     return (
         <div className={styles.container}>
-            {label && <Label htmlFor={name} className="">{label}</Label>}
+            {label && <Label htmlFor={name}>{label}</Label>}
             <div style={{position: "relative"}}>
                 <Input
                     id={id}
@@ -34,7 +29,7 @@ export default function PasswordInput({id, name, type, className, error, placeho
                     className={`${className} ${error ? styles.inputError : ""}`}
                     placeholder={placeholder}
                     value={value}
-                    onChange={onChange}
+                    onChange={onChange && ((e: React.ChangeEvent<HTMLInputElement>) => onChange(e.target.value))}
                     {...props}
                 />
                 <button className={styles.showPasswordButton} type="button" onClick={handleShowPassword}>

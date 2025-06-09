@@ -1,10 +1,10 @@
-import { MetaFunction, NavLink, Outlet, useLocation } from "@remix-run/react";
+import { Link, MetaFunction, NavLink, Outlet, useLocation } from "@remix-run/react";
 import NavbarSmall from "~/components/navbar-small";
 import styles from "./styles.module.scss";
-import { Shield, User } from "lucide-react";
-import { cn } from "~/lib/utils";
 import { LoaderFunctionArgs } from "@remix-run/node";
 import { onlyAuthenticated } from "~/api/server.auth";
+import { ChevronLeft, Shield, User } from "lucide-react";
+import { cn } from "~/lib/utils";
 
 export const meta: MetaFunction = () => (
     [
@@ -25,8 +25,7 @@ export default function Page() {
         <div className="flexColContainer">
             <NavbarSmall />
             <div className={styles.settingsContainer}>
-                {/**
-                 * <div className={styles.settingsSidebar}>
+                <div className={cn(styles.settingsSidebar, location.pathname === "/settings" ? styles.show : styles.hide)}>
                     <h1 className={styles.title}>
                         Configuración
                     </h1>
@@ -35,10 +34,16 @@ export default function Page() {
                             <User />
                             Perfil
                         </NavLink>
+                        <NavLink to={"/settings/security"} className={cn(styles.settingsLink, location.pathname === "/settings/security" ? styles.active : "")}>
+                            <Shield />
+                            Seguridad
+                        </NavLink>
                     </div>
                 </div>
-                 */}
                 <div className={styles.settingsContent}>
+                    <Link className={cn(styles.backButton, location.pathname === "/settings" ? styles.hide : "")} to={"/settings"}>
+                        <ChevronLeft />
+                    </Link>
                     <Outlet />
                 </div>
             </div>

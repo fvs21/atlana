@@ -275,8 +275,6 @@ def generate_and_send_phone_verification_sms(user: User) -> None:
     verification_data = VerificationData(user=user, field="phone", code=make_password(verification_code))
     verification_data.save()
 
-    #TODO
-    #send phone number verification code
 
     logging.info(f"Verification code for {user.phone_number}: {verification_code}")
 
@@ -315,8 +313,14 @@ def resend_phone_verification_code(user: User) -> bool:
     verification_data.set_new_code(make_password(verification_code))
     verification_data.save()
 
-    #TODO
-
     logging.info(f"Verification code for {user.phone_number}: {verification_code}")
 
     return True
+
+def delete_account(user: User) -> None:
+    chats = user.chats.all()
+
+    for chat in chats:
+        chat.delete()
+
+    user.delete()

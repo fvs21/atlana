@@ -94,6 +94,11 @@ class User(AbstractBaseUser):
     def has_information(self) -> bool:
         return hasattr(self, "information")
     
+    def set_password(self, raw_password: str) -> None:
+        super().set_password(raw_password)
+        self.password_updated_at = timezone.now()
+        self.save(update_fields=["password", "password_updated_at"])
+    
 
 class VerificationData(models.Model):
     db_table = "verification_data"

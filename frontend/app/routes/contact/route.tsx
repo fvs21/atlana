@@ -1,6 +1,11 @@
 import FooterSmall from "~/components/footer-small";
 import NavbarSmall from "~/components/navbar-small";
 import styles from "./styles.module.scss";
+import { MetaFunction } from "@remix-run/react";
+
+export const meta: MetaFunction = () => [
+    { title: "Atlana: Contacto" }
+]
 
 export default function Page() {
     return (
@@ -10,7 +15,8 @@ export default function Page() {
                 <div className={styles.contactContainer}>
                     <h1 className={styles.contactTitle}>Contacto</h1>
                     <div className={styles.contactDescription}>
-                        Correo: <a href="mailto:soporte@atlana.mx">
+                        <p>Si tienes alguna pregunta, situación, inquietud o sugerencia, contactanos en: </p>
+                        <a style={{ fontWeight: "bold", paddingTop: "8px" }} href="mailto:soporte@atlana.mx">
                             soporte@atlana.mx
                         </a>
                     </div>

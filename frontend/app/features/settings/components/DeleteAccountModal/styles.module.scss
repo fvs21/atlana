@@ -1,0 +1,14 @@
+@use "~/styles/variables" as *;
+
+.deleteAccountDescription {
+    font-size: 15px;
+    margin-bottom: $spacing-lg;
+    color: gray;
+}
+
+.deleteAccountInput {
+    input {
+        padding: 20px 14px;
+        border-radius: 12px;
+    }
+}

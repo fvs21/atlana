@@ -1,11 +1,9 @@
-from multiprocessing import context
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from django.http import HttpRequest, JsonResponse
 
 from authentication.serializers import *
 from user.models import UserInformation
-from user.serializers import UserSerializer
 from . import service
 from django.contrib.auth import authenticate
 from rest_framework.permissions import IsAuthenticated
@@ -147,75 +145,62 @@ class AuthenticatedAuthViewSet(viewsets.ViewSet):
             }, 
             status=429
         )
-    
+
+    @action(methods=['post'], detail=False)
+    def delete_account(self, request: HttpRequest) -> JsonResponse:
+        user = request.user
+
+        serializer = DeleteAccountRequestSerializer(data=request.data)
+
+        if not serializer.is_valid():
+            return JsonResponse({
+                "details": serializer.errors,
+                "code": "invalid_data"
+            }, status=400)
+        
+        password = serializer.validated_data['password']
+
+        if not user.check_password(password):
+            return JsonResponse({
+                "details": "Incorrect password",
+                "code": "incorrect_password"
+            }, status=400)
+        
+        service.delete_account(user)
+
+        return service.generate_logout_cookie()
+
     @action(methods=['patch'], detail=False)
-    def update_phone_number(self, request: HttpRequest) -> JsonResponse:
-        user = request.user
-
-        serializer = UpdatePhoneNumberRequestSerializer(data=request.data)
+    def update_password(self, request: HttpRequest) -> JsonResponse:
+        serializer = UpdatePasswordSerializer(data=request.data)
 
         if not serializer.is_valid():
-            return JsonResponse({
-                "details": serializer.errors,
-                "code": "invalid_data"
-            }, status=400)
+            return JsonResponse({"details": serializer.errors, "code": "invalid_data"}, status=400)
         
-        result = service.update_phone_number(user, serializer.validated_data)
-
-        if result:
-            return JsonResponse({
-                "data": {
-                    "user": UserSerializer(user).data
-                },
-                "details": "Verification code sent"
-            }, status=200)
-        
-        return JsonResponse({
-            "details": "No changes made",
-        }, status=200)
-
-    @action(methods=['post'], detail=False)
-    def verify_phone_number(self, request: HttpRequest) -> JsonResponse:
-        serializer = VerifyEmailRequestSerializer(data=request.data)
-
-        if not serializer.is_valid():
-            return JsonResponse({
-                "details": serializer.errors,
-                "code": "invalid_data"
-            }, status=400)
-    
         user = request.user
 
-        result = service.check_phone_verification(user, serializer.data['code'])
+        validated_data = serializer.validated_data
 
-        if result:
+        if user.has_user_changed_password_in_the_last_24_hours():
             return JsonResponse({
-                "details": "Phone number verified",
-                "data": {
-                    "user": UserSerializer(user).data
-                }
-            }, status=200)
+                "details": "You cannot change your password more than once in 24 hours",
+                "code": "user_already_changed_password"
+            }, status=429)
+
+        if not user.check_password(validated_data['current_password']):
+            return JsonResponse({"details": "Incorrect password", "code": "incorrect_password"}, status=400)
         
-        return JsonResponse({
-            "details": "Invalid verification code",
-            "code": "invalid_verification_code"
-        }, status=400)
-    
-    @action(methods=['post'], detail=False)
-    def request_phone_verification_code(self, request: HttpRequest) -> JsonResponse:
-        user = request.user
-
-        result = service.resend_phone_verification_code(user)
-
-        if result:
+        if len(validated_data['new_password']) < 8:
             return JsonResponse({
-                "details": "Verification code sent"
-            }, status=200)
+                "code": "insecure_password",
+                "details": "You must choose a more secure password"
+            }, status=400)
         
-        return JsonResponse({
-            "code": "code_request_limit",
-            "details": "You need to wait 5 minutes to request a new verification code"
-        }, status=429)
+        print(validated_data['new_password'])
+        
+        user.set_password(validated_data['new_password'])
+
+        return JsonResponse({"details": "Password updated successfully"}, status=200)
     
 
 @api_view(['POST'])

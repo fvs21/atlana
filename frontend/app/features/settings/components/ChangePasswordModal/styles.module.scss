@@ -1,0 +1,19 @@
+@use "~/styles/variables" as *;
+
+.formInput {
+    padding-top: $spacing-sm;
+    padding-bottom: $spacing-sm;
+}
+
+.changePasswordInput {
+    padding: $input-padding;
+    border-radius: $border-radius;
+}
+
+.changePasswordBtn {
+    margin-top: $spacing-md;
+    background: $primary-color;
+    padding: $input-padding;
+    border-radius: $border-radius;
+    width: 100%;
+}

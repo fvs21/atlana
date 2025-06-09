@@ -64,3 +64,46 @@ export const useDeleteProfilePicture = () => {
         deletePfpDisabled: isPending && !isError,
     }
 }
+
+export const useDeleteAccount = () => {
+    const queryClient = useQueryClient();
+
+    const { mutateAsync: deleteAccount, isPending, isError } = useMutation({
+        mutationFn: async ({password}: { password: string }) => {
+            const res = await api.post<ResponseBody<null>>("/auth/delete-account", { password });
+            return res.data;
+        },
+        onSuccess: () => {
+            queryClient.resetQueries({ queryKey: ['access-token'] });
+            setTimeout(() => {
+                queryClient.resetQueries();
+            }, 1200);
+        },
+    });
+
+    return {
+        deleteAccount,
+        isPending,
+        deleteAccountDisabled: isPending && !isError,
+    };
+}
+
+type ChangePasswordData = {
+    current_password: string;
+    new_password: string;
+}
+
+export const useChangePassword = () => {
+    const { mutateAsync: changePassword, isPending, isError } = useMutation({
+        mutationFn: async (data: ChangePasswordData) => {
+            const res = await api.patch<ResponseBody<null>>("/auth/password/update", data);
+            return res.data;
+        }
+    });
+
+    return {
+        changePassword,
+        isPending,
+        changePasswordDisabled: isPending && !isError,
+    };
+}
