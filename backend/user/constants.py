@@ -33,6 +33,5 @@ MAJORS_LIST = [
 ]
 
 UNIVERSITIES = {
-    'anahuacmayab.edu.mx': 'Anáhuac Mayab',
-    'ebc.edu.mx': 'EBC'
+    'anahuacmayab.edu.mx': 'Anáhuac Mayab'
 }

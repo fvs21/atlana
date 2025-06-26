@@ -2,7 +2,6 @@ import { RegisterBody, RegisterErrors } from "../types";
 
 export const UNIVERSITIES = [
     'anahuacmayab.edu.mx',
-    'ebc.edu.mx'
 ]
 
 export function validatePassword(password: string): boolean {
