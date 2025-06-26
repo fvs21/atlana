@@ -31,3 +31,8 @@ MAJORS_LIST = [
     ('nutri', 'Nutrición'),
     ('terap', 'Terapia física'),
 ]
+
+UNIVERSITIES = {
+    'anahuacmayab.edu.mx': 'Anáhuac Mayab',
+    'ebc.edu.mx': 'EBC'
+}

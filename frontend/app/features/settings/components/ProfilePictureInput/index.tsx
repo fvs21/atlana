@@ -68,7 +68,7 @@ export default function ProfilePictureInput() {
                         )}
                     </div>
                 </div>
-                <Button className={styles.changePictureButton} onClick={() => setUpdatePfpModal(true)}>
+                <Button className={styles.changePictureButton} onClick={() => setUpdatePfpModal(true)} type="button">
                     Cambiar foto
                 </Button>
             </div>

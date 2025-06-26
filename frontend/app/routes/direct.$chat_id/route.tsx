@@ -13,6 +13,10 @@ export default function Page() {
     const chat = data?.chat;
     const messages = data?.messages;
 
+    if (isError) {
+        return <div className='flex justify-center items-center w-full'>El chat que buscas no existe</div>;
+    }
+
     return (
         <div className={styles.chatContainer}>
             {!isLoading && (
@@ -23,7 +27,7 @@ export default function Page() {
                     receiver_id={chat?.participants[0].id!}
                 />
             )}
-            {isLoading || isFetching ? (
+            {(isLoading || isFetching && !isError) ? (
                 <LoadingScreen />
             ) : (
                 <Chat messages={messages!} />

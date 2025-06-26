@@ -11,6 +11,7 @@ import { toast } from "sonner";
 import LabeledSelect from "~/components/labeled-select";
 import { MAJORS_LIST } from "~/constants/majors";
 import LoadingScreen from "~/components/loading-screen";
+import { EditableInformation } from "~/features/settings/types";
 
 export default function Page() {
     const { user, isLoading } = useUser();
@@ -26,7 +27,7 @@ export default function Page() {
 
         const formData = new FormData(e.currentTarget);
 
-        const data: UserInformation = {
+        const data: EditableInformation = {
             bio: formData.get("bio") as string,
             major: (formData.get("major") as string) == "unassign" ? "" : formData.get("major") as string,
             semester: Number(formData.get("semester")),
@@ -40,7 +41,7 @@ export default function Page() {
             if (!(key in user?.information))
                 return false;
 
-            return user?.information[key as keyof UserInformation] === data[key as keyof UserInformation];
+            return user?.information[key as keyof EditableInformation] === data[key as keyof EditableInformation];
         })) {
             return;
         }
@@ -65,6 +66,7 @@ export default function Page() {
                     name="bio"
                     className={styles.profileInput}
                     defaultValue={user?.information?.bio || ""}
+                    placeholder="Biografía"
                 />
                 <LabeledSelect
                     label="Carrera"

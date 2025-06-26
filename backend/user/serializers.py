@@ -1,9 +1,12 @@
 from rest_framework import serializers
-
-
 from .models import User, UserInformation
 
 class UserInformationSerializer(serializers.ModelSerializer):
+    university = serializers.SerializerMethodField()
+
+    def get_university(self, obj):
+        return obj.user.get_university_name()
+    
     class Meta:
         model = UserInformation
         fields = [
@@ -11,7 +14,8 @@ class UserInformationSerializer(serializers.ModelSerializer):
             'bio',
             'major',
             'semester',
-            'instagram'
+            'instagram',
+            'university'
         ]
 
         extra_kwargs = {

@@ -103,8 +103,8 @@ const useResetBody = () => {
             radius: 0
         });
         setTimeUnit("day");
-        setAirConditioning(false);
-        setFurnished(false);
+        setAirConditioning(undefined);
+        setFurnished(undefined);
     }
 }
 

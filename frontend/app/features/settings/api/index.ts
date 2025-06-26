@@ -1,12 +1,13 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { api, apiMultiPart } from "~/api";
 import { ResponseBody, User, UserInformation } from "~/types/globals";
+import { EditableInformation } from "../types";
 
 export function useEditProfile() {
     const queryClient = useQueryClient();
 
     const { mutateAsync: editProfile, isPending, isError } = useMutation({
-        mutationFn: async (data: UserInformation) => {
+        mutationFn: async (data: EditableInformation) => {
             const res = await api.put<ResponseBody<{ user: User }>>("/user/edit", data);
             return res.data;
         },

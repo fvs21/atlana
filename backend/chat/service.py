@@ -1,5 +1,4 @@
 
-from calendar import c
 from typing import List, Tuple
 
 from user.models import User
@@ -9,6 +8,9 @@ from django.utils import timezone
 from django.db.models import Q
 from marketplace.service import get_listing_by_id
 from channels.db import database_sync_to_async
+from .tasks import send_new_message_email, send_reply_to_listing_email
+from asgiref.sync import sync_to_async
+    
 
 async def can_user_join_chat(user: User, chat_id: int) -> bool:
     """
@@ -28,6 +30,8 @@ async def new_message(chat_id: int, sender: User, message: str) -> Message:
     """
     chat = await get_chat_by_id(chat_id)
 
+    send_email = not await Message.objects.filter(chat=chat, sender=sender).aexists()
+
     message = await Message.objects.acreate(
         chat=chat,
         sender=sender,
@@ -38,9 +42,13 @@ async def new_message(chat_id: int, sender: User, message: str) -> Message:
         chat.has_messages = True
         await chat.asave()
 
+    if send_email:
+        receiver = await chat.participants.exclude(id=sender.id).afirst()
+        await sync_to_async( send_new_message_email.delay_on_commit)(sender.first_name, receiver.email, message.content)
+
     return message
 
-async def reply_to_listing(chat_id: int, sender: User, message: str, listing_id: int) -> Message:
+async def reply_to_listing(chat_id: int, sender: User, message: str, listing_id: int) -> Tuple[Message, bool]:
     listing = await database_sync_to_async(get_listing_by_id)(listing_id)
     
     if not listing:
@@ -59,8 +67,17 @@ async def reply_to_listing(chat_id: int, sender: User, message: str, listing_id:
         reply_to_listing=listing
     )
 
+
     if not chat.has_messages:
         chat.has_messages = True
+        
+        await sync_to_async(send_reply_to_listing_email.delay_on_commit)(
+            sender.first_name, 
+            receiver.email, 
+            message.content, 
+            listing.title
+        )
+
         await chat.asave()
 
     return message
@@ -72,6 +89,8 @@ async def reply_to(chat_id: int, sender: User, message: str, message_id: int) ->
 
     if not message_to_reply:
         return None
+    
+    send_email = not await Message.objects.filter(chat=chat, sender=sender).exists()
 
     message = await Message.objects.acreate(
         chat=chat,
@@ -83,6 +102,10 @@ async def reply_to(chat_id: int, sender: User, message: str, message_id: int) ->
     if not chat.has_messages:
         chat.has_messages = True
         await chat.asave()
+
+    if send_email:
+        receiver = await chat.participants.exclude(id=sender.id).afirst()
+        await sync_to_async(send_new_message_email.delay_on_commit)(sender.first_name, receiver.email, message.content)
 
     return message
 
@@ -148,6 +171,9 @@ def can_create_chat(user: User, receiver_id: int) -> bool:
     """
 
     receiver = User.objects.filter(id=receiver_id).first()
+
+    if user.university != receiver.university:
+        return False
 
     if not receiver:
         return False

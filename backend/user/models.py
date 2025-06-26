@@ -1,14 +1,13 @@
 from datetime import timedelta
-from ipaddress import ip_address
 from django.db import models
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.utils import timezone
 
 from image.service import generate_presigned_url
 from backend.settings import DEBUG, SERVER_BASE_URL
 from image.models import Image
 
-from .constants import MAJORS_LIST
+from .constants import MAJORS_LIST, UNIVERSITIES
 
 # Create your models here.
 class UserManager(BaseUserManager):
@@ -22,7 +21,7 @@ class UserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, username, email, first_name, last_name, password=None, **extra_fields):
+    def create_superuser(self, email, first_name, last_name, password=None, **extra_fields):
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
 
@@ -31,18 +30,16 @@ class UserManager(BaseUserManager):
         if extra_fields.get('is_superuser') is not True:
             raise ValueError('Superuser must have is_superuser=True.')
 
-        return self.create_user(username, email, first_name, last_name, password, **extra_fields)
+        return self.create_user(email, first_name, last_name, password, **extra_fields)
     
-class User(AbstractBaseUser):
+class User(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(max_length=255, unique=True)
     first_name = models.CharField(max_length=35)
     last_name = models.CharField(max_length=35)
 
-    country_code = models.CharField(max_length=3, null=True, blank=True)
-    phone_number = models.CharField(max_length=15, null=True, blank=True)
+    university = models.CharField(max_length=20)
 
     email_verified_at = models.DateTimeField(null=True, blank=True)
-    phone_verified_at = models.DateTimeField(null=True, blank=True)
 
     profile_picture = models.OneToOneField(Image, on_delete=models.SET_NULL, null=True, blank=True)
 
@@ -54,8 +51,11 @@ class User(AbstractBaseUser):
 
     ip_address = models.GenericIPAddressField(null=True, blank=True)
 
+    is_staff = models.BooleanField(default=False)
+    is_superuser = models.BooleanField(default=False)
+
     USERNAME_FIELD = "email"
-    REQUIRED_FIELDS = ["password", "first_name", "last_name", "company_name"]
+    REQUIRED_FIELDS = ["password", "first_name", "last_name"]
 
     def profile_picture_url(self):
         if not DEBUG:
@@ -83,7 +83,7 @@ class User(AbstractBaseUser):
         if self.password_reset_token_created_at is None:
             return True
         
-        return self.password_reset_token_created_at + timedelta(minutes=5) <= timezone.now()
+        return self.password_reset_token_created_at + timedelta(minutes=1) <= timezone.now()
     
     def has_user_changed_password_in_the_last_24_hours(self) -> bool:
         if self.password_updated_at is None:
@@ -94,10 +94,8 @@ class User(AbstractBaseUser):
     def has_information(self) -> bool:
         return hasattr(self, "information")
     
-    def set_password(self, raw_password: str) -> None:
-        super().set_password(raw_password)
-        self.password_updated_at = timezone.now()
-        self.save(update_fields=["password", "password_updated_at"])
+    def get_university_name(self) -> str:
+        return UNIVERSITIES[self.university]
     
 
 class VerificationData(models.Model):

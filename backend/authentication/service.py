@@ -56,25 +56,35 @@ def send_verification_email(email: str, first_name: str, verification_code: str)
 
     text_message = strip_tags(html_message)
 
-    send_mail(
-        subject="Verifica tu cuenta",
-        from_email="noreply@mail.atlana.mx",
-        recipient_list=[email],
-        html_message=html_message,
-        fail_silently=False,
-        message=text_message
-    )
+    try:
+        send_mail(
+            subject="Verifica tu cuenta",
+            from_email="mail@atlana.mx",
+            recipient_list=[email],
+            html_message=html_message,
+            fail_silently=False,
+            message=text_message
+        )
+    except Exception as e:
+        return False
+    
+    return True
 
-def generate_and_send_verification_code(user: User) -> None:
+def generate_and_send_verification_code(user: User) -> bool:
     verification_code = AuthenticationUtils.generate_verification_code()
     verification_data = VerificationData(user=user, field="email", code=make_password(verification_code))
     verification_data.save()
 
-    send_verification_email(
+    res = send_verification_email(
         email=user.email,
         first_name=user.first_name,
         verification_code=verification_code
     )
+
+    if not res:
+        raise EmailError(detail="Unexpected error occurred while sending verification code")
+    
+    return True
 
 def get_session(request: HttpRequest) -> JsonResponse:
     user: User = request.user
@@ -180,7 +190,7 @@ def get_user_by_unknown_credential(credential: str) -> Optional[User]:
     
     return None
 
-def send_password_reset_email(user: User, password_reset_link: str) -> None:
+def send_password_reset_email(user: User, password_reset_link: str) -> bool:
     html_message = render_to_string('email/password_reset.html', {
         'first_name': user.first_name,
         'password_reset_link': password_reset_link,
@@ -189,13 +199,17 @@ def send_password_reset_email(user: User, password_reset_link: str) -> None:
 
     text_message = strip_tags(html_message)
 
-    send_mail(
-        subject="Restablece tu contraseña",
-        from_email="mail@atlana.mx",
-        recipient_list=[user.email],
-        html_message=html_message,
-        text_message=text_message,
-    )
+    try:
+        send_mail(
+            subject="Restablece tu contraseña",
+            from_email="mail@atlana.mx",
+            recipient_list=[user.email],
+            html_message=html_message,
+            text_message=text_message,
+        )
+    except Exception as e:
+        return False
+    return True
 
 
 def generate_and_send_password_reset_token(credential: str) -> bool:
@@ -227,8 +241,11 @@ def generate_and_send_password_reset_token(credential: str) -> bool:
 
     user.save()
 
-    send_password_reset_email(user, password_reset_link)
-    
+    res = send_password_reset_email(user, password_reset_link)
+
+    if not res:
+        raise EmailError(detail="Unexpected error occurred while sending password reset email")
+
     return True
 
 def reset_password(email: str, password_reset_token: str, new_password: str) -> bool:
@@ -324,3 +341,9 @@ def delete_account(user: User) -> None:
         chat.delete()
 
     user.delete()
+
+def change_password(user: User, password: str) -> None:
+    user.set_password(password)
+    user.password_updated_at = timezone.now()
+    user.save()
+    

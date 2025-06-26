@@ -25,4 +25,3 @@ class JWTAuthMiddleware:
         scope["user"] = await get_user_from_token(token) if token else AnonymousUser()
 
         return await self.app(scope, receive, send)
-    

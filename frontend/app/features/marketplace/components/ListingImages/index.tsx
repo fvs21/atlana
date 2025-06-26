@@ -27,7 +27,7 @@ export default function ListingImages({ images }: { images: string[] }) {
                         className={cn(styles.imagePreviewContainer, styles.moreImagesButton)}
                         onClick={() => setModalOpen(true)}
                     >
-                        +{images.length - 2}
+                        +{images.length - 4}
                     </button>
                 )}
             </div>

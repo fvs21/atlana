@@ -61,10 +61,6 @@ export default function ListingImagesInput() {
     )
 }
 
-function LeftImageScroller({ images, selected, setSelected }: { images: string[], selected: number, setSelected: (index: number) => void }) {
-    //TODO: Implement this component
-}
-
 function ImagePreview(
     { image, click, selected, index }: { image: File, click: () => void, selected: boolean, index: number }
 ) {

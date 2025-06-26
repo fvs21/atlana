@@ -39,7 +39,7 @@ export default function ListingPriceStep() {
                     Elige el precio
                 </div>
                 <div className={styles.description}>
-                    Elige el precio del producto que quieres vender. Al final se le agregará una comisión para la protección del comprador...
+                    Elige el precio del producto que quieres vender.
                 </div>
                 <div className="pt-4">
                 </div>
@@ -50,7 +50,7 @@ export default function ListingPriceStep() {
                         label="Precio"
                         placeholder="$MXN"
                         value={price}
-                        onChange={(val) => setPrice(parseFloat(val))}
+                        onChange={(val) => setPrice(parseFloat(parseFloat(val).toFixed(2)))}
                         type="number"
                         className={styles.listingInformationInput}
                         error=""

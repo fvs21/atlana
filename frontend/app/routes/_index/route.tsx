@@ -30,7 +30,7 @@ export default function Index() {
         <section className={styles.hero}>
           <div className={styles.heroContainer}>
             <div className={styles.heroContent}>
-              <h1>Vende y compra en tu comunidad</h1>
+              <h1>Vende y compra en la universidad</h1>
               <p>Disponible ahora para estudiantes de la Anáhuac Mayab</p>
               <Link to={!!user ? "/marketplace" : "login"} className={`${styles.button} ${styles.buttonPrimary}`}>
                 Buscar
@@ -52,7 +52,7 @@ export default function Index() {
             <div className={styles.informationContent}>
               <h2 className={styles.informationContentTitle}>¿Cómo funciona?</h2>
               <ol className={styles.informationList}>
-                <li>Regístrate y verifícate en la plataforma con tu correo institucional (anahuacmayab.edu.mx)</li>
+                <li>Regístrate y verifícate en la plataforma con tu correo institucional (anahuacmayab.edu.mx o anahuac.mx)</li>
                 <li>Publica artículos o busca por categorías</li>
                 <li>Conecta con vendedores o compradores por mensaje</li>
                 <li>Reúnete seguramente y completa la compra</li>

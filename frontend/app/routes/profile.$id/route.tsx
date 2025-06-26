@@ -55,6 +55,7 @@ export default function Page() {
                         major={data.profile?.information?.major || ""}
                         semester={data.profile?.information?.semester || -1}
                         instagram={data.profile?.information?.instagram || ""}
+                        university={data.profile?.information.university!}
                     />
                     <Listings
                         user_id={data.profile?.id!}

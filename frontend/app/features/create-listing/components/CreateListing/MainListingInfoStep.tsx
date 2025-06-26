@@ -6,7 +6,7 @@ import { listingCategoryAtom, listingDescriptionAtom, listingTitleAtom, listingU
 import TextArea from "~/components/text-area";
 import LabeledSelect from "~/components/labeled-select";
 import { Button } from "~/components/ui/button";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { validateStepOne } from "../../utils/validators";
 import categories from "~/constants/categories";
 import { Category } from "~/types/listings";

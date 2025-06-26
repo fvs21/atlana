@@ -1,4 +1,4 @@
-import { Armchair, Bike, Car, GraduationCap, LucideProps, MapPinHouse, Pizza, Plus, Shirt, TabletSmartphone } from "lucide-react";
+import { Armchair, Bike, Car, GraduationCap, Guitar, LucideProps, MapPinHouse, Pizza, Plus, Shirt, TabletSmartphone } from "lucide-react";
 import { Category } from "~/types/listings";
 
 type CategoryObject = {
@@ -14,7 +14,7 @@ const categories: CategoryObject[] = [
         icon: TabletSmartphone
     },
     {
-        name: 'Ropa y moda',
+        name: 'Ropa, moda y accesorios',
         value: 'clothing',
         icon: Shirt
     },
@@ -27,6 +27,11 @@ const categories: CategoryObject[] = [
         name: 'Comida',
         value: 'food',
         icon: Pizza
+    },
+    {
+        name: "Instrumentos y música",
+        value: "music",
+        icon: Guitar
     },
     {
         name: 'Deportes',

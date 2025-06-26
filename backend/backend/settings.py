@@ -55,6 +55,13 @@ CORS_ALLOWED_ORIGINS = [
     'http://192.168.68.102:5173'
 ]
 
+CSRF_TRUSTED_ORIGINS = [
+    "http://atlana.mx",
+    "https://atlana.mx",
+    "http://www.atlana.mx",
+    "https://www.atlana.mx",
+]
+
 CORS_ALLOW_CREDENTIALS = True
 
 ACCESS_TOKEN_DURATION = 60*60
@@ -62,7 +69,7 @@ REFRESH_TOKEN_DURATION = 60*60*24*30
 
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=60),
-    "REFRESH_TOKEN_LIFETIME": timedelta(days=30),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=30)
 }
 
 
@@ -72,6 +79,9 @@ REST_FRAMEWORK = {
     'EXCEPTION_HANDLER': 'backend.exceptions.custom_exception_handler',
     'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',
     )
 }
 
@@ -186,7 +196,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Guatemala'
 
 USE_I18N = True
 
@@ -197,14 +207,30 @@ AUTH_USER_MODEL = 'user.User'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
-STATIC_URL = 'static/'
+if not DEBUG:
+    STORAGES = {
+        "default": {
+            "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
+        },
+        "staticfiles": {
+            "BACKEND": "backend.custom_storages.StaticStorage",
+        }
+    }
+    
+AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
+AWS_S3_REGION_NAME = os.environ.get('AWS_REGION_NAME')
+AWS_S3_SIGNATURE_VERSION = 's3v4'
+
+MEDIA_URL = f'https://{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com/' if not DEBUG else '/media/'
+
+STATIC_URL = f'https://{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com/static' if not DEBUG else '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
+STATICFILES_LOCATION = "static"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-EMAIL_BACKEND = 'django_ses.SESBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
@@ -212,17 +238,15 @@ EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
 
-AWS_SES_REGION_NAME = os.environ.get('AWS_REGION_NAME')
-AWS_SES_REGION_ENDPOINT = f'email.{AWS_SES_REGION_NAME}.amazonaws.com'
+POSTMARK_SERVER_TOKEN = os.environ.get('POSTMARK_SERVER_TOKEN')
 
-if not DEBUG:
-    STORAGES = {
-        "default": {
-            "BACKEND": "storages.backends.s3boto3.S3Boto3Storage",
-        }
-    }
-    
-AWS_STORAGE_BUCKET_NAME = os.environ.get('AWS_STORAGE_BUCKET_NAME')
-AWS_S3_REGION_NAME = os.environ.get('AWS_REGION_NAME')
-AWS_S3_SIGNATURE_VERSION = 's3v4'
-MEDIA_URL = f'https://{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com/'
+EMAIL_BACKEND = 'postmarker.django.EmailBackend' if not DEBUG else 'django.core.mail.backends.smtp.EmailBackend'
+
+POSTMARK = {
+    'TOKEN': POSTMARK_SERVER_TOKEN,
+    'TEST_MODE': DEBUG,
+    'VERBOSITY': 0
+}
+
+REDIS_HOST = os.environ.get('REDIS_HOST')
+REDIS_PORT = os.environ.get('REDIS_PORT')

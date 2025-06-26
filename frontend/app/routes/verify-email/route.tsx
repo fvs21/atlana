@@ -21,7 +21,6 @@ export const meta: MetaFunction = () => {
 
 export async function loader({ request }: LoaderFunctionArgs) {
     onlyAuthenticatedNotVerified({ request });
-
     return data({});
 }
 
@@ -40,19 +39,19 @@ export default function Page() {
 
         if (verifyEmailDisabled) return;
 
-        if(!code) 
+        if (!code)
             return;
 
         try {
             await verifyEmail(code);
             navigate("/marketplace");
         } catch (error) {
-            if(!(error instanceof AxiosError)) 
+            if (!(error instanceof AxiosError))
                 return;
 
             const response = (error as AxiosError).response?.data as ResponseBody<void>;
 
-            if(response.code === "invalid_verification_code")
+            if (response.code === "invalid_verification_code")
                 setError("Código de verificación incorrecto");
 
         }
@@ -66,13 +65,13 @@ export default function Page() {
             setError("");
             toast.success("Código enviado");
         } catch (error) {
-            if(!(error instanceof AxiosError)) 
+            if (!(error instanceof AxiosError))
                 return;
 
             const response = (error as AxiosError).response?.data as ResponseBody<void>;
 
-            if(response.code === "code_rate_limit")
-                toast.error("Debes esperar 5 minutos para solicitar un nuevo código");
+            if (response.code === "code_rate_limit")
+                toast.error("Debes esperar 2 minutos para solicitar un nuevo código");
         }
     }
 
@@ -85,28 +84,34 @@ export default function Page() {
                         <h1 className={styles.verifyEmailTitle}>Verifica tu correo</h1>
                         <form className={styles.verifyEmailBody} onSubmit={handleVerifyEmail}>
                             {!isLoading && (
-                                <p className={styles.verifyEmailDescription}>
-                                    Te hemos enviado un correo a <span className="font-semibold">{user?.email}</span> con el código para verificar tu cuenta.
-                                </p>
+                                <>
+                                    <p className={styles.verifyEmailDescription}>
+                                        Te hemos enviado un correo a <span className="font-semibold">{user?.email}</span> con el código para verificar tu cuenta.
+                                    </p>
+                                    <p className={styles.verifyEmailDescription}>
+                                        Si no lo recibes, asegurate de revisar tu bandeja de spam o correo no deseado.
+                                    </p>
+                                </>
+
                             )}
                             <div className={styles.formInput}>
-                                <ValidatedInput 
+                                <ValidatedInput
                                     name="verification-code"
                                     value={code}
                                     onChange={setCode}
                                     error={error}
                                 />
                             </div>
-                            <button 
-                                className={styles.resendVerificationCodeButton} 
+                            <button
+                                className={styles.resendVerificationCodeButton}
                                 onClick={handleResendVerificationCode}
                                 disabled={resendCodeDisabled}
                             >
                                 Reenviar código
                             </button>
                             <div className={styles.verifyEmailActions}>
-                                <Button 
-                                    className="primaryButton" 
+                                <Button
+                                    className="primaryButton"
                                     type="submit"
                                     disabled={verifyEmailDisabled}
                                 >

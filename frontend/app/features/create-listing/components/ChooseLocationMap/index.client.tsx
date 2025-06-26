@@ -1,10 +1,7 @@
 import "leaflet/dist/leaflet.css";
 import L from "leaflet"
 import styles from "./styles.module.scss";
-import { useEffect, useRef, useState } from "react";
-import ValidatedInput from "~/components/validated-input";
-import { useQueryLocation } from "../../api";
-import { LocationQueryResult } from "../../types";
+import { useEffect, useRef } from "react";
 import { Slider } from "~/components/ui/slider";
 import { Location } from "~/types/location";
 import { defaultIcon } from "~/components/map-marker";
@@ -13,12 +10,6 @@ export default function ChooseLocationMap({ location, setLocation }: { location:
     const mapRef = useRef<L.Map>();
     const markerRef = useRef<L.Marker>();
     const circleRef = useRef<L.Circle>();
-
-    const { queryLocation } = useQueryLocation();
-    const [searchQuery, setSearchQuery] = useState("");
-    const [queryResults, setQueryResults] = useState<LocationQueryResult[]>([]);
-    const [resultsFocused, setResultsFocused] = useState(false);
-
 
     useEffect(() => {
         let map = L.map('map').setView(
@@ -50,26 +41,6 @@ export default function ChooseLocationMap({ location, setLocation }: { location:
         }
     }, []);
 
-    const searchLocation = async (query: string) => {
-        if(!query) return;
-
-        const data = await queryLocation(query);
-
-        if(!data.data) return;
-
-        setQueryResults(data.data);
-    }
-
-    const selectLocation = (location: LocationQueryResult) => {        
-        if(!mapRef.current) return;
-
-        const { lat, lon } = location;
-        
-        changeLocation(lat, lon);
-
-        mapRef.current.setView([lat, lon], 14);
-    }
-
     const mapClick = (e: L.LeafletMouseEvent) => {
         if(!mapRef.current) return;
 
@@ -78,9 +49,9 @@ export default function ChooseLocationMap({ location, setLocation }: { location:
 
     const changeLocation = (lat: number, lon: number) => {
         if(!markerRef.current) {
-            markerRef.current = L.marker([lat, lon]).addTo(mapRef.current as L.Map);
+            markerRef.current = L.marker([lat, lon]).addTo(mapRef.current as L.Map).setIcon(defaultIcon);
         } else {
-            markerRef.current.setLatLng([lat, lon]);
+            markerRef.current.setLatLng([lat, lon]).setIcon(defaultIcon);
         } 
 
         if(!circleRef.current) {
@@ -116,39 +87,9 @@ export default function ChooseLocationMap({ location, setLocation }: { location:
             radius: value
         });
     }
-
-    useEffect(() => {
-        let timeout = setTimeout(() => {
-            searchLocation(searchQuery);
-        }, 500);
-        
-        return () => clearTimeout(timeout);
-    }, [searchQuery]);
     
     return (
         <div className="pt-4">
-            <div className="pb-4 relative">
-                <ValidatedInput 
-                    label="Buscar dirección"
-                    placeholder="Dirección"
-                    type="text"
-                    name="address"
-                    id="address"
-                    value={searchQuery}
-                    onChange={setSearchQuery}
-                    onFocus={() => setResultsFocused(true)}
-                    onBlur={() => setResultsFocused(false)}
-                />
-                {!!(queryResults.length && resultsFocused) && (
-                    <div className={styles.locationQueryResults}>
-                        {queryResults.map((location) => (
-                            <button className={styles.locationQueryResult} key={location.place_id} onMouseDown={() => selectLocation(location)}>
-                                {location.display_name}
-                            </button>
-                        ))}
-                    </div>
-                )}
-            </div>
             <div className={styles.mapContainer}>
                 <div id="map" className={styles.selectLocationMap} />
                 {!!(location.latitude && location.longitude) && (

@@ -1,4 +1,3 @@
-from time import time_ns
 from typing import List
 from django.db import models
 
@@ -17,7 +16,8 @@ CATEGORIES = [
     'scholar',
     'vehicles',
     'property_rentals',
-    'other'
+    'other',
+    'music'
 ]
 
 class PublicListingManager(models.Manager):

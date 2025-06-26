@@ -1,3 +1,8 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import User, UserInformation, VerificationData
+
+
+admin.site.register(User)
+admin.site.register(UserInformation)
+admin.site.register(VerificationData)

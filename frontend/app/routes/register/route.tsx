@@ -1,5 +1,5 @@
 import styles from "./register.module.scss";
-import { MetaFunction, useNavigate } from "@remix-run/react";
+import { Link, MetaFunction, useNavigate } from "@remix-run/react";
 import { Button } from "~/components/ui/button";
 import { Checkbox } from "~/components/ui/checkbox";
 import { Label } from "~/components/ui/label";
@@ -157,13 +157,13 @@ export default function RegisterPage() {
                                 />
                                 <Label htmlFor="agreeTerms" className={styles.checkboxLabel}>
                                     Acepto los{" "}
-                                    <a href="#" className={styles.link}>
+                                    <Link to="/terms" className={styles.link}>
                                         Terminos y condiciones
-                                    </a>{" "}
+                                    </Link>{" "}
                                     y la{" "}
-                                    <a href="#" className={styles.link}>
+                                    <Link to="/privacy" className={styles.link}>
                                         Política de privacidad
-                                    </a>
+                                    </Link>
                                 </Label>
                             </div>
                             {errors?.agree_to_terms && <span className={styles.errorMessage}>{errors.agree_to_terms}</span>}

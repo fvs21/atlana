@@ -40,7 +40,7 @@ export default function Listing({ listing }: { listing: ListingType | PropertyLi
             </div>
             <div className={styles.listing}>
                 <div className={styles.imagesContainer}>
-                    <div className="sticky top-32">
+                    <div className="sticky top-32 w-full">
                         <ListingImages
                             images={listing.images_urls}
                         />

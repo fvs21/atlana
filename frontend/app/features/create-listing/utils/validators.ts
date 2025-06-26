@@ -21,5 +21,9 @@ export function validateStepOne(title: string, description: string, category: Ca
         }
     }
 
+    if(description.length > 500) {
+        errors.description = "La descripción no puede exceder los 500 caracteres";
+    }
+
     return errors;
 }

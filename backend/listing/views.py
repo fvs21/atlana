@@ -64,7 +64,7 @@ class ListingsViewset(viewsets.ViewSet):
         listing = service.get_listing_by_id(id)
         user = request.user
 
-        if not listing:
+        if not listing or listing.creator.university != user.university:
             return JsonResponse({
                 'details': "Listing not found",
                 'code': 'listing_not_found'

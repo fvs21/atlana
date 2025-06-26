@@ -1,6 +1,7 @@
 import styles from "./styles.module.scss";
 import { CarouselApi, Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from "../../../../components/ui/carousel";
 import { useEffect, useState } from "react";
+import { cn } from "~/lib/utils";
 
 export default function ListingImageCarousel({ images, selected, setSelected }: { images: string[]; selected: number, setSelected: (index: number) => void }) {
     const [carouselApi, setCarouselApi] = useState<CarouselApi>();
@@ -18,7 +19,7 @@ export default function ListingImageCarousel({ images, selected, setSelected }: 
     }, [carouselApi, selected]);
 
     return (
-        <Carousel setApi={setCarouselApi} className="w-full h-full">
+        <Carousel setApi={setCarouselApi} className={cn("w-full h-full max-w-full")}>
             <CarouselPrevious className={styles.leftButton} />
             <CarouselContent className={styles.rightImageDisplayer}>
                 {images.map((image, i) => (

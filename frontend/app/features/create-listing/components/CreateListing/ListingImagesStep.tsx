@@ -62,6 +62,7 @@ export default function ListingImagesStep() {
             resetBody();
             toast.success("Publicación creada");
             navigate("/marketplace");
+            setStep(0);
         } catch(error) {
             console.log(error);     
         }
@@ -94,6 +95,7 @@ export default function ListingImagesStep() {
             resetBody();
             toast.success("Publicación creada");
             navigate("/marketplace");
+            setStep(0);
         } catch(error) {
             console.log(error);     
         }

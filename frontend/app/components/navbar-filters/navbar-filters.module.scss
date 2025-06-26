@@ -77,3 +77,9 @@
 .category:hover {
    @include categorySelected;
 }
+
+@media only screen and (max-width: $breakpoint-mobile) {
+   .dissapearingFilter {
+      display: none;
+   }
+}

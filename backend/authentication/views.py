@@ -9,6 +9,7 @@ from django.contrib.auth import authenticate
 from rest_framework.permissions import IsAuthenticated
 from backend.permissions import IsGuest
 from rest_framework.decorators import api_view
+from django.contrib.auth.models import update_last_login
 
 class AuthenticationViewSet(viewsets.ViewSet):
     permission_classes = [IsGuest]
@@ -30,6 +31,8 @@ class AuthenticationViewSet(viewsets.ViewSet):
             }, status=400)
         
         user = serializer.save()
+
+        update_last_login(None, user)
 
         UserInformation.objects.create(user=user)
 
@@ -57,6 +60,8 @@ class AuthenticationViewSet(viewsets.ViewSet):
                 'details': 'Invalid credentials',
                 'code': 'login_failed'
             }, status=400)
+        
+        update_last_login(None, user)
         
         return service.generate_authentication_response(user)
 
@@ -196,9 +201,7 @@ class AuthenticatedAuthViewSet(viewsets.ViewSet):
                 "details": "You must choose a more secure password"
             }, status=400)
         
-        print(validated_data['new_password'])
-        
-        user.set_password(validated_data['new_password'])
+        service.change_password(user, validated_data['new_password'])
 
         return JsonResponse({"details": "Password updated successfully"}, status=200)
     

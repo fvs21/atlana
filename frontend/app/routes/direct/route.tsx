@@ -33,6 +33,7 @@ export default function Page() {
     const { chat_id } = useParams();
     const { user } = useUser();
 
+
     useEffect(() => {
         const socket = new WebSocket(`${WS_URL}/chats/?token=${token}`);
         setSocket(socket);

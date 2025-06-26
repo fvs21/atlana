@@ -1,4 +1,4 @@
-import { Calendar, GraduationCap, Instagram } from 'lucide-react';
+import { Calendar, GraduationCap, Instagram, University } from 'lucide-react';
 import styles from './styles.module.scss';
 import { MAJORS_LIST } from '~/constants/majors';
 
@@ -6,15 +6,20 @@ type InformationProps = {
     major?: string;
     semester?: number;
     instagram?: string;
+    university: string;
 }
 
-export default function Information({ major, semester, instagram }: InformationProps) {
+export default function Information({ major, semester, instagram, university }: InformationProps) {
     return (
         <div className={styles.informationContainer}>
             <h1 className={styles.title}>
                 Información
             </h1>
             <ul className={styles.informationList}>
+                <li>
+                    <University size={20}/>
+                    {university}
+                </li>
                 <li className={!major ? styles.notAdded : ""}>
                     <GraduationCap size={20} />
                     {major ? MAJORS_LIST.find(majorItem => majorItem.value === major)?.name : "Sin agregar"}

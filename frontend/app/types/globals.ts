@@ -16,6 +16,7 @@ export type UserInformation = {
     semester?: number;
     instagram?: string;
     bio?: string;
+    university: string;
 }
 
 export type ResponseBody<T> = {
@@ -23,3 +24,5 @@ export type ResponseBody<T> = {
     code?: string;
     details?: string;
 }
+
+export type Universities = 'Anáhuac Mayab' | 'EBC';

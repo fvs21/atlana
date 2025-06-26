@@ -77,11 +77,15 @@ class CreateChatSerializer(serializers.Serializer):
     receiver_id = serializers.IntegerField()
     
     def validate_receiver_id(self, value):
-        if not User.objects.filter(id=value).exists():
+        receiver = User.objects.filter(id=value).first()
+        if not receiver:
             raise serializers.ValidationError("Receiver does not exist")
 
         if value == self.context['user'].id:
             raise serializers.ValidationError("You cannot create a chat with yourself")
+        
+        if receiver.university != self.context['user'].university:
+            raise serializers.ValidationError("Cannot create a chat with a user outside your university")
         
         return value
     

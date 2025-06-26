@@ -12,7 +12,6 @@ class Chat(models.Model):
             return None
         
         return self.messages.order_by('-timestamp').first()
-
 class Message(models.Model):
     chat = models.ForeignKey(Chat, related_name='messages', on_delete=models.CASCADE)
     sender = models.ForeignKey('user.User', related_name='messages', on_delete=models.CASCADE)

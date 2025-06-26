@@ -1,6 +1,6 @@
 import { Location } from "./location";
 
-export type Category = "" | "electronics" | "clothing" | "scholar" | "sports" | "food" | "furniture" | "vehicles" | "property_rentals" | "other";
+export type Category = "" | "electronics" | "clothing" | "scholar" | "sports" | "food" | "furniture" | "vehicles" | "property_rentals" | "other" | "music";
 
 export type PropertyType = "" | "apartment" | "house" | "townhouse" | "villa" | "studio" | "room_only";
 

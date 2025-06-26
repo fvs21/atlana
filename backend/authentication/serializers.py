@@ -1,6 +1,7 @@
 from rest_framework import serializers
 
 from authentication.utils import AuthenticationUtils, get_client_ip
+from user.constants import UNIVERSITIES
 from user.models import User
 
 class RegistrationSerializer(serializers.ModelSerializer):
@@ -10,7 +11,7 @@ class RegistrationSerializer(serializers.ModelSerializer):
 
     def validate_email(self, value):        
         domain = value.split('@')[1]
-        if domain != 'anahuacmayab.edu.mx':
+        if domain not in UNIVERSITIES.keys():
             raise serializers.ValidationError("Email domain not allowed")
 
         return value
@@ -23,6 +24,7 @@ class RegistrationSerializer(serializers.ModelSerializer):
             first_name=validated_data['first_name'],
             last_name=validated_data['last_name'],
             ip_address=ip,
+            university=validated_data['email'].split('@')[1]
         )
 
         user.set_password(validated_data['password'])

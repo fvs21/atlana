@@ -48,3 +48,10 @@ class UserAlreadyChangedPasswordException(DefaultException):
 
     def __init__(self):
         super().__init__("User has already changed password", 429, self.code)
+
+
+class EmailError(DefaultException):
+    code = "unexecpected_email_error"
+
+    def __init__(self, detail: str):
+        super().__init__(detail, 500, self.code)

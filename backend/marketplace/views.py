@@ -16,7 +16,8 @@ class MarketplaceViewSet(viewsets.ViewSet):
         """
         Get all listings
         """
-        listings = service.get_all_listings()
+        user = request.user
+        listings = service.get_all_listings_by_university(user.university)
 
         return JsonResponse({
             "data": {
@@ -40,7 +41,7 @@ class MarketplaceViewSet(viewsets.ViewSet):
                 "details": "category is not valid"
             }, status=404)
 
-        listings = service.get_listings_by_category(cat)
+        listings = service.get_listings_by_category(cat, request.user.university)
 
         return JsonResponse({
             "data": {
@@ -63,7 +64,7 @@ class MarketplaceViewSet(viewsets.ViewSet):
                 'code': 'invalid_data'
             }, status=400)
         
-        listings = service.filter_property_listings_inside_bounds(serializer.validated_data)
+        listings = service.filter_property_listings_inside_bounds(serializer.validated_data, request.user.university)
 
         return JsonResponse({
             "data": {
@@ -94,7 +95,7 @@ class MarketplaceViewSet(viewsets.ViewSet):
         """
         query = request.GET.get('query', '')
 
-        listings = service.search_listings(query)
+        listings = service.search_listings(query, request.user.university)
 
         return JsonResponse({
             "data": {

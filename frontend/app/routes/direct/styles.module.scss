@@ -7,6 +7,7 @@
 
 .chatsList {
     min-width: 400px;
+    max-width: 400px;
     border-right: 1px solid $border-color;
     overflow-y: auto;
 }
@@ -38,5 +39,9 @@
 
     .hide {
         display: none;
+    }
+
+    .chatsList {
+        max-width: none;
     }
 }

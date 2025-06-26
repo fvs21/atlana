@@ -15,9 +15,11 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
+from django.conf.urls.static import static
+from django.conf import settings
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('ceo-goated-admin-pro5170d87373924393a7cfa39c05d0c954/', admin.site.urls),
     path('api/auth/', include('authentication.urls')),
     path('api/image/', include('image.urls')),
     path('api/user/', include('user.urls')),
@@ -25,5 +27,5 @@ urlpatterns = [
     path('api/marketplace/', include('marketplace.urls')),
     path('api/location/', include('location.urls')),
     path('api/chat/', include('chat.urls')),
-    path('api/health', include('health_check.urls')),
+    path('api/health', include('health_check.urls'))
 ]
