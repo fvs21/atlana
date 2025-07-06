@@ -17,6 +17,16 @@ export default function ChatInput({ message, setMessage, sendMessage }: ChatInpu
 
     const isReplying = !!message.reply_to_listing || !!message.reply_to;
 
+    const changeMessage = (content: string) => {
+        if(content.length > 400) 
+            content = content.slice(0, 400);
+
+        setMessage({
+            ...message,
+            content: content
+        });
+    }
+
     useEffect(() => {
         if (inputRef.current)
             inputRef.current.focus();
@@ -61,10 +71,7 @@ export default function ChatInput({ message, setMessage, sendMessage }: ChatInpu
                         type="text"
                         placeholder="Escribe un mensaje..."
                         value={message.content}
-                        onChange={(e) => setMessage({
-                            ...message,
-                            content: e.target.value
-                        })}
+                        onChange={(e) => changeMessage(e.target.value)}
                         autoFocus
                         spellCheck="true"
 

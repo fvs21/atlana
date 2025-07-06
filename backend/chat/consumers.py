@@ -4,7 +4,7 @@ from channels.generic.websocket import AsyncWebsocketConsumer
 
 from .serializers import ConsumerEventSerializer, MessageSerializer
 from . import service
-from asgiref.sync import sync_to_async
+
 class UserChatsConsumer(AsyncWebsocketConsumer):
     async def connect(self):
         if self.scope['user'].is_anonymous:

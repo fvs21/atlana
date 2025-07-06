@@ -48,14 +48,6 @@ export default function NavbarActions() {
                                             </Link>
                                         </div>
                                         <div className={styles.dropdownItem}>
-                                            <Link to={"/direct"}>
-                                                <div className={styles.dropdownLink}>
-                                                    <MessageCircle size={18} />
-                                                    Mensajes
-                                                </div>
-                                            </Link>
-                                        </div>
-                                        <div className={styles.dropdownItem}>
                                             <Link to={"/settings/edit"}>
                                                 <div className={styles.dropdownLink}>
                                                     <Settings size={18} />

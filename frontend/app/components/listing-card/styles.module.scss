@@ -3,25 +3,28 @@
 .listingCard {
     min-width: 180px;
     padding: 0;
+    background-color: transparent;
+    box-shadow: none;
+    border: none;
 }
 
 .image {
     width: 100%;
     aspect-ratio: 1 / 1;
     object-fit: cover;
-    border-radius: 6px;
+    border-radius: 8px;
 }
 
 .imageContainer {
-    border-radius: 6px;
+    border-radius: 8px;
 }
 
 .listingImages {
-    padding: $spacing-sm $spacing-sm 0;
+    padding: $spacing-sm 0 0;
 }
 
 .listingHeader {
-    padding: $spacing-md 12px $spacing-sm;
+    padding: $spacing-md 0 $spacing-sm;
 }
 
 .listingTitle {
@@ -32,7 +35,7 @@
 }
 
 .listingContent {
-    padding: 0 12px;
+    padding: 0;
 }
 
 .listingPrice {
@@ -55,26 +58,13 @@
 .creator {
     padding-top: $spacing-sm;
     font-size: 13px;
-    text-decoration: underline;
+    color: gray;
 }
 
 .listingFooter {
     padding: $spacing-md;
     display: flex;
     gap: 10px;
-}
-
-.sendInquiryButton {
-    font-size: 14px;
-    background-color: white;
-    border: 1px solid black;
-    color: black;
-    border-radius: 20px;
-    width: 100%;
-
-    &:hover {
-        color: white;
-    }
 }
 
 .leftButton {
@@ -93,6 +83,6 @@
 
 @media (max-width: 1030px) {
     .listingImages {
-        padding: $spacing-sm $spacing-sm 0; 
+        padding: $spacing-sm 0 0; 
     }
 }

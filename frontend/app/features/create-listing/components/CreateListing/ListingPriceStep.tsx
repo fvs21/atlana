@@ -69,6 +69,7 @@ export default function ListingPriceStep() {
                                 { value: "week", name: "Semana" },
                                 { value: "month", name: "Mes" },
                             ]}
+                            className={styles.listingInformationInput}
                         />
                     </div>
                 )}

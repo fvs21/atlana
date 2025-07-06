@@ -1,5 +1,6 @@
 **/*.env
 env
 backend/images/**
+backend/static/
 
 **/TODO.txt

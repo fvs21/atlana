@@ -1,8 +1,8 @@
 import styles from "./navbar.module.scss";
 import Searchbar from "~/features/searchbar/components/searchbar";
-import NavbarFilters from "../navbar-filters";
 import NavbarActions from "../navbar-actions";
 import Logo from "../logo";
+import NavbarLinks from "../navbar-links";
 
 export default function Navbar() {
     return (
@@ -18,7 +18,7 @@ export default function Navbar() {
                     <NavbarActions />
                 </div>
             </div>
-            <NavbarFilters />
+            <NavbarLinks />
         </nav>
     )
 }

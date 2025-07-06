@@ -44,7 +44,7 @@ async def new_message(chat_id: int, sender: User, message: str) -> Message:
 
     if send_email:
         receiver = await chat.participants.exclude(id=sender.id).afirst()
-        await sync_to_async( send_new_message_email.delay_on_commit)(sender.first_name, receiver.email, message.content)
+        await sync_to_async(send_new_message_email.delay_on_commit)(sender.first_name, receiver.email, message.content)
 
     return message
 
@@ -90,7 +90,7 @@ async def reply_to(chat_id: int, sender: User, message: str, message_id: int) ->
     if not message_to_reply:
         return None
     
-    send_email = not await Message.objects.filter(chat=chat, sender=sender).exists()
+    send_email = not await Message.objects.filter(chat=chat, sender=sender).aexists()
 
     message = await Message.objects.acreate(
         chat=chat,

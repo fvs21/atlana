@@ -11,19 +11,18 @@
    margin: 0 auto;
    display: flex;
    gap: 30px;
-   justify-content: start;
    padding: 0;
 }
 
-.filter {
+
+.link {
+   width: 100px;
    font-size: 13px;
    display: flex;
    gap: 6px;
    align-items: center;
+   justify-content: center;
    border-bottom: none;
-}
-
-.link {
    padding: $spacing-sm $spacing-md;
 }
 
@@ -54,29 +53,26 @@
    @include categorySelected;
 }
 
+.notSelected {
+   svg {
+      color: gray;
+   }
+
+   &:hover {
+      margin-top: -2.5px;
+      border-bottom: 2.5px solid gray;
+   }
+}
+
 .selected {
-   @include categorySelected;
+   svg {
+      color: $primary-color;
+      stroke-width: 2;
+   }
+   margin-top: -2.5px;
+   border-bottom: 2.5px solid $primary-color;
 }
 
-.categories {
-   width: 400px;
-}
-
-.category {
-   white-space: nowrap;
-   font-size: 14px;
-   padding: 12px;
-   border-radius: 6px;
-   width: 100%;
-   text-align: left;
-   display: flex;
-   gap: 10px;
-   align-items: center;
-}
-
-.category:hover {
-   @include categorySelected;
-}
 
 @media only screen and (max-width: $breakpoint-mobile) {
    .dissapearingFilter {
