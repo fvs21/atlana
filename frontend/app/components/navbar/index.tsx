@@ -18,7 +18,9 @@ export default function Navbar() {
                     <NavbarActions />
                 </div>
             </div>
-            <NavbarLinks />
+            <div className={styles.navbarLinksContainer}>
+                <NavbarLinks />
+            </div>
         </nav>
     )
 }

@@ -9,9 +9,9 @@ export default function NavbarLinks() {
 
     return (
         <NavigationMenu className={styles.container}>
-            <NavigationMenuList>
+            <NavigationMenuList className={styles.menuListContainer}>
                 <NavigationMenuItem>
-                    <NavigationMenuLink className={cn(styles.link, (location.pathname === "/" || location.pathname.startsWith("/listing")) ? styles.selected : styles.notSelected)} href={"/marketplace"}>
+                    <NavigationMenuLink className={cn(styles.link, (location.pathname.startsWith("/marketplace")) ? styles.selected : styles.notSelected)} href={"/marketplace"}>
                         <Store size={20} />
                     </NavigationMenuLink>
                 </NavigationMenuItem>
@@ -31,7 +31,7 @@ export default function NavbarLinks() {
                     </NavigationMenuLink>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
-                    <NavigationMenuLink className={cn(styles.link, location.pathname === "/direct" ? styles.selected : styles.notSelected)} href={"/direct"}>
+                    <NavigationMenuLink className={cn(styles.link, location.pathname.startsWith("/direct") ? styles.selected : styles.notSelected)} href={"/direct"}>
                         <MessageCircle size={20}/>
                     </NavigationMenuLink>
                 </NavigationMenuItem>

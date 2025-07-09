@@ -6,7 +6,7 @@ import { Archive } from "lucide-react";
 
 export default function ListingCard({ id, title, price, images_urls, creator, archived = false }: ListingCardProps) {
     return (
-        <a href={`/listing/${id}`} target="_blank">
+        <a href={`/marketplace/listing/${id}`} target="_blank">
             <Card className={styles.listingCard}>
                 <div className={styles.listingImages}>
                     <ListingCardImages images={images_urls} />

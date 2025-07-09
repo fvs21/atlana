@@ -9,9 +9,8 @@
 }
 
 .container {
-    height: 60px;
+    height: 55px;
     display: flex;
-    align-items: center;
     justify-content: space-between;
     gap: $spacing-md;
     margin: 0 auto;
@@ -19,6 +18,8 @@
 }
 
 .logo {
+    display: flex;
+    align-items: center;
     h1 {
         font-size: $font-size-xl;
         font-weight: 700;
@@ -89,4 +90,16 @@
     font-size: 13px;
     word-break: keep-all;
     white-space: nowrap;
+}
+
+.navbarLinks {
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+@media only screen and (max-width: calc($breakpoint-mobile + 70px)) {
+    .navbarLinks {
+        display: none;
+    }
 }

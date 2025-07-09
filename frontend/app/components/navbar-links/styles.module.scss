@@ -6,16 +6,22 @@
 }
 
 .container {
-   @include container; 
-   height: 40px;
-   margin: 0 auto;
-   display: flex;
-   gap: 30px;
-   padding: 0;
+   height: 100%;
+
+   div {
+      height: 100%;
+   }
 }
 
+.menuListContainer {
+   height: 100%;
+   li {
+      height: 100%;
+   }
+}
 
 .link {
+   height: 100%;
    width: 100px;
    font-size: 13px;
    display: flex;
@@ -24,6 +30,16 @@
    justify-content: center;
    border-bottom: none;
    padding: $spacing-sm $spacing-md;
+}
+
+.link.selected {
+   height: calc(100% - 2.5px);
+}
+
+.link.notSelected:hover {
+   border-bottom: 2.5px solid gray;
+   margin-top: 2.5px;
+   height: calc(100% - 2.5px);
 }
 
 .categoriesFilter {
@@ -59,7 +75,6 @@
    }
 
    &:hover {
-      margin-top: -2.5px;
       border-bottom: 2.5px solid gray;
    }
 }
@@ -69,10 +84,9 @@
       color: $primary-color;
       stroke-width: 2;
    }
-   margin-top: -2.5px;
+   margin-top: 2.5px;
    border-bottom: 2.5px solid $primary-color;
 }
-
 
 @media only screen and (max-width: $breakpoint-mobile) {
    .dissapearingFilter {
