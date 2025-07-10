@@ -60,7 +60,7 @@ function ClosedSidebarSection() {
                     <Button onClick={openSidebar} className={styles.closedSidebarSectionButton}>
                         Categorías
                     </Button>
-                    <Link to={"/create-listing"}>
+                    <Link to={"/marketplace/create-listing"}>
                         <Button className={styles.closedSidebarSectionButton}>
                             Vender
                         </Button>

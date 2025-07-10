@@ -2,9 +2,9 @@ from rest_framework import viewsets
 from rest_framework.decorators import action
 from django.http import HttpRequest, JsonResponse
 
-from authentication.serializers import *
+from backend.authentication.serializers.serializers import *
 from user.models import UserInformation
-from . import service
+from ..services import service
 from django.contrib.auth import authenticate
 from rest_framework.permissions import IsAuthenticated
 from backend.permissions import IsGuest

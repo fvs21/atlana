@@ -32,6 +32,10 @@ DEBUG = os.environ.get('DEBUG', "True").lower() in ('true', '1', 't')
 
 SERVER_BASE_URL = os.environ.get('SERVER_URL', 'http://localhost:8000')
 
+SITE_ID = 1
+
+BASE_BACKEND_URL = "https://altana.mx" if DEBUG else "http://localhost:8000"
+
 ALLOWED_HOSTS = [
     '192.168.68.101', 
     '192.168.68.102',
@@ -253,3 +257,6 @@ REDIS_PORT = os.environ.get('REDIS_PORT')
 
 CELERY_BROKER_URL = f'redis://{REDIS_HOST}:{REDIS_PORT}/0'
 CELERY_RESULT_BACKEND = f'redis://{REDIS_HOST}:{REDIS_PORT}/0'
+
+#Google OAuth
+GOOGLE_CLIENT_ID = os.environ.get("GOOGLE_CLIENT_ID")

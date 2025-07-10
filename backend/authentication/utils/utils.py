@@ -31,6 +31,7 @@ class AuthenticationUtils:
     def generate_reset_password_token() -> str:
         return ''.join(random.SystemRandom().choice(string.ascii_letters + string.digits) for _ in range(64))
     
+    
 def get_client_ip(request: HttpRequest) -> str:
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
 

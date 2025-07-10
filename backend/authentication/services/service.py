@@ -1,14 +1,13 @@
-import logging
 from typing import Dict, Optional
 from django.http import HttpRequest, JsonResponse
-from authentication.utils import AuthenticationUtils
+from backend.authentication.utils.utils import AuthenticationUtils
 from user.models import User, VerificationData
 from user.serializers import UserSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
 from backend.settings import DEBUG, REFRESH_TOKEN_DURATION
 from django.contrib.auth.hashers import make_password, check_password
 from django.utils import timezone
-from .exceptions import *
+from ..exceptions import *
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
@@ -266,73 +265,6 @@ def reset_password(email: str, password_reset_token: str, new_password: str) -> 
 
     return True
 
-def update_phone_number(user: User, data: dict) -> bool:
-    country_code = data.get("country_code")
-    phone_number = data.get("phone_number")
-
-    full_phone_number = f"{country_code}{phone_number}"
-
-    if user.phone_number == full_phone_number:
-        return False
-
-    if User.objects.filter(phone_number=full_phone_number).exists():
-        raise PhoneNumberAlreadyUsedException()
-    
-    user.phone_number = full_phone_number
-    user.country_code = country_code
-
-    user.save()
-
-    generate_and_send_phone_verification_sms(user)
-
-    return True
-
-def generate_and_send_phone_verification_sms(user: User) -> None:
-    verification_code = AuthenticationUtils.generate_verification_code()
-    verification_data = VerificationData(user=user, field="phone", code=make_password(verification_code))
-    verification_data.save()
-
-
-    logging.info(f"Verification code for {user.phone_number}: {verification_code}")
-
-def check_phone_verification(user: User, code: str) -> bool:
-    if user.phone_verified_at is not None:
-        raise UserAlreadyVerifiedException(field="phone")
-
-    verification_data = user.verification_data.filter(field="phone").first()
-
-    if verification_data is None:
-        raise VerificationConflictException(detail="User has not changed phone number.", field="phone")
-    
-    if not check_password(code, verification_data.code):
-        return False
-    
-    if verification_data.is_code_expired():
-        raise VerificationCodeExpiredException()
-    
-    user.phone_verified_at = timezone.now()
-    user.save()
-
-    verification_data.delete()
-
-    return True
-    
-def resend_phone_verification_code(user: User) -> bool:
-    verification_data = user.verification_data.filter(field="phone").first()
-
-    if verification_data is None:
-        raise VerificationConflictException(field="phone")
-    
-    if not verification_data.can_request_new_code():
-        return False
-    
-    verification_code = AuthenticationUtils.generate_verification_code()
-    verification_data.set_new_code(make_password(verification_code))
-    verification_data.save()
-
-    logging.info(f"Verification code for {user.phone_number}: {verification_code}")
-
-    return True
 
 def delete_account(user: User) -> None:
     chats = user.chats.all()
@@ -346,4 +278,4 @@ def change_password(user: User, password: str) -> None:
     user.set_password(password)
     user.password_updated_at = timezone.now()
     user.save()
-    
+

@@ -35,7 +35,7 @@ export default function MarketplaceSidebar() {
                                 icon={User}
                             />
                             <div className={styles.createListingContainer}>
-                                <NavLink to="/create-listing">
+                                <NavLink to="/marketplace/create-listing">
                                     <Button className={styles.createListingButton} size="default2">
                                         + Crear anuncio
                                     </Button>
