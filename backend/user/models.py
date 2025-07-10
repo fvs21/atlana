@@ -43,6 +43,8 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     profile_picture = models.OneToOneField(Image, on_delete=models.SET_NULL, null=True, blank=True)
 
+    google_id = models.CharField(max_length=255, null=True, blank=True, unique=True)
+
     objects = UserManager()
 
     password_reset_token = models.CharField(max_length=128, null=True, blank=True)

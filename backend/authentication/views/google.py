@@ -43,11 +43,8 @@ class GoogleLoginCallback(APIView):
         
         google_tokens: GoogleAccessTokens = google_service.get_tokens(code=code)
 
-        id_token = google_tokens.decode_id_token()
-        user_info = google_service.get_user_info(google_tokens=google_tokens)
+        decoded_id_token = google_tokens.decode_id_token() #This dictionary contains all of the user's information
 
-        user_email = id_token["email"]
-
-        user = google_service.get_or_create_google_user(email=user_email, user_info=user_info)
+        user = google_service.get_or_create_google_user(user_info=decoded_id_token)
 
         return google_service.generate_authentication_response(user)

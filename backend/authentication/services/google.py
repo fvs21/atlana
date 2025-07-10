@@ -47,7 +47,8 @@ def get_authorization_url() -> Tuple[str, str]:
         "redirect_uri": redirect_uri,
         "include_granted_scopes": "true",
         "prompt": "select_account",
-        "access_type": "offline"
+        "access_type": "offline",
+        "hd": "anahuacmayab.edu.mx"
     }
 
     query_params = urlencode(params)
@@ -92,9 +93,13 @@ def get_user_info(*, google_tokens: GoogleAccessTokens) -> Dict:
     
     return response.json()
 
-def get_or_create_google_user(email: str, user_info: Dict) -> User:
-    if not User.objects.filter(email=email).exists():
+def get_or_create_google_user(user_info: Dict) -> User:
+    email = user_info["email"]
+    sub = user_info["sub"]
+
+    if not User.objects.filter(google_id=sub).exists():
         user = User.objects.create(
+            google_id=sub,
             email=email,
             first_name=user_info["given_name"],
             last_name=user_info["family_name"],
@@ -103,8 +108,11 @@ def get_or_create_google_user(email: str, user_info: Dict) -> User:
         )
         user.save()
         return user
-    else:
-        return User.objects.get(email=email)
+    
+    if User.objects.filter(email=email).exists():
+        raise GoogleAuthenticationException("Account already registered.", status=409)
+
+    return User.objects.get(google_id=sub)
 
 def generate_authentication_response(user: User) -> HttpResponseRedirect:
     tokens = authentication_service.generate_tokens_for_user(user)

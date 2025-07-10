@@ -13,6 +13,7 @@ import { useState } from "react"
 import { LoginErrors } from "~/features/login/types"
 import { useLogin } from "~/features/login/api"
 import AuthForm from "~/components/auth-form"
+import GoogleButton from "~/components/google-button"
 
 export const meta: MetaFunction = () => {
     return [
@@ -59,7 +60,7 @@ export default function Page() {
         try {
             const res = await login({ email, password });
 
-            if(!res.user.has_email_verified) {
+            if (!res.user.has_email_verified) {
                 navigate("/verify-email");
                 return;
             }
@@ -108,9 +109,9 @@ export default function Page() {
                                     ¿Olvidaste tu contraseña?
                                 </Link>
                             </div>
-                            <Button 
-                                type="submit" 
-                                className={styles.submitButton} 
+                            <Button
+                                type="submit"
+                                className={styles.submitButton}
                                 disabled={loginDisabled}
                                 isFetching={isPending}
                             >
@@ -122,6 +123,10 @@ export default function Page() {
                             <Link to="/register" className={styles.link}>
                                 Regístrate
                             </Link>
+                        </div>
+                        <hr className="my-8" />
+                        <div className="flex justify-center">
+                            <GoogleButton />
                         </div>
                     </div>
                 </AuthForm>

@@ -14,6 +14,7 @@ import { LoaderFunctionArgs } from "@remix-run/node";
 import { onlyGuests } from "~/api/server.auth";
 import { AxiosError } from "axios";
 import { ResponseBody } from "~/types/globals";
+import GoogleButton from "~/components/google-button";
 
 export const meta: MetaFunction = () => {
     return [
@@ -183,19 +184,9 @@ export default function RegisterPage() {
                             Inicia sesión
                         </a>
                     </div>
-                    <script src="https://accounts.google.com/gsi/client" async></script>
-                    <div id="g_id_onload"
-                        data-client_id="616352504270-u49mgmvihcm6h2onrm1bcgaa6s0ktejl.apps.googleusercontent.com"
-                        data-login_uri="http://localhost:8000/api/auth/google/login/redirect"
-                        data-auto_prompt="false">
-                    </div>
-                    <div className="g_id_signin"
-                        data-type="standard"
-                        data-size="large"
-                        data-theme="outline"
-                        data-text="sign_in_with"
-                        data-shape="rectangular"
-                        data-logo_alignment="left">
+                    <hr className="my-8"/>
+                    <div className="flex justify-center">
+                        <GoogleButton />
                     </div>
                 </div>
             </div>
