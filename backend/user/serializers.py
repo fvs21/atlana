@@ -1,12 +1,7 @@
 from rest_framework import serializers
 from .models import User, UserInformation
 
-class UserInformationSerializer(serializers.ModelSerializer):
-    university = serializers.SerializerMethodField()
-
-    def get_university(self, obj):
-        return obj.user.get_university_name()
-    
+class UserInformationSerializer(serializers.ModelSerializer):    
     class Meta:
         model = UserInformation
         fields = [
@@ -15,7 +10,6 @@ class UserInformationSerializer(serializers.ModelSerializer):
             'major',
             'semester',
             'instagram',
-            'university'
         ]
 
         extra_kwargs = {
@@ -62,9 +56,13 @@ class UserSerializer(serializers.ModelSerializer):
 class ProfileSerializer(serializers.ModelSerializer):
     information = UserInformationSerializer()
     full_name = serializers.SerializerMethodField()
+    university = serializers.SerializerMethodField()
 
     def get_full_name(self, obj):
         return f"{obj.first_name} {obj.last_name}"
+    
+    def get_university(self, obj):
+        return obj.get_university_name()
     
     class Meta:
         model = User
@@ -72,7 +70,8 @@ class ProfileSerializer(serializers.ModelSerializer):
             'id',
             'full_name',
             'profile_picture_url',
-            'information'
+            'information',
+            'university'
         ]
 
 class UpdateProfilePictureSerializer(serializers.Serializer):

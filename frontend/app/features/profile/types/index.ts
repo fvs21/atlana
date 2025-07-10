@@ -5,4 +5,5 @@ export type Profile = {
     full_name: string;
     profile_picture_url: string;
     information: UserInformation;
+    university: string;
 }

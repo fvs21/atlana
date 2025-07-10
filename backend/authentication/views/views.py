@@ -2,7 +2,7 @@ from rest_framework import viewsets
 from rest_framework.decorators import action
 from django.http import HttpRequest, JsonResponse
 
-from backend.authentication.serializers.serializers import *
+from authentication.serializers.serializers import *
 from user.models import UserInformation
 from ..services import service
 from django.contrib.auth import authenticate
@@ -35,9 +35,8 @@ class AuthenticationViewSet(viewsets.ViewSet):
         update_last_login(None, user)
 
         UserInformation.objects.create(user=user)
-
         service.generate_and_send_verification_code(user)
-
+        
         return service.generate_authentication_response(user)
     
     @action(methods=['post'], detail=False)

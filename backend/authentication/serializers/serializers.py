@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from backend.authentication.utils.utils import AuthenticationUtils, get_client_ip
+from authentication.utils.utils import AuthenticationUtils, get_client_ip
 from user.constants import UNIVERSITIES
 from user.models import User
 

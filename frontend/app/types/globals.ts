@@ -16,13 +16,13 @@ export type UserInformation = {
     semester?: number;
     instagram?: string;
     bio?: string;
-    university: string;
 }
 
 export type ResponseBody<T> = {
     data?: T;
     code?: string;
     details?: string;
+    error?: boolean;
 }
 
-export type Universities = 'Anáhuac Mayab' | 'EBC';
+export type Universities = 'Anáhuac Mayab';

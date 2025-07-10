@@ -16,5 +16,6 @@ urlpatterns = [
     path('delete-account', views.AuthenticatedAuthViewSet.as_view({'post': 'delete_account'}), name='delete-account'),
 
     #Google
-    path("google/login/redirect", google.GoogleLoginRedirect.as_view(), name="google-login")
+    path("google/login/redirect", google.GoogleLoginRedirect.as_view(), name="google-login"),
+    path("google/login/callback", google.GoogleLoginCallback.as_view(), name="google-login-callback")
 ]

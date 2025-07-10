@@ -22,12 +22,12 @@ export const meta: MetaFunction = () => {
 }
 
 export async function loader({ request }: LoaderFunctionArgs) {
-    onlyGuests({request});
+    onlyGuests({ request });
 
     return new Response();
 }
 
-export default function RegisterPage() {  
+export default function RegisterPage() {
     const [errors, setErrors] = useState<RegisterErrors>({
         first_name: "",
         last_name: "",
@@ -43,13 +43,13 @@ export default function RegisterPage() {
     const validate = (body: RegisterBody, confirm_password: string, agree_terms: string): boolean => {
         const errors = validateRegisterBody(body);
 
-        if(agree_terms != "on")
+        if (agree_terms != "on")
             errors.agree_to_terms = "Debes aceptar los términos y condiciones";
 
-        if(body.password !== confirm_password)
-            errors.confirm_password = "Las contraseñas no coinciden";  
+        if (body.password !== confirm_password)
+            errors.confirm_password = "Las contraseñas no coinciden";
 
-        if(Object.keys(errors).length > 0) {
+        if (Object.keys(errors).length > 0) {
             setErrors(errors);
             return false;
         }
@@ -74,18 +74,18 @@ export default function RegisterPage() {
             last_name,
             email,
             password
-        } 
-        
-        if(!validate(body, confirm_password, agree_terms))
+        }
+
+        if (!validate(body, confirm_password, agree_terms))
             return;
 
         try {
             await register(body);
             navigate("/verify-email");
-        } catch(e) {
+        } catch (e) {
             const error = (e as AxiosError).response?.data as ResponseBody<null>;
 
-            switch(error.code) {
+            switch (error.code) {
                 case "email_already_exists":
                     setErrors({
                         ...errors,
@@ -123,14 +123,14 @@ export default function RegisterPage() {
                                 className={styles.formInput}
                             />
                         </div>
-                        <ValidatedInput 
+                        <ValidatedInput
                             id="email"
-                            name="email" 
-                            type="email" 
-                            label="Correo electrónico" 
+                            name="email"
+                            type="email"
+                            label="Correo electrónico"
                             placeholder="juan.perez@anahuacmayab.edu.mx"
-                            error={errors?.email} 
-                            className={styles.formInput} 
+                            error={errors?.email}
+                            className={styles.formInput}
                         />
                         <PasswordInput
                             id="password"
@@ -168,9 +168,9 @@ export default function RegisterPage() {
                             </div>
                             {errors?.agree_to_terms && <span className={styles.errorMessage}>{errors.agree_to_terms}</span>}
                         </div>
-                        <Button 
-                            type="submit" 
-                            className={styles.submitButton} 
+                        <Button
+                            type="submit"
+                            className={styles.submitButton}
                             disabled={registerDisabled}
                             isFetching={isPending}
                         >
@@ -182,6 +182,20 @@ export default function RegisterPage() {
                         <a href="/login" className={styles.link}>
                             Inicia sesión
                         </a>
+                    </div>
+                    <script src="https://accounts.google.com/gsi/client" async></script>
+                    <div id="g_id_onload"
+                        data-client_id="616352504270-u49mgmvihcm6h2onrm1bcgaa6s0ktejl.apps.googleusercontent.com"
+                        data-login_uri="http://localhost:8000/api/auth/google/login/redirect"
+                        data-auto_prompt="false">
+                    </div>
+                    <div className="g_id_signin"
+                        data-type="standard"
+                        data-size="large"
+                        data-theme="outline"
+                        data-text="sign_in_with"
+                        data-shape="rectangular"
+                        data-logo_alignment="left">
                     </div>
                 </div>
             </div>

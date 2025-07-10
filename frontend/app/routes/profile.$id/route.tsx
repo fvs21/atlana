@@ -22,6 +22,9 @@ export async function loader({ request, params }: LoaderFunctionArgs) {
             token: token?.data?.access_token!
         });
 
+        console.log(res.data);
+        
+
         return data({
             ...res.data
         });
@@ -55,7 +58,7 @@ export default function Page() {
                         major={data.profile?.information?.major || ""}
                         semester={data.profile?.information?.semester || -1}
                         instagram={data.profile?.information?.instagram || ""}
-                        university={data.profile?.information.university!}
+                        university={data.profile?.university!}
                     />
                     <Listings
                         user_id={data.profile?.id!}

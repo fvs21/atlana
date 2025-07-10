@@ -1,6 +1,6 @@
 from typing import Dict, Optional
 from django.http import HttpRequest, JsonResponse
-from backend.authentication.utils.utils import AuthenticationUtils
+from authentication.utils.utils import AuthenticationUtils
 from user.models import User, VerificationData
 from user.serializers import UserSerializer
 from rest_framework_simplejwt.tokens import RefreshToken

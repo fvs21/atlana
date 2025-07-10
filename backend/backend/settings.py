@@ -34,7 +34,7 @@ SERVER_BASE_URL = os.environ.get('SERVER_URL', 'http://localhost:8000')
 
 SITE_ID = 1
 
-BASE_BACKEND_URL = "https://altana.mx" if DEBUG else "http://localhost:8000"
+BASE_BACKEND_URL = "http://localhost:8000" if DEBUG else "https://altana.mx"
 
 ALLOWED_HOSTS = [
     '192.168.68.101', 
@@ -260,3 +260,4 @@ CELERY_RESULT_BACKEND = f'redis://{REDIS_HOST}:{REDIS_PORT}/0'
 
 #Google OAuth
 GOOGLE_CLIENT_ID = os.environ.get("GOOGLE_CLIENT_ID")
+GOOGLE_CLIENT_SECRET = os.environ.get("GOOGLE_CLIENT_SECRET")

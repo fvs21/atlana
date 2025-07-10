@@ -55,3 +55,10 @@ class EmailError(DefaultException):
 
     def __init__(self, detail: str):
         super().__init__(detail, 500, self.code)
+
+
+class GoogleAuthenticationException(DefaultException):
+    code = "google_auth_error"
+
+    def __init__(self, detail=None, status_code=500):
+        super().__init__(detail, status_code, self.code)
