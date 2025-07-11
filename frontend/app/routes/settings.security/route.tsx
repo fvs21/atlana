@@ -6,10 +6,12 @@ import DeleteAccountModal from "~/features/settings/components/DeleteAccountModa
 import { cn } from "~/lib/utils";
 import { ChevronRight } from "lucide-react";
 import ChangePasswordModal from "~/features/settings/components/ChangePasswordModal";
+import { useUser } from "~/api/client.auth";
 
 export default function Page() {
     const [deleteAccountModal, setDeleteAccountModal] = useState(false);
     const [changePasswordModal, setChangePasswordModal] = useState(false);
+    const { user, isLoading } = useUser();
 
     return (
         <>
@@ -19,17 +21,21 @@ export default function Page() {
                         Seguridad de tu perfil
                     </h1>
                     <div className={styles.securityContent}>
-                        <div className={styles.sectionContainer}>
-                            <Button 
-                                className={styles.changePasswordBtn}
-                                size="default2" 
-                                onClick={() => setChangePasswordModal(true)}
-                            >
-                                Cambiar contraseña
-                                <ChevronRight />
-                            </Button>
-                        </div>
-                        <hr className="my-8"/>
+                        {!isLoading && !user?.logged_in_with_google && (
+                            <>
+                                <div className={styles.sectionContainer}>
+                                    <Button
+                                        className={styles.changePasswordBtn}
+                                        size="default2"
+                                        onClick={() => setChangePasswordModal(true)}
+                                    >
+                                        Cambiar contraseña
+                                        <ChevronRight />
+                                    </Button>
+                                </div>
+                                <hr className="my-8" />
+                            </>
+                        )}
                         <div className={cn(styles.deleteAccountContainer, styles.sectionContainer)}>
                             <Label className={styles.label}>
                                 Eliminar cuenta

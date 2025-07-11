@@ -2,7 +2,7 @@ from django.http import HttpRequest, JsonResponse
 from rest_framework import viewsets
 
 from backend.permissions import GENERAL_AUTHENTICATION_PERMISSIONS
-from listing.serializers import ListingSerializer
+from marketplace.serializers import ListingSerializer
 
 from .models import User
 from .serializers import ProfileSerializer, UpdateProfilePictureSerializer, UserInformationSerializer, UserSerializer

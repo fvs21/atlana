@@ -9,6 +9,7 @@ export type User = {
     has_email_verified: boolean;
 
     information: UserInformation;
+    logged_in_with_google: boolean;
 }
 
 export type UserInformation = {

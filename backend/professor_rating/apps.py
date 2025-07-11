@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class ListingConfig(AppConfig):
+class ProfessorRatingConfig(AppConfig):
     default_auto_field = 'django.db.models.BigAutoField'
-    name = 'listing'
+    name = 'professor_rating'

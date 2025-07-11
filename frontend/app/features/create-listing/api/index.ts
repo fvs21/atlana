@@ -9,7 +9,7 @@ export function useCreateListing() {
 
     const { mutateAsync: create, isPending, isError } = useMutation({
         mutationFn: async (body: FormData) => {
-            const request = await apiMultiPart.post<ResponseBody<Listing>>("/listing/create", body);
+            const request = await apiMultiPart.post<ResponseBody<Listing>>("/marketplace/listing", body);
             
             return request.data
         },
@@ -30,7 +30,7 @@ export function useCreatePropertyListing() {
 
     const { mutateAsync: create, isPending, isError } = useMutation({
         mutationFn: async (body: FormData) => {
-            const request = await apiMultiPart.post<ResponseBody<Listing>>("/listing/create/property", body);
+            const request = await apiMultiPart.post<ResponseBody<Listing>>("/marketplace/listing/property", body);
             return request.data
         },
         onSuccess: (data) => {

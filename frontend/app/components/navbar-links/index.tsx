@@ -26,7 +26,7 @@ export default function NavbarLinks() {
                     </NavigationMenuLink>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
-                    <NavigationMenuLink className={cn(styles.link, location.pathname === "/rating" ? styles.selected : styles.notSelected)} href={"/services"}>
+                    <NavigationMenuLink className={cn(styles.link, location.pathname.startsWith("/rating") ? styles.selected : styles.notSelected)} href={"/rating"}>
                     <Star size={20} />
                     </NavigationMenuLink>
                 </NavigationMenuItem>

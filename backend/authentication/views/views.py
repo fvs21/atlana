@@ -54,7 +54,7 @@ class AuthenticationViewSet(viewsets.ViewSet):
 
         user = authenticate(email=email, password=password)
 
-        if user is None:
+        if not User.objects.filter(email=email, google_id=None).exists() or user is None:
             return JsonResponse({
                 'details': 'Invalid credentials',
                 'code': 'login_failed'

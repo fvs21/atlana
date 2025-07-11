@@ -30,7 +30,6 @@ export const useUser = () => {
     const { data: user, isLoading, isError } = useQuery({
         queryFn: async () => {
             const request = await api.get<ResponseBody<{ user: User }>>("/auth/session");
-            
             return request.data.data?.user;
         },
         queryKey: ['user'],

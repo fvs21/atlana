@@ -23,9 +23,9 @@ urlpatterns = [
     path('api/auth/', include('authentication.urls')),
     path('api/image/', include('image.urls')),
     path('api/user/', include('user.urls')),
-    path('api/listing/', include('listing.urls')),
     path('api/marketplace/', include('marketplace.urls')),
     path('api/location/', include('location.urls')),
     path('api/chat/', include('chat.urls')),
-    path('api/health', include('health_check.urls'))
+    path('api/health', include('health_check.urls')),
+    path('api/rating', include('professor_rating.urls'))
 ]

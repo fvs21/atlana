@@ -20,7 +20,7 @@ class Message(models.Model):
     seen_at = models.DateTimeField(null=True, blank=True)
 
     reply_to_listing = models.ForeignKey(
-        'listing.Listing', 
+        'marketplace.Listing', 
         related_name='replies', 
         null=True, 
         blank=True, 

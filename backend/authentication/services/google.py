@@ -3,14 +3,13 @@ from urllib.parse import urlencode
 from django.conf import settings
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
-
 from user.models import User
-
 from ..exceptions import GoogleAuthenticationException
 from ..utils.google import GoogleAccessTokens, generate_state_token
 import requests
 from ..services import service as authentication_service
 from django.utils import timezone
+from django.contrib.auth.models import update_last_login
 
 GOOGLE_AUTH_URL = "https://accounts.google.com/o/oauth2/v2/auth"
 GOOGLE_ACCESS_TOKEN_OBTAIN_URL = "https://oauth2.googleapis.com/token"
@@ -27,6 +26,7 @@ SCOPES = [
     "https://www.googleapis.com/auth/userinfo.profile",
     "openid"
 ]
+
 CLIENT_SECRET = settings.GOOGLE_CLIENT_SECRET
 CLIENT_ID = settings.GOOGLE_CLIENT_ID
 
@@ -97,7 +97,12 @@ def get_or_create_google_user(user_info: Dict) -> User:
     email = user_info["email"]
     sub = user_info["sub"]
 
+    user = None
+
     if not User.objects.filter(google_id=sub).exists():
+        if User.objects.filter(email=email).exists(): #Check if user has registered previously (not with Google)
+            raise GoogleAuthenticationException("Account already registered.", status_code=409)
+
         user = User.objects.create(
             google_id=sub,
             email=email,
@@ -107,12 +112,13 @@ def get_or_create_google_user(user_info: Dict) -> User:
             university=user_info.get("hd", "anahuacmayab.edu.mx")
         )
         user.save()
-        return user
-    
-    if User.objects.filter(email=email).exists():
-        raise GoogleAuthenticationException("Account already registered.", status=409)
 
-    return User.objects.get(google_id=sub)
+    else:
+        user = User.objects.get(google_id=sub)
+
+    update_last_login(None, user)
+    
+    return user
 
 def generate_authentication_response(user: User) -> HttpResponseRedirect:
     tokens = authentication_service.generate_tokens_for_user(user)

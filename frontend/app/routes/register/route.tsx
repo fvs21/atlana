@@ -103,6 +103,11 @@ export default function RegisterPage() {
                 <div className={styles.formContent}>
                     <Logo width={150} />
                     <h2>Crea tu cuenta</h2>
+                    <div className="flex justify-center">
+                        <GoogleButton />
+                    </div>
+                    <hr className="my-8"/>
+
                     <form className={styles.form} onSubmit={handleSubmit}>
                         <div className={styles.nameFields}>
                             <ValidatedInput
@@ -183,10 +188,6 @@ export default function RegisterPage() {
                         <a href="/login" className={styles.link}>
                             Inicia sesión
                         </a>
-                    </div>
-                    <hr className="my-8"/>
-                    <div className="flex justify-center">
-                        <GoogleButton />
                     </div>
                 </div>
             </div>

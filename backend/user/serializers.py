@@ -36,9 +36,13 @@ class UserInformationSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     full_name = serializers.SerializerMethodField()
     information = UserInformationSerializer()
+    logged_in_with_google = serializers.SerializerMethodField()
 
     def get_full_name(self, obj):
         return f"{obj.first_name} {obj.last_name}"
+
+    def get_logged_in_with_google(self, obj):
+        return obj.google_id != None
     
     class Meta:
         model = User
@@ -51,6 +55,7 @@ class UserSerializer(serializers.ModelSerializer):
             'profile_picture_url',
             'has_email_verified',
             'information',
+            'logged_in_with_google'
         ]
 
 class ProfileSerializer(serializers.ModelSerializer):

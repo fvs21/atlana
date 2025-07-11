@@ -1,0 +1,21 @@
+TAGS = [
+    ("HG", "Califica Duro"),
+    ("BO", "Barco"),
+    ("LOH", "Muchas tareas"),
+    ("R", "Prepárate para leer"),
+    ("OA", "Asistencia obligatoria"),
+    ("LONG", "Las clases son largas"),
+    ("LE", "Pocos exámenes"),
+    ("ME", "Muchos exámenes"),
+    ("LH", "Deja trabajos largos"),
+    ("HE", "Exámenes difíciles"),
+    ("LP", "Muchos proyectos"),
+    ("WTA", "Tomaría su clase otra vez"),
+    ("GFB", "Da buena retroalimentación"),
+    ("PM", "La participación importa"),
+    ("RES", "Respetado"),
+    ("INS", "Inspiracional"),
+    ("EXTRA", "Da crédito extra"),
+    ("SUP", "Brinda apoyo"),
+    ("EXC", "Clases excelentes")
+]

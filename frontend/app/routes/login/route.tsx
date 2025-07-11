@@ -88,6 +88,10 @@ export default function Page() {
                         <div className={styles.welcomeSection}>
                             <h2>Inicia sesión</h2>
                         </div>
+                        <div className="flex justify-center">
+                            <GoogleButton />
+                        </div>
+                        <hr className="my-8" />
                         <form onSubmit={handleSubmit} className={styles.form}>
                             <ValidatedInput
                                 id="email"
@@ -123,10 +127,6 @@ export default function Page() {
                             <Link to="/register" className={styles.link}>
                                 Regístrate
                             </Link>
-                        </div>
-                        <hr className="my-8" />
-                        <div className="flex justify-center">
-                            <GoogleButton />
                         </div>
                     </div>
                 </AuthForm>

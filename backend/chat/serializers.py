@@ -1,4 +1,4 @@
-from listing.models import Listing
+from marketplace.models import Listing
 from user.models import User
 from .models import Chat, Message
 from rest_framework import serializers

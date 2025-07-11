@@ -1,6 +1,7 @@
 from rest_framework import permissions
 from django.http import HttpRequest
 from rest_framework.permissions import IsAuthenticated
+from rest_framework import viewsets
 
 class IsGuest(permissions.BasePermission):
     message = "Already authenticated"
@@ -27,3 +28,9 @@ GENERAL_AUTHENTICATION_PERMISSIONS = [
     IsAuthenticated,
     IsEmailVerified
 ]
+
+class AuthenticatedViewSet(viewsets.ViewSet):
+    permission_classes = [
+        IsAuthenticated,
+        IsEmailVerified
+    ]
