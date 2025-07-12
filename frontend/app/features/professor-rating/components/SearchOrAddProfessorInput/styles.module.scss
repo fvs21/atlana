@@ -1,0 +1,30 @@
+@use "~/styles/variables" as *;
+
+.inputContainer {
+    position: relative;
+    margin-top: $spacing-sm;
+}
+
+.searchResults {
+    position: absolute;
+    top: 120%;
+    width: 100%;
+    background-color: white;
+
+    border-radius: 6px;
+    border: 1px solid $border-color;
+
+    padding: $spacing-sm;
+}
+
+.professor {
+    padding: $spacing-sm $spacing-sm;
+    font-size: 14px;
+    border-radius: 6px;
+    width: 100%;
+    text-align: left;
+
+    &:hover {
+        background-color: $button-hover;
+    }
+}

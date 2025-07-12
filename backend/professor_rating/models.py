@@ -1,6 +1,6 @@
 from django.db import models
 
-from .constants import TAGS
+from .constants import DEPARTMENTS, TAGS
 
 # Create your models here.
 
@@ -8,14 +8,13 @@ class Tag(models.Model):
     title = models.CharField(max_length=5, choices=TAGS)
 
 class Course(models.Model):
-    name = models.CharField()
+    name = models.CharField(max_length=50)
 
 class Professor(models.Model):
-    name = models.CharField()
+    name = models.CharField(max_length=70)
     average_rating = models.FloatField(default=0)
     recommendation_rate = models.FloatField(default=0)
-    department = models.CharField()
-
+    department = models.CharField(max_length=4, choices=DEPARTMENTS)
     difficulty_level = models.FloatField(default=0)
     
 class Rating(models.Model):

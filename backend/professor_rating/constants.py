@@ -19,3 +19,18 @@ TAGS = [
     ("SUP", "Brinda apoyo"),
     ("EXC", "Clases excelentes")
 ]
+
+DEPARTMENTS = [
+    ("ARQ", "Arquitectura"),
+    ("COM", "Comunicación"),
+    ("DIS", "Diseño"),
+    ("DER", "Derecho/Relaciones Internacionales"),
+    ("ING", "Ingeniería"),
+    ("NEG", "Negocios/Administración"),
+    ("TUR", "Turismo"),
+    ("GAST", "Gastronomía"),
+    ("SAL", "Salud/Medicina"),
+    ("HUM", "Humanidades"),
+    ("ESP", "Español"),
+    ("LENG", "Lenguas")
+]
