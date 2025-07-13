@@ -1,0 +1,28 @@
+@use "~/styles/variables" as *;
+
+.container {
+    max-width: 700px;
+    margin: 0 auto;
+    width: 100%;
+    padding: $spacing-2xl $spacing-md $spacing-xl;
+}
+
+.title {
+    font-size: 28px;
+    font-weight: 500;
+}
+
+.form {
+    margin-top: $spacing-lg;
+}
+
+.selectCourseButton {
+    width: 100%;
+    text-align: left;
+    border-radius: 6px;
+    background-color: white;
+    box-shadow: none;
+    border: 1px solid $border-color;
+    color: black;
+    justify-content: left;
+}

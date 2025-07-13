@@ -5,7 +5,7 @@ from .constants import DEPARTMENTS, TAGS
 # Create your models here.
 
 class Tag(models.Model):
-    title = models.CharField(max_length=5, choices=TAGS)
+    title = models.CharField(max_length=5, choices=TAGS, unique=True)
 
 class Course(models.Model):
     name = models.CharField(max_length=50)
@@ -25,10 +25,11 @@ class Rating(models.Model):
     mandatory_assistance = models.BooleanField()
 
     recommended = models.BooleanField()
-    clarity = models.SmallIntegerField()
-    help = models.SmallIntegerField()
+    quality = models.SmallIntegerField()
     difficulty = models.SmallIntegerField()
 
     tags = models.ManyToManyField(Tag)
+
+    grade_achieved = models.CharField()
 
     created_at = models.DateField(auto_now_add=True)

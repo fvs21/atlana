@@ -6,3 +6,4 @@ export type Professor = {
     department: string;
     difficulty_level: number;
 }
+

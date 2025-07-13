@@ -1,0 +1,28 @@
+@use "~/styles/variables" as *;
+
+.tagsSelector {
+    display: flex;
+    flex-wrap: wrap;
+    gap: $spacing-sm;
+    padding-top: $spacing-xs;
+}
+
+.tag {
+    font-size: 14px;
+    padding: $spacing-xs $spacing-sm;
+    border: 1px solid gray;
+    border-radius: 6px;
+    background-color: gray;
+    color: white;
+    opacity: 0.8;
+
+    &:hover {
+        opacity: 1;
+    }
+}
+
+.selected {
+    border-color: $secondary-color;
+    background-color: $secondary-color;
+    opacity: 1 !important;
+}

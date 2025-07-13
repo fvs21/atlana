@@ -1,0 +1,112 @@
+@use "~/styles/variables" as *;
+
+$one: rgb(231, 95, 95);
+$two: orange;
+$three: rgb(246, 246, 44);
+$four: rgb(129, 238, 129);
+$five: green;
+
+.ratingInput {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: left;
+    gap: $spacing-sm;
+    padding-top: $spacing-xs;
+}
+
+.rateNumber {
+    width: 40px;
+    height: 35px;
+    background-color: $background-secondary;
+    transition: 0.2s;
+}
+
+.one {
+    border-top-left-radius: 12px;
+    border-bottom-left-radius: 12px;
+
+    &:hover {
+        background-color: $one;
+    }
+
+    &.active {
+        background-color: $one;
+    }
+}
+
+.two:hover {
+    background-color: $two;
+
+    &~.one {
+        background-color: $one;
+    }
+}
+
+.two.active {
+    background-color: $two;
+}
+
+.three:hover {
+    background-color: $three;
+
+    &~.one {
+        background-color: $one;
+    }
+
+    &~.two {
+        background-color: $two;
+    }
+}
+
+.three.active {
+    background-color: $three;
+}
+
+.four:hover {
+    background-color: $four;
+
+    &~.one {
+        background-color: $one;
+    }
+
+    &~.two {
+        background-color: $two;
+    }
+
+    &~.three {
+        background-color: $three;
+    }
+}
+
+.four.active {
+    background-color: $four;
+}
+
+.five {
+    border-top-right-radius: 12px;
+    border-bottom-right-radius: 12px;
+
+    &:hover {
+        background-color: green;
+
+        &~.one {
+            background-color: $one;
+        }
+
+        &~.two {
+            background-color: $two;
+        }
+
+        &~.three {
+            background-color: $three;
+        }
+
+        &~.four {
+            background-color: $four;
+        }
+    }
+
+    &.active {
+        background-color: $five;
+    }
+}
