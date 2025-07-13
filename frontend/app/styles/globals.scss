@@ -24,7 +24,7 @@ body {
 }
 
 .errorBorder {
-     border: 1px solid $error-color;
+     border: 1px solid $error-color !important;
 
      &:focus {
           outline: none !important;

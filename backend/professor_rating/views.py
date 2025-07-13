@@ -5,7 +5,7 @@ from backend.permissions import AuthenticatedViewSet
 from rest_framework.decorators import action
 from rest_framework.request import Request
 
-from professor_rating.serializers import ProfessorSerializer, CreateProfessorSerializer, RateProfessorSerializer
+from professor_rating.serializers import ProfessorSerializer, CreateProfessorSerializer, RateProfessorSerializer, SearchCoursesSerializer
 
 from . import service
 
@@ -61,10 +61,32 @@ class ProfessorRatingViewset(AuthenticatedViewSet):
     def rate_professor(self, request: Request, id: int) -> JsonResponse:
         serializer = RateProfessorSerializer(data={**request.data, "professor": id})
 
+        if not serializer.is_valid():
+            return JsonResponse({
+                "details": serializer.errors,
+                "error": True
+            }, status=status.HTTP_400_BAD_REQUEST)
+        
+        service.create_rating(serializer.validated_data)
+
+        return JsonResponse({
+            "error": False
+        }, status=status.HTTP_200_OK)
+
     @action(detail=False, methods=['get'])
     def search_course(self, request: Request) -> JsonResponse:
-        query_params = request.query_params
+        query_params = request.query_params.dict()
 
-        print(query_params)
+        if not 'q' in query_params:
+            return JsonResponse({
+                "error": True
+            }, status=status.HTTP_400_BAD_REQUEST)
+        
+        courses = service.find_courses_by_name(query_params['q'])
 
-        return JsonResponse(status=200)
+        return JsonResponse({
+            "data": {
+                "courses": SearchCoursesSerializer(courses, many=True).data
+            },
+            "error": False
+        }, status=status.HTTP_200_OK)

@@ -27,3 +27,7 @@ export type ResponseBody<T> = {
 }
 
 export type Universities = 'Anáhuac Mayab';
+
+export type FieldsToString<T> = {
+    [P in keyof T]: string;
+}

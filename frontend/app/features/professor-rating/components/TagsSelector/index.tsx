@@ -33,6 +33,7 @@ export default function TagsSelector({ selected, setSelected, tags }: TagsSelect
                         <button 
                             className={cn(styles.tag, selected.includes(tag[0]) ? styles.selected : "")}
                             onClick={() => setTag(tag[0])}
+                            key={tag[0]}
                         >
                             {tag[1]}
                         </button>

@@ -38,12 +38,19 @@ class CreateProfessorSerializer(serializers.ModelSerializer):
             department=validated_data.get('department')
         )
     
+class SearchCoursesSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Course
+        fields = [
+            'id',
+            'name'
+        ]
+    
 class RateProfessorSerializer(serializers.ModelSerializer):
     class CourseSerializer(serializers.Serializer):
         id = serializers.IntegerField(required=False)
         create = serializers.BooleanField()
         course_name = serializers.CharField(required=False)
-
 
     tags = serializers.ListField(child=serializers.CharField())
     course = CourseSerializer()
@@ -69,7 +76,7 @@ class RateProfessorSerializer(serializers.ModelSerializer):
 
         for tag_str in value:
             try:
-                tag, _ = Tag.objects.get_or_create(name=tag_str)
+                tag, _ = Tag.objects.get_or_create(title=tag_str)
                 tags.append(tag)
             except Exception:
                 raise serializers.ValidationError("Invalid tag.")
@@ -87,19 +94,39 @@ class RateProfessorSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("Course name missing.")
         
         return Course.objects.create(name=value['course_name'])
+        
     
-    def create(self, validated_data):
-        rating = Rating.objects.create(
-            professor=validated_data['professor'],
-            comment=validated_data['comment'],
-            course=validated_data['course'],
-            mandatory_assistance=validated_data['mandatory_assistance'],
-            quality=validated_data['quality'],
-            difficulty=validated_data['difficulty'],
-            grade_achieved = validated_data['grade_achieved'],
-            recommended=validated_data['recommended']
-        )
+class TagSerializer(serializers.ModelSerializer):
+    title = serializers.SerializerMethodField()
 
-        rating.set_tags(validated_data['tags'])
+    def get_title(self, obj):
+        return obj.get_title_display()
 
-        return rating
+    class Meta:
+        model = Tag
+        fields = [
+            'title'
+        ]
+    
+class RatingSerializer(serializers.ModelSerializer):
+    professor = ProfessorSerializer()
+    tags = TagSerializer(many=True)
+    grade_achieved = serializers.SerializerMethodField()
+
+    def get_grade_achieved(self, obj):
+        return obj.get_grade_achieved_display()
+
+    class Meta:
+        model = Rating
+        field = [
+            'professor',
+            'comment',
+            'course',
+            'mandatory_assistance',
+            'recommended',
+            'quality',
+            'difficulty',
+            'tags',
+            'grade_achieved',
+            'created_at'
+        ]

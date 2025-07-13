@@ -1,3 +1,5 @@
+import { FieldsToString } from "~/types/globals";
+
 export type NewRating = {
     course: {
         course_name: string;
@@ -11,7 +13,10 @@ export type NewRating = {
     assistanceMandatory: boolean | null;
     tags: string[];
     grade: string;
+    comment?: string;
 }
+
+export type NewRatingValidation = Partial<FieldsToString<NewRating>>;
 
 export type NewRatingAction = 
     | { type: "set_quality"; payload: number } 
@@ -22,6 +27,7 @@ export type NewRatingAction =
     | { type: "set_grade"; payload: string }
     | { type: "create_course"; payload: string }
     | { type: "select_course"; payload: {id: number, name: string} }
+    | { type: "set_comment"; payload: string }
 
 export type CourseQueryResult = {
     name: string;

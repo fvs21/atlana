@@ -12,10 +12,15 @@ class Course(models.Model):
 
 class Professor(models.Model):
     name = models.CharField(max_length=70)
-    average_rating = models.FloatField(default=0)
-    recommendation_rate = models.FloatField(default=0)
     department = models.CharField(max_length=4, choices=DEPARTMENTS)
+
+    recommendation_rate = models.FloatField(default=0)
+
     difficulty_level = models.FloatField(default=0)
+
+    average_rating = models.FloatField(default=0)
+    
+    rating_count = models.SmallIntegerField(default=0)
     
 class Rating(models.Model):
     comment = models.TextField(null=True, blank=True)

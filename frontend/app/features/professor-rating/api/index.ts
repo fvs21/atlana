@@ -69,13 +69,26 @@ export function useProfessor(id: number) {
 }
 
 export function useCreateRating() {
-    const { mutateAsync: create, isPending } = useMutation({
+    const { mutateAsync: create, isPending, isError } = useMutation({
         mutationFn: async ({ data, professorId }: { data: NewRating, professorId: number }) => {
             const res = await api.post("/rating/professor/" + professorId, {
-
+                comment: data.comment,
+                course: data.course,
+                mandatory_assistance: data.assistanceMandatory,
+                recommended: data.recommended,
+                quality: data.quality,
+                difficulty: data.difficulty,
+                tags: data.tags,
+                grade_achieved: data.grade
             });
         }
-    })
+    });
+
+    return {
+        create,
+        isPending,
+        createDisabled: isPending && !isError
+    }
 }
 
 export function useSearchCourse() {

@@ -31,7 +31,7 @@ export default function RatingInput({ label, value, setValue, className, meaning
     return (
         <div>
             <Label>{label}</Label>
-            <div className={styles.ratingInput}>
+            <div className={cn(styles.ratingInput, className)}>
                 {[0, 1, 2, 3, 4].map((i) => {
                     return (
                         <button
