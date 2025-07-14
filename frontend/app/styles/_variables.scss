@@ -75,6 +75,13 @@ $input-padding: 22px 14px;
 
 $responsive-height: calc(100svh - 70px);
 
+// Ratings
+$one: rgb(231, 95, 95);
+$two: orange;
+$three: rgb(246, 197, 29);
+$four: rgb(129, 238, 129);
+$five: green;
+
 // Mixins
 @mixin container {
   max-width: 1200px;

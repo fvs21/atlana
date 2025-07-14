@@ -1,6 +1,6 @@
 import { MetaFunction, useNavigate, useParams } from "@remix-run/react"
 import LoadingScreen from "~/components/loading-screen";
-import { useCreateRating, useProfessor, useSearchCourse } from "~/features/professor-rating/api"
+import { useCreateRating, useProfessor, useProfessorName, useSearchCourse } from "~/features/professor-rating/api"
 import styles from "./styles.module.scss";
 import RatingInput from "~/features/professor-rating/components/RatingInput";
 import { useEffect, useReducer, useState } from "react";
@@ -62,9 +62,11 @@ const reducer = (state: NewRating, action: NewRatingAction): NewRating => {
 
 export default function Page() {
     const params = useParams();
+    
+    const id = Number.parseInt(params.id!);
     const navigate = useNavigate();
 
-    const { professor, isLoading } = useProfessor(Number.parseInt(params.id!));
+    const { professor, isLoading, isError } = useProfessorName(id);
     const { search } = useSearchCourse();
     const { create, isPending, createDisabled } = useCreateRating();
     const [errors, setErrors] = useState<NewRatingValidation>({});
@@ -77,6 +79,9 @@ export default function Page() {
 
     useEffect(() => {
         const fetchCourses = setTimeout(async () => {
+            if(!tentativeValue)
+                return;
+            
             const res = await search(tentativeValue);
             setCourses(res || []);
         }, 500);
@@ -96,8 +101,8 @@ export default function Page() {
         }
 
         try {
-            await create({ data: state, professorId: professor?.id! });
-            navigate("/rating/professor/" + professor?.id);
+            await create({ data: state, professorId: id });
+            navigate("/rating/professor/" + id);
         } catch(error) {
 
         }
@@ -105,6 +110,14 @@ export default function Page() {
 
     if (isLoading)
         return <LoadingScreen />
+
+    if(isError) {
+        return (
+            <div>
+                Error
+            </div>
+        )
+    }
 
     return (
         <div className={styles.container}>

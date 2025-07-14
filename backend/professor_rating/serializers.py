@@ -1,6 +1,19 @@
 from rest_framework import serializers
 
+from . import service
 from professor_rating.models import Course, Professor, Rating, Tag
+
+class TagSerializer(serializers.ModelSerializer):
+    title = serializers.SerializerMethodField()
+
+    def get_title(self, obj):
+        return obj.get_title_display()
+
+    class Meta:
+        model = Tag
+        fields = [
+            'title'
+        ]
 
 class ProfessorSerializer(serializers.ModelSerializer):
     department = serializers.SerializerMethodField()
@@ -16,7 +29,7 @@ class ProfessorSerializer(serializers.ModelSerializer):
             'average_rating',
             'recommendation_rate',
             'department',
-            'difficulty_level'
+            'difficulty_level',
         ]
 
 class CreateProfessorSerializer(serializers.ModelSerializer):
@@ -96,20 +109,7 @@ class RateProfessorSerializer(serializers.ModelSerializer):
         return Course.objects.create(name=value['course_name'])
         
     
-class TagSerializer(serializers.ModelSerializer):
-    title = serializers.SerializerMethodField()
-
-    def get_title(self, obj):
-        return obj.get_title_display()
-
-    class Meta:
-        model = Tag
-        fields = [
-            'title'
-        ]
-    
 class RatingSerializer(serializers.ModelSerializer):
-    professor = ProfessorSerializer()
     tags = TagSerializer(many=True)
     grade_achieved = serializers.SerializerMethodField()
 
@@ -118,8 +118,8 @@ class RatingSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Rating
-        field = [
-            'professor',
+        fields = [
+            'id',
             'comment',
             'course',
             'mandatory_assistance',
@@ -129,4 +129,26 @@ class RatingSerializer(serializers.ModelSerializer):
             'tags',
             'grade_achieved',
             'created_at'
+        ]
+
+class ProfessorPageSerializer(serializers.ModelSerializer):
+    tags = serializers.SerializerMethodField()
+    department = serializers.SerializerMethodField()
+
+    def get_department(self, obj):
+        return obj.get_department_display()
+
+    def get_tags(self, obj):
+        return service.get_professor_tags(obj)
+
+    class Meta:
+        model = Professor
+        fields = [
+            'id',
+            'name', 
+            'average_rating',
+            'recommendation_rate',
+            'department',
+            'difficulty_level',
+            'tags'
         ]

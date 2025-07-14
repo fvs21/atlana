@@ -1,13 +1,25 @@
 from typing import Dict, List, Optional
 
-from professor_rating.models import Course, Professor, Rating
-from django.db.models import F, ExpressionWrapper, FloatField
+from professor_rating.models import Course, Professor, Rating, Tag
+from django.db.models import F, ExpressionWrapper, FloatField, Prefetch
 
 def get_professors() -> List[Professor]:
     return Professor.objects.all().order_by("name")
 
 def get_professor_by_id(id: int) -> Optional[Professor]:
     return Professor.objects.filter(id=id).first()
+
+def get_professor_by_id_complete(id: int) -> Optional[Professor]:
+    ''' 
+        Load the professor alongside all of their Ratings, and Tags.
+    '''
+
+    ratings = Prefetch(
+        "ratings",
+        queryset=Rating.objects.select_related('course').prefetch_related('tags')
+    )
+
+    return Professor.objects.prefetch_related(ratings).filter(id=id).first()
 
 def find_courses_by_name(name: str) -> List[Course]:
     if not name:
@@ -47,3 +59,14 @@ def create_rating(data: Dict) -> Rating:
     )
 
     return rating
+
+def get_professor_tags(professor: Professor) -> List[str]:
+    ratings = professor.ratings.all()
+
+    unique_tags = set()
+
+    for rate in ratings:
+        for tag in rate.tags.all():
+            unique_tags.add(tag.get_title_display())
+
+    return list(unique_tags)

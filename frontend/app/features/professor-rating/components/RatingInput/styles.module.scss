@@ -1,11 +1,5 @@
 @use "~/styles/variables" as *;
 
-$one: rgb(231, 95, 95);
-$two: orange;
-$three: rgb(246, 246, 44);
-$four: rgb(129, 238, 129);
-$five: green;
-
 .ratingInput {
     display: flex;
     flex-direction: row-reverse;

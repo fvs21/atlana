@@ -1,0 +1,11 @@
+@use "~/styles/variables" as *;
+
+.ratingContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.rating {
+    font-size: 50px;
+}

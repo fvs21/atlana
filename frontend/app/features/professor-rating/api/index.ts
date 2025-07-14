@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { api } from "~/api";
 import { ResponseBody } from "~/types/globals";
-import { Professor } from "../types";
+import { BasicProfessorInfo, Professor, Rating } from "../types";
 import { CourseQueryResult, NewRating } from "../types/rater";
 
 function addProfessorsToCache(professors: Professor[]) {
@@ -25,7 +25,7 @@ export function useFetchProfessors() {
         retry: 1,
     });
 
-    return { 
+    return {
         professors,
         isLoading
     }
@@ -40,7 +40,7 @@ export function useCreateProfessor() {
                 name,
                 department
             });
-            
+
             return res.data.data;
         },
         onSuccess: (data) => {
@@ -53,18 +53,48 @@ export function useCreateProfessor() {
     }
 }
 
+type ProfessorResponse = {
+    professor: Professor;
+    ratings: {
+        count: number;
+        list: Rating[];
+    }
+}
 export function useProfessor(id: number) {
-    const { data: professor, isLoading } = useQuery({
+    const queryClient = useQueryClient();
+
+    const { data, isLoading, isError } = useQuery({
         queryKey: ['professor', id],
         queryFn: async () => {
-            const res = await api.get<ResponseBody<{ professor: Professor }>>("/rating/professor/" + id);
+            const res = await api.get<ResponseBody<ProfessorResponse>>("/rating/professor/" + id);
+
+            queryClient.setQueryData(['professor-info', id], res.data.data?.professor);
+            
+            return res.data.data;
+        }
+    });
+
+    return {
+        professor: data?.professor,
+        ratings: data?.ratings,
+        isLoading,
+        isError
+    }
+}
+
+export function useProfessorName(id: number) {
+    const { data: professor, isLoading, isError } = useQuery({
+        queryKey: ['professor-info', id],
+        queryFn: async () => {
+            const res = await api.get<ResponseBody<{ professor: BasicProfessorInfo }>>("/rating/professor/basic/" + id);
             return res.data.data?.professor;
         }
     });
 
     return {
         professor,
-        isLoading
+        isLoading,
+        isError
     }
 }
 
@@ -99,7 +129,7 @@ export function useSearchCourse() {
             const res = await api.get<ResponseBody<{ courses: CourseQueryResult[] }>>("/rating/courses?q=" + name);
 
             const courses = res.data.data?.courses;
-            
+
             queryClient.setQueryData(['courses', name], courses);
 
             return courses;

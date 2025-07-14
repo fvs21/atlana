@@ -5,7 +5,7 @@ from backend.permissions import AuthenticatedViewSet
 from rest_framework.decorators import action
 from rest_framework.request import Request
 
-from professor_rating.serializers import ProfessorSerializer, CreateProfessorSerializer, RateProfessorSerializer, SearchCoursesSerializer
+from professor_rating.serializers import ProfessorPageSerializer, ProfessorSerializer, CreateProfessorSerializer, RateProfessorSerializer, RatingSerializer, SearchCoursesSerializer
 
 from . import service
 
@@ -41,7 +41,11 @@ class ProfessorRatingViewset(AuthenticatedViewSet):
         
         return JsonResponse({
             "data": {
-                "professor": ProfessorSerializer(professor).data
+                "professor": ProfessorPageSerializer(professor).data,
+                "ratings": {
+                    "count": professor.ratings.count(),
+                    "list": RatingSerializer(professor.ratings.all(), many=True).data
+                }
             },
             "error": False
         }, status=status.HTTP_200_OK)
@@ -55,6 +59,25 @@ class ProfessorRatingViewset(AuthenticatedViewSet):
                 "professors": ProfessorSerializer(professors, many=True).data
             },
             "error": False
+        }, status=status.HTTP_200_OK)
+    
+
+    @action(detail=False, methods=['get'])
+    def professor_name(self, request: Request, id: int) -> JsonResponse:
+        professor = service.get_professor_by_id(id)
+
+        if not professor:
+            return JsonResponse({
+                "error": True
+            }, status=status.HTTP_404_NOT_FOUND)
+        
+        return JsonResponse({
+            "data": {
+                "professor": {
+                    "name": professor.name,
+                    "department": professor.get_department_display()
+                }
+            }
         }, status=status.HTTP_200_OK)
     
     @action(detail=False, methods=['post'])
