@@ -3,6 +3,7 @@ from rest_framework import serializers
 from . import service
 from professor_rating.models import Course, Professor, Rating, Tag
 
+
 class TagSerializer(serializers.ModelSerializer):
     title = serializers.SerializerMethodField()
 
@@ -112,9 +113,13 @@ class RateProfessorSerializer(serializers.ModelSerializer):
 class RatingSerializer(serializers.ModelSerializer):
     tags = TagSerializer(many=True)
     grade_achieved = serializers.SerializerMethodField()
+    course = serializers.SerializerMethodField()
 
     def get_grade_achieved(self, obj):
         return obj.get_grade_achieved_display()
+    
+    def get_course(self, obj):
+        return obj.course.name
 
     class Meta:
         model = Rating

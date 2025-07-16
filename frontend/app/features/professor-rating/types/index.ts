@@ -13,6 +13,10 @@ export type BasicProfessorInfo = {
     department: string;
 }
 
+export type Tag = {
+    title: string;
+}
+
 export type Rating = {
     id: number;
     comment: string;
@@ -21,7 +25,7 @@ export type Rating = {
     recommended: boolean;
     quality: number;
     difficulty: number;
-    tags: string[];
+    tags: Tag[];
     grade_achieved: string;
-    created_at: Date;
+    created_at: string;
 }

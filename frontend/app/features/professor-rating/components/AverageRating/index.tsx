@@ -10,7 +10,7 @@ export default function AverageRating({ rating, description, type }: AverageRati
     return (
         <div className={styles.ratingContainer}>
             <div className={styles.rating}>
-                {rating}{type == "percentage" ? "%" : "/10"}
+                {parseFloat(rating.toFixed(2))}{type == "percentage" ? "%" : "/10"}
             </div>
             <div className={styles.description}>
                 {description}

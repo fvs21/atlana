@@ -4,7 +4,7 @@
     width: 100%;
     display: flex;
     border: 1px solid $border-color;
-    border-radius: 6px;
+    gap: $spacing-md;
 }
 
 .averages {
@@ -48,4 +48,51 @@
 
 .averageVeryGood {
     color: $five;
+}
+
+.information {
+    padding: $spacing-md;
+    width: 100%;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+}
+
+.courseName {
+    font-weight: 500;
+    display: flex;
+    gap: $spacing-sm;
+}
+
+.createdAt {
+    font-size: 14px;
+}
+
+.characteristics {
+    display: flex;
+    gap: $spacing-md;
+    padding-top: $spacing-sm;
+}
+
+.characteristic {
+    font-size: 15px;
+    span {
+        font-weight: 500;
+    }
+}
+
+.comment {
+    margin-top: $spacing-md;
+    font-size: 15px;
+}
+
+.tags {
+    display: flex;
+    margin-top: $spacing-xl;
+    gap: $spacing-sm;
+    flex-wrap: wrap;
 }

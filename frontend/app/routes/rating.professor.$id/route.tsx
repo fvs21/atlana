@@ -5,6 +5,7 @@ import styles from "./styles.module.scss";
 import AverageRating from "~/features/professor-rating/components/AverageRating";
 import Rating from "~/features/professor-rating/components/Rating";
 import { Button } from "~/components/ui/button";
+import Tag from "~/features/professor-rating/components/Tag";
 
 export default function Page() {
     const params = useParams();
@@ -56,13 +57,11 @@ export default function Page() {
                 />
             </div>
             <div className={styles.professorTags}>
-                <h2 className={styles.tagsTitle}>Etiquetas para el profesor</h2>
+                <h2 className={styles.tagsTitle}>Etiquetas del profesor</h2>
                 <div className={styles.tags}>
                     {professor?.tags.map((tag) => {
                         return (
-                            <div className={styles.tag}>
-                                {tag}
-                            </div>
+                            <Tag title={tag}/>
                         )
                     })}
                 </div>
@@ -80,6 +79,7 @@ export default function Page() {
                             />
                         )
                     })}
+                 
                 </div>
             </div>
         </div>

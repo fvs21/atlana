@@ -44,7 +44,7 @@ class ProfessorRatingViewset(AuthenticatedViewSet):
                 "professor": ProfessorPageSerializer(professor).data,
                 "ratings": {
                     "count": professor.ratings.count(),
-                    "list": RatingSerializer(professor.ratings.all(), many=True).data
+                    "list": RatingSerializer(professor.ratings.order_by('-created_at').all(), many=True).data
                 }
             },
             "error": False
