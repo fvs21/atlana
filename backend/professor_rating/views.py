@@ -5,7 +5,7 @@ from backend.permissions import AuthenticatedViewSet
 from rest_framework.decorators import action
 from rest_framework.request import Request
 
-from professor_rating.serializers import ProfessorPageSerializer, ProfessorSerializer, CreateProfessorSerializer, RateProfessorSerializer, RatingSerializer, SearchCoursesSerializer
+from .serializers import ProfessorPageSerializer, ProfessorSerializer, CreateProfessorSerializer, RateProfessorSerializer, RatingSerializer, SearchCoursesSerializer
 
 from . import service
 

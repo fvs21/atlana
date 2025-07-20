@@ -17,6 +17,9 @@ export default function SearchOrAddProfessorInput({ name, setName, create, setCr
     const { professors, isLoading } = useFetchProfessors();
     const navigate = useNavigate();
 
+    console.log(professors);
+    
+
     return (
         <div className={styles.inputContainer}>
             <Input

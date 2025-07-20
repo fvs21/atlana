@@ -17,10 +17,9 @@ export function useFetchProfessors() {
         queryKey: ['professors'],
         queryFn: async () => {
             const res = await api.get<ResponseBody<{ professors: Professor[] }>>("/rating/professor");
+            const prof = res.data.data?.professors!;
 
-            addProfessorsToCache(res.data.data?.professors!);
-
-            return res.data.data?.professors;
+            return prof;
         },
         retry: 1,
     });

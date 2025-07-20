@@ -1,0 +1,9 @@
+@use "~/styles/variables" as *;
+
+.professorsListContainer {
+    width: 600px;
+    flex-grow: 1;
+    background-color: white;
+    border-radius: 6px;
+    box-shadow: 0 4px 8px 0 $border-color;
+}

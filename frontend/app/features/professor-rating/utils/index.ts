@@ -1,6 +1,8 @@
 import dayjs from "dayjs";
 
 export function filterProfessorNames(input: string, professors: { name: string, id: number }[]) {
+    console.log(input);
+    
     return professors.filter(prof => normalizeInput(prof.name).includes(normalizeInput(input)));
 }
 
