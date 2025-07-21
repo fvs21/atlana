@@ -4,13 +4,22 @@ from django.http import JsonResponse
 from backend.permissions import AuthenticatedViewSet
 from rest_framework.decorators import action
 from rest_framework.request import Request
+from rest_framework.viewsets import ViewSet
 
 from .serializers import ProfessorPageSerializer, ProfessorSerializer, CreateProfessorSerializer, RateProfessorSerializer, RatingSerializer, SearchCoursesSerializer
+from rest_framework.pagination import PageNumberPagination
 
 from . import service
 
+class ProfessorPaginator(PageNumberPagination):
+    page_size = 12
+    page_size_query_param = 'page_number'
+    max_page_size = 12
+
 # Create your views here.
 class ProfessorRatingViewset(AuthenticatedViewSet):
+    pagination_class = ProfessorPaginator
+
     @action(detail=False, methods=["post"])
     def create_professor(self, request: Request) -> JsonResponse:
         serializer = CreateProfessorSerializer(data=request.data)
@@ -54,9 +63,15 @@ class ProfessorRatingViewset(AuthenticatedViewSet):
     def list_professors(self, request: Request) -> JsonResponse:
         professors = service.get_professors()
 
+        paginator = self.pagination_class()
+
+        result_page = paginator.paginate_queryset(queryset=professors, request=request)
+
+        serializer = ProfessorSerializer(result_page, many=True)
+
         return JsonResponse({
             "data": {
-                "professors": ProfessorSerializer(professors, many=True).data
+                "professors": paginator.get_paginated_response(serializer.data).data
             },
             "error": False
         }, status=status.HTTP_200_OK)

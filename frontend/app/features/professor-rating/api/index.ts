@@ -1,8 +1,9 @@
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { api } from "~/api";
 import { ResponseBody } from "~/types/globals";
 import { BasicProfessorInfo, Professor, Rating } from "../types";
 import { CourseQueryResult, NewRating } from "../types/rater";
+import { FetchProfessorsResponse } from "../types/responses";
 
 function addProfessorsToCache(professors: Professor[]) {
     const queryClient = useQueryClient();
@@ -12,21 +13,36 @@ function addProfessorsToCache(professors: Professor[]) {
     })
 }
 
-export function useFetchProfessors() {
-    const { data: professors, isLoading } = useQuery({
+export function useProfessors() {
+    const { 
+        data, 
+        isLoading,
+        fetchNextPage,
+        hasNextPage,
+        isFetching,
+        isFetchingNextPage,
+        status
+    } = useInfiniteQuery({
         queryKey: ['professors'],
-        queryFn: async () => {
-            const res = await api.get<ResponseBody<{ professors: Professor[] }>>("/rating/professor");
+        queryFn: async ({ pageParam }) => {
+            const res = await api.get<ResponseBody<FetchProfessorsResponse>>(pageParam);
             const prof = res.data.data?.professors!;
 
             return prof;
         },
-        retry: 1,
+        initialPageParam: "/rating/professor",
+        getPreviousPageParam: (firstPage) => firstPage.previous,
+        getNextPageParam: (lastPage) => lastPage.next
     });
 
     return {
-        professors,
-        isLoading
+        data,
+        isLoading,
+        fetchNextPage,
+        hasNextPage,
+        isFetching,
+        isFetchingNextPage,
+        status
     }
 }
 

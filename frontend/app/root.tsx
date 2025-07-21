@@ -61,6 +61,8 @@ export async function loader({ request }: { request: Request }) {
   }
 
   const response = await refreshToken({ request });
+  console.log(response);
+  
 
   if (!response) {
     return new Response();

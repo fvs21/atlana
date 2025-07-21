@@ -33,12 +33,7 @@ class ProfessorSerializer(serializers.ModelSerializer):
             'difficulty_level',
         ]
 
-class CreateProfessorSerializer(serializers.ModelSerializer):
-    department = serializers.SerializerMethodField()
-
-    def get_department(self, obj):
-        return obj.get_department_display()
-    
+class CreateProfessorSerializer(serializers.ModelSerializer):    
     class Meta:
         model = Professor
         fields = [

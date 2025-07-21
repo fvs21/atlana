@@ -27,6 +27,8 @@ export const getAuthToken = ({ request }: { request: Request }): string | null =
  * server function
  */
 export const refreshToken = async ({ request }: { request: Request }) => {
+    console.log("Base: ", SERVER_BASE_URL);
+    
     const response = await fetch(SERVER_BASE_URL + "/auth/refresh", {
         method: "POST",
         credentials: "include",

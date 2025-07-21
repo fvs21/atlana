@@ -61,7 +61,7 @@ export default function Rating({ rating }: { rating: RatingType }) {
                     </div>
                 </div>
                 <div className={styles.comment}>
-                    De los mejores profesores de Cálculo y en general cualquier materia que haya tomado. Tiene mucha paciencia con los alumnos y explica los temas de una forma clara y amena. Yo ya había tomado la materia anteriormente pero si no lo hubiera hecho me hubiera encantado tener a Angulo como maestro.
+                    {rating.comment}
                 </div>
                 <div className={styles.tags}>
                     {rating.tags.map((tag) => {
