@@ -1,9 +1,10 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Input } from "~/components/ui/input";
-import { useFetchProfessors } from "../../api";
 import styles from "./styles.module.scss";
 import { filterProfessorNames } from "../../utils";
 import { useNavigate } from "@remix-run/react";
+import { useSearchProfessors } from "../../api";
+import { Professor } from "../../types";
 
 type SearchOrAddProfessorInputProps = {
     name: string;
@@ -13,12 +14,22 @@ type SearchOrAddProfessorInputProps = {
 }
 
 export default function SearchOrAddProfessorInput({ name, setName, create, setCreate }: SearchOrAddProfessorInputProps) {
+    const [professors, setProfessors] = useState<Omit<Professor, "tags">[]>([]);
     const [opened, setOpened] = useState<boolean>(false);
-    const { professors, isLoading } = useFetchProfessors();
+    const { search, isPending } = useSearchProfessors();
     const navigate = useNavigate();
 
-    console.log(professors);
-    
+    useEffect(() => {
+        const timeout = setTimeout(async () => {
+            if(!name)
+                return;
+            
+            const res = await search(name);
+            setProfessors(res || []);
+        }, 500);
+
+        return () => clearTimeout(timeout);
+    }, [name]);
 
     return (
         <div className={styles.inputContainer}>

@@ -4,7 +4,6 @@ from django.http import JsonResponse
 from backend.permissions import AuthenticatedViewSet
 from rest_framework.decorators import action
 from rest_framework.request import Request
-from rest_framework.viewsets import ViewSet
 
 from .serializers import ProfessorPageSerializer, ProfessorSerializer, CreateProfessorSerializer, RateProfessorSerializer, RatingSerializer, SearchCoursesSerializer
 from rest_framework.pagination import PageNumberPagination
@@ -125,6 +124,25 @@ class ProfessorRatingViewset(AuthenticatedViewSet):
         return JsonResponse({
             "data": {
                 "courses": SearchCoursesSerializer(courses, many=True).data
+            },
+            "error": False
+        }, status=status.HTTP_200_OK)
+
+    @action(detail=False, methods=['get'])
+    def search_professor(self, request: Request) -> JsonResponse:
+        query_params = request.query_params.dict()
+
+        if not 'q' in query_params:
+            return JsonResponse({
+                "error": True
+            }, status=status.HTTP_400_BAD_REQUEST)
+        
+        name = query_params['q']
+        professors = service.find_professors_by_name(name)
+
+        return JsonResponse({
+            "data": {
+                "professors": ProfessorSerializer(professors, many=True).data
             },
             "error": False
         }, status=status.HTTP_200_OK)

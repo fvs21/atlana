@@ -18,10 +18,9 @@ export default function Page() {
     return (
         <div className="flexColContainer">
             <NavbarSmall />
-            <div className="flex flex-1">
+            <div className={styles.container}>
                 <Outlet />
             </div>
-            <FooterSmall />
         </div>
     )
 }

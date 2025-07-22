@@ -1,7 +1,8 @@
 from typing import Dict, List, Optional
 
-from professor_rating.models import Course, Professor, Rating, Tag
+from professor_rating.models import Course, Professor, Rating
 from django.db.models import F, ExpressionWrapper, FloatField, Prefetch
+from django.contrib.postgres.search import SearchVector, SearchQuery
 
 def get_professors() -> List[Professor]:
     return Professor.objects.all().order_by("name")
@@ -27,6 +28,19 @@ def find_courses_by_name(name: str) -> List[Course]:
 
     listings = Course.objects.filter(name__unaccent__icontains=name).all()
     return listings
+
+def find_professors_by_name(name: str) -> List[Professor]:
+    if not name:
+        return []
+
+    vector = SearchVector('name', config="spanish_unaccent")
+    search_query = SearchQuery(name, config="spanish_unaccent")
+
+    professors = Professor.objects.annotate(search=vector).filter(search=search_query).order_by('name').all()
+
+    print(professors)
+
+    return professors
 
 def create_rating(data: Dict) -> Rating:
     rating = Rating.objects.create(

@@ -141,7 +141,7 @@ export function useSearchCourse() {
 
     const { mutateAsync: search, isPending } = useMutation({
         mutationFn: async (name: string) => {
-            const res = await api.get<ResponseBody<{ courses: CourseQueryResult[] }>>("/rating/courses?q=" + name);
+            const res = await api.get<ResponseBody<{ courses: CourseQueryResult[] }>>("/rating/search/courses?q=" + name);
 
             const courses = res.data.data?.courses;
 
@@ -149,6 +149,21 @@ export function useSearchCourse() {
 
             return courses;
         },
+    });
+
+    return {
+        search,
+        isPending
+    }
+}
+
+export function useSearchProfessors() {
+    const { mutateAsync: search, isPending } = useMutation({
+        mutationFn: async (name: string) => {
+            const res = await api.get<ResponseBody<{ professors: Omit<Professor, "tags">[] }>>("/rating/search/professors?q=" + name);
+
+            return res.data.data?.professors;
+        }
     });
 
     return {

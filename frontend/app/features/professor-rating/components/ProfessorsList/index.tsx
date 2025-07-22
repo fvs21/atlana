@@ -1,24 +1,28 @@
-import { Loader } from "lucide-react";
+import { ScrollArea } from "~/components/ui/scroll-area";
 import { useProfessors } from "../../api";
+import ProfessorsListItem from "../ProfessorListItem";
 import styles from "./styles.module.scss";
 
 export default function ProfessorsList() {
-    const { data, isLoading } = useProfessors();
+    const { data, isLoading, hasNextPage } = useProfessors();
 
-    if(isLoading)
-        return <div className={styles.professorsListContainer} />   
+    if (isLoading)
+        return <div className={styles.professorsListContainer} />
 
     return (
         <div className={styles.professorsListContainer}>
-            {data?.pages.map((page) => (
-                page.results.map((prof) => {
-                    return (
-                        <div>
-                            {prof.name}
-                        </div>
-                    )
-                })
-            ))}
+            <ScrollArea className="h-full">
+                {data?.pages.map((page) => (
+                    page.results.map((prof) => {
+                        return (
+                            <ProfessorsListItem
+                                key={prof.id}
+                                professor={prof}
+                            />
+                        )
+                    })
+                ))}
+            </ScrollArea>
         </div>
     )
 }

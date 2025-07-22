@@ -52,7 +52,7 @@ export default function Page() {
                         onChange={setDepartment}
                    /> 
                    <div className="pt-4">
-                        <Button className="primaryButton" onClick={handleSubmit}>
+                        <Button className="primaryButton" onClick={handleSubmit} isFetching={isPending}>
                             Crear
                         </Button>
                    </div>
