@@ -2,9 +2,12 @@ import { ScrollArea } from "~/components/ui/scroll-area";
 import { useProfessors } from "../../api";
 import ProfessorsListItem from "../ProfessorListItem";
 import styles from "./styles.module.scss";
+import { useSearch } from "../../store";
 
 export default function ProfessorsList() {
-    const { data, isLoading, hasNextPage } = useProfessors();
+    const [search] = useSearch();
+
+    const { data, isLoading, hasNextPage } = useProfessors(search);
 
     if (isLoading)
         return <div className={styles.professorsListContainer} />

@@ -60,7 +60,11 @@ class ProfessorRatingViewset(AuthenticatedViewSet):
 
     @action(detail=False, methods=["get"])
     def list_professors(self, request: Request) -> JsonResponse:
-        professors = service.get_professors()
+        query_params = request.query_params
+
+        professors = service.get_professors(
+            name=query_params.get('name')
+        )
 
         paginator = self.pagination_class()
 

@@ -2,10 +2,16 @@ from typing import Dict, List, Optional
 
 from professor_rating.models import Course, Professor, Rating
 from django.db.models import F, ExpressionWrapper, FloatField, Prefetch
-from django.contrib.postgres.search import SearchVector, SearchQuery
+from django.db.models.functions import Lower
+from django.contrib.postgres.lookups import Unaccent
 
-def get_professors() -> List[Professor]:
-    return Professor.objects.all().order_by("name")
+def get_professors(name: Optional[str]) -> List[Professor]:
+    professors = Professor.objects.order_by("name")
+
+    if name is not None:    
+        professors = professors.annotate(name_search=Lower(Unaccent('name'))).filter(name_search__contains=name.lower())
+
+    return professors.all()
 
 def get_professor_by_id(id: int) -> Optional[Professor]:
     return Professor.objects.filter(id=id).first()
@@ -33,12 +39,8 @@ def find_professors_by_name(name: str) -> List[Professor]:
     if not name:
         return []
 
-    vector = SearchVector('name', config="spanish_unaccent")
-    search_query = SearchQuery(name, config="spanish_unaccent")
 
-    professors = Professor.objects.annotate(search=vector).filter(search=search_query).order_by('name').all()
-
-    print(professors)
+    professors = Professor.objects.filter(name__icontaines__unaccent=name).order_by('name').all()
 
     return professors
 

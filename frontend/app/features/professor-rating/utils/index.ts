@@ -14,3 +14,12 @@ function normalizeInput(input: string) {
 export function formatRatingCreatedAt(date: string): string {
     return dayjs(date).format('DD/MM/YYYY');
 }
+
+export function formatProfessorQueryParams(name?: string) {
+    const params = new URLSearchParams();
+
+    if(name)
+        params.append("name", name);
+
+    return params.toString();
+}

@@ -4,16 +4,12 @@ import { ResponseBody } from "~/types/globals";
 import { BasicProfessorInfo, Professor, Rating } from "../types";
 import { CourseQueryResult, NewRating } from "../types/rater";
 import { FetchProfessorsResponse } from "../types/responses";
+import { formatProfessorQueryParams } from "../utils";
 
-function addProfessorsToCache(professors: Professor[]) {
-    const queryClient = useQueryClient();
 
-    professors.forEach(prof => {
-        queryClient.setQueryData(['professor', prof.id], prof);
-    })
-}
+export function useProfessors(professor_name?: string) {
+    const queryParams = formatProfessorQueryParams(professor_name=professor_name);
 
-export function useProfessors() {
     const { 
         data, 
         isLoading,
@@ -23,14 +19,14 @@ export function useProfessors() {
         isFetchingNextPage,
         status
     } = useInfiniteQuery({
-        queryKey: ['professors'],
+        queryKey: ['professors', professor_name],
         queryFn: async ({ pageParam }) => {
             const res = await api.get<ResponseBody<FetchProfessorsResponse>>(pageParam);
             const prof = res.data.data?.professors!;
 
             return prof;
         },
-        initialPageParam: "/rating/professor",
+        initialPageParam: "/rating/professor?" + queryParams,
         getPreviousPageParam: (firstPage) => firstPage.previous,
         getNextPageParam: (lastPage) => lastPage.next
     });
