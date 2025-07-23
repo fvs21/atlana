@@ -63,7 +63,8 @@ class ProfessorRatingViewset(AuthenticatedViewSet):
         query_params = request.query_params
 
         professors = service.get_professors(
-            name=query_params.get('name')
+            name=query_params.get('name'),
+            course=query_params.get('course')
         )
 
         paginator = self.pagination_class()

@@ -4,12 +4,16 @@ from professor_rating.models import Course, Professor, Rating
 from django.db.models import F, ExpressionWrapper, FloatField, Prefetch
 from django.db.models.functions import Lower
 from django.contrib.postgres.lookups import Unaccent
+from .exceptions import CourseNotFoundException
 
-def get_professors(name: Optional[str]) -> List[Professor]:
+def get_professors(name: Optional[str], course: Optional[int]) -> List[Professor]:
     professors = Professor.objects.order_by("name")
 
     if name is not None:    
         professors = professors.annotate(name_search=Lower(Unaccent('name'))).filter(name_search__contains=name.lower())
+
+    if course is not None:
+        professors = professors.filter(ratings__course_id=course).distinct()
 
     return professors.all()
 

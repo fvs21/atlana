@@ -2,30 +2,36 @@ import { ScrollArea } from "~/components/ui/scroll-area";
 import { useProfessors } from "../../api";
 import ProfessorsListItem from "../ProfessorListItem";
 import styles from "./styles.module.scss";
-import { useSearch } from "../../store";
+import { useCourse, useSearch } from "../../store";
+import LoadingScreen from "~/components/loading-screen";
 
 export default function ProfessorsList() {
     const [search] = useSearch();
+    const [course] = useCourse();
 
-    const { data, isLoading, hasNextPage } = useProfessors(search);
-
-    if (isLoading)
-        return <div className={styles.professorsListContainer} />
+    const { data, isLoading, hasNextPage } = useProfessors({
+        professor_name: search,
+        course: course || undefined
+    });
 
     return (
         <div className={styles.professorsListContainer}>
-            <ScrollArea className="h-full">
-                {data?.pages.map((page) => (
-                    page.results.map((prof) => {
-                        return (
-                            <ProfessorsListItem
-                                key={prof.id}
-                                professor={prof}
-                            />
-                        )
-                    })
-                ))}
-            </ScrollArea>
+            {isLoading ? (
+                <LoadingScreen />
+            ) : (
+                <ScrollArea className="h-full">
+                    {data?.pages.map((page) => (
+                        page.results.map((prof) => {
+                            return (
+                                <ProfessorsListItem
+                                    key={prof.id}
+                                    professor={prof}
+                                />
+                            )
+                        })
+                    ))}
+                </ScrollArea>
+            )}
         </div>
     )
 }

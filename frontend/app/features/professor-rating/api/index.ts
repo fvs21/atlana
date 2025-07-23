@@ -5,10 +5,15 @@ import { BasicProfessorInfo, Professor, Rating } from "../types";
 import { CourseQueryResult, NewRating } from "../types/rater";
 import { FetchProfessorsResponse } from "../types/responses";
 import { formatProfessorQueryParams } from "../utils";
+import { Course } from "../types/filters";
 
+type ProfessorFilters = {
+    professor_name: string;
+    course?: Course;
+}
 
-export function useProfessors(professor_name?: string) {
-    const queryParams = formatProfessorQueryParams(professor_name=professor_name);
+export function useProfessors({ professor_name, course }: ProfessorFilters) {
+    const queryParams = formatProfessorQueryParams(professor_name=professor_name, course=course);
 
     const { 
         data, 
@@ -19,7 +24,7 @@ export function useProfessors(professor_name?: string) {
         isFetchingNextPage,
         status
     } = useInfiniteQuery({
-        queryKey: ['professors', professor_name],
+        queryKey: ['professors', professor_name, course?.id],
         queryFn: async ({ pageParam }) => {
             const res = await api.get<ResponseBody<FetchProfessorsResponse>>(pageParam);
             const prof = res.data.data?.professors!;
