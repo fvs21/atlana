@@ -62,9 +62,14 @@ class ProfessorRatingViewset(AuthenticatedViewSet):
     def list_professors(self, request: Request) -> JsonResponse:
         query_params = request.query_params
 
+        course_param = query_params.get('course')
+        tags = query_params.getlist('tag')
+
         professors = service.get_professors(
             name=query_params.get('name'),
-            course=query_params.get('course')
+            course=int(course_param) if course_param else None,
+            department=query_params.get('department'),
+            tags=tags
         )
 
         paginator = self.pagination_class()

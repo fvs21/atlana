@@ -1,5 +1,5 @@
 import dayjs from "dayjs";
-import { Course } from "../types/filters";
+import { Course, Department } from "../types/filters";
 
 export function filterProfessorNames(input: string, professors: { name: string, id: number }[]) {
     console.log(input);
@@ -16,7 +16,7 @@ export function formatRatingCreatedAt(date: string): string {
     return dayjs(date).format('DD/MM/YYYY');
 }
 
-export function formatProfessorQueryParams(name?: string, course?: Course) {
+export function formatProfessorQueryParams(name?: string, course?: Course, department?: Department, tags?: { name: string; value: string }[]) {
     const params = new URLSearchParams();
 
     if(name)
@@ -24,6 +24,12 @@ export function formatProfessorQueryParams(name?: string, course?: Course) {
 
     if(course)
         params.append("course", course.id.toString());
+
+    if(department)
+        params.append("department", department.value);
+
+    if(tags && tags.length)
+        tags.forEach((tag) => params.append('tag', tag.value));
 
     return params.toString();
 }

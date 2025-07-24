@@ -36,9 +36,13 @@
     background-color: transparent;
     box-shadow: none;
     border: 1px solid $border-color;
-    color: rgb(40, 40, 40);
+    color: gray;
     border-radius: 6px;
     justify-content: space-between;
+}
+
+.filterBtnActive {
+    color: black;
 }
 
 .resetFiltersBtn {

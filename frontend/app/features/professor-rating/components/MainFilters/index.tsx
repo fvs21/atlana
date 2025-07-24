@@ -1,23 +1,29 @@
 import { Popover, PopoverContent, PopoverTrigger } from "~/components/ui/popover";
 import styles from "./styles.module.scss";
 import { Button } from "~/components/ui/button";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, Tags } from "lucide-react";
 import { cn } from "~/lib/utils";
-import { useCourse, useSearch } from "../../store";
+import { useCourse, useDepartment, useSearch, useTags } from "../../store";
 import { useEffect, useState } from "react";
 import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from "~/components/ui/command";
 import { CourseQueryResult } from "../../types/rater";
 import { useSearchCourse } from "../../api";
+import { DEPARTMENTS, TAGS } from "../../constants";
 
 type FilterProps = {
     name: string;
     placeholder: string;
     children: React.ReactNode;
+    active: boolean;
 }
 
 export default function MainFilters() {
     const [, setSearch] = useSearch();
     const [course, setCourse] = useCourse();
+    const [department, setDepartment] = useDepartment();
+    const [tags, setTags] = useTags();
+
+    const tagValues = tags.map(t => t.value);
 
     const [tentativeCourse, setTentativeCourse] = useState<string>("");
     const [courseOptions, setCourseOptions] = useState<CourseQueryResult[]>([]);
@@ -26,11 +32,13 @@ export default function MainFilters() {
     const resetFilters = () => {
         setSearch("");
         setCourse(null);
+        setDepartment(null);
+        setTags([]);
     }
 
     useEffect(() => {
         const timeout = setTimeout(async () => {
-            if(!tentativeCourse)
+            if (!tentativeCourse)
                 return;
 
             const res = await searchFn(tentativeCourse);
@@ -46,12 +54,13 @@ export default function MainFilters() {
                 Filtros
             </h1>
             <div className={styles.filters}>
-                <Filter 
+                <Filter
                     name="Materia"
                     placeholder={course ? course.name : "Materias"}
+                    active={!!course}
                 >
                     <Command shouldFilter={false}>
-                        <CommandInput onValueChange={(val) => setTentativeCourse(val)} placeholder="Nombre del curso"/>
+                        <CommandInput onValueChange={(val) => setTentativeCourse(val)} placeholder="Nombre del curso" />
                         {(tentativeCourse && !courseSearchPending) && (
                             <CommandEmpty>
                                 No se encontró la materia que buscas
@@ -59,7 +68,7 @@ export default function MainFilters() {
                         )}
                         <CommandGroup>
                             {courseOptions.map((crs) => (
-                                <CommandItem 
+                                <CommandItem
                                     key={crs.id}
                                     onSelect={() => {
                                         setCourse({
@@ -76,18 +85,54 @@ export default function MainFilters() {
                 </Filter>
                 <Filter
                     name="Departamento"
-                    placeholder="Departamentos"
+                    placeholder={department?.name || "Departamentos"}
+                    active={!!department}
                 >
                     <Command>
-
+                        <CommandGroup>
+                            {DEPARTMENTS.map((dep) => (
+                                <CommandItem
+                                    key={dep.value}
+                                    onSelect={() => {
+                                        setDepartment(dep);
+                                    }}
+                                >
+                                    {dep.name}
+                                </CommandItem>
+                            ))}
+                        </CommandGroup>
                     </Command>
                 </Filter>
                 <Filter
                     name="Etiquetas"
-                    placeholder="Etiquetas"
+                    placeholder={tags.length ? tags.map(t => t.name).reduce((ac, cur) => ac + ", " + cur) : "Etiquetas"}
+                    active={!!tags.length}
                 >
                     <Command>
-
+                        <CommandInput />
+                        <CommandGroup>
+                            {Object.entries(TAGS).map((tag) => (
+                                <CommandItem
+                                    className={tagValues.includes(tag[0]) ? "bg-gray-200" : ""}
+                                    key={tag[0]}
+                                    onSelect={() => {
+                                        if (tagValues.includes(tag[0])) {
+                                            const tagsCopy = [...tags];
+                                            const index = tags.findIndex(t => t.value == tag[0]);
+                                            tagsCopy.splice(index, 1);
+                                            setTags(tagsCopy);
+                                        } else {
+                                            setTags([...tags, {
+                                                name: tag[1],
+                                                value: tag[0]
+                                            }]);
+                                        }
+                                    }}
+                                >
+                                    {tag[1]}
+                                </CommandItem>
+                            ))}
+                        </CommandGroup>
                     </Command>
                 </Filter>
                 <div className="mt-2 w-full">
@@ -100,7 +145,7 @@ export default function MainFilters() {
     )
 }
 
-function Filter({ name, placeholder, children }: FilterProps) {
+function Filter({ name, placeholder, active, children }: FilterProps) {
     const [popover, setPopover] = useState<boolean>(false);
 
     return (
@@ -110,12 +155,12 @@ function Filter({ name, placeholder, children }: FilterProps) {
             </h1>
             <Popover open={popover} onOpenChange={setPopover}>
                 <PopoverTrigger asChild>
-                    <Button className={styles.filterBtn}>
+                    <Button className={cn(styles.filterBtn, active ? styles.filterBtnActive : "", "overflow-x-hidden")}>
                         {placeholder}
                         <ChevronDown />
                     </Button>
                 </PopoverTrigger>
-                <PopoverContent className="w-[--radix-popover-trigger-width] p-0">
+                <PopoverContent className="w-[--radix-popover-trigger-width] p-0 overflow-y-auto max-h-[300px]">
                     {children}
                 </PopoverContent>
             </Popover>
