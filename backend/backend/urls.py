@@ -15,8 +15,6 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
-from django.conf.urls.static import static
-from django.conf import settings
 
 urlpatterns = [
     path('ceo-goated-admin-pro5170d87373924393a7cfa39c05d0c954/', admin.site.urls),

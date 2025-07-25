@@ -120,10 +120,15 @@ def get_or_create_google_user(user_info: Dict) -> User:
     
     return user
 
+def get_authentication_redirect_url() -> str:
+    if not settings.DEBUG:
+        return "https://atlana.mx/marketplace"
+    return "http://localhost:5173/marketplace"
+
 def generate_authentication_response(user: User) -> HttpResponseRedirect:
     tokens = authentication_service.generate_tokens_for_user(user)
 
-    response = redirect("http://localhost:5173/marketplace")
+    response = redirect(get_authentication_redirect_url())
 
     response.set_cookie(
         "user_r", 

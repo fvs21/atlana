@@ -34,7 +34,7 @@ SERVER_BASE_URL = os.environ.get('SERVER_URL', 'http://localhost:8000')
 
 SITE_ID = 1
 
-BASE_BACKEND_URL = "http://localhost:8000" if DEBUG else "https://altana.mx"
+BASE_BACKEND_URL = "http://localhost:8000" if DEBUG else "https://atlana.mx"
 
 ALLOWED_HOSTS = [
     '192.168.68.101', 
@@ -228,7 +228,7 @@ AWS_S3_SIGNATURE_VERSION = 's3v4'
 
 MEDIA_URL = f'https://{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com/' if not DEBUG else '/media/'
 
-STATIC_URL = f'https://{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com/static' if not DEBUG else '/static/'
+STATIC_URL = f'https://{AWS_STORAGE_BUCKET_NAME}.s3.amazonaws.com/static/' if not DEBUG else '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 STATICFILES_LOCATION = "static"
 

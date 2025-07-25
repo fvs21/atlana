@@ -15,7 +15,8 @@ export default function NavbarLinks() {
                         <Store size={20} />
                     </NavigationMenuLink>
                 </NavigationMenuItem>
-                <NavigationMenuItem>
+                {/**
+                *  <NavigationMenuItem>
                     <NavigationMenuLink className={cn(styles.link, location.pathname === "/services" ? styles.selected : styles.notSelected)} href={"/services"}>
                     <Hammer size={20} />
                     </NavigationMenuLink>
@@ -25,14 +26,15 @@ export default function NavbarLinks() {
                     <Book size={20} />
                     </NavigationMenuLink>
                 </NavigationMenuItem>
+                */}
                 <NavigationMenuItem>
                     <NavigationMenuLink className={cn(styles.link, location.pathname.startsWith("/rating") ? styles.selected : styles.notSelected)} href={"/rating"}>
-                    <Star size={20} />
+                        <Star size={20} />
                     </NavigationMenuLink>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
                     <NavigationMenuLink className={cn(styles.link, location.pathname.startsWith("/direct") ? styles.selected : styles.notSelected)} href={"/direct"}>
-                        <MessageCircle size={20}/>
+                        <MessageCircle size={20} />
                     </NavigationMenuLink>
                 </NavigationMenuItem>
             </NavigationMenuList>

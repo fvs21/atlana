@@ -33,7 +33,7 @@ class ProfessorRatingViewset(AuthenticatedViewSet):
 
         return JsonResponse({
             "error": False,
-            "details": {
+            "data": {
                 "professor": ProfessorSerializer(professor).data
             }
         }, status=status.HTTP_201_CREATED)

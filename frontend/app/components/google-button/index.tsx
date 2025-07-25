@@ -1,9 +1,10 @@
 import { Link } from "@remix-run/react";
 import "./google-button.scss";
+import { BASE_URL } from "~/api";
 
 export default function GoogleButton() {
     return (
-        <Link className="gsi-material-button" to={"http://localhost:8000/api/auth/google/login/redirect"}>
+        <a className="gsi-material-button" href={BASE_URL + "/auth/google/login/redirect"}>
             <div className="gsi-material-button-state"></div>
             <div className="gsi-material-button-content-wrapper">
                 <div className="gsi-material-button-icon">
@@ -18,6 +19,6 @@ export default function GoogleButton() {
                 <span className="gsi-material-button-contents">Continua con Google</span>
                 <span style={{display: "none"}}>Continua con Google</span>
             </div>
-        </Link>
+        </a>
     )
 }
