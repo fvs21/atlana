@@ -225,6 +225,9 @@ def generate_and_send_password_reset_token(credential: str) -> bool:
     if user is None:
         raise UserDoesNotExistException()
     
+    if user.google_id != None:
+        raise UserDoesNotExistException()
+    
     if not user.can_request_password_reset():
         return False
     
